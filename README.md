@@ -1,2 +1,3 @@
-# interfaces-schema-registry
-The centralized registry for Protocol Buffers desriptions
+# gRPC-Service Definitions Schema Registry
+
+The centralized registry for Protocol Buffers service desriptions
