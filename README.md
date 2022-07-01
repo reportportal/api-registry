@@ -1,2 +1,2 @@
 # interfaces-schema-registry
-The centralized registry for Protocol Buffers
+The centralized registry for Protocol Buffers desriptions
