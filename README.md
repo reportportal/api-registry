@@ -1,3 +1,3 @@
-# gRPC-Service Schema Registry
+# ReportPortal APIs
 
-The centralized registry for Protocol Buffers service definitions.
+The centralized registry for gRPC protocols definitions of public ReportPortal APIs.
