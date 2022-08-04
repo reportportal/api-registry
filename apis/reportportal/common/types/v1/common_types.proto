@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package reportportal.common.types.v1;
+
+message Error {
+  string message = 1;
+  string code = 2;
+  string details = 3;
+}
