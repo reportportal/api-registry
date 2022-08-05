@@ -96,16 +96,16 @@ buf generate
 
 ```
 
-* apis - root catalog for Report Portal Interface Definitions
-* common - contains common types for all Report Portal services
-* domain - contains definitions for particular Report Portal services and types
-* vendors - catalog for third-party local definitions. Use to extend Report Portal APIs
-* v`N` - catalog for grouping definitions by versions
-* services - contains service definitions calls
-* types - contains definitions for messages and enumerations
-* [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
+- apis - root catalog for Report Portal Interface Definitions
+- common - contains common types for all Report Portal services
+- domain - contains definitions for particular Report Portal services and types
+- vendors - catalog for third-party local definitions. Use to extend Report Portal APIs
+- v`N` - catalog for grouping definitions by versions
+- services - contains service definitions calls
+- types - contains definitions for messages and enumerations
+- [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
 README.md and supports the CommonMark syntax
-* [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
+- [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
 the root of the Protobuf source files it defines
 
 ## Third-party libraries
@@ -145,7 +145,7 @@ import "google/type/<type_name>.proto";
 
 ## Contribution
 
-* Use official Protocol Buffers [Style Guide](https://developers.google.com/protocol-buffers/docs/style)
-* Read the [Contribution details](https://github.com/reportportal/reportportal/wiki/Contribution)
-* Use `buf lint` for check style guid requirements and `buf breaking --against '.git#branch=main'`
+- Use official Protocol Buffers [Style Guide](https://developers.google.com/protocol-buffers/docs/style)
+- Read the [Contribution details](https://github.com/reportportal/reportportal/wiki/Contribution)
+- Use `buf lint` for check style guid requirements and `buf breaking --against '.git#branch=main'`
 for checking forwards and backward compatibility
