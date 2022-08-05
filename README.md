@@ -4,6 +4,23 @@ This repository contains gRPC protocol definitions for ReportPortal APIs and pro
 about its own services. You can use Protocol Buffers (Protobuf) descriptions to generate your
 client's libraries or take pre-generated.
 
+## Contents
+
+- [ReportPortal APIs](#reportportal-apis)
+  - [Contents](#contents)
+  - [Overview](#overview)
+  - [How to use](#how-to-use)
+    - [Buf CLI](#buf-cli)
+    - [Verify](#verify)
+    - [Lint API](#lint-api)
+    - [Detect breaking changes](#detect-breaking-changes)
+    - [Generate code](#generate-code)
+  - [Repository Structure](#repository-structure)
+  - [Third-party libraries](#third-party-libraries)
+    - [Google types](#google-types)
+      - [Additional types](#additional-types)
+  - [Contribution](#contribution)
+
 ## Overview
 
 ReportPortal APIs are deployed as the API Service.
