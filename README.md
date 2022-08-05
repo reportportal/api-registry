@@ -54,31 +54,26 @@ buf generate
 ## Repository Structure
 
 ```tree
-├── apis
-│   ├── buf.md
-│   ├── buf.yaml
-│   └── reportportal
-│       ├── common
-│       │    └── types
-│       │       ├── v1
-│       │       │   ├── some_types.proto
-│       │       │   └──...
-│       │       └── ...
-│       └── reporting
-│           ├── services
-│           │   ├── v1
-│           │   │   ├── some_service.proto
-│           │   │   └── ...
-│           │   └── ...
-│           └── types
-│               ├── v1
-│               │   ├── some_types.proto
-│               │   └──...
-│               └── ...
-└── vendors
-    └── google
-        └── type
-            └── google_types.proto
+└── apis
+    ├── buf.md
+    ├── buf.yaml
+    ├── common
+    │    └── types
+    │       ├── v1
+    │       │   ├── some_types.proto
+    │       │   └──...
+    │       └── ...
+    └── reporting
+        ├── services
+        │   ├── v1
+        │   │   ├── some_service.proto
+        │   │   └── ...
+        │   └── ...
+        └── types
+            ├── v1
+            │   ├── some_types.proto
+            │   └──...
+            └── ...
 ```
 
 * apis - root catalog for Report Portal services
@@ -92,6 +87,41 @@ buf generate
 README.md and supports the CommonMark syntax
 * [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
 the root of the Protobuf source files it defines
+
+## Third-party libraries
+
+### Google types
+
+We use additional types provided by
+[Google Type Library](https://buf.build/googleapis/googleapis/docs/main:google.type).
+
+You can use them in your definition like:
+
+```proto
+import "google/type/<type_name>.proto";
+```
+
+#### Additional types
+
+* CalendarPeriod (enum)
+* Color (message)
+* Date (message)
+* DateTime (message)
+* DayOfWeek (enum)
+* Decimal (message)
+* Expr (message)
+* Fraction (message)
+* Interval (message)
+* LatLng (message)
+* LocalizedText (message)
+* Money (message)
+* Month (enum)
+* PhoneNumber (message)
+* ShortCode (message)
+* PostalAddress (message)
+* Quaternion (message)
+* TimeOfDay (message)
+* TimeZone (message)
 
 ## Contribution
 

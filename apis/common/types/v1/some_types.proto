@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-package reportportal.common.types.v1;
+package common.types.v1;
+
+import "google/type/datetime.proto";
 
 message Error {
   string message = 1;

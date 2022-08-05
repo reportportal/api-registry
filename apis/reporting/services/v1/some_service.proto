@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package reporting.services.v1;
+
+import "reporting/types/v1/some_types.proto";
+
+service ReportingService {
+  rpc Report(reporting.types.v1.ReportRequest) returns (reporting.types.v1.ReportResponse);
+}
