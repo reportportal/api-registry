@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package common.types.v1;
+
+import "google/type/datetime.proto";
+
+message Error {
+  string message = 1;
+  string code = 2;
+  string details = 3;
+}

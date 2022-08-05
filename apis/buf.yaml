@@ -1,0 +1,10 @@
+version: v1
+name: buf.build/epam/reportportal
+deps:
+  - buf.build/googleapis/googleapis # Implement Google additional types
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
