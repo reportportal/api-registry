@@ -1,17 +1,17 @@
 # ReportPortal APIs
 
 This repository contains gRPC protocol definitions for ReportPortal APIs and provides knowledge
-about its own services. You can use Protocol Buffers descriptions to generate your client's
-libraries or take pre-generated.
+about its own services. You can use Protocol Buffers (Protobuf) descriptions to generate your
+client's libraries or take pre-generated.
 
 ## Overview
 
 ReportPortal APIs are deployed as the API Service.
 
-Some ReportPortal APIs use Protocol Buffers version 3 (proto3) as their Interface Definition
+Some ReportPortal APIs use Protobuf version 3 (proto3) as their Interface Definition
 Language (IDL) to define the API interface and the structure of the payload messages.
 
-## Usage
+## How to use
 
 ### Buf CLI
 
@@ -25,14 +25,6 @@ The `buf build` command is used to verify that an input compiles.
 
 ```bash
 buf build --exclude-source-info -o -#format=json | jq '.file[] | .package'
-```
-
-### Generate code
-
-Buf doesn't have built-in compiler. Before, you need to [install The protocol buffer compiler](https://grpc.io/docs/protoc-installation/).
-
-```bash
-buf generate
 ```
 
 ### Lint API
@@ -49,10 +41,22 @@ buf lint
 buf breaking --against '.git#branch=main'
 ```
 
+### Generate code
+
+Buf doesn't have a built-in compiler. Before, you need to
+[install The protocol buffer compiler](https://grpc.io/docs/protoc-installation/) or use
+[remote generation for Go and JS/TS](https://docs.buf.build/bsr/remote-generation/overview).
+
+```bash
+buf generate
+```
+
 ## Repository Structure
 
 ```tree
 ├── apis
+│   ├── buf.md
+│   ├── buf.yaml
 │   └── reportportal
 │       ├── common
 │       │    └── types
@@ -80,10 +84,14 @@ buf breaking --against '.git#branch=main'
 * apis - root catalog for Report Portal services
 * common - contains common types for all Report Portal services
 * domain - contains definitions for particular Report Portal services and types
-* vendor - catalog for third-party definitions. Use to extend Report Portal APIs
+* vendor - catalog for third-party local definitions. Use to extend Report Portal APIs
 * v`N` - catalog for grouping definitions by versions
 * services - contains service definitions calls
 * types - contains definitions for messages and enumerations
+* [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
+README.md and supports the CommonMark syntax
+* [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
+the root of the Protobuf source files it defines
 
 ## Contribution
 
