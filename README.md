@@ -54,32 +54,35 @@ buf generate
 ## Repository Structure
 
 ```tree
-└── apis
-    ├── buf.md
-    ├── buf.yaml
-    ├── common
-    │    └── types
-    │       ├── v1
-    │       │   ├── some_types.proto
-    │       │   └──...
-    │       └── ...
-    └── reporting
-        ├── services
-        │   ├── v1
-        │   │   ├── some_service.proto
-        │   │   └── ...
-        │   └── ...
-        └── types
-            ├── v1
-            │   ├── some_types.proto
-            │   └──...
-            └── ...
+├── apis
+│   ├── buf.md
+│   ├── buf.yaml
+│   ├── common
+│   │    └── types
+│   │       ├── v1
+│   │       │   ├── some_types.proto
+│   │       │   └──...
+│   │       └── ...
+│   └── reporting
+│       ├── services
+│       │   ├── v1
+│       │   │   ├── some_service.proto
+│       │   │   └── ...
+│       │   └── ...
+│       └── types
+│           ├── v1
+│           │   ├── some_types.proto
+│           │   └──...
+│           └── ...
+└── vendors
+    └── vendor_name
+
 ```
 
-* apis - root catalog for Report Portal services
+* apis - root catalog for Report Portal Interface Definitions
 * common - contains common types for all Report Portal services
 * domain - contains definitions for particular Report Portal services and types
-* vendor - catalog for third-party local definitions. Use to extend Report Portal APIs
+* vendors - catalog for third-party local definitions. Use to extend Report Portal APIs
 * v`N` - catalog for grouping definitions by versions
 * services - contains service definitions calls
 * types - contains definitions for messages and enumerations
@@ -95,7 +98,7 @@ the root of the Protobuf source files it defines
 We use additional types provided by
 [Google Type Library](https://buf.build/googleapis/googleapis/docs/main:google.type).
 
-You can use them in your definition like:
+You can use them in your proto files like:
 
 ```proto
 import "google/type/<type_name>.proto";
