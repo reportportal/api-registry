@@ -1,0 +1,8 @@
+version: v1
+plugins:
+  - name: python
+    out: gen/proto/python
+  - name: java
+    out: gen/proto/java
+  - name: js
+    out: gen/proto/javascript

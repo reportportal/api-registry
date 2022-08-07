@@ -74,35 +74,23 @@ buf generate
 ├── apis
 │   ├── buf.md
 │   ├── buf.yaml
-│   ├── common
-│   │    └── types
-│   │       ├── v1
-│   │       │   ├── some_types.proto
-│   │       │   └──...
-│   │       └── ...
-│   └── reporting
-│       ├── services
+│   └── reportportal
+│       ├── common
 │       │   ├── v1
-│       │   │   ├── some_service.proto
-│       │   │   └── ...
-│       │   └── ...
-│       └── types
+│       │   │   └── types.proto
+│       │   └── v2
+│       └── reporting (domain)
 │           ├── v1
-│           │   ├── some_types.proto
-│           │   └──...
-│           └── ...
-└── vendors
-    └── vendor_name
-
+│           │   └── reporting.proto
+│           └── v2
+└── gen
 ```
 
 - apis - root catalog for Report Portal Interface Definitions
 - common - contains common types for all Report Portal services
 - domain - contains definitions for particular Report Portal services and types
-- vendors - catalog for third-party local definitions. Use to extend Report Portal APIs
 - v`N` - catalog for grouping definitions by versions
-- services - contains service definitions calls
-- types - contains definitions for messages and enumerations
+- gen - catalog for generated stubs
 - [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
 README.md and supports the CommonMark syntax
 - [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
