@@ -1,4 +1,4 @@
-# ReportPortal APIs
+# ReportPortal API Definitions
 
 This repository contains gRPC protocol definitions for ReportPortal APIs and provides knowledge
 about its own services. You can use Protocol Buffers (Protobuf) descriptions to generate your
