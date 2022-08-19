@@ -1,8 +1,9 @@
 # ReportPortal API Definitions
 
-This repository contains gRPC protocol definitions for ReportPortal APIs and provides knowledge
-about its own services. You can use Protocol Buffers (Protobuf) descriptions to generate your
-client's libraries or take pre-generated.
+This repository contains gRPC protocol definitions and OpenAPI Specification for ReportPortal APIs
+and provides knowledge about its own services. 
+You can use Protocol Buffers (Protobuf) descriptions to generate your client's libraries or take
+pre-generated.
 
 ## Contents
 
@@ -71,30 +72,39 @@ buf generate
 ## Repository Structure
 
 ```tree
+.
 ├── apis
-│   ├── buf.md
-│   ├── buf.yaml
-│   └── reportportal
-│       ├── common
-│       │   ├── v1
-│       │   │   └── types.proto
-│       │   └── v2
-│       └── reporting (domain)
-│           ├── v1
-│           │   └── reporting.proto
-│           └── v2
+│   ├── openapi
+│   │   ├── models
+│   │   │   └── model.yaml
+│   │   └── api-references.yaml
+│   └── proto
+│       ├── buf.md
+│       ├── buf.yaml
+│       └── reportportal
+│           ├── common
+│           │   ├── v1
+│           │   │   └── types.proto
+│           │   └── v2
+│           └── reporting (domain)
+│               ├── v1
+│               │   └── reporting.proto
+│               └── v2
+├── docs
 └── gen
 ```
 
 - apis - root catalog for Report Portal Interface Definitions
-- common - contains common types for all Report Portal services
-- domain - contains definitions for particular Report Portal services and types
-- v`N` - catalog for grouping definitions by versions
-- gen - catalog for generated stubs
-- [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
+- openapi - 
+- proto - contains gRPC definitions for Report Portal services and types
+  - common - contains common types for all Report Portal gRPC services
+  - v`N` - catalog for grouping definitions by versions
+  - [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
 README.md and supports the CommonMark syntax
-- [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
+  - [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
 the root of the Protobuf source files it defines
+
+- gen - catalog for generated stubs
 
 ## Third-party libraries
 
