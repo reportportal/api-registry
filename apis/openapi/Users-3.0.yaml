@@ -1,8 +1,8 @@
 openapi: 3.0.0
 x-stoplight:
-  id: 1wkktjmzse06r
+  id: cbrwijaqx668p
 info:
-  title: users2
+  title: Users-3.0
   version: '1.0'
 servers:
   - url: 'http://localhost:3000'
@@ -156,13 +156,12 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/offset-pagination.yaml
-                  - type: object
-                    properties:
+                  - properties:
                       items:
                         type: array
                         items:
-                          $ref: ./users.yaml#/components/schemas/User
+                          $ref: '#/components/schemas/User'
+                type: object
 components:
   schemas:
     User:

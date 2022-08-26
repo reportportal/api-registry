@@ -1,8 +1,8 @@
 openapi: 3.1.0
 x-stoplight:
-  id: 52vfex9u73fzi
+  id: ubs6hytm27eem
 info:
-  title: Users
+  title: Users-3.1
   version: '1.0'
 servers:
   - url: 'http://localhost:3000'
@@ -25,6 +25,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
         '404':
           description: User Not Found
       operationId: get-users-userId
@@ -81,12 +91,6 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
-    delete:
-      summary: ''
-      operationId: delete-users-userId
-      responses:
-        '200':
-          description: OK
   /users:
     post:
       summary: Create New User
@@ -153,16 +157,12 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/offset-pagination.yaml
-                  - type: object
-                    properties:
+                  - properties:
                       items:
                         type: array
                         items:
                           $ref: '#/components/schemas/User'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                    type: object
 components:
   schemas:
     User:
