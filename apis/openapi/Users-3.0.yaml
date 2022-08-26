@@ -183,6 +183,8 @@ components:
           description: Unique identifier for the given user.
         firstName:
           type: string
+        first_name:
+          type: string
         lastName:
           type: string
         email:
@@ -192,9 +194,13 @@ components:
           type: string
           format: date
           example: '1997-10-31'
+        date_of_birth:
+          type: string
         emailVerified:
           type: boolean
           description: Set to true if the user's email has been verified.
+        email_verified:
+          type: boolean
         createDate:
           type: string
           format: date
