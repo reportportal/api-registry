@@ -1,18 +1,21 @@
+type: object
 title: Offset-based Pagination
 x-stoplight:
   id: osmhtey50l0ov
-type: object
 description: Pagination Example
 properties:
   offset:
     type: integer
     description: The offset used for this page of results
+    minimum: 0
   limit:
     type: integer
     description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
+    minimum: 0
   total_count:
     type: integer
     description: One greater than the offset of the last item in the entire collection. The total number of items in the collection may be less than total_count
+    minimum: 0
   items:
     type: array
     items: {}
