@@ -1,8 +1,8 @@
 openapi: 3.1.0
 x-stoplight:
-  id: 0qugg04hqvdx9
+  id: 52vfex9u73fzi
 info:
-  title: quality-gate
+  title: user
   version: '1.0'
 servers:
   - url: 'http://localhost:3000'
@@ -91,7 +91,13 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
-  /user:
+    delete:
+      summary: ''
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+  /users:
     post:
       summary: Create New User
       operationId: post-user
@@ -145,6 +151,30 @@ paths:
                   dateOfBirth: '1996-08-24'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
+    parameters: []
+    get:
+      summary: ''
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/offset-pagination.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+                    required:
+                      - items
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
 components:
   schemas:
     User:

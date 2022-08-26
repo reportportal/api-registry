@@ -4,17 +4,16 @@ x-stoplight:
 type: object
 description: Pagination Example
 properties:
-  entries:
-    type: array
-    description: The page of items for this page. This will be an empty array if there are no results
-    items:
-      type: object
   offset:
     type: integer
     description: The offset used for this page of results
   limit:
     type: integer
     description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
-  "total_count\t":
+  total_count:
     type: integer
     description: One greater than the offset of the last item in the entire collection. The total number of items in the collection may be less than total_count
+required:
+  - offset
+  - limit
+  - total_count
