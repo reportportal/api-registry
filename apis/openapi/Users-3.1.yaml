@@ -181,27 +181,27 @@ components:
         id:
           type: integer
           description: Unique identifier for the given user.
-        firstName:
+        first_name:
           type: string
-        lastName:
+        last_name:
           type: string
         email:
           type: string
           format: email
-        dateOfBirth:
+        date_of_birth:
           type: string
           format: date
           example: '1997-10-31'
-        emailVerified:
+        email_verified:
           type: boolean
           description: Set to true if the user's email has been verified.
-        createDate:
+        create_date:
           type: string
           format: date
           description: The date that the user was created.
       required:
         - id
-        - firstName
-        - lastName
+        - first_name
+        - last_name
         - email
-        - emailVerified
+        - email_verified
