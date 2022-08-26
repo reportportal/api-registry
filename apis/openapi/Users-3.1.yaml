@@ -205,3 +205,12 @@ components:
         - lastName
         - email
         - emailVerified
+  securitySchemes:
+    API Key - 1:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: ''
+          tokenUrl: ''
+          refreshUrl: ''
+          scopes: {}
