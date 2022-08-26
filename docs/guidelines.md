@@ -88,7 +88,8 @@ There you find all the general rules and conventions for API design.
 **MUST** use kebab-case for path segments
 [129](https://opensource.zalando.com/restful-api-guidelines/#129).
 
-> Hint: kebab-case applies to concrete path segments and not necessarily the names of path parameters.
+> Hint: kebab-case applies to concrete path segments and not necessarily the
+> names of path parameters.
 
 **MUST** use snake_case (never camelCase) for query parameters
 [130](https://opensource.zalando.com/restful-api-guidelines/#130).
@@ -124,3 +125,28 @@ MUST stick to conventional query parameters
 [146](https://opensource.zalando.com/restful-api-guidelines/#146).
 
 ## JSON payload
+
+**MUST** use JSON as payload data interchange format
+[167](https://opensource.zalando.com/restful-api-guidelines/#167).
+
+*SHOULD* use standard media types
+[172](https://opensource.zalando.com/restful-api-guidelines/#172).
+
+*SHOULD* pluralize array names
+[120](https://opensource.zalando.com/restful-api-guidelines/#120).
+
+**MUST** property names must be snake_case (and never camelCase)
+[118](https://opensource.zalando.com/restful-api-guidelines/#118).
+
+> Rationale: No established industry standard exists, but many popular Internet
+> companies prefer snake_case: e.g. GitHub, Stack Exchange, Twitter. Others,
+> like Google and Amazon, use both - but not only camelCase.
+>
+> It’s essential to establish a consistent look and feel such that JSON looks
+> as if it came from the same hand.
+
+**MUST** not use null for boolean properties
+[122](https://opensource.zalando.com/restful-api-guidelines/#122).
+
+MUST use common field names and semantics
+[174](https://opensource.zalando.com/restful-api-guidelines/#174).
