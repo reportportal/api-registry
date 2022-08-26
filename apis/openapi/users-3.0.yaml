@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.0.0
 x-stoplight:
-  id: 52vfex9u73fzi
+  id: 1wkktjmzse06r
 info:
-  title: Users
+  title: users2
   version: '1.0'
 servers:
   - url: 'http://localhost:3000'
@@ -91,12 +91,6 @@ paths:
                   lastName: Baker
                   dateOfBirth: '1985-10-02'
         description: Patch user properties to update.
-    delete:
-      summary: ''
-      operationId: delete-users-userId
-      responses:
-        '200':
-          description: OK
   /users:
     post:
       summary: Create New User
@@ -168,21 +162,16 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/User'
-                    required:
-                      - items
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
+                          $ref: ./users.yaml#/components/schemas/User
 components:
   schemas:
     User:
       title: User
       type: object
       description: ''
-      examples:
-        - id: 142
+      x-examples:
+        Alice Smith:
+          id: 142
           firstName: Alice
           lastName: Smith
           email: alice.smith@gmail.com

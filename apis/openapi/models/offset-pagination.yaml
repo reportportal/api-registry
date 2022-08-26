@@ -13,7 +13,11 @@ properties:
   total_count:
     type: integer
     description: One greater than the offset of the last item in the entire collection. The total number of items in the collection may be less than total_count
+  items:
+    type: array
+    items: {}
 required:
   - offset
   - limit
   - total_count
+  - items
