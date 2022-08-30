@@ -196,3 +196,51 @@ MAY use standard headers
 **MUST** use Content-* headers correctly
 [178](https://opensource.zalando.com/restful-api-guidelines/#178).
 
+## Hypermedia
+
+MUST use REST maturity level 2
+[162](https://opensource.zalando.com/restful-api-guidelines/#162).
+
+MUST use common hypertext controls
+[164](https://opensource.zalando.com/restful-api-guidelines/#164).
+
+MUST use full, absolute URI for resource identification
+[217](https://opensource.zalando.com/restful-api-guidelines/#217).
+
+MUST not use link headers with JSON entities
+[166](https://opensource.zalando.com/restful-api-guidelines/#166).
+
+## Pagination
+
+MUST support pagination [159](https://opensource.zalando.com/restful-api-guidelines/#159).
+
+SHOULD prefer cursor-based pagination, avoid offset-based pagination [160](https://opensource.zalando.com/restful-api-guidelines/#160).
+
+SHOULD use pagination response page object [248](https://opensource.zalando.com/restful-api-guidelines/#248).
+
+SHOULD use pagination links where applicable
+[161](https://opensource.zalando.com/restful-api-guidelines/#161).
+
+## Compatibility
+
+**MUST** not break backward compatibility
+[106](https://opensource.zalando.com/restful-api-guidelines/#106).
+
+**MUST** prepare clients to accept compatible API extensions
+[108](https://opensource.zalando.com/restful-api-guidelines/#108).
+
+*SHOULD* avoid versioning
+[113](https://opensource.zalando.com/restful-api-guidelines/#113).
+
+**MUST** use media type versioning
+[114](https://opensource.zalando.com/restful-api-guidelines/#114).
+
+```html
+Content-Type: application/x.<custom-media-type>+json;version=<version>
+```
+
+**MUST** not use URL versioning
+[115](https://opensource.zalando.com/restful-api-guidelines/#115).
+
+**MUST** always return JSON objects as top-level data structures
+[110](https://opensource.zalando.com/restful-api-guidelines/#110).
