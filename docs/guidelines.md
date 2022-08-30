@@ -212,13 +212,16 @@ MUST not use link headers with JSON entities
 
 ## Pagination
 
-MUST support pagination [159](https://opensource.zalando.com/restful-api-guidelines/#159).
+**MUST** support pagination
+[159](https://opensource.zalando.com/restful-api-guidelines/#159).
 
-SHOULD prefer cursor-based pagination, avoid offset-based pagination [160](https://opensource.zalando.com/restful-api-guidelines/#160).
+*SHOULD* prefer cursor-based pagination, avoid offset-based pagination
+[160](https://opensource.zalando.com/restful-api-guidelines/#160).
 
-SHOULD use pagination response page object [248](https://opensource.zalando.com/restful-api-guidelines/#248).
+*SHOULD* use pagination response page object
+[248](https://opensource.zalando.com/restful-api-guidelines/#248).
 
-SHOULD use pagination links where applicable
+*SHOULD* use pagination links where applicable
 [161](https://opensource.zalando.com/restful-api-guidelines/#161).
 
 ## Compatibility
