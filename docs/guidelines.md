@@ -135,3 +135,64 @@ MUST use the common address fields
 
 MUST use the common money object
 [173](https://opensource.zalando.com/restful-api-guidelines/#173).
+
+## HTTP requests
+
+**MUST** use HTTP methods correctly
+[148](https://opensource.zalando.com/restful-api-guidelines/#148).
+
+**MUST** fulfill common method properties
+[149](https://opensource.zalando.com/restful-api-guidelines/#149).
+
+*SHOULD* consider to design POST and PATCH idempotent
+[229](https://opensource.zalando.com/restful-api-guidelines/#229).
+
+**MUST** define collection format of header and query parameters
+[154](https://opensource.zalando.com/restful-api-guidelines/#154).
+
+*SHOULD* design simple query languages using query parameters
+[236](https://opensource.zalando.com/restful-api-guidelines/#236).
+
+*SHOULD* design complex query languages using JSON or GraphQL
+[237](https://opensource.zalando.com/restful-api-guidelines/#237).
+
+**MUST** document implicit response filtering
+[226](https://opensource.zalando.com/restful-api-guidelines/#226).
+
+## HTTP status codes
+
+**MUST** use official HTTP status codes
+[243](https://opensource.zalando.com/restful-api-guidelines/#243).
+
+**MUST** specify success and error responses
+[151](https://opensource.zalando.com/restful-api-guidelines/#151).
+
+*SHOULD* only use most common HTTP status codes
+[150](https://opensource.zalando.com/restful-api-guidelines/#150).
+
+**MUST** use most specific HTTP status codes
+[220](https://opensource.zalando.com/restful-api-guidelines/#220).
+
+**MUST** use code 207 for batch or bulk requests
+[152](https://opensource.zalando.com/restful-api-guidelines/#152).
+
+**MUST** use code 429 with headers for rate limits
+[153](https://opensource.zalando.com/restful-api-guidelines/#153).
+
+**MUST** support problem JSON
+[176](https://opensource.zalando.com/restful-api-guidelines/#176).
+
+**MUST** not expose stack traces
+[177](https://opensource.zalando.com/restful-api-guidelines/#177).
+
+## HTTP headers
+
+MAY use standard headers
+[133](https://opensource.zalando.com/restful-api-guidelines/#133).
+
+*SHOULD* use kebab-case with uppercase separate words for HTTP headers
+[132](https://opensource.zalando.com/restful-api-guidelines/#132).
+
+**MUST** use Content-* headers correctly
+[178](https://opensource.zalando.com/restful-api-guidelines/#178).
+
