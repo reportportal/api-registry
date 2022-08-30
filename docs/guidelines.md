@@ -244,3 +244,31 @@ Content-Type: application/x.<custom-media-type>+json;version=<version>
 
 **MUST** always return JSON objects as top-level data structures
 [110](https://opensource.zalando.com/restful-api-guidelines/#110).
+
+## Deprecation
+
+**MUST** reflect deprecation in API specifications
+[187](https://opensource.zalando.com/restful-api-guidelines/#187).
+
+**MUST** obtain approval of clients before API shut down
+[185](https://opensource.zalando.com/restful-api-guidelines/#185).
+
+**MUST** monitor usage of deprecated API scheduled for sunset
+[188](https://opensource.zalando.com/restful-api-guidelines/#188).
+
+*SHOULD* add Deprecation and Sunset header to responses
+[189](https://opensource.zalando.com/restful-api-guidelines/#189).
+
+*SHOULD* add monitoring for Deprecation and Sunset header
+[190](https://opensource.zalando.com/restful-api-guidelines/#190).
+
+**MUST** not start using deprecated APIs
+[191](https://opensource.zalando.com/restful-api-guidelines/#191).
+
+## REST Operation
+
+**MUST** publish OpenAPI specification
+[192](https://opensource.zalando.com/restful-api-guidelines/#192).
+
+*SHOULD* monitor API usage
+[193](https://opensource.zalando.com/restful-api-guidelines/#193).
