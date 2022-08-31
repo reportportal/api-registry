@@ -1,9 +1,9 @@
----
-stoplight-id: q1ws5ttd85q56
-tags: [architecture]
----
-
 # Principles
+
+- [Principles](#principles)
+  - [RESTful API](#restful-api)
+  - [API first](#api-first)
+  - [API design](#api-design)
 
 We'll start with a few concepts that will be useful throughout the rest of the API Guidelines.
 
@@ -40,32 +40,3 @@ as a base for our API Guidelines.
 For this reason, we use the similar rules and conventions for API design.
 
 Also, we use [RFC 2119](https://tools.ietf.org/html/rfc2119) to define the levels of conformance.
-
-### General Guidelines
-
-**MUST** follow the API-First principle:
-
-- Define APIs first, before coding its implementation, using a standard specification language.
-- Design APIs using our [API Guidelines](./guidelines.md).
-- Use [Spectral](https://github.com/stoplightio/spectral) to validate your API design.
-- Call for early review feedback from peers and client developers.
-
-**MUST** provide API specification using [OpenAPI Specification 3.x](
-https://spec.openapis.org/oas/v3.1.0.html).
-
-*SHOULD* use the [Stoplight Studio](https://stoplight.io/studio/) to design and document our APIs.
-
-**MUST** write APIs using U.S. English
-
-*SHOULD* don't repeat yourself (The DRY principle).
-
->There's no need to specify the same property in different places in the     specification.
->
->Instead, move it to the `components` section and reference it from other places using `$ref.`
-
-*SHOULD* split the document into several files.
-
->A good rule of thumb is to use the natural hierarchy present in URLs to build your file structure.
->
->For example, put all routes starting with /users (like /users and /users/{id}) in the same file
->(think of it as a “sub-API”).

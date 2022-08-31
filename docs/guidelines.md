@@ -1,9 +1,21 @@
----
-stoplight-id: egurpy4cg3bk5
-tags: [guideline]
----
-
 # API Guidelines
+
+- [API Guidelines](#api-guidelines)
+  - [General Guidelines](#general-guidelines)
+  - [API Design](#api-design)
+  - [Meta information](#meta-information)
+  - [Security](#security)
+  - [Data formats](#data-formats)
+  - [URLs](#urls)
+  - [JSON payload](#json-payload)
+  - [HTTP requests](#http-requests)
+  - [HTTP status codes](#http-status-codes)
+  - [HTTP headers](#http-headers)
+  - [Hypermedia](#hypermedia)
+  - [Pagination](#pagination)
+  - [Compatibility](#compatibility)
+  - [Deprecation](#deprecation)
+  - [REST Operation](#rest-operation)
 
 Our API Guidelines are based on the Zalando
 [RESTful API and Event Scheme Guidelines](https://opensource.zalando.com/restful-api-guidelines).
@@ -18,6 +30,33 @@ Zalando API Guidelines.
 The first read our [Principles](./principles.md).
 
 There you find all the general rules and conventions for API design.
+
+**MUST** follow the API-First principle:
+
+- Define APIs first, before coding its implementation, using a standard specification language.
+- Design APIs using our [API Guidelines](./guidelines.md).
+- Use [Spectral](https://github.com/stoplightio/spectral) to validate your API design.
+- Call for early review feedback from peers and client developers.
+
+**MUST** provide API specification using [OpenAPI Specification 3.0](
+https://spec.openapis.org/oas/v3.0.3.html).
+
+*SHOULD* use the [Stoplight Studio](https://stoplight.io/studio/) to design and document our APIs.
+
+**MUST** write APIs using U.S. English
+
+*SHOULD* don't repeat yourself (The DRY principle).
+
+>There's no need to specify the same property in different places in the     specification.
+>
+>Instead, move it to the `components` section and reference it from other places using `$ref.`
+
+*SHOULD* split the document into several files.
+
+>A good rule of thumb is to use the natural hierarchy present in URLs to build your file structure.
+>
+>For example, put all routes starting with /users (like /users and /users/{id}) in the same file
+>(think of it as a “sub-API”).
 
 ## API Design
 
