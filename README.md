@@ -1,22 +1,22 @@
 # ReportPortal API Definitions
 
 This repository contains gRPC protocol definitions and OpenAPI Specification for ReportPortal APIs
-and provides knowledge about its own services. 
-You can use Protocol Buffers (Protobuf) descriptions to generate your client's libraries or take
-pre-generated.
+and provides knowledge about its own services.
+You can use Protocol Buffers (Protobuf) descriptions or OpenAPI specifications to generate your
+client's libraries or take pre-generated.
 
 ## Contents
 
-- [ReportPortal APIs](#reportportal-apis)
+- [ReportPortal API Definitions](#reportportal-api-definitions)
   - [Contents](#contents)
   - [Overview](#overview)
-  - [How to use](#how-to-use)
+  - [Repository Structure](#repository-structure)
+  - [How to work with Protobuf](#how-to-work-with-protobuf)
     - [Buf CLI](#buf-cli)
     - [Verify](#verify)
     - [Lint API](#lint-api)
     - [Detect breaking changes](#detect-breaking-changes)
     - [Generate code](#generate-code)
-  - [Repository Structure](#repository-structure)
   - [Third-party libraries](#third-party-libraries)
     - [Google types](#google-types)
       - [Additional types](#additional-types)
@@ -24,12 +24,58 @@ pre-generated.
 
 ## Overview
 
-ReportPortal APIs are deployed as the API Service.
+ReportPortal APIs are deployed as the
+[API Service (ext. link)](https://github.com/reportportal/service-api).
+
+Main ReportPortal APIs use OpenAPI Specification (OAS) to describe their services.
 
 Some ReportPortal APIs use Protobuf version 3 (proto3) as their Interface Definition
 Language (IDL) to define the API interface and the structure of the payload messages.
 
-## How to use
+Currently, we're migrating from a **Code-first** to an **API-first** approach.
+That means that you can't find all specifications here. You can find other specifications
+in ReportPortal UI Settings. Little by little, we will provide the specifications here.
+
+## Repository Structure
+
+```tree
+.
+├── apis
+│   ├── openapi
+│   │   ├── models
+│   │   │   └── model.yaml
+│   │   └── api-references.yaml
+│   └── proto
+│       ├── buf.md
+│       ├── buf.yaml
+│       └── reportportal
+│           ├── common
+│           │   ├── v1
+│           │   │   └── types.proto
+│           │   └── v2
+│           └── reporting (domain)
+│               ├── v1
+│               │   └── reporting.proto
+│               └── v2
+├── docs
+└── gen
+```
+
+- [apis](/apis/) - root catalog for Report Portal Interface Definitions
+- [openapi](/apis/openapi/) - contains OpenAPI Specification for Report Portal APIs
+  - [models](/apis/openapi/models/) - contains shared models for all Report Portal APIs
+- [proto](/apis/proto/) - contains gRPC definitions for Report Portal services and types
+  - [common](/apis/proto/reportportal/common/) - contains common types for all Report Portal gRPC services
+  - [reporting](/apis/proto/reportportal/reporting/) - contains gRPC definitions for domain specific
+  - v`N` - catalog for grouping definitions by versions
+  - [buf.md (ext. link)](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
+README.md and supports the CommonMark syntax
+  - [buf.yaml (ext. link)](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
+the root of the Protobuf source files it defines
+- [docs](/docs/) - contains Guidelines for Report Portal APIs
+- [gen](/gen/) - catalog for generated stubs for clients or servers
+
+## How to work with Protobuf
 
 ### Buf CLI
 
@@ -68,43 +114,6 @@ Buf doesn't have a built-in compiler. Before, you need to
 ```bash
 buf generate
 ```
-
-## Repository Structure
-
-```tree
-.
-├── apis
-│   ├── openapi
-│   │   ├── models
-│   │   │   └── model.yaml
-│   │   └── api-references.yaml
-│   └── proto
-│       ├── buf.md
-│       ├── buf.yaml
-│       └── reportportal
-│           ├── common
-│           │   ├── v1
-│           │   │   └── types.proto
-│           │   └── v2
-│           └── reporting (domain)
-│               ├── v1
-│               │   └── reporting.proto
-│               └── v2
-├── docs
-└── gen
-```
-
-- apis - root catalog for Report Portal Interface Definitions
-- openapi - 
-- proto - contains gRPC definitions for Report Portal services and types
-  - common - contains common types for all Report Portal gRPC services
-  - v`N` - catalog for grouping definitions by versions
-  - [buf.md](https://docs.buf.build/bsr/documentation) - it's analogous to a GitHub repository's
-README.md and supports the CommonMark syntax
-  - [buf.yaml](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
-the root of the Protobuf source files it defines
-
-- gen - catalog for generated stubs
 
 ## Third-party libraries
 
