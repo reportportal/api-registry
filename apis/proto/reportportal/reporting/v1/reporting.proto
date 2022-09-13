@@ -19,18 +19,13 @@ message EntityRQ {
     FinishExecutionRQ finish_launch_rq = 3;
     StartTestItemRQ start_item_rq = 4;
     FinishTestItemRQ finish_item_rq = 5;
+    SaveLogRQ save_log_rq = 6;
   }
 }
 
 message StartLaunchRQ {
   string name = 1;
   string uuid = 2;
-}
-
-message StartLaunchRS {
-  string uuid = 1;
-  string message = 2;
-  sint64 number = 3;
 }
 
 message FinishExecutionRQ {
@@ -40,6 +35,21 @@ message FinishExecutionRQ {
 message StartTestItemRQ {
   string uuid = 1;
   repeated PathElement path = 2;
+}
+
+message FinishTestItemRQ {
+  string uuid = 1;
+  ItemStatus status = 2;
+}
+
+message SaveLogRQ {
+  string uuid = 1;
+}
+
+message OperationCompletionRS {
+  string uuid = 1;
+  string message = 2;
+  string type = 3;
 }
 
 message PathElement {
@@ -54,20 +64,8 @@ enum PathElementType {
   TEST = 3;
 }
 
-message FinishTestItemRQ {
-  string uuid = 1;
-  ItemStatus status = 2;
-}
-
 enum ItemStatus {
   PASSED = 0;
   FAILED = 1;
   SKIPPED = 2;
 }
-
-message OperationCompletionRS {
-  string uuid = 1;
-  string message = 2;
-  string type = 3;
-}
-
