@@ -8,48 +8,47 @@ option java_outer_classname = "ReportPortalProto";
 option objc_class_prefix = "RPP";
 
 service ReportPortalReporting {
-  rpc Upload(EntityRQ) returns (OperationCompletionRS) {}
-  rpc UploadStream(stream EntityRQ) returns (stream OperationCompletionRS) {}
+  rpc Upload(EntityRequest) returns (EntityResponse) {}
+  rpc UploadStream(stream EntityRequest) returns (stream EntityResponse) {}
 }
 
-message EntityRQ {
+message EntityRequest {
   string uuid = 1;
   oneof payload {
-    StartLaunchRQ start_launch_rq = 2;
-    FinishExecutionRQ finish_launch_rq = 3;
-    StartTestItemRQ start_item_rq = 4;
-    FinishTestItemRQ finish_item_rq = 5;
-    SaveLogRQ save_log_rq = 6;
+    StartExecutionRequest start_launch_request = 2;
+    FinishExecutionRequest finish_launch_request = 3;
+    StartTestItemRequest start_item_request = 4;
+    FinishTestItemRequest finish_item_request = 5;
+    SaveLogRequest save_log_request = 6;
+    SaveDataRequest save_data_request = 7;
   }
 }
 
-message StartLaunchRQ {
+message StartExecutionRequest {
   string name = 1;
-  string uuid = 2;
 }
 
-message FinishExecutionRQ {
-  string uuid = 1;
+message FinishExecutionRequest {
 }
 
-message StartTestItemRQ {
-  string uuid = 1;
+message StartTestItemRequest {
   repeated PathElement path = 2;
 }
 
-message FinishTestItemRQ {
-  string uuid = 1;
+message FinishTestItemRequest {
   ItemStatus status = 2;
 }
 
-message SaveLogRQ {
-  string uuid = 1;
+message SaveLogRequest {
 }
 
-message OperationCompletionRS {
+message SaveDataRequest {
+}
+
+message EntityResponse {
   string uuid = 1;
-  string message = 2;
-  string type = 3;
+  OperationResult result = 2;
+  string message = 3;
 }
 
 message PathElement {
@@ -57,15 +56,30 @@ message PathElement {
   PathElementType type = 2;
 }
 
+enum OperationResult {
+  OK = 0;
+  FAIL = 1;
+}
+
 enum PathElementType {
   SUITE = 0;
-  SCENARIO = 1;
-  FEATURE = 2;
-  TEST = 3;
+  PARENT_SUITE = 1; // Do we need it?
+  CHILD_SUITE = 2; // Do we need it?
+  SCENARIO = 3;
+  FEATURE = 4;
+  PACKAGE = 5;
+  TEST = 6;
+  TEST_CLASS = 7;
+  TEST_METHOD = 8;
 }
 
 enum ItemStatus {
   PASSED = 0;
   FAILED = 1;
   SKIPPED = 2;
+  STOPPED = 3;
+  INTERRUPTED = 4;
+  CANCELLED = 5;
+  INFO = 6;
+  WARN = 7;
 }
