@@ -62,15 +62,21 @@ enum OperationResult {
 }
 
 enum PathElementType {
-  SUITE = 0;
-  PARENT_SUITE = 1; // Do we need it?
-  CHILD_SUITE = 2; // Do we need it?
-  SCENARIO = 3;
-  FEATURE = 4;
-  PACKAGE = 5;
-  TEST = 6;
-  TEST_CLASS = 7;
-  TEST_METHOD = 8;
+    SUITE = 0;
+    STORY = 1;
+    TEST = 2;
+    SCENARIO = 3;
+    STEP = 4;
+    BEFORE_CLASS = 5;
+    BEFORE_GROUPS = 6;
+    BEFORE_METHOD = 7;
+    BEFORE_SUITE = 8;
+    BEFORE_TEST = 9;
+    AFTER_CLASS = 10;
+    AFTER_GROUPS = 11;
+    AFTER_METHOD = 12;
+    AFTER_SUITE = 13;
+    AFTER_TEST = 14;
 }
 
 enum ItemStatus {
