@@ -2,30 +2,37 @@ syntax = "proto3";
 
 package reportportal.reporting.v1;
 
+import "google/type/datetime.proto";
+
 option java_multiple_files = true;
 option java_package = "com.epam.reportportal.reporting.v1";
 option java_outer_classname = "ReportPortalProto";
 option objc_class_prefix = "RPP";
 
-service ReportPortalReporting {
+service ReportPortalReportingService {
   rpc Upload(EntityRequest) returns (EntityResponse) {}
   rpc UploadStream(stream EntityRequest) returns (stream EntityResponse) {}
 }
 
 message EntityRequest {
   string uuid = 1;
+  google.type.DateTime timestamp = 2;
   oneof payload {
-    StartExecutionRequest start_launch_request = 2;
-    FinishExecutionRequest finish_launch_request = 3;
-    StartTestItemRequest start_item_request = 4;
-    FinishTestItemRequest finish_item_request = 5;
-    SaveLogRequest save_log_request = 6;
-    SaveDataRequest save_data_request = 7;
+    StartExecutionRequest start_launch_request = 3;
+    FinishExecutionRequest finish_launch_request = 4;
+    StartTestItemRequest start_item_request = 5;
+    FinishTestItemRequest finish_item_request = 6;
+    SaveLogRequest save_log_request = 7;
+    SaveDataRequest save_data_request = 8;
   }
 }
 
 message StartExecutionRequest {
   string name = 1;
+  string description = 2;
+  bool rerun = 3;
+  string rerun_of = 4;
+
 }
 
 message FinishExecutionRequest {
@@ -56,6 +63,8 @@ message PathElement {
   PathElementType type = 2;
 }
 
+
+
 enum OperationResult {
   OK = 0;
   FAIL = 1;
@@ -80,12 +89,17 @@ enum PathElementType {
 }
 
 enum ItemStatus {
-  PASSED = 0;
-  FAILED = 1;
-  SKIPPED = 2;
-  STOPPED = 3;
-  INTERRUPTED = 4;
-  CANCELLED = 5;
-  INFO = 6;
-  WARN = 7;
+  ITEM_STATUS_PASSED_UNSPECIFIED = 0;
+  ITEM_STATUS_FAILED = 1;
+  ITEM_STATUS_SKIPPED = 2;
+  ITEM_STATUS_STOPPED = 3;
+  ITEM_STATUS_INTERRUPTED = 4;
+  ITEM_STATUS_CANCELLED = 5;
+  ITEM_STATUS_INFO = 6;
+  ITEM_STATUS_WARN = 7;
+}
+
+enum LaunchMode {
+  DEFAULT = 0;
+  DEBUG = 1;
 }
