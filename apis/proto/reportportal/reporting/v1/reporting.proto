@@ -7,7 +7,7 @@ import "google/type/datetime.proto";
 option java_multiple_files = true;
 option java_package = "com.epam.reportportal.reporting.v1";
 option java_outer_classname = "ReportPortalProto";
-option objc_class_prefix = "RPP";
+option objc_class_prefix = "RP";
 
 service ReportPortalReportingService {
   rpc Upload(UploadRequest) returns (UploadResponse) {}
