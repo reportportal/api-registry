@@ -18,38 +18,72 @@ message EntityRequest {
   string uuid = 1;
   google.type.DateTime timestamp = 2;
   oneof payload {
-    StartExecutionRequest start_launch_request = 3;
-    FinishExecutionRequest finish_launch_request = 4;
-    StartTestItemRequest start_item_request = 5;
-    FinishTestItemRequest finish_item_request = 6;
-    SaveLogRequest save_log_request = 7;
-    SaveDataRequest save_data_request = 8;
+    Start start = 3;
+    Finish finish = 4;
+    SaveLog save_log = 5;
+    SaveData save_data = 6;
   }
 }
 
-message StartExecutionRequest {
+message Start {
   string name = 1;
   string description = 2;
+  repeated ItemAttribute attributes = 3;
+  oneof item {
+      StartExecution execution = 4;
+      StartTestItem test_item = 5;
+  }
+}
+
+message StartTestItem {
+  string code_ref = 3;
+  string test_case_id = 4;
+  string launch_uuid = 5;
+  repeated Parameter parameters = 7;
+  oneof item {
+    RootTestItem root_item = 8;
+    NestedTestItem nested_item = 9;
+  }
+}
+
+message RootTestItem {
+  ItemType type = 1;
+  string retry_of = 2;
+  repeated PathElement path = 3;
+}
+
+message NestedTestItem {
+  string parent_id = 1;
+}
+
+message StartExecution {
   bool rerun = 3;
   string rerun_of = 4;
-
+  LaunchMode mode = 5;
 }
 
-message FinishExecutionRequest {
+message Finish {
+  ItemStatus status = 1;
+  string description = 2;
+  repeated ItemAttribute attributes = 3;
+  oneof item {
+      FinishExecution finish_execution = 4;
+      FinishTestItem finish_item = 5;
+  }
 }
 
-message StartTestItemRequest {
-  repeated PathElement path = 2;
+message FinishExecution {
+  // Nothing apart base status, description and attributes
 }
 
-message FinishTestItemRequest {
-  ItemStatus status = 2;
+message FinishTestItem {
+  // TODO: finish
 }
 
-message SaveLogRequest {
+message SaveLog {
 }
 
-message SaveDataRequest {
+message SaveData {
 }
 
 message EntityResponse {
@@ -63,29 +97,42 @@ message PathElement {
   PathElementType type = 2;
 }
 
+message ItemAttribute {
+  string key = 1;
+  string value = 2;
+  bool system = 3;
+}
 
+message Parameter {
+  string key = 1;
+  string value = 2;
+}
 
 enum OperationResult {
-  OK = 0;
-  FAIL = 1;
+  OPERATION_RESULT_OK_UNSPECIFIED = 0;
+  OPERATION_RESULT_FAIL = 1;
 }
 
 enum PathElementType {
-    SUITE = 0;
-    STORY = 1;
-    TEST = 2;
-    SCENARIO = 3;
-    STEP = 4;
-    BEFORE_CLASS = 5;
-    BEFORE_GROUPS = 6;
-    BEFORE_METHOD = 7;
-    BEFORE_SUITE = 8;
-    BEFORE_TEST = 9;
-    AFTER_CLASS = 10;
-    AFTER_GROUPS = 11;
-    AFTER_METHOD = 12;
-    AFTER_SUITE = 13;
-    AFTER_TEST = 14;
+  PATH_ELEMENT_TYPE_SUITE_UNSPECIFIED = 0;
+  PATH_ELEMENT_TYPE_STORY = 1;
+  PATH_ELEMENT_TYPE_TEST = 2;
+  PATH_ELEMENT_TYPE_SCENARIO = 3;
+  PATH_ELEMENT_TYPE_FEATURE = 4;
+}
+
+enum ItemType {
+  ITEM_TYPE_STEP_UNSPECIFIED = 0;
+  ITEM_TYPE_BEFORE_CLASS = 1;
+  ITEM_TYPE_BEFORE_GROUPS = 2;
+  ITEM_TYPE_BEFORE_METHOD = 3;
+  ITEM_TYPE_BEFORE_SUITE = 4;
+  ITEM_TYPE_BEFORE_TEST = 5;
+  ITEM_TYPE_AFTER_CLASS = 6;
+  ITEM_TYPE_AFTER_GROUPS = 7;
+  ITEM_TYPE_AFTER_METHOD = 8;
+  ITEM_TYPE_AFTER_SUITE = 9;
+  ITEM_TYPE_AFTER_TEST = 10;
 }
 
 enum ItemStatus {
@@ -100,6 +147,6 @@ enum ItemStatus {
 }
 
 enum LaunchMode {
-  DEFAULT = 0;
-  DEBUG = 1;
+  LAUNCH_MODE_DEFAULT_UNSPECIFIED = 0;
+  LAUNCH_MODE_DEBUG = 1;
 }
