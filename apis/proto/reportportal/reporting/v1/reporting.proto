@@ -10,11 +10,11 @@ option java_outer_classname = "ReportPortalProto";
 option objc_class_prefix = "RPP";
 
 service ReportPortalReportingService {
-  rpc Upload(EntityRequest) returns (EntityResponse) {}
-  rpc UploadStream(stream EntityRequest) returns (stream EntityResponse) {}
+  rpc Upload(UploadRequest) returns (UploadResponse) {}
+  rpc UploadStream(stream UploadRequest) returns (stream UploadResponse) {}
 }
 
-message EntityRequest {
+message UploadRequest {
   string uuid = 1;
   google.type.DateTime timestamp = 2;
   oneof payload {
@@ -86,7 +86,7 @@ message SaveLog {
 message SaveData {
 }
 
-message EntityResponse {
+message UploadResponse {
   string uuid = 1;
   OperationResult result = 2;
   string message = 3;
