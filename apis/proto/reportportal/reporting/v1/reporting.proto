@@ -74,7 +74,6 @@ message Finish {
 }
 
 message FinishExecution {
-  // TODO: singular / optional item status?
 }
 
 message FinishTestItem {
