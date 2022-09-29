@@ -115,7 +115,9 @@ message File {
 }
 
 message SaveData {
-  bytes content = 1;
+  string name = 1;
+  string content_type = 2;
+  bytes content = 3;
 }
 
 message UploadResponse {
