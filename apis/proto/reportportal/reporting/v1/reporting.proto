@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package reportportal.reporting.v1;
 
+
 import "google/type/datetime.proto";
 
 option java_multiple_files = true;

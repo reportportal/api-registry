@@ -8,3 +8,10 @@ breaking:
 lint:
   use:
     - DEFAULT
+  ignore_only:
+    RPC_REQUEST_RESPONSE_UNIQUE:
+      - "reportportal/reporting/v1/reporting.proto"
+    RPC_REQUEST_STANDARD_NAME:
+      - "reportportal/reporting/v1/reporting.proto"
+    RPC_RESPONSE_STANDARD_NAME:
+      - "reportportal/reporting/v1/reporting.proto"
