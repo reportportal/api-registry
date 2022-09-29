@@ -27,7 +27,7 @@ message UploadRequest {
 
 message Start {
   string name = 1;
-  string description = 2;
+  optional string description = 2;
   repeated ItemAttribute attributes = 3;
   oneof item {
       StartExecution execution = 4;
@@ -64,7 +64,7 @@ message StartExecution {
 
 message Finish {
   ItemStatus status = 1;
-  string description = 2;
+  optional string description = 2;
   repeated ItemAttribute attributes = 3;
   oneof item {
       FinishExecution finish_execution = 4;
@@ -73,17 +73,47 @@ message Finish {
 }
 
 message FinishExecution {
-  // Nothing apart base status, description and attributes
+  // TODO: singular / optional item status?
 }
 
 message FinishTestItem {
-  // TODO: finish
+  string launch_uuid = 1;
+  string test_case_id = 2;
+  string retry_of = 3;
+  Issue issue = 4;
+}
+
+message Issue {
+  string issue_type = 1;
+  string comment = 2;
+  bool auto_analyzed = 3;
+  bool ignore_analyzer = 4;
+  repeated ExternalSystemIssue external_system_issues = 5;
+}
+
+message ExternalSystemIssue {
+  string ticket_id = 1;
+  google.type.DateTime submit_date = 2;
+  string bts_url = 3;
+  string bts_project = 4;
+  string url = 5;
+  string plugin_name = 6;
 }
 
 message SaveLog {
+  string item_uuid = 1;
+  string launch_uuid = 2;
+  string message = 3;
+  string level = 4;
+  File file = 5;
+}
+
+message File {
+
 }
 
 message SaveData {
+
 }
 
 message UploadResponse {
