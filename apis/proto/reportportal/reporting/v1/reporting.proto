@@ -109,11 +109,13 @@ message SaveLog {
 }
 
 message File {
-
+  string name = 1;
+  string content_type = 2;
+  string attachment_id = 3;
 }
 
 message SaveData {
-
+  bytes content = 1;
 }
 
 message UploadResponse {
