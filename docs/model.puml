@@ -1,6 +1,11 @@
 @startuml
 
-frame {
+Entity ReportPortalReportingService {
+  Upload(UploadRequest) returns (UploadResponse)
+  UploadStream(stream UploadRequest) returns (stream UploadResponse)
+}
+
+Frame {
   Entity UploadRequest {
     uuid: string
     ???timestamp(created_at): google.type.DateTime
@@ -160,7 +165,7 @@ frame {
   }
 }
 
-frame {
+Frame {
   Entity UploadResponse {
     uuid: string
     result: OperationResult
@@ -172,6 +177,9 @@ frame {
     OPERATION_RESULT_FAIL
   }
 }
+
+ReportPortalReportingService -- UploadRequest
+ReportPortalReportingService -- UploadResponse
 
 UploadRequest -- Start
 UploadRequest -- Finish
