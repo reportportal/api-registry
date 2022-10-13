@@ -140,7 +140,7 @@ frame {
     ITEM_TYPE_AFTER_GROUPS
     ITEM_TYPE_AFTER_METHOD
     ITEM_TYPE_AFTER_SUITE
-    ITEM_TYPE_AFTER_TEST;
+    ITEM_TYPE_AFTER_TEST
   }
 
   enum ItemStatus {
@@ -180,7 +180,7 @@ UploadRequest -- SaveData
 
 Start -- StartExecution
 Start -- StartTestResult
-Start -- Attribute :??
+Start -- Attribute :???
 
 StartExecution -- LaunchMode
 
