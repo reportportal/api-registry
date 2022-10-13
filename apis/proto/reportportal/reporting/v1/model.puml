@@ -1,0 +1,209 @@
+@startuml
+
+frame {
+  Entity UploadRequest {
+    uuid: string
+    ???timestamp(created_at): google.type.DateTime
+    --oneOf--
+    start: Start
+    finish: Finish
+    save_log: SaveLog
+    save_data: SaveData
+
+  }
+
+  Entity Start {
+    name: string
+    description: optional string
+    attributes: repeated Attribute
+    --oneOf--
+    execution: StartExecution
+    test_result: StartTestResult
+  }
+
+  Entity StartTestResult {
+    code_ref: string
+    test_case_id: string
+    launch_uuid: string
+    parameters: repeated Parameter
+    --oneOf--
+    ???root_item(test_result): RootTestItem (TestResult)
+    ???nested_item(nested_step): NestedTestItem (NestedStep)
+  }
+
+  Entity RootTestItem {
+    type: ItemType
+    retry_of: string
+    ???path: repeated PathElement
+    ???(uuid: optional string)
+  }
+
+  Entity NestedTestItem {
+    ?parent_uuid?parent_id: string
+  }
+
+  Entity StartExecution {
+    rerun: bool
+    rerun_of: string
+    mode: LaunchMode
+  }
+
+  Entity Finish {
+    status: ItemStatus
+    description: optional string
+    attributes: repeated Attribute
+    --oneOf--
+    finish_execution: FinishExecution
+    finish_item: FinishTestResult
+
+  }
+
+  Entity FinishExecution {
+    ???(created_at: google.type.DateTime)
+  }
+
+  Entity FinishTestResult {
+    launch_uuid: string
+    test_case_id: string
+    retry_of: string
+    issue: Issue
+  }
+
+  Entity Issue {
+    issue_type: string
+    comment: string
+    auto_analyzed: bool
+    ignore_analyzer: bool
+    external_system_issues: repeated ExternalSystemIssue
+  }
+
+  Entity ExternalSystemIssue {
+    ticket_id: string
+    ???submit_date: google.type.DateTime
+    bts_url: string
+    bts_project: string
+    url: string
+    plugin_name: string
+  }
+
+  Entity SaveLog {
+    item_uuid: string
+    launch_uuid: string
+    message: string
+    level: string
+    file: File
+  }
+
+  Entity File {
+    name: string
+    content_type: string
+    attachment_id: string
+  }
+
+  Entity SaveData {
+    name: string
+    content_type: string
+    ???content: bytes
+  }
+
+  Entity Attribute {
+    key: string
+    value: string
+    system: bool
+  }
+
+  Entity Parameter {
+    key: string
+    value: string
+  }
+  Entity PathElement {
+    name: string
+    type: PathElementType
+  }
+
+  enum PathElementType {
+    PATH_ELEMENT_TYPE_SUITE_UNSPECIFIED
+    PATH_ELEMENT_TYPE_STORY
+    PATH_ELEMENT_TYPE_TEST
+    PATH_ELEMENT_TYPE_SCENARIO
+    PATH_ELEMENT_TYPE_FEATURE
+  }
+
+  enum ItemType {
+    ITEM_TYPE_STEP_UNSPECIFIED
+    ITEM_TYPE_BEFORE_CLASS
+    ITEM_TYPE_BEFORE_GROUPS
+    ITEM_TYPE_BEFORE_METHOD
+    ITEM_TYPE_BEFORE_SUITE
+    ITEM_TYPE_BEFORE_TEST
+    ITEM_TYPE_AFTER_CLASS
+    ITEM_TYPE_AFTER_GROUPS
+    ITEM_TYPE_AFTER_METHOD
+    ITEM_TYPE_AFTER_SUITE
+    ITEM_TYPE_AFTER_TEST;
+  }
+
+  enum ItemStatus {
+    ITEM_STATUS_PASSED_UNSPECIFIED
+    ITEM_STATUS_FAILED
+    ITEM_STATUS_SKIPPED
+    ITEM_STATUS_STOPPED
+    ITEM_STATUS_INTERRUPTED
+    ITEM_STATUS_CANCELLED
+    ITEM_STATUS_INFO
+    ITEM_STATUS_WARN
+  }
+
+  enum LaunchMode {
+    LAUNCH_MODE_DEFAULT_UNSPECIFIED
+    LAUNCH_MODE_DEBUG
+  }
+}
+
+frame {
+  Entity UploadResponse {
+    uuid: string
+    result: OperationResult
+    message: string
+  }
+
+  enum OperationResult {
+    OPERATION_RESULT_OK_UNSPECIFIED
+    OPERATION_RESULT_FAIL
+  }
+}
+
+UploadRequest -- Start
+UploadRequest -- Finish
+UploadRequest -- SaveLog
+UploadRequest -- SaveData
+
+Start -- StartExecution
+Start -- StartTestResult
+Start -- Attribute :??
+
+StartExecution -- LaunchMode
+
+StartTestResult -- RootTestItem
+StartTestResult -- NestedTestItem
+StartTestResult -- Parameter
+
+RootTestItem -- PathElement
+RootTestItem -- ItemType
+
+PathElement -- PathElementType
+
+Finish -- FinishExecution
+Finish -- FinishTestResult
+Finish -- ItemStatus
+Finish -- Attribute
+
+FinishTestResult -- Issue
+
+Issue -- ExternalSystemIssue
+
+SaveLog -- File
+
+UploadResponse -- OperationResult
+
+@enduml
