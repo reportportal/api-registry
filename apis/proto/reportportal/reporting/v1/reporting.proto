@@ -29,54 +29,53 @@ message UploadRequest {
 message Start {
   string name = 1;
   optional string description = 2;
-  repeated ItemAttribute attributes = 3;
+  repeated Attribute attributes = 3;
   oneof item {
-      StartExecution execution = 4;
-      StartTestItem test_item = 5;
+      StartRun start_run = 4;
+      StartResult start_result = 5;
   }
 }
 
-message StartTestItem {
+message StartResult {
   string code_ref = 3;
   string test_case_id = 4;
-  string launch_uuid = 5;
+  string run_uuid = 5;
   repeated Parameter parameters = 7;
   oneof item {
-    RootTestItem root_item = 8;
-    NestedTestItem nested_item = 9;
+    TestResult test_result = 8;
+    NestedStep nested_step = 9;
   }
 }
 
-message RootTestItem {
-  ItemType type = 1;
+message TestResult {
+  ResultType type = 1;
   string retry_of = 2;
-  repeated PathElement path = 3;
 }
 
-message NestedTestItem {
-  string parent_id = 1;
+message NestedStep {
+  string parent_uuid = 1;
 }
 
-message StartExecution {
+message StartRun {
   bool rerun = 3;
   string rerun_of = 4;
-  LaunchMode mode = 5;
+  RunMode mode = 5;
 }
 
 message Finish {
-  ItemStatus status = 1;
+  Status status = 1;
   optional string description = 2;
-  repeated ItemAttribute attributes = 3;
+  repeated Attribute attributes = 3;
   oneof item {
-      FinishExecution finish_execution = 4;
-      FinishTestItem finish_item = 5;
+      FinishRun finish_run = 4;
+      FinishResult finish_result = 5;
   }
 }
 
-message FinishExecution {
+message FinishRun {
 }
 
-message FinishTestItem {
+message FinishResult {
   string launch_uuid = 1;
   string test_case_id = 2;
   string retry_of = 3;
@@ -101,7 +100,7 @@ message ExternalSystemIssue {
 }
 
 message SaveLog {
-  string item_uuid = 1;
+  string result_uuid = 1;
   string launch_uuid = 2;
   string message = 3;
   string level = 4;
@@ -126,15 +125,10 @@ message UploadResponse {
   string message = 3;
 }
 
-message PathElement {
-  string name = 1;
-  PathElementType type = 2;
-}
-
-message ItemAttribute {
+message Attribute {
   string key = 1;
   string value = 2;
-  bool system = 3;
+  bool hidden = 3;
 }
 
 message Parameter {
@@ -147,40 +141,32 @@ enum OperationResult {
   OPERATION_RESULT_FAIL = 1;
 }
 
-enum PathElementType {
-  PATH_ELEMENT_TYPE_SUITE_UNSPECIFIED = 0;
-  PATH_ELEMENT_TYPE_STORY = 1;
-  PATH_ELEMENT_TYPE_TEST = 2;
-  PATH_ELEMENT_TYPE_SCENARIO = 3;
-  PATH_ELEMENT_TYPE_FEATURE = 4;
+enum ResultType {
+  RESULT_TYPE_STEP_UNSPECIFIED = 0;
+  RESULT_TYPE_BEFORE_CLASS = 1;
+  RESULT_TYPE_BEFORE_GROUPS = 2;
+  RESULT_TYPE_BEFORE_METHOD = 3;
+  RESULT_TYPE_BEFORE_SUITE = 4;
+  RESULT_TYPE_BEFORE_TEST = 5;
+  RESULT_TYPE_AFTER_CLASS = 6;
+  RESULT_TYPE_AFTER_GROUPS = 7;
+  RESULT_TYPE_AFTER_METHOD = 8;
+  RESULT_TYPE_AFTER_SUITE = 9;
+  RESULT_TYPE_AFTER_TEST = 10;
 }
 
-enum ItemType {
-  ITEM_TYPE_STEP_UNSPECIFIED = 0;
-  ITEM_TYPE_BEFORE_CLASS = 1;
-  ITEM_TYPE_BEFORE_GROUPS = 2;
-  ITEM_TYPE_BEFORE_METHOD = 3;
-  ITEM_TYPE_BEFORE_SUITE = 4;
-  ITEM_TYPE_BEFORE_TEST = 5;
-  ITEM_TYPE_AFTER_CLASS = 6;
-  ITEM_TYPE_AFTER_GROUPS = 7;
-  ITEM_TYPE_AFTER_METHOD = 8;
-  ITEM_TYPE_AFTER_SUITE = 9;
-  ITEM_TYPE_AFTER_TEST = 10;
+enum Status {
+  STATUS_PASSED_UNSPECIFIED = 0;
+  STATUS_FAILED = 1;
+  STATUS_SKIPPED = 2;
+  STATUS_STOPPED = 3;
+  STATUS_INTERRUPTED = 4;
+  STATUS_CANCELLED = 5;
+  STATUS_INFO = 6;
+  STATUS_WARN = 7;
 }
 
-enum ItemStatus {
-  ITEM_STATUS_PASSED_UNSPECIFIED = 0;
-  ITEM_STATUS_FAILED = 1;
-  ITEM_STATUS_SKIPPED = 2;
-  ITEM_STATUS_STOPPED = 3;
-  ITEM_STATUS_INTERRUPTED = 4;
-  ITEM_STATUS_CANCELLED = 5;
-  ITEM_STATUS_INFO = 6;
-  ITEM_STATUS_WARN = 7;
-}
-
-enum LaunchMode {
-  LAUNCH_MODE_DEFAULT_UNSPECIFIED = 0;
-  LAUNCH_MODE_DEBUG = 1;
+enum RunMode {
+  RUN_MODE_DEFAULT_UNSPECIFIED = 0;
+  RUN_MODE_DEBUG = 1;
 }
