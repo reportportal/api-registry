@@ -9,12 +9,12 @@ Frame {
   Entity UploadRequest {
     uuid: string
     ???timestamp(created_at): google.type.DateTime
+    payload: oneOf
     --oneOf--
     start: Start
     finish: Finish
     save_log: SaveLog
     save_data: SaveData
-
   }
 
   Entity Start {
@@ -22,53 +22,51 @@ Frame {
     description: optional string
     attributes: repeated Attribute
     --oneOf--
-    execution: StartExecution
-    test_result: StartTestResult
+    start_run: StartRun
+    start_result: StartResult
   }
 
-  Entity StartTestResult {
+  Entity StartResult {
     code_ref: string
     test_case_id: string
-    launch_uuid: string
+    run_uuid: string
     parameters: repeated Parameter
+    item: oneOf
     --oneOf--
-    ???root_item(test_result): RootTestItem (TestResult)
-    ???nested_item(nested_step): NestedTestItem (NestedStep)
+    test_result: TestResult
+    nested_step: NestedStep
   }
 
-  Entity RootTestItem {
-    type: ItemType
+  Entity TestResult {
+    ???type: ResultType
     retry_of: string
-    ???path: repeated PathElement
-    ???(uuid: optional string)
   }
 
-  Entity NestedTestItem {
-    ?parent_uuid?parent_id: string
+  Entity NestedStep {
+    parent_uuid: string
   }
 
-  Entity StartExecution {
+  Entity StartRun {
     rerun: bool
     rerun_of: string
-    mode: LaunchMode
+    mode: RunMode
   }
 
   Entity Finish {
-    status: ItemStatus
+    status: Status
     description: optional string
     attributes: repeated Attribute
+    item: oneOf
     --oneOf--
-    finish_execution: FinishExecution
-    finish_item: FinishTestResult
+    finish_run: FinishRun
+    finish_result: FinishResult
 
   }
 
-  Entity FinishExecution {
-    ???(created_at: google.type.DateTime)
-  }
+  Entity FinishRun {}
 
-  Entity FinishTestResult {
-    launch_uuid: string
+  Entity FinishResult {
+    ???launch_uuid: string
     test_case_id: string
     retry_of: string
     issue: Issue
@@ -84,7 +82,7 @@ Frame {
 
   Entity ExternalSystemIssue {
     ticket_id: string
-    ???submit_date: google.type.DateTime
+    submit_date: google.type.DateTime
     bts_url: string
     bts_project: string
     url: string
@@ -92,8 +90,8 @@ Frame {
   }
 
   Entity SaveLog {
-    item_uuid: string
-    launch_uuid: string
+    result_uuid: string
+    ???launch_uuid: string
     message: string
     level: string
     file: File
@@ -108,60 +106,48 @@ Frame {
   Entity SaveData {
     name: string
     content_type: string
-    ???content: bytes
+    content: bytes
   }
 
   Entity Attribute {
     key: string
     value: string
-    system: bool
+    hidden: bool
   }
 
   Entity Parameter {
     key: string
     value: string
   }
-  Entity PathElement {
-    name: string
-    type: PathElementType
+
+  enum ResultType {
+    RESULT_TYPE_STEP_UNSPECIFIED
+    RESULT_TYPE_BEFORE_CLASS
+    RESULT_TYPE_BEFORE_GROUPS
+    RESULT_TYPE_BEFORE_METHOD
+    RESULT_TYPE_BEFORE_SUITE
+    RESULT_TYPE_BEFORE_TEST
+    RESULT_TYPE_AFTER_CLASS
+    RESULT_TYPE_AFTER_GROUPS
+    RESULT_TYPE_AFTER_METHOD
+    RESULT_TYPE_AFTER_SUITE
+    RESULT_TYPE_AFTER_TEST
   }
 
-  enum PathElementType {
-    PATH_ELEMENT_TYPE_SUITE_UNSPECIFIED
-    PATH_ELEMENT_TYPE_STORY
-    PATH_ELEMENT_TYPE_TEST
-    PATH_ELEMENT_TYPE_SCENARIO
-    PATH_ELEMENT_TYPE_FEATURE
+  enum Status {
+    STATUS_PASSED_UNSPECIFIED
+    STATUS_FAILED
+    STATUS_SKIPPED
+    STATUS_STOPPED
+    STATUS_INTERRUPTED
+    STATUS_CANCELLED
+    STATUS_INFO
+    STATUS_WARN
   }
 
-  enum ItemType {
-    ITEM_TYPE_STEP_UNSPECIFIED
-    ITEM_TYPE_BEFORE_CLASS
-    ITEM_TYPE_BEFORE_GROUPS
-    ITEM_TYPE_BEFORE_METHOD
-    ITEM_TYPE_BEFORE_SUITE
-    ITEM_TYPE_BEFORE_TEST
-    ITEM_TYPE_AFTER_CLASS
-    ITEM_TYPE_AFTER_GROUPS
-    ITEM_TYPE_AFTER_METHOD
-    ITEM_TYPE_AFTER_SUITE
-    ITEM_TYPE_AFTER_TEST
-  }
-
-  enum ItemStatus {
-    ITEM_STATUS_PASSED_UNSPECIFIED
-    ITEM_STATUS_FAILED
-    ITEM_STATUS_SKIPPED
-    ITEM_STATUS_STOPPED
-    ITEM_STATUS_INTERRUPTED
-    ITEM_STATUS_CANCELLED
-    ITEM_STATUS_INFO
-    ITEM_STATUS_WARN
-  }
-
-  enum LaunchMode {
-    LAUNCH_MODE_DEFAULT_UNSPECIFIED
-    LAUNCH_MODE_DEBUG
+  enum RunMode {
+    RUN_MODE_DEFAULT_UNSPECIFIED
+    RUN_MODE_DEBUG
   }
 }
 
@@ -186,27 +172,24 @@ UploadRequest -- Finish
 UploadRequest -- SaveLog
 UploadRequest -- SaveData
 
-Start -- StartExecution
-Start -- StartTestResult
-Start -- Attribute :???
+Start -- StartRun
+Start -- StartResult
+Start -- Attribute
 
-StartExecution -- LaunchMode
+StartRun -- RunMode
 
-StartTestResult -- RootTestItem
-StartTestResult -- NestedTestItem
-StartTestResult -- Parameter
+StartResult -- TestResult
+StartResult -- NestedStep : ???
+StartResult -- Parameter
 
-RootTestItem -- PathElement
-RootTestItem -- ItemType
+TestResult -- ResultType
 
-PathElement -- PathElementType
-
-Finish -- FinishExecution
-Finish -- FinishTestResult
-Finish -- ItemStatus
+Finish -- FinishRun
+Finish -- FinishResult
+Finish -- Status
 Finish -- Attribute
 
-FinishTestResult -- Issue
+FinishResult -- Issue
 
 Issue -- ExternalSystemIssue
 
