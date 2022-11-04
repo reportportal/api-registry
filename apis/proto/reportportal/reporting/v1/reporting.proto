@@ -33,33 +33,28 @@ message Start {
   oneof item {
       StartRun start_run = 4;
       StartResult start_result = 5;
+      StartNestedStep nested_step = 6;
   }
 }
 
 message StartResult {
-  string code_ref = 3;
-  string test_case_id = 4;
-  string run_uuid = 5;
-  repeated Parameter parameters = 7;
-  oneof item {
-    TestResult test_result = 8;
-    NestedStep nested_step = 9;
-  }
+  string code_ref = 1;
+  string test_case_id = 2;
+  string run_uuid = 3;
+  ResultType type = 4;
+  string retry_of = 5;
+  repeated Parameter parameters = 6;
 }
 
-message TestResult {
-  ResultType type = 1;
-  string retry_of = 2;
-}
-
-message NestedStep {
-  string parent_uuid = 1;
+message StartNestedStep {
+  string run_uuid = 1;
+  string result_uuid = 2;
 }
 
 message StartRun {
-  bool rerun = 3;
-  string rerun_of = 4;
-  RunMode mode = 5;
+  bool rerun = 1;
+  string rerun_of = 2;
+  RunMode mode = 3;
 }
 
 message Finish {
@@ -69,6 +64,7 @@ message Finish {
   oneof item {
       FinishRun finish_run = 4;
       FinishResult finish_result = 5;
+      FinishNestedStep finish_nested_step = 6;
   }
 }
 
@@ -76,10 +72,13 @@ message FinishRun {
 }
 
 message FinishResult {
-  string launch_uuid = 1;
-  string test_case_id = 2;
-  string retry_of = 3;
-  Issue issue = 4;
+  string run_uuid = 1;
+  string retry_of = 2;
+  Issue issue = 3;
+}
+
+message FinishNestedStep {
+  string run_uuid = 1;
 }
 
 message Issue {
@@ -101,7 +100,7 @@ message ExternalSystemIssue {
 
 message SaveLog {
   string result_uuid = 1;
-  string launch_uuid = 2;
+  string run_uuid = 2;
   string message = 3;
   string level = 4;
   File file = 5;
