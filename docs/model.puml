@@ -61,13 +61,13 @@ Frame {
   Entity FinishRun {}
 
   Entity FinishResult {
-    ???run_uuid: string
+    run_uuid: string
     ???retry_of: string
     issue: Issue
   }
 
   Entity FinishNestedStep {
-    ???run_uuid: string
+    run_uuid: string
   }
 
   Entity Issue {
@@ -89,7 +89,7 @@ Frame {
 
   Entity SaveLog {
     result_uuid: string
-    ???launch_uuid: string
+    run_uuid: string
     message: string
     level: string
     file: File
