@@ -8,7 +8,7 @@ Entity ReportPortalReportingService {
 Frame {
   Entity UploadRequest {
     uuid: string
-    ???timestamp(created_at): google.type.DateTime
+    timestamp: google.type.DateTime
     payload: oneOf
     --oneOf--
     start: Start
@@ -19,31 +19,26 @@ Frame {
 
   Entity Start {
     name: string
-    description: optional string
-    attributes: repeated Attribute
+    description: string <<optional>>
+    attributes: Attribute <<repeated>>
     --oneOf--
     start_run: StartRun
     start_result: StartResult
+    nested_step: StartNestedStep
   }
 
   Entity StartResult {
     code_ref: string
     test_case_id: string
     run_uuid: string
-    parameters: repeated Parameter
-    item: oneOf
-    --oneOf--
-    test_result: TestResult
-    nested_step: NestedStep
-  }
-
-  Entity TestResult {
-    ???type: ResultType
+    type: ResultType
     retry_of: string
+    parameters: Parameter <<repeated>>
   }
 
-  Entity NestedStep {
-    parent_uuid: string
+  Entity StartNestedStep {
+    run_uuid: string
+    result_uuid: string
   }
 
   Entity StartRun {
@@ -54,22 +49,25 @@ Frame {
 
   Entity Finish {
     status: Status
-    description: optional string
-    attributes: repeated Attribute
+    description: string <<optional>>
+    attributes: Attribute <<repeated>>
     item: oneOf
     --oneOf--
     finish_run: FinishRun
     finish_result: FinishResult
-
+    finish_nested_step: FinishNestedStep
   }
 
   Entity FinishRun {}
 
   Entity FinishResult {
-    ???launch_uuid: string
-    test_case_id: string
-    retry_of: string
+    ???run_uuid: string
+    ???retry_of: string
     issue: Issue
+  }
+
+  Entity FinishNestedStep {
+    ???run_uuid: string
   }
 
   Entity Issue {
@@ -77,7 +75,7 @@ Frame {
     comment: string
     auto_analyzed: bool
     ignore_analyzer: bool
-    external_system_issues: repeated ExternalSystemIssue
+    external_system_issues: ExternalSystemIssue <<repeated>>
   }
 
   Entity ExternalSystemIssue {
@@ -174,18 +172,17 @@ UploadRequest -- SaveData
 
 Start -- StartRun
 Start -- StartResult
+Start -- StartNestedStep
 Start -- Attribute
 
 StartRun -- RunMode
 
-StartResult -- TestResult
-StartResult -- NestedStep : ???
 StartResult -- Parameter
-
-TestResult -- ResultType
+StartResult -- ResultType
 
 Finish -- FinishRun
 Finish -- FinishResult
+Finish -- FinishNestedStep
 Finish -- Status
 Finish -- Attribute
 
