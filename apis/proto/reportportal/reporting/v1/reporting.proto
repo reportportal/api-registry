@@ -53,12 +53,11 @@ message StartNestedStep {
 
 message StartRun {
   bool rerun = 1;
-  string rerun_of = 2;
+  optional string rerun_of = 2;
   RunMode mode = 3;
 }
 
 message Finish {
-  Status status = 1;
   optional string description = 2;
   repeated Attribute attributes = 3;
   oneof item {
@@ -69,16 +68,17 @@ message Finish {
 }
 
 message FinishRun {
+  optional Status status = 1;
 }
 
 message FinishResult {
-  string run_uuid = 1;
-  string retry_of = 2;
+  Status status = 1;
+  optional string retry_of = 2;
   Issue issue = 3;
 }
 
 message FinishNestedStep {
-  string run_uuid = 1;
+  optional Status status = 1;
 }
 
 message Issue {
