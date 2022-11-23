@@ -42,7 +42,7 @@ message StartResult {
   string test_case_id = 2;
   string run_uuid = 3;
   ResultType type = 4;
-  string retry_of = 5;
+  optional string retry_of = 5;
   repeated Parameter parameters = 6;
 }
 
