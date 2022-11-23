@@ -21,6 +21,7 @@ Frame {
     name: string
     description: string <<optional>>
     attributes: Attribute <<repeated>>
+    item: oneOf
     --oneOf--
     start_run: StartRun
     start_result: StartResult
@@ -32,7 +33,7 @@ Frame {
     test_case_id: string
     run_uuid: string
     type: ResultType
-    retry_of: string
+    retry_of: string <<optional>>2
     parameters: Parameter <<repeated>>
   }
 
@@ -43,12 +44,11 @@ Frame {
 
   Entity StartRun {
     rerun: bool
-    rerun_of: string
+    rerun_of: string <<optional>>
     mode: RunMode
   }
 
   Entity Finish {
-    status: Status
     description: string <<optional>>
     attributes: Attribute <<repeated>>
     item: oneOf
@@ -58,16 +58,18 @@ Frame {
     finish_nested_step: FinishNestedStep
   }
 
-  Entity FinishRun {}
+  Entity FinishRun {
+    status: Status
+  }
 
   Entity FinishResult {
-    run_uuid: string
-    ???retry_of: string
+    status: Status
+    retry_of: string <<optional>>
     issue: Issue
   }
 
   Entity FinishNestedStep {
-    run_uuid: string
+    status: Status
   }
 
   Entity Issue {
@@ -186,7 +188,12 @@ Finish -- FinishNestedStep
 Finish -- Status
 Finish -- Attribute
 
+FinishRun -- Status
+
 FinishResult -- Issue
+FinishResult -- Status
+
+FinishNestedStep -- Status
 
 Issue -- ExternalSystemIssue
 
