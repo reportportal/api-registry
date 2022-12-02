@@ -39,7 +39,7 @@ message Start {
 
 message StartResult {
   string code_ref = 1;
-  string test_case_id = 2;
+  optional string test_case_id = 2;
   string run_uuid = 3;
   ResultType type = 4;
   optional string retry_of = 5;
