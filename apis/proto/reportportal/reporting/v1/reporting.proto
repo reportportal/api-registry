@@ -1,3 +1,171 @@
 syntax = "proto3";
 
 package reportportal.reporting.v1;
+
+
+import "google/type/datetime.proto";
+
+option java_multiple_files = true;
+option java_package = "com.epam.reportportal.reporting.v1";
+option java_outer_classname = "ReportPortalProto";
+option objc_class_prefix = "RP";
+
+service ReportPortalReportingService {
+  rpc Upload(UploadRequest) returns (UploadResponse) {}
+  rpc UploadStream(stream UploadRequest) returns (stream UploadResponse) {}
+}
+
+message UploadRequest {
+  string uuid = 1;
+  google.type.DateTime timestamp = 2;
+  oneof payload {
+    Start start = 3;
+    Finish finish = 4;
+    SaveLog save_log = 5;
+    SaveData save_data = 6;
+  }
+}
+
+message Start {
+  string name = 1;
+  optional string description = 2;
+  repeated Attribute attributes = 3;
+  oneof item {
+      StartRun start_run = 4;
+      StartResult start_result = 5;
+      StartNestedStep nested_step = 6;
+  }
+}
+
+message StartResult {
+  string code_ref = 1;
+  optional string test_case_id = 2;
+  string run_uuid = 3;
+  ResultType type = 4;
+  optional string retry_of = 5;
+  repeated Parameter parameters = 6;
+}
+
+message StartNestedStep {
+  string run_uuid = 1;
+  string result_uuid = 2;
+}
+
+message StartRun {
+  bool rerun = 1;
+  optional string rerun_of = 2;
+  RunMode mode = 3;
+}
+
+message Finish {
+  optional string description = 2;
+  repeated Attribute attributes = 3;
+  oneof item {
+      FinishRun finish_run = 4;
+      FinishResult finish_result = 5;
+      FinishNestedStep finish_nested_step = 6;
+  }
+}
+
+message FinishRun {
+  optional Status status = 1;
+}
+
+message FinishResult {
+  Status status = 1;
+  optional string retry_of = 2;
+  Issue issue = 3;
+}
+
+message FinishNestedStep {
+  optional Status status = 1;
+}
+
+message Issue {
+  string issue_type = 1;
+  string comment = 2;
+  bool auto_analyzed = 3;
+  bool ignore_analyzer = 4;
+  repeated ExternalSystemIssue external_system_issues = 5;
+}
+
+message ExternalSystemIssue {
+  string ticket_id = 1;
+  google.type.DateTime submit_date = 2;
+  string bts_url = 3;
+  string bts_project = 4;
+  string url = 5;
+  string plugin_name = 6;
+}
+
+message SaveLog {
+  string result_uuid = 1;
+  string run_uuid = 2;
+  string message = 3;
+  string level = 4;
+  File file = 5;
+}
+
+message File {
+  string name = 1;
+  string content_type = 2;
+  string attachment_id = 3;
+}
+
+message SaveData {
+  string name = 1;
+  string content_type = 2;
+  bytes content = 3;
+}
+
+message UploadResponse {
+  string uuid = 1;
+  OperationResult result = 2;
+  string message = 3;
+}
+
+message Attribute {
+  string key = 1;
+  string value = 2;
+  bool hidden = 3;
+}
+
+message Parameter {
+  string key = 1;
+  string value = 2;
+}
+
+enum OperationResult {
+  OPERATION_RESULT_OK_UNSPECIFIED = 0;
+  OPERATION_RESULT_FAIL = 1;
+}
+
+enum ResultType {
+  RESULT_TYPE_STEP_UNSPECIFIED = 0;
+  RESULT_TYPE_BEFORE_CLASS = 1;
+  RESULT_TYPE_BEFORE_GROUPS = 2;
+  RESULT_TYPE_BEFORE_METHOD = 3;
+  RESULT_TYPE_BEFORE_SUITE = 4;
+  RESULT_TYPE_BEFORE_TEST = 5;
+  RESULT_TYPE_AFTER_CLASS = 6;
+  RESULT_TYPE_AFTER_GROUPS = 7;
+  RESULT_TYPE_AFTER_METHOD = 8;
+  RESULT_TYPE_AFTER_SUITE = 9;
+  RESULT_TYPE_AFTER_TEST = 10;
+}
+
+enum Status {
+  STATUS_PASSED_UNSPECIFIED = 0;
+  STATUS_FAILED = 1;
+  STATUS_SKIPPED = 2;
+  STATUS_STOPPED = 3;
+  STATUS_INTERRUPTED = 4;
+  STATUS_CANCELLED = 5;
+  STATUS_INFO = 6;
+  STATUS_WARN = 7;
+}
+
+enum RunMode {
+  RUN_MODE_DEFAULT_UNSPECIFIED = 0;
+  RUN_MODE_DEBUG = 1;
+}
