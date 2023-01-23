@@ -1,0 +1,204 @@
+@startuml reporting-entities
+
+Entity ReportPortalReportingService {
+  Upload(UploadRequest) returns (UploadResponse)
+  UploadStream(stream UploadRequest) returns (stream UploadResponse)
+}
+
+Frame {
+  Entity UploadRequest {
+    uuid: string
+    timestamp: google.type.DateTime
+    payload: oneOf
+    --oneOf--
+    start: Start
+    finish: Finish
+    save_log: SaveLog
+    save_data: SaveData
+  }
+
+  Entity Start {
+    name: string
+    description: string <<optional>>
+    attributes: Attribute <<repeated>>
+    item: oneOf
+    --oneOf--
+    start_run: StartRun
+    start_result: StartResult
+    nested_step: StartNestedStep
+  }
+
+  Entity StartResult {
+    code_ref: string
+    test_case_id: string <<optional>>
+    run_uuid: string
+    type: ResultType
+    retry_of: string <<optional>>
+    parameters: Parameter <<repeated>>
+  }
+
+  Entity StartNestedStep {
+    run_uuid: string
+    result_uuid: string
+  }
+
+  Entity StartRun {
+    rerun: bool
+    rerun_of: string <<optional>>
+    mode: RunMode
+  }
+
+  Entity Finish {
+    description: string <<optional>>
+    attributes: Attribute <<repeated>>
+    item: oneOf
+    --oneOf--
+    finish_run: FinishRun
+    finish_result: FinishResult
+    finish_nested_step: FinishNestedStep
+  }
+
+  Entity FinishRun {
+    status: Status <<optional>>
+  }
+
+  Entity FinishResult {
+    status: Status
+    retry_of: string <<optional>>
+    issue: Issue
+  }
+
+  Entity FinishNestedStep {
+    status: Status <<optional>>
+  }
+
+  Entity Issue {
+    issue_type: string
+    comment: string
+    auto_analyzed: bool
+    ignore_analyzer: bool
+    external_system_issues: ExternalSystemIssue <<repeated>>
+  }
+
+  Entity ExternalSystemIssue {
+    ticket_id: string
+    submit_date: google.type.DateTime
+    bts_url: string
+    bts_project: string
+    url: string
+    plugin_name: string
+  }
+
+  Entity SaveLog {
+    result_uuid: string
+    run_uuid: string
+    message: string
+    level: string
+    file: File
+  }
+
+  Entity File {
+    name: string
+    content_type: string
+    attachment_id: string
+  }
+
+  Entity SaveData {
+    name: string
+    content_type: string
+    content: bytes
+  }
+
+  Entity Attribute {
+    key: string
+    value: string
+    hidden: bool
+  }
+
+  Entity Parameter {
+    key: string
+    value: string
+  }
+
+  enum ResultType {
+    RESULT_TYPE_STEP_UNSPECIFIED
+    RESULT_TYPE_BEFORE_CLASS
+    RESULT_TYPE_BEFORE_GROUPS
+    RESULT_TYPE_BEFORE_METHOD
+    RESULT_TYPE_BEFORE_SUITE
+    RESULT_TYPE_BEFORE_TEST
+    RESULT_TYPE_AFTER_CLASS
+    RESULT_TYPE_AFTER_GROUPS
+    RESULT_TYPE_AFTER_METHOD
+    RESULT_TYPE_AFTER_SUITE
+    RESULT_TYPE_AFTER_TEST
+  }
+
+  enum Status {
+    STATUS_PASSED_UNSPECIFIED
+    STATUS_FAILED
+    STATUS_SKIPPED
+    STATUS_STOPPED
+    STATUS_INTERRUPTED
+    STATUS_CANCELLED
+    STATUS_INFO
+    STATUS_WARN
+  }
+
+  enum RunMode {
+    RUN_MODE_DEFAULT_UNSPECIFIED
+    RUN_MODE_DEBUG
+  }
+}
+
+Frame {
+  Entity UploadResponse {
+    uuid: string
+    result: OperationResult
+    message: string
+  }
+
+  enum OperationResult {
+    OPERATION_RESULT_OK_UNSPECIFIED
+    OPERATION_RESULT_FAIL
+  }
+}
+
+ReportPortalReportingService -- UploadRequest
+ReportPortalReportingService -- UploadResponse
+
+UploadRequest -- Start
+UploadRequest -- Finish
+UploadRequest -- SaveLog
+UploadRequest -- SaveData
+
+Start -- StartRun
+Start -- StartResult
+Start -- StartNestedStep
+Start -- Attribute
+
+StartRun -- RunMode
+
+StartResult -- Parameter
+StartResult -- ResultType
+
+Finish -- FinishRun
+Finish -- FinishResult
+Finish -- FinishNestedStep
+Finish -- Status
+Finish -- Attribute
+
+FinishRun -- Status
+
+FinishResult -- Issue
+FinishResult -- Status
+
+FinishNestedStep -- Status
+
+Issue -- ExternalSystemIssue
+
+SaveLog -- File
+
+UploadResponse -- OperationResult
+
+@enduml
