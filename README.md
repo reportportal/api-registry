@@ -108,10 +108,11 @@ buf breaking --against '.git#branch=main'
 ### Generate code
 
 Buf doesn't have a built-in compiler. Before, you need to
-[install The protocol buffer compiler](https://grpc.io/docs/protoc-installation/) or use
-[remote generation for Go and JS/TS](https://docs.buf.build/bsr/remote-generation/overview).
+[install protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
+with standart plugins or use [remote plugins](https://docs.buf.build/bsr/remote-generation/overview)
+for other languages.
 
-```bash
+```shell
 buf generate
 ```
 

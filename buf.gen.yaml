@@ -5,4 +5,8 @@ plugins:
   - name: java
     out: gen/proto/java
   - name: js
-    out: gen/proto/javascript
+    out: gen/proto/js
+  - name: ruby
+    out: gen/proto/ruby
+  - name: csharp
+    out: gen/proto/csharp

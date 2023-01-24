@@ -1,3 +1,13 @@
+# IDE
 .devcontainer
 .idea
+.vscode
+
+# Buf CLI
+
 gen
+
+# JavaScript
+
+node_modules
+package-lock.json
