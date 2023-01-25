@@ -1,12 +1,101 @@
 version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    # <module_name>   : name in go.mod 
+    # <relative_path> : where generated code should be output 
+    default: gen/proto # <module_name>/<relative_path>
+    # Remove `except` field if googleapis is not used
+    except:
+      - buf.build/googleapis/googleapis
 plugins:
-  - name: python
+  # Local plugins
+  # - plugin: python
+  #   out: gen/proto/python
+  # - plugin: java
+  #   out: gen/proto/java
+  # - plugin: js
+  #   out: gen/proto/js
+  #   opt: import_style=commonjs
+  # - plugin: csharp
+  #   out: gen/proto/csharp
+  # - plugin: ruby
+  #   out: gen/proto/ruby
+
+  # Remote plugins (BSR limit is 9/10) https://buf.build/plugins
+
+  # Python official plugin https://github.com/grpc/grpc
+  - plugin: buf.build/grpc/python
     out: gen/proto/python
-  - name: java
+  # dependencies
+  - plugin: buf.build/protocolbuffers/python
+    out: gen/proto/python
+  
+  # Java official plugin https://github.com/grpc/grpc-java
+  - plugin: buf.build/grpc/java
     out: gen/proto/java
-  - name: js
-    out: gen/proto/js
-  - name: ruby
-    out: gen/proto/ruby
-  - name: csharp
+  # dependencies
+  - plugin: buf.build/protocolbuffers/java
+    out: gen/proto/java
+
+  # CSharp
+  - plugin: buf.build/grpc/csharp
     out: gen/proto/csharp
+  # dependencies
+  - plugin: buf.build/protocolbuffers/csharp
+    out: gen/proto/csharp
+
+  # JS official plugin for Node client and server https://github.com/grpc/grpc-node
+  - plugin: buf.build/grpc/node
+    out: gen/proto/js
+  # dependencies
+  - plugin: buf.build/protocolbuffers/js
+    out: gen/proto/js
+    opt: import_style=commonjs
+
+  # TS idiomatic protobuf generator https://github.com/stephenh/ts-proto
+  - plugin: buf.build/community/stephenh-ts-proto
+    out: gen/proto/ts
+  
+  # Optional remote plugins
+
+  # JS Web via Connect Protocol https://connect.build/
+  # # JS Connect-web plugin https://github.com/bufbuild/connect-web
+  # - plugin: buf.build/bufbuild/connect-web
+  #   out: gen/proto/js-web
+  # # dependencies JS/TS types https://github.com/bufbuild/protobuf-es
+  # - plugin: buf.build/bufbuild/es
+  #   out: gen/proto/js-web
+
+  # Ruby official plugin https://github.com/grpc/grpc
+  # - plugin: buf.build/grpc/ruby
+  #   out: gen/proto/ruby
+  # # dependencies
+  # - plugin: buf.build/protocolbuffers/ruby
+  #   out: gen/proto/ruby
+
+  # Go official plugin https://github.com/grpc/grpc-go
+  # - plugin: buf.build/grpc/go
+  #   out: gen/proto/go
+  #   opt:
+  #   - paths=source_relative
+  # # dependencies https://github.com/protocolbuffers/protobuf-go
+  # - plugin: buf.build/protocolbuffers/go
+  #   out: gen/proto/go
+  #   opt:
+  #   - paths=source_relative
+
+  # Kotlin official plugin https://github.com/grpc/grpc-kotlin
+  # - plugin: buf.build/grpc/kotlin 
+  #   out: gen/proto/kotlin
+  # # dependencies https://github.com/protocolbuffers/protobuf
+  # - plugin: buf.build/protocolbuffers/kotlin
+  #   out: gen/proto/kotlin
+
+  # Rust Prost! code generation engine https://github.com/neoeinstein/protoc-gen-prost
+  # - plugin: buf.build/community/neoeinstein-prost
+  #   out: gen/proto/rust
+
+  # Scala base types https://github.com/scalapb/scalapb
+  # - plugin: buf.build/community/scalapb-scala
+  #   out: gen/proto/scala

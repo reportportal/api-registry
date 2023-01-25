@@ -17,6 +17,8 @@ client's libraries or take pre-generated.
     - [Lint API](#lint-api)
     - [Detect breaking changes](#detect-breaking-changes)
     - [Generate code](#generate-code)
+      - [Remote generating](#remote-generating)
+      - [Local generating](#local-generating)
   - [Third-party libraries](#third-party-libraries)
     - [Google types](#google-types)
       - [Additional types](#additional-types)
@@ -107,14 +109,38 @@ buf breaking --against '.git#branch=main'
 
 ### Generate code
 
-Buf doesn't have a built-in compiler. Before, you need to
-[install protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
-with standart plugins or use [remote plugins](https://docs.buf.build/bsr/remote-generation/overview)
-for other languages.
+Perform for generate code:
 
 ```shell
 buf generate
 ```
+
+#### Remote generating
+
+Buf doesn't have a built-in compiler. We use [remote plugins](https://docs.buf.build/bsr/remote-generation/overview)
+for generating code for the following languages:
+
+- Python
+- Java
+- C#
+- JS Node
+- TS
+
+Optional (need uncomment in [buf.gen.yaml](./buf.gen.yaml)):
+
+- JS Web Connect Protocol
+- Ruby
+- Go
+- Kotlin
+- Rust
+- Scala
+
+#### Local generating
+
+Before, you need to install [protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
+with standard plugins.
+
+Config [buf.gen.yaml](./buf.gen.yaml) for your needs or use default `protoc` command.
 
 ## Third-party libraries
 
