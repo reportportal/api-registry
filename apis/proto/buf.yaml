@@ -2,6 +2,8 @@ version: v1
 name: buf.build/epam/reportportal
 deps:
   - buf.build/googleapis/googleapis # Implement Google additional types
+build:
+  excludes: [google]
 breaking:
   use:
     - FILE
