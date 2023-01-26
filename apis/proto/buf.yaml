@@ -1,9 +1,11 @@
 version: v1
 name: buf.build/epam/reportportal
-deps:
-  - buf.build/googleapis/googleapis # Implement Google additional types
-build:
-  excludes: [google]
+# If you want to use the Google API types as remote dependents, uncomment
+# the following lines.
+# deps:
+#   - buf.build/googleapis/googleapis # Implement Google additional types
+# build:
+#   excludes: [google]
 breaking:
   use:
     - FILE
