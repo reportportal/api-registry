@@ -4,6 +4,8 @@ buildscript {
         protobufPluginVersion = '0.9.2'
         grpcVersion = '1.52.1'
     }
+
+    buildDir = 'gen/proto/java'
 }
 
 plugins {
@@ -30,22 +32,26 @@ sourceSets {
     }
 }
 protobuf {
+    // Configure the protoc executable
     protoc {
         artifact = "com.google.protobuf:protoc:${protobufVersion}"
     }
-//    generatedFilesBaseDir = "$projectDir/gen/java-spring"
+
     clean {
         delete generatedFilesBaseDir
     }
+
+    // Locate the codegen plugins
     plugins {
         grpc {
             artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
         }
     }
+
     generateProtoTasks {
-        all()*.plugins {
-            grpc {
-                outputSubDir = 'grpcjava'
+        all().configureEach { task ->
+            task.plugins {
+                grpc {}
             }
         }
     }
