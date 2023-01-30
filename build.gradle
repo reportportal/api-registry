@@ -27,7 +27,7 @@ sourceSets {
     main {
         proto {
             // In addition to the default 'src/main/proto'
-            srcDir 'src/proto/reportportal'
+            srcDir 'api/proto/reportportal'
         }
     }
 }
