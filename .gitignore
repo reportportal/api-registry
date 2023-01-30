@@ -9,3 +9,15 @@ gen
 # JavaScript
 node_modules
 package-lock.json
+
+# Gradle
+build
+.gradle
+
+# Java Package Files
+*.jar
+!gradle/wrapper/**
+!sealights/**
+
+*.war
+*.ear
