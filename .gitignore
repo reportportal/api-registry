@@ -1,7 +1,7 @@
 # IDE
 .devcontainer
-.idea
-.vscode
+.idea/
+.vscode/
 
 # Buf CLI
 gen
@@ -11,8 +11,9 @@ node_modules
 package-lock.json
 
 # Gradle
-build
-.gradle
+build/
+.gradle/
+out/
 
 # Java Package Files
 *.jar
@@ -21,3 +22,6 @@ build
 
 *.war
 *.ear
+*.iml
+*.ipr
+*.iws
