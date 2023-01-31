@@ -44,7 +44,7 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 
 ```tree
 .
-├── apis
+├── api
 │   ├── openapi
 │   │   ├── models
 │   │   │   └── model.yaml
@@ -65,7 +65,7 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 └── gen
 ```
 
-- [apis](/apis/) - root catalog for Report Portal Interface Definitions
+- [api](/api/) - root catalog for Report Portal Interface Definitions
 - [openapi](/apis/openapi/) - contains OpenAPI Specification for Report Portal APIs
   - [models](/apis/openapi/models/) - contains shared models for all Report Portal APIs
 - [proto](/apis/proto/) - contains gRPC definitions for Report Portal services and types
