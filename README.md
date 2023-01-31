@@ -139,7 +139,6 @@ Buf doesn't have a built-in compiler. We use [remote plugins](https://docs.buf.b
 for generating code for the following languages:
 
 - Python
-- Java
 - C#
 - JS Node
 - TS
