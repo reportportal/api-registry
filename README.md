@@ -17,6 +17,8 @@ client's libraries or take pre-generated.
     - [Lint API](#lint-api)
     - [Detect breaking changes](#detect-breaking-changes)
     - [Generate code](#generate-code)
+      - [Java](#java)
+      - [Other languages](#other-languages)
       - [Remote generating](#remote-generating)
       - [Local generating](#local-generating)
   - [Third-party libraries](#third-party-libraries)
@@ -81,7 +83,8 @@ the root of the Protobuf source files it defines
 
 ### Buf CLI
 
-We use `buf` CLI to create consistent Protobuf APIs that preserve compatibility and comply with best practices.
+We use `buf` CLI to create consistent Protobuf APIs that preserve compatibility
+and comply with best practices.
 
 To work with this repository, [install buf](https://docs.buf.build/installation).
 
@@ -108,6 +111,21 @@ buf breaking --against '.git#branch=main'
 ```
 
 ### Generate code
+
+#### Java
+
+For generating Java code we use
+[Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).
+
+Perform for generate code:
+
+```shell
+./gradlew generateProto
+```
+
+#### Other languages
+
+For other programming languages we use [buf](https://docs.buf.build/).
 
 Perform for generate code:
 

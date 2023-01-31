@@ -12,8 +12,6 @@ plugins:
   # Local plugins
   # - plugin: python
   #   out: gen/proto/python
-  # - plugin: java
-  #   out: gen/proto/java
   # - plugin: js
   #   out: gen/proto/js
   #   opt: import_style=commonjs
@@ -22,7 +20,7 @@ plugins:
   # - plugin: ruby
   #   out: gen/proto/ruby
 
-  # Remote plugins (BSR limit is 9/10) https://buf.build/plugins
+  # Remote plugins (BSR limit is 7/10) https://buf.build/plugins
 
   # Python official plugin https://github.com/grpc/grpc
   - plugin: buf.build/grpc/python
@@ -30,13 +28,6 @@ plugins:
   # dependencies
   - plugin: buf.build/protocolbuffers/python
     out: gen/proto/python
-  
-  # Java official plugin https://github.com/grpc/grpc-java
-  - plugin: buf.build/grpc/java
-    out: gen/proto/java
-  # dependencies
-  - plugin: buf.build/protocolbuffers/java
-    out: gen/proto/java
 
   # CSharp
   - plugin: buf.build/grpc/csharp
