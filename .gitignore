@@ -1,3 +1,27 @@
+# IDE
 .devcontainer
-.idea
+.idea/
+.vscode/
+
+# Buf CLI
 gen
+
+# JavaScript
+node_modules
+package-lock.json
+
+# Gradle
+build/
+.gradle/
+out/
+
+# Java Package Files
+*.jar
+!gradle/wrapper/**
+!sealights/**
+
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws

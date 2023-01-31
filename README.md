@@ -17,6 +17,10 @@ client's libraries or take pre-generated.
     - [Lint API](#lint-api)
     - [Detect breaking changes](#detect-breaking-changes)
     - [Generate code](#generate-code)
+      - [Java](#java)
+      - [Other languages](#other-languages)
+      - [Remote generating](#remote-generating)
+      - [Local generating](#local-generating)
   - [Third-party libraries](#third-party-libraries)
     - [Google types](#google-types)
       - [Additional types](#additional-types)
@@ -79,7 +83,8 @@ the root of the Protobuf source files it defines
 
 ### Buf CLI
 
-We use `buf` CLI to create consistent Protobuf APIs that preserve compatibility and comply with best practices.
+We use `buf` CLI to create consistent Protobuf APIs that preserve compatibility
+and comply with best practices.
 
 To work with this repository, [install buf](https://docs.buf.build/installation).
 
@@ -107,13 +112,52 @@ buf breaking --against '.git#branch=main'
 
 ### Generate code
 
-Buf doesn't have a built-in compiler. Before, you need to
-[install The protocol buffer compiler](https://grpc.io/docs/protoc-installation/) or use
-[remote generation for Go and JS/TS](https://docs.buf.build/bsr/remote-generation/overview).
+#### Java
 
-```bash
+For generating Java code we use
+[Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).
+
+Perform for generate code:
+
+```shell
+./gradlew generateProto
+```
+
+#### Other languages
+
+For other programming languages we use [buf](https://docs.buf.build/).
+
+Perform for generate code:
+
+```shell
 buf generate
 ```
+
+#### Remote generating
+
+Buf doesn't have a built-in compiler. We use [remote plugins](https://docs.buf.build/bsr/remote-generation/overview)
+for generating code for the following languages:
+
+- Python
+- C#
+- JS Node
+- TS
+
+Optional (need uncomment in [buf.gen.yaml](./buf.gen.yaml)):
+
+- JS Web Connect Protocol
+- Ruby
+- Go
+- Kotlin
+- Rust
+- Scala
+
+#### Local generating
+
+Before, you need to install [protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
+with standard plugins.
+
+Config [buf.gen.yaml](./buf.gen.yaml) for your needs or use default `protoc` command.
 
 ## Third-party libraries
 
