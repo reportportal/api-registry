@@ -29,7 +29,7 @@ jobs:
       - uses: bufbuild/buf-breaking-action@v1.1.2
         with:
           # The 'main' branch of the GitHub repository that defines the module.
-          against: "buf breaking --against '.git#branch=main'"
+          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
   build:
     needs: check
     runs-on: ubuntu-latest
