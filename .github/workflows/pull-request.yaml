@@ -33,20 +33,3 @@ jobs:
           input: 'api/proto'
           # The 'main' branch of the GitHub repository that defines the module.
           against: 'https://github.com/${GITHUB_REPOSITORY}.git#branch=main,ref=HEAD~1,subdir=api/proto'
-  # build:
-  #   needs: check
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
-  #     - name: Setup Buf CLI
-  #       uses: bufbuild/buf-setup-action@v1.13.1
-  #       with:
-  #         github_token: ${{ github.token }}
-  #     - name: Generate code
-  #       run: buf generate
-  #     - name: Archive artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: buf-generated-code
-  #         path: build/proto
