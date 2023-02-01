@@ -62,7 +62,7 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 │               │   └── reporting.proto
 │               └── v2
 ├── docs
-└── gen
+└── build
 ```
 
 - [api](/api/) - root catalog for Report Portal Interface Definitions
@@ -77,7 +77,7 @@ README.md and supports the CommonMark syntax
   - [buf.yaml (ext. link)](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
 the root of the Protobuf source files it defines
 - [docs](/docs/) - contains Guidelines for Report Portal APIs
-- [gen](/gen/) - catalog for generated stubs for clients or servers
+- [build](/build/) - catalog for generated stubs for clients or servers
 
 ## How to work with Protobuf
 
