@@ -1,0 +1,40 @@
+name: buf-pull-request
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths-ignore:
+      - readme.md
+      - README.md
+      - CHANGELOG.md
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bufbuild/buf-setup-action@v1.13.1
+        with:
+          github_token: ${{ github.token }}
+        # Should output 1.13.1
+      - run: buf --version
+      - uses: bufbuild/buf-lint-action@v1.0.3
+        with:
+          input: api/proto
+      - uses: bufbuild/buf-breaking-action@v1.1.2
+        with:
+          # The 'main' branch of the GitHub repository that defines the module.
+          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bufbuild/buf-setup-action@v1.13.1
+        with:
+          github_token: ${{ github.token }}
+      - run: buf generate
