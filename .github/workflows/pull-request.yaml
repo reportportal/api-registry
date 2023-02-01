@@ -30,7 +30,7 @@ jobs:
         with:
           input: 'api/proto'
           # The 'main' branch of the GitHub repository that defines the module.
-          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main, subdir=api/proto"
+          against: 'https://github.com/${GITHUB_REPOSITORY}.git#branch=main,ref=HEAD~1,subdir=api/proto'
   build:
     needs: check
     runs-on: ubuntu-latest
