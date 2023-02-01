@@ -1,0 +1,25 @@
+{
+  "name": "@reportportal/grpc-js-nodejs",
+  "version": "0.1.0",
+  "description": "ReportPortal library for gRPC API",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "build/proto/js",
+    "build/proto/ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reportportal/reportportal-common-api.git"
+  },
+  "keywords": [
+    "grpc",
+    "reporting"
+  ],
+  "author": "ReportPortal Team",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/reportportal/reportportal-common-api/issues"
+  },
+  "homepage": "https://github.com/reportportal/reportportal-common-api#readme"
+}
