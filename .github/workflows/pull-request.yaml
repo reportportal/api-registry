@@ -25,11 +25,12 @@ jobs:
       - run: buf --version
       - uses: bufbuild/buf-lint-action@v1.0.3
         with:
-          input: api/proto
+          input: 'api/proto'
       - uses: bufbuild/buf-breaking-action@v1.1.2
         with:
+          input: 'api/proto'
           # The 'main' branch of the GitHub repository that defines the module.
-          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
+          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main, subdir=api/proto"
   build:
     needs: check
     runs-on: ubuntu-latest
@@ -39,4 +40,4 @@ jobs:
         with:
           github_token: ${{ github.token }}
       - run: buf generate
-      - run: ll ./build/proto
+      - run: ls ./build/proto
