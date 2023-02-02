@@ -127,12 +127,6 @@ Perform for generate code:
 
 For other programming languages we use [buf](https://docs.buf.build/).
 
-Perform for generate code:
-
-```shell
-buf generate
-```
-
 #### Remote generating
 
 Buf doesn't have a built-in compiler. We use [remote plugins](https://docs.buf.build/bsr/remote-generation/overview)
@@ -143,21 +137,39 @@ for generating code for the following languages:
 - JS Node
 - TS
 
-Optional (need uncomment in [buf.gen.yaml](./buf.gen.yaml)):
+Perform for generate code:
+
+```shell
+buf generate
+```
+
+Optional languages:
 
 - JS Web Connect Protocol
 - Ruby
 - Go
 - Kotlin
-- Rust
+- Rust (only prost! generation)
 - Scala
+
+Perform for generate code:
+
+```shell
+buf generate --template templates/buf.gen.opt.yaml
+```
 
 #### Local generating
 
 Before, you need to install [protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
 with standard plugins.
 
-Config [buf.gen.yaml](./buf.gen.yaml) for your needs or use default `protoc` command.
+Config [buf.gen.local.yaml](./buf.gen.local.yaml) for your needs or use default `protoc` command.
+
+Perform for generate code:
+
+```shell
+buf generate --template templates/buf.gen.local.yaml
+```
 
 ## Third-party libraries
 
