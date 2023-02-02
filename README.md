@@ -16,9 +16,9 @@ client's libraries or take pre-generated.
     - [Verify](#verify)
     - [Lint API](#lint-api)
     - [Detect breaking changes](#detect-breaking-changes)
-    - [Generate code](#generate-code)
-      - [Java](#java)
-      - [Other languages](#other-languages)
+  - [Generate code](#generate-code)
+    - [Java](#java)
+    - [Other languages](#other-languages)
       - [Remote generating](#remote-generating)
       - [Local generating](#local-generating)
   - [Third-party libraries](#third-party-libraries)
@@ -61,8 +61,10 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 │               ├── v1
 │               │   └── reporting.proto
 │               └── v2
+├── build
 ├── docs
-└── build
+├── src
+└── templates
 ```
 
 - [api](/api/) - root catalog for Report Portal Interface Definitions
@@ -76,8 +78,11 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 README.md and supports the CommonMark syntax
   - [buf.yaml (ext. link)](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
 the root of the Protobuf source files it defines
-- [docs](/docs/) - contains Guidelines for Report Portal APIs
 - [build](/build/) - catalog for generated stubs for clients or servers
+- [docs](/docs/) - contains Guidelines for Report Portal APIs
+- [gradle](/gradle/) - contains Gradle wrapper
+- [src](/src/) - contains source code for building language-specific packages
+- [templates](/templates/) - contains templates for Buf CLI generating code
 
 ## How to work with Protobuf
 
@@ -110,9 +115,9 @@ buf lint
 buf breaking --against '.git#branch=main'
 ```
 
-### Generate code
+## Generate code
 
-#### Java
+### Java
 
 For generating Java code we use
 [Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).
@@ -123,7 +128,7 @@ Perform for generate code:
 ./gradlew generateProto
 ```
 
-#### Other languages
+### Other languages
 
 For other programming languages we use [buf](https://docs.buf.build/).
 
