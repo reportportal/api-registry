@@ -155,7 +155,7 @@ Optional languages:
 Perform for generate code:
 
 ```shell
-buf generate --template buf.gen.opt.yaml
+buf generate --template templates/buf.gen.opt.yaml
 ```
 
 #### Local generating
@@ -168,7 +168,7 @@ Config [buf.gen.local.yaml](./buf.gen.local.yaml) for your needs or use default 
 Perform for generate code:
 
 ```shell
-buf generate --template buf.gen.local.yaml
+buf generate --template templates/buf.gen.local.yaml
 ```
 
 ## Third-party libraries
