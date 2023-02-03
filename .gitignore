@@ -27,4 +27,6 @@ out/
 *.iws
 
 bin
+
+# Rust
 target
