@@ -2,6 +2,14 @@
 name = "reportportal_grpc"
 version = "0.1.0"
 edition = "2021"
+exclude = [
+    ".github",
+    "api",
+    "docs",
+    "gradle",
+    "src/index.js",
+    "templates"
+]
 
 [dependencies]
 bytes = "1.4.0"
