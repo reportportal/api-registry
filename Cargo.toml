@@ -1,0 +1,17 @@
+[package]
+name = "reportportal_grpc"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bytes = "1.4.0"
+prost = "0.11.6"
+prost-types = "0.11.6"
+# pbjson = "0.5.1"
+# pbjson-types ="0.5.1"
+# serde = "1.0.152"
+# tonic = { version = "0.8.3", features = ["gzip"] }
+# google-api-proto = { version = "1", features = ["google-spanner-admin-database-v1"] }
+
+[build-dependencies]
+prost-build = { version = "0.11.6"}
