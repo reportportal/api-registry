@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 exclude = [
     ".github",
-    "api",
     "docs",
     "gradle",
     "src/index.js",
