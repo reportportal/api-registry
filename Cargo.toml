@@ -5,15 +5,13 @@ edition = "2021"
 exclude = [
     ".github",
     "docs",
-    "gradle",
     "src/index.js",
     "templates",
-    ".spectral.yaml",
-    ".stoplignt.json",
-    "buf.*",
+    "gradl*",
     "*.gradle",
-    "gradlew",
-    "gradlew.bat",
+    ".spectral.yaml",
+    ".stoplight.json",
+    "buf.*",   
     "package.json"
 ]
 
