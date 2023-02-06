@@ -1,16 +1,30 @@
 [package]
+# Meta description
 name = "reportportal_common_api"
+authors = [
+    "ReportPortal Team <support@reportportal.io>", 
+    "Reingold SHekhtel <Reingold_Shekhtel@epam.com>"
+]
 version = "0.1.0"
 edition = "2021"
+description = "A client and server bindings library for ReportPortal gRPC. Attention: This library is still in development!"
+homepage = "https://reportportal.io"
+repository = "https://github.com/reportportal/reportportal-common-api"
+license = "Apache-2.0"
+keywords = ["reportportal", "test", "reporting", "api", "grpc"]
+categories = ["api-bindings"]
+
+# Build settings
+build = "./src/build.rs"
 exclude = [
     ".github",
+    ".spectral.yaml",
+    ".stoplight.json",
     "docs",
     "src/index.js",
     "templates",
     "gradl*",
     "*.gradle",
-    ".spectral.yaml",
-    ".stoplight.json",
     "buf.*",   
     "package.json"
 ]
