@@ -3,7 +3,7 @@
 name = "reportportal_common_api"
 authors = [
     "ReportPortal Team <support@reportportal.io>", 
-    "Reingold SHekhtel <Reingold_Shekhtel@epam.com>"
+    "Reingold Shekhtel <Reingold_Shekhtel@epam.com>"
 ]
 version = "0.1.0"
 edition = "2021"
