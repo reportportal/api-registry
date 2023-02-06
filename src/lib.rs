@@ -1,4 +1,4 @@
-pub mod reportportal {
+pub mod reportportal_grpc {
     pub mod reporting {
         pub mod v1 {
             include!(concat!(env!("OUT_DIR"), "/reportportal.reporting.v1.rs"));

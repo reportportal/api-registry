@@ -1,5 +1,5 @@
 [package]
-name = "reportportal_grpc"
+name = "reportportal_common_api"
 version = "0.1.0"
 edition = "2021"
 exclude = [
@@ -7,7 +7,14 @@ exclude = [
     "docs",
     "gradle",
     "src/index.js",
-    "templates"
+    "templates",
+    ".spectral.yaml",
+    ".stoplignt.json",
+    "buf.*",
+    "*.gradle",
+    "gradlew",
+    "gradlew.bat",
+    "package.json"
 ]
 
 [dependencies]

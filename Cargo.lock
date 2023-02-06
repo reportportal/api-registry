@@ -253,7 +253,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "reportportal_grpc"
+name = "reportportal_common_api"
 version = "0.1.0"
 dependencies = [
  "bytes",
