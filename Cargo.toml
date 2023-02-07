@@ -3,9 +3,9 @@
 name = "reportportal_common_api"
 authors = [
     "ReportPortal Team <support@reportportal.io>", 
-    "Reingold Shekhtel <Reingold_Shekhtel@epam.com>"
+    "Reingold Shekhtel <raikbitters@gmail.com>"
 ]
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A client and server bindings library for ReportPortal gRPC. Attention: This library is still in development!"
 homepage = "https://reportportal.io"
