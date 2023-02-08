@@ -34,7 +34,7 @@ target/
 Cargo.lock
 **/*.rs.bk
 
-# Workaround for building documentation on Doc.rs
+# A workaround for building documentation on Docs.rs
 !src/build
 src/build/*
 !src/build/proto

@@ -17,20 +17,15 @@ categories = ["api-bindings"]
 
 # Build settings
 build = "./src/build.rs"
-exclude = [
-    ".github",
-    ".spectral.yaml",
-    ".stoplight.json",
-    "src/index.js",
-    "templates",
-    "gradl*",
-    "*.gradle",
-    "buf.*",   
-    "package.json"
+include = [
+    ".cargo/config.toml",
+    "LICENSE",
+    "/.gitignore",
+    "src/build/proto/rust/",
+    "src/*.rs",
 ]
 
 [dependencies]
-# bytes = "1.4.0"
 prost = "0.11.6"
 prost-types = "0.11.6"
 tonic = "0.8.3"
