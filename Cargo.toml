@@ -18,12 +18,12 @@ categories = ["api-bindings"]
 # Build settings
 build = "./src/build.rs"
 include = [
-    ".cargo/config.toml",
-    "LICENSE",
+    "/.cargo/config.toml",
+    "/LICENSE",
     "/.gitignore",
-    "api",
-    "src/build/proto/rust/",
-    "src/*.rs",
+    "/api",
+    "/src/build/proto/rust/",
+    "/src/*.rs",
 ]
 
 [dependencies]
