@@ -5,7 +5,7 @@ authors = [
     "ReportPortal Team <support@reportportal.io>", 
     "Reingold Shekhtel <raikbitters@gmail.com>"
 ]
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 description = "A client and server bindings library for ReportPortal gRPC. Attention: This library is still in development!"
 homepage = "https://reportportal.io"
