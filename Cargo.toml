@@ -21,7 +21,6 @@ exclude = [
     ".github",
     ".spectral.yaml",
     ".stoplight.json",
-    "docs",
     "src/index.js",
     "templates",
     "gradl*",
