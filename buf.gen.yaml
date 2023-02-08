@@ -6,26 +6,26 @@ plugins:
 
   # Python official plugin https://github.com/grpc/grpc
   - plugin: buf.build/grpc/python
-    out: build/proto/python
+    out: src/build/proto/python
   # dependencies
   - plugin: buf.build/protocolbuffers/python
-    out: build/proto/python
+    out: src/build/proto/python
 
   # CSharp
   - plugin: buf.build/grpc/csharp
-    out: build/proto/csharp
+    out: src/build/proto/csharp
   # dependencies
   - plugin: buf.build/protocolbuffers/csharp
-    out: build/proto/csharp
+    out: src/build/proto/csharp
 
   # JS official plugin for Node client and server https://github.com/grpc/grpc-node
   - plugin: buf.build/grpc/node
-    out: build/proto/js
+    out: src/build/proto/js
   # dependencies
   - plugin: buf.build/protocolbuffers/js
-    out: build/proto/js
+    out: src/build/proto/js
     opt: import_style=commonjs
 
   # TS idiomatic protobuf generator https://github.com/stephenh/ts-proto
   - plugin: buf.build/community/stephenh-ts-proto
-    out: build/proto/ts
+    out: src/build/proto/ts

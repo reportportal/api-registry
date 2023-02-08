@@ -4,7 +4,7 @@ managed:
   go_package_prefix:
     # <module_name>   : name in go.mod 
     # <relative_path> : where generated code should be output 
-    default: build/proto # <module_name>/<relative_path>
+    default: src/build/proto # <module_name>/<relative_path>
     # Remove `except` field if googleapis is not used
     except:
       - buf.build/googleapis/googleapis
@@ -14,43 +14,43 @@ plugins:
   # JS Web via Connect Protocol https://connect.build/
   # JS Connect-web plugin https://github.com/bufbuild/connect-web
   - plugin: buf.build/bufbuild/connect-web
-    out: build/proto/js-web
+    out: src/build/proto/js-web
   # dependencies JS/TS types https://github.com/bufbuild/protobuf-es
   - plugin: buf.build/bufbuild/es
-    out: build/proto/js-web
+    out: src/build/proto/js-web
 
   # Ruby official plugin https://github.com/grpc/grpc
   - plugin: buf.build/grpc/ruby
-    out: build/proto/ruby
+    out: src/build/proto/ruby
   # dependencies
   - plugin: buf.build/protocolbuffers/ruby
-    out: build/proto/ruby
+    out: src/build/proto/ruby
 
   # Go official plugin https://github.com/grpc/grpc-go
   - plugin: buf.build/grpc/go
-    out: build/proto/go
+    out: src/build/proto/go
     opt:
     - paths=source_relative
   # dependencies https://github.com/protocolbuffers/protobuf-go
   - plugin: buf.build/protocolbuffers/go
-    out: build/proto/go
+    out: src/build/proto/go
     opt:
     - paths=source_relative
 
   # Kotlin official plugin https://github.com/grpc/grpc-kotlin
   - plugin: buf.build/grpc/kotlin 
-    out: build/proto/kotlin
+    out: src/build/proto/kotlin
   # dependencies https://github.com/protocolbuffers/protobuf
   - plugin: buf.build/protocolbuffers/kotlin
-    out: build/proto/kotlin
+    out: src/build/proto/kotlin
 
   # Rust Prost! code generation engine https://github.com/neoeinstein/protoc-gen-prost
   - plugin: buf.build/community/neoeinstein-prost
-    out: build/proto/rust
+    out: src/build/proto/rust
     opt:
       - compile_well_known_types
       - extern_path=.google.protobuf=::pbjson_types
 
   # Scala base types https://github.com/scalapb/scalapb
   - plugin: buf.build/community/scalapb-scala
-    out: build/proto/scala
+    out: src/build/proto/scala

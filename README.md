@@ -61,9 +61,9 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 │               ├── v1
 │               │   └── reporting.proto
 │               └── v2
-├── build
 ├── docs
 ├── src
+│   └── build
 └── templates
 ```
 
@@ -78,10 +78,10 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 README.md and supports the CommonMark syntax
   - [buf.yaml (ext. link)](https://docs.buf.build/configuration/v1/buf-yaml) - defines a module, and is placed at
 the root of the Protobuf source files it defines
-- [build](/build/) - catalog for generated stubs for clients or servers
 - [docs](/docs/) - contains Guidelines for Report Portal APIs
 - [gradle](/gradle/) - contains Gradle wrapper
 - [src](/src/) - contains source code for building language-specific packages
+  - [build](/src/build/) - catalog for generated stubs for clients or servers
 - [templates](/templates/) - contains templates for Buf CLI generating code
 
 ## How to work with Protobuf

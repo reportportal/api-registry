@@ -3,15 +3,15 @@
 .idea/
 .vscode/
 
-# Buf CLI
-gen
+# Protoc gen
+gen/
+build/
 
 # JavaScript
 node_modules
 package-lock.json
 
 # Gradle
-build/
 .gradle/
 out/
 
@@ -27,4 +27,16 @@ out/
 *.iws
 
 bin
-target
+
+# Rust
+!src
+target/
+Cargo.lock
+**/*.rs.bk
+
+# A workaround for building documentation on Docs.rs
+!src/build
+src/build/*
+!src/build/proto
+src/build/proto/*
+!src/build/proto/rust/
