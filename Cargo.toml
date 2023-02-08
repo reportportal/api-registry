@@ -21,6 +21,7 @@ include = [
     ".cargo/config.toml",
     "LICENSE",
     "/.gitignore",
+    "api",
     "src/build/proto/rust/",
     "src/*.rs",
 ]
