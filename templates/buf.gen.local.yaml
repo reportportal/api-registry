@@ -4,11 +4,11 @@ managed:
 plugins:
   # Local plugins
   - plugin: python
-    out: build/proto/python
+    out: src/build/proto/python
   - plugin: js
-    out: build/proto/js
+    out: src/build/proto/js
     opt: import_style=commonjs
   - plugin: csharp
-    out: build/proto/csharp
+    out: src/build/proto/csharp
   - plugin: ruby
-    out: build/proto/ruby
+    out: src/build/proto/ruby

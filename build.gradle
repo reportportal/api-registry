@@ -5,7 +5,7 @@ buildscript {
         grpcVersion = '1.52.1'
     }
 
-    buildDir = 'build/proto/java'
+    buildDir = 'src/build/proto/java'
 }
 
 plugins {
