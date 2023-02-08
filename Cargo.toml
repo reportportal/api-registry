@@ -10,6 +10,7 @@ edition = "2021"
 description = "A client and server bindings library for ReportPortal gRPC. Attention: This library is still in development!"
 homepage = "https://reportportal.io"
 repository = "https://github.com/reportportal/reportportal-common-api"
+readme = "docs/rust.md"
 license = "Apache-2.0"
 keywords = ["reportportal", "test", "reporting", "api", "grpc"]
 categories = ["api-bindings"]
