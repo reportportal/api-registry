@@ -154,7 +154,6 @@ Optional languages:
 - Ruby
 - Go
 - Kotlin
-- Rust (only prost! generation)
 - Scala
 
 Perform for generate code:
