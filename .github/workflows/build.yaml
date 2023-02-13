@@ -18,8 +18,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: buf-generated-code
-          path: build/proto
-  # javascript_package:
-  #   needs: buf_build
+          path: src/build/proto
   # java_build:
   # rust_build:
