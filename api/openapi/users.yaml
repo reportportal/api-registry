@@ -1,0 +1,76 @@
+openapi: 3.1.0
+x-stoplight:
+  id: xwgdjnaddzaxj
+info:
+  title: Users
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{user_id}/api-keys/{key_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: key_id
+        in: path
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-users-user_id-api-keys-key_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
+      description: ''
+  '/users/{user_id}/api-keys/':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Get user's API Keys
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
+      operationId: get-users-user_id-api-keys
+      description: ''
+    post:
+      summary: ''
+      operationId: post-users-user_id-api-keys
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+components:
+  schemas: {}

@@ -25,6 +25,12 @@ paths:
                     items:
                       $ref: '#/components/schemas/ApiKeyMetadata'
       operationId: get-users-userId-api-keys
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: user_id
+          required: true
     post:
       summary: ''
       operationId: post-users-userId-api-keys
@@ -35,6 +41,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKey'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                user_id:
+                  type: integer
   '/api-keys/{key_id}':
     parameters:
       - schema:
