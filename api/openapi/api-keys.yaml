@@ -1,92 +1,39 @@
 openapi: 3.1.0
-x-stoplight:
-  id: fwzsq6mjrpzhc
 info:
   title: API Keys
-  version: '1.0'
+  version: '0.1'
+  description: 'API for working with API Keys resources'
+  contact:
+    name: ReportPortal Team
+    url: 'https://reportportal.io'
+    email: support@reportportal.io
 servers:
-  - url: 'http://localhost:3000'
-paths:
-  /api-keys/:
-    parameters: []
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ApiKeyMetadata'
-      operationId: get-users-userId-api-keys
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: user_id
-          required: true
-    post:
-      summary: ''
-      operationId: post-users-userId-api-keys
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiKey'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                user_id:
-                  type: integer
-  '/api-keys/{key_id}':
-    parameters:
-      - schema:
-          type: string
-        name: key_id
-        in: path
-        required: true
-    delete:
-      summary: ''
-      operationId: delete-users-user_id-api-keys-key_id
-      responses:
-        '202':
-          description: Accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiKeyMetadata'
+  - url: 'https://demo.reportportal.io'
+paths: {}
 components:
   schemas:
     ApiKeyMetadata:
-      title: ApiKey Metadata
-      x-stoplight:
-        id: 68ded9191b195
+      title: Api key metadata
       type: object
       properties:
         id:
           type: integer
         name:
           type: string
+        user_id:
+          type: integer
         created_at:
-          type: string
-          format: date-time
+          type: integer
     ApiKey:
       allOf:
         - $ref: '#/components/schemas/ApiKeyMetadata'
         - type: object
           properties:
-            key:
+            api_key:
               type: string
+        - required:
+            - id
+            - name
+            - user_id
+            - created_at
+            - api_key

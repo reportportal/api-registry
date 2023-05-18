@@ -1,13 +1,62 @@
-openapi: 3.1.0
-x-stoplight:
-  id: xwgdjnaddzaxj
+openapi: 3.0.0
 info:
-  title: Users
-  version: '1.0'
+  title: ReportPortal Users
+  version: '0.1'
+  description: 'API for working with users resources'
+  contact:
+    name: ReportPortal Team
+    url: 'https://reportportal.io'
+    email: support@reportportal.io
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'https://demo.reportportal.io'
 paths:
-  '/users/{user_id}/api-keys/{key_id}':
+  '/users/{user_id}/api-keys':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Get user's API Keys
+      tags: [users-api-keys]
+      operationId: get-user-api-keys
+      description: Retrieve list of user's Api Keys
+      responses:
+        '200':
+          description: List of user api keys
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
+        '404':
+          description: User Not Found  
+    post:
+      summary: 'Create Api key'
+      operationId: post-users-user_id-api-keys
+      tags: [users-api-keys]
+      description: 'Create Api key for user keys collection'
+      responses:
+        '201':
+          description: Api key created
+          content:
+            application/json:
+              schema:
+                $ref: "./api-keys.yaml#/components/schemas/ApiKey"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+  '/v1/user/{user_id}/api-keys/{key_id}':
     parameters:
       - schema:
           type: string
@@ -20,26 +69,10 @@ paths:
         in: path
         required: true
     delete:
-      summary: ''
+      summary: 'Delete user Api key'
       operationId: delete-users-user_id-api-keys-key_id
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
-      description: ''
-  '/users/{user_id}/api-keys/':
-    parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
-    get:
-      summary: Get user's API Keys
-      tags: []
+      tags: [users-api-keys]
+      description: 'Delete Api key from user keys collection by id'
       responses:
         '200':
           description: OK
@@ -48,29 +81,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
-      operationId: get-users-user_id-api-keys
-      description: ''
-    post:
-      summary: ''
-      operationId: post-users-user_id-api-keys
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
+                  message:
+                    type: string
 components:
   schemas: {}
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
