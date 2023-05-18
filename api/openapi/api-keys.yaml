@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: API Keys
   version: '0.1'
-  description: 'API for working with API Keys resources'
+  description: API for working with API Keys resources
   contact:
     name: ReportPortal Team
     url: 'https://reportportal.io'
@@ -37,3 +37,7 @@ components:
             - user_id
             - created_at
             - api_key
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer

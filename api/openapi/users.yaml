@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: ReportPortal Users
   version: '0.1'
-  description: 'API for working with users resources'
+  description: API for working with users resources
   contact:
     name: ReportPortal Team
     url: 'https://reportportal.io'
@@ -19,7 +19,8 @@ paths:
         required: true
     get:
       summary: Get user's API Keys
-      tags: [users-api-keys]
+      tags:
+        - users-api-keys
       operationId: get-user-api-keys
       description: Retrieve list of user's Api Keys
       responses:
@@ -35,19 +36,20 @@ paths:
                     items:
                       $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
         '404':
-          description: User Not Found  
+          description: User Not Found
     post:
-      summary: 'Create Api key'
+      summary: Create Api key
       operationId: post-users-user_id-api-keys
-      tags: [users-api-keys]
-      description: 'Create Api key for user keys collection'
+      tags:
+        - users-api-keys
+      description: Create Api key for user keys collection
       responses:
         '201':
           description: Api key created
           content:
             application/json:
               schema:
-                $ref: "./api-keys.yaml#/components/schemas/ApiKey"
+                $ref: ./api-keys.yaml#/components/schemas/ApiKey
       requestBody:
         content:
           application/json:
@@ -69,10 +71,11 @@ paths:
         in: path
         required: true
     delete:
-      summary: 'Delete user Api key'
+      summary: Delete user Api key
       operationId: delete-users-user_id-api-keys-key_id
-      tags: [users-api-keys]
-      description: 'Delete Api key from user keys collection by id'
+      tags:
+        - users-api-keys
+      description: Delete Api key from user keys collection by id
       responses:
         '200':
           description: OK
@@ -86,6 +89,7 @@ paths:
 components:
   schemas: {}
   securitySchemes:
-    Authorization:
+    JWT:
       type: http
       scheme: bearer
+      description: ''
