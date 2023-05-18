@@ -93,3 +93,7 @@ components:
       type: http
       scheme: bearer
       description: ''
+security:
+  - JWT: []
+tags:
+  - name: users-api-keys

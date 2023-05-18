@@ -31,13 +31,9 @@ components:
           properties:
             api_key:
               type: string
-        - required:
-            - id
-            - name
-            - user_id
-            - created_at
-            - api_key
   securitySchemes:
     JWT:
       type: http
       scheme: bearer
+security:
+  - JWT: []
