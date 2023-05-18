@@ -129,7 +129,7 @@ SHOULD define useful resources
 **MUST** identify resources and sub-resources via path segments
 [143](https://opensource.zalando.com/restful-api-guidelines/#143).
 
-??? **MUST** use snake_case (never camelCase) for query parameters
+**MUST** use snake_case (never camelCase) for query parameters
 [130](https://opensource.zalando.com/restful-api-guidelines/#130).
 
 **MUST** stick to conventional query parameters
