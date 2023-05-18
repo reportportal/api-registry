@@ -146,7 +146,7 @@ SHOULD use standard media types
 SHOULD pluralize array names
 [120](https://opensource.zalando.com/restful-api-guidelines/#120).
 
-??? **MUST** property names must be snake_case (and never camelCase)
+**MUST** property names must be snake_case (and never camelCase)
 [118](https://opensource.zalando.com/restful-api-guidelines/#118).
 
 > Rationale: No established industry standard exists, but many popular Internet
