@@ -96,6 +96,6 @@ components:
       type: http
       scheme: bearer
 security:
-  - JWT: []
+  - API Key: []
 tags:
   - name: users-api-keys

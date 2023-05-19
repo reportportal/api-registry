@@ -42,11 +42,11 @@ components:
             api_key:
               type: string
               description: Generated API Key
-      description: The API key is provided once after generation.
+      description: 'Generated API Key. It''s provided one time after generating, we don''t store it in the database.'
       title: API Key
   securitySchemes:
     API Key:
       type: http
       scheme: bearer
 security:
-  - JWT: []
+  - API Key: []
