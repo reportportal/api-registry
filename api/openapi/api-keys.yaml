@@ -39,9 +39,7 @@ components:
             api_key:
               type: string
               description: Generated API Key
-      description: |-
-        API Serive provides the API Key according to pattern: keyName_randomString_signature
-        Once generated, the password is only provided once and is not stored in any database. At ReportPortal, only the hash from the token is stored.
+              example: someNameQO_BwnaqpKbrtkm4ovr0BjNbWXKefwn5GAq_144162ea9177ef42873eacae2b20f4ebab21d87a6f2454d5bdbfb6d54dbdb3ec
   securitySchemes:
     JWT:
       type: http
