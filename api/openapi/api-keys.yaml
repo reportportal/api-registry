@@ -15,15 +15,22 @@ components:
     ApiKeyMetadata:
       title: Api key metadata
       type: object
+      description: ReportPortal only stores metadata and a hash of the API Key.
       properties:
         id:
           type: integer
+          description: Internal identifier
         name:
           type: string
+          description: API Key unique name
         user_id:
           type: integer
+          description: API Key owner
         created_at:
-          type: integer
+          type: string
+          format: date-time
+          description: Data time with milliseconds
+          example: '2019-07-30T06:43:40.252Z'
     ApiKey:
       allOf:
         - $ref: '#/components/schemas/ApiKeyMetadata'
@@ -31,6 +38,10 @@ components:
           properties:
             api_key:
               type: string
+              description: Generated API Key
+      description: |-
+        API Serive provides the API Key according to pattern: keyName_randomString_signature
+        Once generated, the password is only provided once and is not stored in any database. At ReportPortal, only the hash from the token is stored.
   securitySchemes:
     JWT:
       type: http
