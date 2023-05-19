@@ -42,7 +42,7 @@ components:
             api_key:
               type: string
               description: Generated API Key
-      description: ''
+      description: 'Once generated, the password is only provided once and is not stored in any database. At ReportPortal, only the hash from the token is stored.'
       title: API Key
   securitySchemes:
     API Key:
