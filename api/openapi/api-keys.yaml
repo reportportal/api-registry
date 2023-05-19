@@ -16,7 +16,7 @@ paths: {}
 components:
   schemas:
     ApiKeyMetadata:
-      title: Api key metadata
+      title: API Key metadata
       type: object
       description: ReportPortal only stores metadata and a hash of the API Key.
       properties:
@@ -42,6 +42,8 @@ components:
             api_key:
               type: string
               description: Generated API Key
+      description: ''
+      title: API Key
   securitySchemes:
     API Key:
       type: http
