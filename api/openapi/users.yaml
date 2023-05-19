@@ -12,7 +12,7 @@ info:
 servers:
   - url: 'https://demo.reportportal.io'
 paths:
-  '/users/{user_id}/api-keys':
+  '/v1/user/{user_id}/api-keys':
     parameters:
       - schema:
           type: string

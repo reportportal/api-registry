@@ -41,10 +41,9 @@ components:
             api_key:
               type: string
               description: Generated API Key
-              example: someNameQO_BwnaqpKbrtkm4ovr0BjNbWXKefwn5GAq_144162ea9177ef42873eacae2b20f4ebab21d87a6f2454d5bdbfb6d54dbdb3ec
   securitySchemes:
     JWT:
       type: http
-      scheme: bearer
+      scheme: basic
 security:
   - JWT: []
