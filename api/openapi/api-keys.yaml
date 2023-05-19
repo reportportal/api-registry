@@ -7,6 +7,8 @@ info:
     name: ReportPortal Team
     url: 'https://reportportal.io'
     email: support@reportportal.io
+  license:
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
 servers:
   - url: 'https://demo.reportportal.io'
 paths: {}
