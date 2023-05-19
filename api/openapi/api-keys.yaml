@@ -42,8 +42,8 @@ components:
               type: string
               description: Generated API Key
   securitySchemes:
-    JWT:
+    API Key:
       type: http
-      scheme: basic
+      scheme: bearer
 security:
   - JWT: []

@@ -91,10 +91,9 @@ paths:
 components:
   schemas: {}
   securitySchemes:
-    JWT:
+    API Key:
       type: http
       scheme: bearer
-      description: ''
 security:
   - JWT: []
 tags:
