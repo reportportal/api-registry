@@ -32,8 +32,13 @@ components:
         created_at:
           type: string
           format: date-time
-          description: Data time with milliseconds
+          description: Date time with milliseconds
           example: '2019-07-30T06:43:40.252Z'
+        last_used_at:
+          type: string
+          format: date-time
+          example: '2019-07-30T06:43:40.252Z'
+          description: Date time with milliseconds
     ApiKey:
       allOf:
         - $ref: '#/components/schemas/ApiKeyMetadata'
