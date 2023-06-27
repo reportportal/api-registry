@@ -23,8 +23,8 @@ properties:
     type: string
     description: To indicate sorting direction. Ascending or Descending.
     enum:
-      - asc
-      - desc
+      - ASC
+      - DESC
   items:
     type: array
     items: {}
