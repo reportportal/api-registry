@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: ReportPortal Users
+  version: '0.1'
+  description: API for working with users resources
+  contact:
+    name: ReportPortal Team
+    url: 'https://reportportal.io'
+    email: support@reportportal.io
+  license:
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+    name: Apache 2.0
+servers:
+  - url: 'https://demo.reportportal.io'
+paths:
+  '/v1/user/{user_id}/api-keys':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Get user's API Keys
+      tags:
+        - users-api-keys
+      operationId: get-user-api-keys
+      description: Retrieve list of user's Api Keys
+      responses:
+        '200':
+          description: List of user api keys
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./api-keys.yaml#/components/schemas/ApiKeyMetadata
+        '404':
+          description: User Not Found
+    post:
+      summary: Create Api key
+      operationId: post-users-user_id-api-keys
+      tags:
+        - users-api-keys
+      description: Create Api key for user keys collection
+      responses:
+        '201':
+          description: Api key created
+          content:
+            application/json:
+              schema:
+                $ref: ./api-keys.yaml#/components/schemas/ApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+  '/v1/user/{user_id}/api-keys/{key_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: key_id
+        in: path
+        required: true
+    delete:
+      summary: Delete user Api key
+      operationId: delete-users-user_id-api-keys-key_id
+      tags:
+        - users-api-keys
+      description: Delete Api key from user keys collection by id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas: {}
+  securitySchemes:
+    API Key:
+      type: http
+      scheme: bearer
+security:
+  - API Key: []
+tags:
+  - name: users-api-keys
