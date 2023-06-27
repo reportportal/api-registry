@@ -16,6 +16,12 @@ properties:
     type: integer
     description: One greater than the offset of the last item in the entire collection. The total number of items in the collection may be less than total_count
     minimum: 0
+  sort:
+    type: string
+    description:
+  order:
+    type: string
+    description:
   items:
     type: array
     items: {}
