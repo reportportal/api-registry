@@ -66,7 +66,7 @@ paths:
           description: Indicate sorting direction
           required: true
       requestBody:
-        $ref: '#/components/requestBodies/ActivitySearchDto'
+        $ref: '#/components/requestBodies/SearchCriteriaRQ'
 components:
   schemas:
     Activity:
@@ -87,18 +87,10 @@ components:
           x-stoplight:
             id: 3ftqmjgnnuxw7
           format: date-time
-        action:
-          type: string
-          x-stoplight:
-            id: u55lof2lfi49k
         event_name:
           type: string
           x-stoplight:
             id: nbqeh7nrhgbn9
-        priority:
-          type: string
-          x-stoplight:
-            id: biefyfwvci7lw
         object_id:
           type: integer
           x-stoplight:
@@ -189,7 +181,7 @@ components:
         - filter_key
         - value
   requestBodies:
-    ActivitySearchDto:
+    SearchCriteriaRQ:
       content:
         application/json:
           schema:
@@ -205,15 +197,12 @@ components:
             Example 1:
               value:
                 search_criterias:
-                  - filter_key: predefined_filter
+                  - filter_key: predefinedFilter
                     operation: null
                     value: test
                   - filter_key: projectName
                     operation: EQ
                     value: test
-                  - filter_key: action
-                    operation: IN
-                    value: 'create,update,delete'
                   - filter_key: eventName
                     operation: IN
                     value: 'createDashboard,deleteWidget'
@@ -222,13 +211,13 @@ components:
                     value: 0;1440;+0300
                   - filter_key: objectType
                     operation: IN
-                    value: 'defectType,launch'
+                    value: 'DEFECT_TYPE,LAUNCH'
                   - filter_key: objectName
                     operation: CNT
                     value: test
                   - filter_key: subjectType
                     operation: IN
-                    value: 'user,rule'
+                    value: 'USER,RULE'
                   - filter_key: subjectName
                     operation: IN
                     value: 'superadmin,user'
