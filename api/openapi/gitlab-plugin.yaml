@@ -1,0 +1,81 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 3i80rmkpayqnf
+info:
+  title: gitlab-plugin
+  version: '1.0'
+  contact:
+    name: ReportPortal Team
+    url: 'https://reportportal.io'
+    email: support@reportportal.io
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+servers:
+  - url: 'https://demo.reportportal.io'
+paths:
+  '/v1/integration/{pluginName}':
+    parameters:
+      - schema:
+          type: string
+        name: pluginName
+        in: path
+        required: true
+        description: Name of plugin (gitlab)
+    post:
+      summary: Create global integration for gitlab plugin
+      operationId: post-v1-integration-pluginName
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      x-stoplight:
+        id: nkiflm68n6uky
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  enabled: true
+                  integrationParameters:
+                    project: EPMRPP
+                    url: 'https://rp-integration.atlassian.net/'
+                    email: ktjyvcopjt@pussport.com
+                    integrationName: jira cloud
+                    apiToken: '1234'
+                  name: jira cloud
+              properties:
+                enabled:
+                  type: boolean
+                integrationParameters:
+                  type: object
+                  properties:
+                    project:
+                      type: string
+                      description: Project ID in gitlab BTS
+                    url:
+                      type: string
+                      description: Link to gitlab BTS
+                    integrationName:
+                      type: string
+                    apiToken:
+                      type: string
+                      description: Api token for connecting to gitlab BTS
+                name:
+                  type: string
+              required:
+                - integrationParameters
+                - name
+        description: ''
+components:
+  schemas: {}
+  securitySchemes:
+    API_Key:
+      type: http
+      scheme: bearer
