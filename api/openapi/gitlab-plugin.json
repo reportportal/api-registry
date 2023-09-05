@@ -1,0 +1,125 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "6pilvmjv9i4yd"
+  },
+  "info": {
+    "version": "1.0",
+    "title": "gitlab-plugin",
+    "contact": {
+      "name": "ReportPortal Team",
+      "url": "https://reportportal.io",
+      "email": "support@reportportal.io"
+    },
+    "license": {
+      "url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "name": "Apache 2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://demo.reportportal.io"
+    }
+  ],
+  "paths": {
+    "/v1/integration/{pluginName}": {
+      "post": {
+        "summary": "Create global integration for gitlab plugin",
+        "operationId": "post-v1-integration-pluginName",
+        "parameters": [
+          {
+            "name": "pluginName",
+            "in": "path",
+            "description": "Name of plugin (gitlab)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "integrationParameters": {
+                    "type": "object",
+                    "properties": {
+                      "project": {
+                        "type": "string",
+                        "description": "Project ID in gitlab BTS"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "Link to gitlab BTS"
+                      },
+                      "integrationName": {
+                        "type": "string"
+                      },
+                      "apiToken": {
+                        "type": "string",
+                        "description": "Api token for connecting to gitlab BTS"
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "integrationParameters",
+                  "name"
+                ],
+                "x-examples": {
+                  "Example 1": {
+                    "enabled": true,
+                    "integrationParameters": {
+                      "project": "EPMRPP",
+                      "url": "https://rp-integration.atlassian.net/",
+                      "email": "ktjyvcopjt@pussport.com",
+                      "integrationName": "jira cloud",
+                      "apiToken": "1234"
+                    },
+                    "name": "jira cloud"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "servers": [
+          {
+            "url": "https://demo.reportportal.io"
+          }
+        ],
+        "x-stoplight": {
+          "id": "7lhye7ou9g7hv"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "API_Key": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
