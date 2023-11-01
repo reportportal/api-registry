@@ -1,0 +1,223 @@
+openapi: 3.0.0
+x-stoplight:
+  id: my5fvl0xi1ulm
+info:
+  title: activities
+  version: '1.0'
+  description: Activities API
+  license:
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+    name: Apache 2.0
+  contact:
+    name: ReportPortal Team
+    url: 'https://reportportal.io'
+    email: support@reportportal.io
+servers:
+  - url: 'https://demo.reportportal.io'
+paths:
+  /activities/searches:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-activities-search
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/OffsetPagination.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Activity'
+      description: |-
+        [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body) - no resources created:
+        Returns all activities matching the query passed as request input payload.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: limit
+          description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: offset
+          description: The offset used for this page of results
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: Indicate sort by field
+          required: true
+        - schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+          in: query
+          name: order
+          description: Indicate sorting direction
+          required: true
+      requestBody:
+        $ref: '#/components/requestBodies/SearchCriteriaRQ'
+components:
+  schemas:
+    Activity:
+      title: Activity
+      x-stoplight:
+        id: o6vlu07vubno4
+      type: object
+      description: activity details
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: n5nyuo08bl1gy
+          format: int64
+          minimum: 1
+        created_at:
+          type: string
+          x-stoplight:
+            id: 3ftqmjgnnuxw7
+          format: date-time
+        event_name:
+          type: string
+          x-stoplight:
+            id: nbqeh7nrhgbn9
+        object_id:
+          type: integer
+          x-stoplight:
+            id: kd05o5bwbg6wl
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+          format: int64
+          minimum: 1
+        object_name:
+          type: string
+          x-stoplight:
+            id: pxcosifywpqkn
+        object_type:
+          type: string
+          x-stoplight:
+            id: bl5qkiasycg5i
+        project_id:
+          type: integer
+          x-stoplight:
+            id: byvwz3x6nsyaa
+          format: int64
+          exclusiveMinimum: false
+          minimum: 1
+        project_name:
+          type: string
+          x-stoplight:
+            id: v3ro2mr4suog9
+        subject_name:
+          type: string
+          x-stoplight:
+            id: unf6lpxufh2xk
+        subject_type:
+          type: string
+          x-stoplight:
+            id: y1hoik59fp0ie
+        details:
+          type: object
+          x-stoplight:
+            id: eygyh7jp5k2wz
+          properties:
+            history:
+              x-stoplight:
+                id: 9f0iaa69imgaj
+              type: array
+              items:
+                $ref: '#/components/schemas/HistoryField'
+    HistoryField:
+      title: HistoryField
+      x-stoplight:
+        id: zn71tf8rb2xfu
+      type: object
+      properties:
+        field:
+          type: string
+          x-stoplight:
+            id: kr5ju3d2ftb61
+        old_value:
+          type: string
+          x-stoplight:
+            id: 9zzt3diczvwnc
+        new_value:
+          type: string
+          x-stoplight:
+            id: gcydbgmi7or7q
+    SearchCriteria:
+      title: SearchCriteria
+      x-stoplight:
+        id: ykpm8curd5ook
+      type: object
+      properties:
+        filter_key:
+          type: string
+          description: search by field
+        operation:
+          type: string
+          enum:
+            - EQ
+            - NE
+            - CNT
+            - NON_CNT
+            - BTW
+            - IN
+          description: operation to perform for the filter
+        value:
+          type: string
+          description: search value
+      required:
+        - filter_key
+        - value
+  requestBodies:
+    SearchCriteriaRQ:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              search_criterias:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchCriteria'
+            required:
+              - search_criterias
+          examples:
+            Example 1:
+              value:
+                search_criterias:
+                  - filter_key: predefinedFilter
+                    operation: null
+                    value: test
+                  - filter_key: projectName
+                    operation: EQ
+                    value: test
+                  - filter_key: eventName
+                    operation: IN
+                    value: 'createDashboard,deleteWidget'
+                  - filter_key: createdAt
+                    operation: BTW
+                    value: 0;1440;+0300
+                  - filter_key: objectType
+                    operation: IN
+                    value: 'DEFECT_TYPE,LAUNCH'
+                  - filter_key: objectName
+                    operation: CNT
+                    value: test
+                  - filter_key: subjectType
+                    operation: IN
+                    value: 'USER,RULE'
+                  - filter_key: subjectName
+                    operation: IN
+                    value: 'superadmin,user'
