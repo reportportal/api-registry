@@ -1,6 +1,4 @@
 type: object
-x-stoplight:
-  id: osmhtey50l0ov
 title: Offset-based
 description: Offset-based pagination
 properties:

@@ -1,0 +1,212 @@
+openapi: 3.0.3
+
+info:
+  title: ReportPortal API
+  version: '5.10.1'
+  description: |
+    ReportPortal is a service for continuous testing.
+    It provides a platform for test automation and allows you to analyze
+    the results of tests in various ways. The service is implemented as a web
+    application and is available through a web interface or API.
+  contact:
+    name: ReportPortal Team
+    url: https://reportportal.io
+    email: support@reportportal.io
+
+servers:
+  - url: https://demo.reportportal.io
+  - url: http://localhost
+
+security:
+  - apiKey: []
+  - bearerAuth: []
+
+paths:
+  /v1/user/{user_id}/api-keys:
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Get user's API Keys
+      tags:
+        - users
+      operationId: get-user-api-keys
+      description: Retrieve list of user's Api Keys
+      responses:
+        '200':
+          description: List of user api keys
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: ./models/apiKey.yaml#/ApiKeyMetadata
+        '404':
+          description: User Not Found
+    post:
+      summary: Create Api key
+      operationId: post-users-user_id-api-keys
+      tags:
+        - users
+      description: Create Api key for user keys collection
+      responses:
+        '201':
+          description: Api key created
+          content:
+            application/json:
+              schema:
+                $ref: ./models/apiKey.yaml#/ApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+  
+  /v1/user/{user_id}/api-keys/{key_id}:
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: key_id
+        in: path
+        required: true
+    delete:
+      summary: Delete user Api key
+      operationId: delete-users-user_id-api-keys-key_id
+      tags:
+        - users
+      description: Delete Api key from user keys collection by id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  
+  /activities/searches:
+    parameters: []
+    post:
+      summary: Search activities by complex criteria
+      operationId: activities-search
+      description: |-
+        [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body)
+        - no resources created:
+        Returns all activities matching the query passed as request input payload.
+      tags:
+        - activities
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: limit
+          description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: offset
+          description: The offset used for this page of results
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: Indicate sort by field
+          required: true
+        - schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+          in: query
+          name: order
+          description: Indicate sorting direction
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_criterias:
+                  type: array
+                  items:
+                    $ref: ./models/searchCriteria.yaml
+              required:
+                - search_criterias
+            examples:
+              Example 1:
+                value:
+                  search_criterias:
+                    - filter_key: predefinedFilter
+                      operation: null
+                      value: test
+                    - filter_key: projectName
+                      operation: EQ
+                      value: test
+                    - filter_key: eventName
+                      operation: IN
+                      value: 'createDashboard,deleteWidget'
+                    - filter_key: createdAt
+                      operation: BTW
+                      value: 0;1440;+0300
+                    - filter_key: objectType
+                      operation: IN
+                      value: 'DEFECT_TYPE,LAUNCH'
+                    - filter_key: objectName
+                      operation: CNT
+                      value: test
+                    - filter_key: subjectType
+                      operation: IN
+                      value: 'USER,RULE'
+                    - filter_key: subjectName
+                      operation: IN
+                      value: 'superadmin,user'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/offsetPagination.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: './models/activity.yaml#/Activity'
+
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+tags:
+  - name: users
+    description: User management
+  - name: activities
+    description: Activities management

@@ -1,6 +1,4 @@
 title: Error
-x-stoplight:
-  id: px0fsay46csgt
 type: object
 properties:
   code:
