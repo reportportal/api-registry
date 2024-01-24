@@ -55,7 +55,7 @@ paths:
     get:
       summary: Get user's API Keys
       tags:
-        - Users API Keys
+        - User API Keys
       operationId: get-user-api-keys
       description: Retrieve list of user's Api Keys
       responses:
@@ -76,7 +76,7 @@ paths:
       summary: Create user's API key
       operationId: post-users-user_id-api-keys
       tags:
-        - Users API Keys
+        - User API Keys
       description: Create Api key for user keys collection
       responses:
         '201':
@@ -110,7 +110,7 @@ paths:
       summary: Delete user's API key
       operationId: delete-users-user_id-api-keys-key_id
       tags:
-        - Users API Keys
+        - User API Keys
       description: Delete Api key from user keys collection by id
       responses:
         '200':
@@ -229,7 +229,7 @@ components:
       bearerFormat: JWT
 
 tags:
-  - name: Users API Keys
+  - name: User API Keys
     description: API Keys management
   - name: Activities
     description: Activities management
