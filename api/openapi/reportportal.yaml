@@ -73,7 +73,7 @@ paths:
         '404':
           description: User Not Found
     post:
-      summary: Create User's API key
+      summary: Create user's API key
       operationId: post-users-user_id-api-keys
       tags:
         - Users
