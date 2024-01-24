@@ -4,10 +4,33 @@ info:
   title: ReportPortal API
   version: '5.10.1'
   description: |
+    ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
+
+    This is the API documentation for ReportPortal. We describe this documentation
+    following our [API Principles](https://github.com/reportportal/reportportal-common-api/blob/main/docs/api-principles.md)
+    and [RESTful API Guidelines](https://opensource.zalando.com/restful-api-guidelines/).
+
+    Because this documentation is created according to the
+    [API design first approach](https://swagger.io/resources/articles/adopting-an-api-first-approach/),
+    it doesn't contain information about all existing endpoints. There are only pre-designed endpoints.
+    If you want to see the full documentation, you can check
+    the [Auto-generated API documentation](https://reportportal.io/docs/).
+
+    # Introduction
+
     ReportPortal is a service for continuous testing.
     It provides a platform for test automation and allows you to analyze
     the results of tests in various ways. The service is implemented as a web
     application and is available through a web interface or API.
+
+    # Authentication
+
+    ReportPortal uses the [JWT](https://jwt.io/) authentication protocol for UI client requests and
+    the [API Key](https://reportportal.io/docs/reportportal-configuration/HowToGetAnAccessTokenInReportPortal/#2-authorization-with-users-api-key-for-agents)
+    for agent requests.
+
+    Both approaches use the same security scheme: `Bearer`.
+
   contact:
     name: ReportPortal Team
     url: https://reportportal.io
@@ -32,7 +55,7 @@ paths:
     get:
       summary: Get user's API Keys
       tags:
-        - users
+        - Users
       operationId: get-user-api-keys
       description: Retrieve list of user's Api Keys
       responses:
@@ -53,7 +76,7 @@ paths:
       summary: Create Api key
       operationId: post-users-user_id-api-keys
       tags:
-        - users
+        - Users
       description: Create Api key for user keys collection
       responses:
         '201':
@@ -87,7 +110,7 @@ paths:
       summary: Delete user Api key
       operationId: delete-users-user_id-api-keys-key_id
       tags:
-        - users
+        - Users
       description: Delete Api key from user keys collection by id
       responses:
         '200':
@@ -110,7 +133,7 @@ paths:
         - no resources created:
         Returns all activities matching the query passed as request input payload.
       tags:
-        - activities
+        - Activities
       parameters:
         - schema:
             type: string
@@ -206,7 +229,7 @@ components:
       bearerFormat: JWT
 
 tags:
-  - name: users
+  - name: Users
     description: User management
-  - name: activities
+  - name: Activities
     description: Activities management
