@@ -37,8 +37,21 @@ info:
     email: support@reportportal.io
 
 servers:
-  - url: https://demo.reportportal.io/api
-  - url: http://localhost/api
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
 
 security:
   - apiKey: []
