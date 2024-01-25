@@ -37,8 +37,8 @@ info:
     email: support@reportportal.io
 
 servers:
-  - url: https://demo.reportportal.io
-  - url: http://localhost
+  - url: https://demo.reportportal.io/api
+  - url: http://localhost/api
 
 security:
   - apiKey: []
