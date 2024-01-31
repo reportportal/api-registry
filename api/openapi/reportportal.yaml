@@ -34,7 +34,6 @@ info:
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
-    url: https://reportportal.io/
 
 servers:
   - url: '{protocol}://{authority}/{basePath}'
