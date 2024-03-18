@@ -1,8 +1,7 @@
 openapi: 3.0.3
-
 info:
   title: ReportPortal API
-  version: '5.10.1'
+  version: '5.12'
   description: |
     ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
 
@@ -30,11 +29,9 @@ info:
     for agent requests.
 
     Both approaches use the same security scheme: `Bearer`.
-
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
-
 servers:
   - url: '{protocol}://{authority}/{basePath}'
     description: ReportPortal server
@@ -51,12 +48,10 @@ servers:
       basePath:
         default: api
         description: Base path of Report Portal API
-
 security:
   - bearerAuth: []
-
 paths:
-  /v1/user/{user_id}/api-keys:
+  '/v1/user/{user_id}/api-keys':
     parameters:
       - schema:
           type: string
@@ -104,8 +99,7 @@ paths:
               properties:
                 name:
                   type: string
-
-  /v1/user/{user_id}/api-keys/{key_id}:
+  '/v1/user/{user_id}/api-keys/{key_id}':
     parameters:
       - schema:
           type: string
@@ -133,16 +127,12 @@ paths:
                 properties:
                   message:
                     type: string
-
   /v1/activities/searches:
     parameters: []
     post:
       summary: Search activities by complex criteria
       operationId: activities-search
-      description: |-
-        [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body)
-        - no resources created:
-        Returns all activities matching the query passed as request input payload.
+      description: 'This is a [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body) that doesn''t create resources. It returns all activities matching the query passed as the request input payload.'
       tags:
         - Activities
       parameters:
@@ -190,7 +180,7 @@ paths:
                 value:
                   search_criterias:
                     - filter_key: predefinedFilter
-                      operation: null
+                      operation: EQ
                       value: test
                     - filter_key: projectName
                       operation: EQ
@@ -226,15 +216,13 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: './models/activity.yaml#/Activity'
-
+                          $ref: ./models/activity.yaml#/Activity
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
 tags:
   - name: User API Keys
     description: API Keys management
