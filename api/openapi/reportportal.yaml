@@ -54,6 +54,7 @@ security:
   - bearerAuth: []
 paths:
   '/v1/user/{user_id}/api-keys':
+  '/v1/user/{user_id}/api-keys':
     parameters:
       - schema:
           type: string
@@ -77,7 +78,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: ./models/apiKey.yaml#/ApiKeyMetadata
+                      $ref: '#/components/schemas/ApiKeyMetadata'
         '404':
           description: User Not Found
     post:
@@ -92,7 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/apiKey.yaml#/ApiKey
+                $ref: '#/components/schemas/ApiKey'
       requestBody:
         content:
           application/json:
@@ -101,6 +102,7 @@ paths:
               properties:
                 name:
                   type: string
+  '/v1/user/{user_id}/api-keys/{key_id}':
   '/v1/user/{user_id}/api-keys/{key_id}':
     parameters:
       - schema:
@@ -129,7 +131,7 @@ paths:
                 properties:
                   message:
                     type: string
-  /v1/activities/searches:
+  /activities/searches:
     parameters: []
     post:
       summary: Search activities by complex criteria
@@ -143,19 +145,16 @@ paths:
           in: query
           name: limit
           description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
-          required: true
         - schema:
             type: string
           in: query
           name: offset
           description: The offset used for this page of results
-          required: true
         - schema:
             type: string
           in: query
           name: sort
           description: Indicate sort by field
-          required: true
         - schema:
             type: string
             enum:
@@ -164,7 +163,6 @@ paths:
           in: query
           name: order
           description: Indicate sorting direction
-          required: true
       requestBody:
         content:
           application/json:
@@ -174,7 +172,7 @@ paths:
                 search_criterias:
                   type: array
                   items:
-                    $ref: ./models/searchCriteria.yaml
+                    $ref: '#/components/schemas/SearchCriteria'
               required:
                 - search_criterias
             examples:
@@ -182,7 +180,6 @@ paths:
                 value:
                   search_criterias:
                     - filter_key: predefinedFilter
-                      operation: EQ
                       value: test
                     - filter_key: projectName
                       operation: EQ
@@ -212,19 +209,129 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/offsetPagination.yaml
+                  - $ref: ./models/offset.yaml
                   - type: object
                     properties:
                       items:
                         type: array
                         items:
-                          $ref: ./models/activity.yaml#/Activity
+                          $ref: '#/components/schemas/Activity'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    ApiKeyMetadata:
+      title: API Key metadata
+      type: object
+      description: ReportPortal only stores metadata and a hash of the API Key.
+      properties:
+        id:
+          type: integer
+          description: Internal identifier
+        name:
+          type: string
+          description: API Key unique name
+        user_id:
+          type: integer
+          description: API Key owner
+        created_at:
+          type: string
+          format: date-time
+          description: Date time with milliseconds
+          example: '2019-07-30T06:43:40.252Z'
+        last_used_at:
+          type: string
+          format: date-time
+          example: '2019-07-30T06:43:40.252Z'
+          description: Date time with milliseconds
+    ApiKey:
+      title: API Key
+      description: 'Generated API key, granted once after creation.'
+      allOf:
+        - $ref: '#/ApiKeyMetadata'
+        - type: object
+          properties:
+            api_key:
+              type: string
+              description: Generated API Key
+    Activity:
+      title: Activity
+      type: object
+      description: activity details
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+        created_at:
+          type: string
+          format: date-time
+        event_name:
+          type: string
+        object_id:
+          type: integer
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+          format: int64
+          minimum: 1
+        object_name:
+          type: string
+        object_type:
+          type: string
+        project_id:
+          type: integer
+          format: int64
+          exclusiveMinimum: false
+          minimum: 1
+        project_name:
+          type: string
+        subject_name:
+          type: string
+        subject_type:
+          type: string
+        details:
+          type: object
+          properties:
+            history:
+              type: array
+              items:
+                $ref: '#/components/schemas/HistoryField'
+    HistoryField:
+      title: HistoryField
+      type: object
+      properties:
+        field:
+          type: string
+        old_value:
+          type: string
+        new_value:
+          type: string
+    SearchCriteria:
+      title: SearchCriteria
+      type: object
+      properties:
+        filter_key:
+          type: string
+          description: search by field
+        operation:
+          type: string
+          enum:
+            - EQ
+            - NE
+            - CNT
+            - NON_CNT
+            - BTW
+            - IN
+          description: operation to perform for the filter
+        value:
+          type: string
+          description: search value
+      required:
+        - filter_key
+        - value
 tags:
   - name: User API Keys
     description: API Keys management
