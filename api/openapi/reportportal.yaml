@@ -51,13 +51,9 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  '/v1/user/{user_id}/api-keys':
+  '/users/{user_id}/api-keys':
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/user_id'
     get:
       summary: Get user's API Keys
       tags:
@@ -101,11 +97,7 @@ paths:
                   type: string
   '/v1/user/{user_id}/api-keys/{key_id}':
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/user_id'
       - schema:
           type: string
         name: key_id
@@ -250,7 +242,7 @@ components:
       title: API Key
       description: 'Generated API key, granted once after creation.'
       allOf:
-        - $ref: '#/ApiKeyMetadata'
+        - $ref: '#/components/schemas/ApiKeyMetadata'
         - type: object
           properties:
             api_key:
@@ -331,6 +323,14 @@ components:
       required:
         - filter_key
         - value
+  parameters:
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: User's ID
 tags:
   - name: User API Keys
     description: API Keys management
