@@ -207,6 +207,68 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Activity'
+  '/v1/project/{project_name}/suggestions':
+    get:
+      summary: Get project suggestions
+      tags:
+        - Projects
+        - Suggestions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    x-stoplight:
+                      id: j4b0g6yz7qzhk
+                    items:
+                      x-stoplight:
+                        id: xw9kqvns5x1uk
+                      type: string
+                  limits:
+                    type: integer
+                    x-stoplight:
+                      id: uno2lb2j1budy
+                  total_count:
+                    type: integer
+                    x-stoplight:
+                      id: 719xm5zxb5n66
+        '404':
+          description: Not Found
+      operationId: get-project-suggestions
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - activity_subject_name
+          in: query
+          name: type
+          description: Type of suggestionsYour GET endpoint
+        - schema:
+            type: string
+          in: query
+          name: query
+          description: Filter query for suggestions
+        - schema:
+            type: integer
+          in: query
+          name: limits
+          description: Maximum number of suggestions
+      description: |
+        Get project suggestions by type.
+        Supported types: 
+        - activity_subject_name: Get suggestions for activity subject names in the project.
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name
 components:
   securitySchemes:
     bearerAuth:
