@@ -219,24 +219,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    x-stoplight:
-                      id: j4b0g6yz7qzhk
-                    items:
-                      x-stoplight:
-                        id: xw9kqvns5x1uk
-                      type: string
-                  limits:
-                    type: integer
-                    x-stoplight:
-                      id: uno2lb2j1budy
-                  total_count:
-                    type: integer
-                    x-stoplight:
-                      id: 719xm5zxb5n66
+                allOf:
+                  - type: object
+                    properties:
+                      suggestions:
+                        type: array
+                        x-stoplight:
+                          id: j4b0g6yz7qzhk
+                        description: List of suggestions for the project
+                        items:
+                          x-stoplight:
+                            id: xw9kqvns5x1uk
+                          type: string
+                  - $ref: ./models/limits.yaml
         '404':
           description: Not Found
       operationId: get-project-suggestions
@@ -259,7 +254,7 @@ paths:
           name: limits
           description: Maximum number of suggestions
       description: |
-        Get project suggestions by type.
+        Get project suggestions by type for autocomplete.
         Supported types: 
         - activity_subject_name: Get suggestions for activity subject names in the project.
     parameters:
