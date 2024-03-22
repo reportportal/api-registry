@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: ReportPortal API
-  version: '5.12'
+  version: 5.10.1
   description: |
     ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
 
@@ -32,8 +32,6 @@ info:
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
-  license:
-    name: Apache 2.0
 servers:
   - url: '{protocol}://{authority}/{basePath}'
     description: ReportPortal server
@@ -101,6 +99,7 @@ paths:
               properties:
                 name:
                   type: string
+        description: ''
   '/v1/user/{user_id}/api-keys/{key_id}':
     parameters:
       - schema:
@@ -134,7 +133,7 @@ paths:
     post:
       summary: Search activities by complex criteria
       operationId: activities-search
-      description: 'This is a [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body) that doesn''t create resources. It returns all activities matching the query passed as the request input payload.'
+      description: 'This is a [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body) that doesn''''t create resources. It returns all activities matching the query passed as the request input payload.'
       tags:
         - Activities
       parameters:
