@@ -54,7 +54,6 @@ security:
   - bearerAuth: []
 paths:
   '/v1/user/{user_id}/api-keys':
-  '/v1/user/{user_id}/api-keys':
     parameters:
       - schema:
           type: string
@@ -102,7 +101,6 @@ paths:
               properties:
                 name:
                   type: string
-  '/v1/user/{user_id}/api-keys/{key_id}':
   '/v1/user/{user_id}/api-keys/{key_id}':
     parameters:
       - schema:
@@ -251,7 +249,7 @@ components:
       title: API Key
       description: 'Generated API key, granted once after creation.'
       allOf:
-        - $ref: '#/ApiKeyMetadata'
+        - $ref: '#/components/schemas/ApiKeyMetadata'
         - type: object
           properties:
             api_key:
