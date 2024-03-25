@@ -53,7 +53,7 @@ security:
 paths:
   '/users/{user_id}/api-keys':
     parameters:
-      - $ref: '#/components/parameters/user_id'
+      - $ref: '#/components/parameters/UserId'
     get:
       summary: Get user's API Keys
       tags:
@@ -95,9 +95,9 @@ paths:
               properties:
                 name:
                   type: string
-  '/v1/user/{user_id}/api-keys/{key_id}':
+  '/users/{user_id}/api-keys/{key_id}':
     parameters:
-      - $ref: '#/components/parameters/user_id'
+      - $ref: '#/components/parameters/UserId'
       - schema:
           type: string
         name: key_id
