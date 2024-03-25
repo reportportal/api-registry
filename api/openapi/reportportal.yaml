@@ -51,7 +51,7 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  '/users/{user_id}/api-keys':
+  /users/{user_id}/api-keys:
     parameters:
       - $ref: '#/components/parameters/user_id'
     get:
@@ -95,7 +95,7 @@ paths:
               properties:
                 name:
                   type: string
-  '/v1/user/{user_id}/api-keys/{key_id}':
+  /v1/user/{user_id}/api-keys/{key_id}:
     parameters:
       - $ref: '#/components/parameters/user_id'
       - schema:
@@ -207,7 +207,7 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Activity'
-  '/v1/project/{project_name}/suggestions':
+  /v1/project/{project_name}/suggestions:
     get:
       summary: Get project suggestions
       tags:
