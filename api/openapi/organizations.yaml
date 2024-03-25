@@ -1,0 +1,124 @@
+openapi: 3.1.0
+x-stoplight:
+  id: hpx2e63mc8gcc
+info:
+  title: Organizations
+  version: '0.1'
+  description: ''
+  summary: API Collection for organizations management
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /organizations:
+    get:
+      summary: Get a list of organizations
+      tags:
+        - Organizations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/offset.yaml
+                  - type: object
+                    x-stoplight:
+                      id: nsdfmhu6y0tgj
+                    properties:
+                      items:
+                        type: array
+                        x-stoplight:
+                          id: 5ixxbygeet74v
+                        items: {}
+      operationId: get-organizations
+      description: Get a list of existing organizations.
+    post:
+      summary: Create an organization
+      operationId: post-organizations
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Enterprice edition feature.
+        Create a new organization.
+  '/organizations/{org_id}':
+    get:
+      summary: Get organization information
+      tags:
+        - Organizations
+      responses: {}
+      operationId: get-organizations-org_id
+      description: ''
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    put:
+      summary: ''
+      operationId: put-organizations-org_id
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: ''
+      operationId: patch-organizations-org_id
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-organizations-org_id
+      responses:
+        '200':
+          description: OK
+  '/organizations/{org_id}/users':
+    get:
+      summary: Get organization information
+      tags:
+        - Organizations
+      responses: {}
+      operationId: get-org_id-users
+      description: ''
+    parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Organization identifier
+    post:
+      summary: ''
+      operationId: post-org_id-user
+      responses:
+        '200':
+          description: OK
+  '/organizations/{org_id}/projects':
+    get:
+      summary: Get organization information
+      tags:
+        - Organizations
+      responses: {}
+      operationId: get-org_id-projects
+      description: ''
+    parameters:
+      - name: org_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Organization identifier
+    post:
+      summary: ''
+      operationId: post-org_id-project
+      responses:
+        '200':
+          description: OK
+components:
+  schemas: null
+  parameters:
+    OrganizationId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Organization identifier

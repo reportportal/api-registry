@@ -379,7 +379,7 @@ components:
         - filter_key
         - value
   parameters:
-    user_id:
+    UserId:
       name: user_id
       in: path
       required: true
@@ -388,6 +388,7 @@ components:
       description: User's ID
 tags:
   - name: Activities
+  - name: Organizations
   - name: Projects
   - name: Suggestions
   - name: User API Keys
