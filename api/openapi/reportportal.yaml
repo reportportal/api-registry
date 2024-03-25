@@ -239,6 +239,7 @@ paths:
         - schema:
             type: string
             enum:
+              - project_name
               - activity_subject_name
           in: query
           name: type
@@ -255,7 +256,8 @@ paths:
           description: Maximum number of suggestions
       description: |
         Get project suggestions by type for autocomplete.
-        Supported types: 
+        Supported types:
+        - project_name: Get suggestions for project names. A default type.
         - activity_subject_name: Get suggestions for activity subject names in the project.
     parameters:
       - schema:
