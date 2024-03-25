@@ -390,7 +390,7 @@ components:
         type: string
       description: User's ID
 tags:
-  - name: User API Keys
-    description: API Keys management
   - name: Activities
-    description: Activities management
+  - name: Projects
+  - name: Suggestions
+  - name: User API Keys
