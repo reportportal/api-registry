@@ -51,13 +51,9 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  '/v1/user/{user_id}/api-keys':
+  /users/{user_id}/api-keys:
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/user_id'
     get:
       summary: Get user's API Keys
       tags:
@@ -99,14 +95,9 @@ paths:
               properties:
                 name:
                   type: string
-        description: ''
-  '/v1/user/{user_id}/api-keys/{key_id}':
+  /v1/user/{user_id}/api-keys/{key_id}:
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/user_id'
       - schema:
           type: string
         name: key_id
@@ -213,6 +204,65 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Activity'
+  /v1/project/{project_name}/suggestions:
+    get:
+      summary: Get project suggestions
+      tags:
+        - Projects
+        - Suggestions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      suggestions:
+                        type: array
+                        x-stoplight:
+                          id: j4b0g6yz7qzhk
+                        description: List of suggestions for the project
+                        items:
+                          x-stoplight:
+                            id: xw9kqvns5x1uk
+                          type: string
+                  - $ref: ./models/limits.yaml
+        '404':
+          description: Not Found
+      operationId: get-project-suggestions
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - project_name
+              - activity_subject_name
+          in: query
+          name: type
+          description: Type of suggestionsYour GET endpoint
+        - schema:
+            type: string
+          in: query
+          name: query
+          description: Filter query for suggestions
+        - schema:
+            type: integer
+          in: query
+          name: limits
+          description: Maximum number of suggestions
+      description: |
+        Get project suggestions by type for autocomplete.
+        Supported types:
+        - project_name: Get suggestions for project names. A default type.
+        - activity_subject_name: Get suggestions for activity subject names in the project.
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name
 components:
   securitySchemes:
     bearerAuth:
@@ -329,6 +379,14 @@ components:
       required:
         - filter_key
         - value
+  parameters:
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: User's ID
 tags:
   - name: User API Keys
     description: API Keys management
