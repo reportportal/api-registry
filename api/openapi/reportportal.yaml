@@ -247,7 +247,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: query
+          name: filter
           description: Filter query for suggestions
         - schema:
             type: integer
