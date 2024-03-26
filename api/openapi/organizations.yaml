@@ -147,7 +147,22 @@ paths:
       summary: Get organization information
       tags:
         - Organizations
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    x-stoplight:
+                      id: nhn8okg3fl6au
+                    items:
+                      $ref: '#/components/schemas/OrganizationUser'
+                      x-stoplight:
+                        id: 5j1d2qcvz0ukr
       operationId: get-org_id-users
       description: ''
     parameters:
@@ -471,10 +486,25 @@ components:
           x-stoplight:
             id: kpd5hjr3pa7mo
         projects:
-          type: string
+          type: array
           x-stoplight:
             id: j727wl4gsxms7
           format: uri
+          items:
+            x-stoplight:
+              id: 5kkw98zhayvya
+            type: object
+            properties:
+              id:
+                type: integer
+                x-stoplight:
+                  id: x8yvv69qqw9g1
+                format: int64
+              href:
+                type: string
+                x-stoplight:
+                  id: b4lim3h8epbl4
+                format: uri
     OrganizationProject:
       title: Organization project
       x-stoplight:
@@ -484,9 +514,24 @@ components:
         id:
           type: string
         users:
-          type: string
+          type: array
           x-stoplight:
             id: 7bvv21b3xbg3o
+          items:
+            x-stoplight:
+              id: qq16ytcg8sdpy
+            type: object
+            properties:
+              id:
+                type: integer
+                x-stoplight:
+                  id: bn9r3o44qsi7v
+                format: int64
+              href:
+                type: string
+                x-stoplight:
+                  id: rynxepiwb70or
+                format: uri
     OrgLaunchSettings:
       title: OrganizationSettings
       x-stoplight:
