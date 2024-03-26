@@ -338,29 +338,8 @@ paths:
       description: Enterprise edition feature.
 components:
   schemas:
-    Organization:
-      title: Organization
-      x-stoplight:
-        id: lzs7p3khz8n9d
-      examples: []
-      description: Organization model with metadata
-      allOf:
-        - $ref: '#/components/schemas/OrganizationBase'
-        - $ref: '#/components/schemas/OrganizationMetadata'
-          x-stoplight:
-            id: rb1se3yql0uil
-    OrganizationInfo:
-      title: Organization information
-      x-stoplight:
-        id: 91rl0zs7sjsca
-      description: Full information about the organization. Includes metadata and relations.
-      allOf:
-        - $ref: '#/components/schemas/Organization'
-        - $ref: '#/components/schemas/OrganizationRelations'
-          x-stoplight:
-            id: vof6oci69ptfy
-    OrganizationBase:
-      title: Organization base information
+    OrganizationDefinition:
+      title: Organization basic definition
       x-stoplight:
         id: 2gyt1v3d2gfmm
       type: object
@@ -463,6 +442,27 @@ components:
               x-stoplight:
                 id: 00ymrdicq9wjy
               format: date-time
+    Organization:
+      title: Organization
+      x-stoplight:
+        id: lzs7p3khz8n9d
+      examples: []
+      description: Organization model with metadata
+      allOf:
+        - $ref: '#/components/schemas/OrganizationDefinition'
+        - $ref: '#/components/schemas/OrganizationMetadata'
+          x-stoplight:
+            id: rb1se3yql0uil
+    OrganizationInfo:
+      title: Organization information
+      x-stoplight:
+        id: 91rl0zs7sjsca
+      description: Full information about the organization. Includes metadata and relations.
+      allOf:
+        - $ref: '#/components/schemas/Organization'
+        - $ref: '#/components/schemas/OrganizationRelations'
+          x-stoplight:
+            id: vof6oci69ptfy
     OrganizationUser:
       title: Organization user
       x-stoplight:
