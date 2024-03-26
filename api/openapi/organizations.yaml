@@ -190,7 +190,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrgUserInfo'
+                $ref: '#/components/schemas/OrganizationUser'
         '201':
           description: Created
           content:
@@ -204,7 +204,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrgUserDefinition'
+              $ref: '#/components/schemas/OrganizationUser'
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - name: org_id
@@ -219,39 +219,12 @@ paths:
         schema:
           type: string
         description: User identifier
-    post:
-      summary: Add user to organization
-      operationId: post-org_id-user_id
-      responses:
-        '200':
-          description: OK
-      description: Add user to organization
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                org_role:
-                  type: string
-                  x-stoplight:
-                    id: mrwyewdskd722
-                project_role:
-                  type: string
-                  x-stoplight:
-                    id: f0e87c1flt48y
-                project_id:
-                  type: string
-                  x-stoplight:
-                    id: n9ulj5oovfim1
-              required:
-                - org_role
     delete:
       summary: Delete user from organization
       operationId: delete-organizations-org_id-users
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: Delete user from organization
     put:
       summary: ''
@@ -259,14 +232,44 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUser'
       description: Update users settings in the organization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUser'
     get:
       summary: ''
       operationId: get-org_id-user_id
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUser'
       description: Get user settings invthe organization
+    patch:
+      summary: ''
+      operationId: patch-organizations-org_id-users-user_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUser'
+      description: Update users settings in the organization
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUser'
+        description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
   '/organizations/{org_id}/projects':
     get:
       summary: Get organization information
