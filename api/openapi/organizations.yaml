@@ -30,25 +30,14 @@ paths:
                         x-stoplight:
                           id: p6c0g6dra4c11
                         oneOf:
-                          - x-stoplight:
-                              id: w0uwax6ysxrcy
-                            allOf:
-                              - $ref: '#/components/schemas/Organization'
-                              - $ref: '#/components/schemas/OrgMetadata'
-                                x-stoplight:
-                                  id: zhzi57ssznzez
-                          - x-stoplight:
-                              id: ugl10r80eseod
-                            allOf:
-                              - $ref: '#/components/schemas/Organization'
-                                x-stoplight:
-                                  id: wy6rrd4fjaq0f
-                              - $ref: '#/components/schemas/OrgMetadata'
-                                x-stoplight:
-                                  id: ym3l5v4bgsgrg
-                              - $ref: '#/components/schemas/OrgRelations'
-                                x-stoplight:
-                                  id: dh2nyamgobcpe
+                          - $ref: '#/components/schemas/Organization'
+                            x-stoplight:
+                              id: 0mqegssoe9y5m
+                            description: Default response model
+                          - $ref: '#/components/schemas/OrganizationInfo'
+                            x-stoplight:
+                              id: 014w2j8r7r67s
+                            description: Returned if only the info parameter is true
               examples: {}
       operationId: get-organizations
       description: Get a list of existing organizations.
@@ -60,8 +49,8 @@ paths:
         - schema:
             type: boolean
           in: query
-          name: metadata
-          description: Get organization with additional information
+          name: info
+          description: Get  related information with organizations
       requestBody:
         content: {}
     post:
@@ -83,7 +72,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Organization'
+              $ref: '#/components/schemas/OrganizationBase'
       parameters: []
   '/organizations/{org_id}':
     get:
@@ -337,8 +326,8 @@ components:
       examples: []
       description: Organization model with metadata
       allOf:
-        - $ref: '#/components/schemas/OrgBase'
-        - $ref: '#/components/schemas/OrgMetadata'
+        - $ref: '#/components/schemas/OrganizationBase'
+        - $ref: '#/components/schemas/OrganizationMetadata'
           x-stoplight:
             id: rb1se3yql0uil
     OrganizationInfo:
@@ -348,7 +337,7 @@ components:
       description: Full information about the organization. Includes metadata and relations.
       allOf:
         - $ref: '#/components/schemas/Organization'
-        - $ref: '#/components/schemas/OrgRelations'
+        - $ref: '#/components/schemas/OrganizationRelations'
           x-stoplight:
             id: vof6oci69ptfy
     OrganizationBase:
@@ -357,17 +346,20 @@ components:
         id: 2gyt1v3d2gfmm
       type: object
       examples: []
-      description: Basic model of the organization. Represents the fields to be set.
+      description: Basic information provided by the client.
       properties:
         name:
           type: string
           x-stoplight:
             id: dz5igu0m6iy9o
-          description: Display name
+          description: Organization display name.
         slug:
           type: string
           x-stoplight:
             id: hsav6x2ci2qt1
+          description: |-
+            Unique identifying part.
+            Generated according to the organization name if not specified by the user.
       required:
         - name
     OrganizationMetadata:
