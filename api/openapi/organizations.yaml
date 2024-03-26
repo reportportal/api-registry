@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrgInfo'
+                $ref: '#/components/schemas/OrganizationInfo'
       operationId: get-organizations-org_id
       description: ''
     parameters:
@@ -99,7 +99,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf: []
+                $ref: '#/components/schemas/Organization'
         '402':
           description: Payment Required
       description: Enterprise edition feature.
@@ -107,7 +107,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Organization'
+              $ref: '#/components/schemas/OrganizationBase'
         description: ''
     patch:
       summary: Partichial
@@ -115,6 +115,8 @@ paths:
       responses:
         '200':
           description: OK
+        '402':
+          description: Payment Required
       description: Enterprise edition feature.
       requestBody:
         content:
@@ -135,8 +137,10 @@ paths:
       summary: ''
       operationId: delete-organizations-org_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
+        '402':
+          description: Payment Required
       description: Enterprise edition feature.
   '/organizations/{org_id}/users':
     get:
