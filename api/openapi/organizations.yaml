@@ -153,18 +153,27 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
+                allOf:
+                  - $ref: ./models/offset.yaml
                     x-stoplight:
-                      id: nhn8okg3fl6au
-                    items:
-                      $ref: '#/components/schemas/OrganizationUser'
-                      x-stoplight:
-                        id: 5j1d2qcvz0ukr
+                      id: 67vo9o9k2fxf6
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        x-stoplight:
+                          id: nhn8okg3fl6au
+                        items:
+                          $ref: '#/components/schemas/OrganizationUser'
+                          x-stoplight:
+                            id: 5j1d2qcvz0ukr
       operationId: get-org_id-users
       description: ''
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Sort'
+        - $ref: '#/components/parameters/Order'
     parameters:
       - name: org_id
         in: path
@@ -181,42 +190,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrgUser'
+                $ref: '#/components/schemas/OrgUserInfo'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgUserInfo'
+        '207':
+          description: Multi-Status (WebDAV)
       description: Add user to the organization
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                org_role:
-                  type: string
-                  x-stoplight:
-                    id: mrwyewdskd722
-                projects:
-                  type: array
-                  x-stoplight:
-                    id: r3gb12vvhvb9f
-                  items:
-                    x-stoplight:
-                      id: bq8l0xbzkaxpl
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        x-stoplight:
-                          id: k8tevpg8i0wv6
-                        format: int64
-                      key:
-                        type: string
-                        x-stoplight:
-                          id: h67wpr5en5cae
-                      role:
-                        type: string
-                        x-stoplight:
-                          id: tonh7tq57dm4n
-              required:
-                - org_role
+              $ref: '#/components/schemas/OrgUserDefinition'
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - name: org_id
@@ -470,12 +458,18 @@ components:
       type: object
       properties:
         id:
-          type: string
-        href:
+          type: integer
+          x-stoplight:
+            id: 8cvr7o8alfq5b
+          format: int64
+        name:
           type: string
           x-stoplight:
-            id: i2azw57kkpp4h
-          format: uri
+            id: fe0s6tnyozrxs
+        surename:
+          type: string
+          x-stoplight:
+            id: 3qwnp5mmy4sv3
         email:
           type: string
           x-stoplight:
@@ -500,11 +494,14 @@ components:
                 x-stoplight:
                   id: x8yvv69qqw9g1
                 format: int64
-              href:
+              key:
                 type: string
                 x-stoplight:
-                  id: b4lim3h8epbl4
-                format: uri
+                  id: txcdvngzf9vxx
+              role:
+                type: string
+                x-stoplight:
+                  id: eib32nj9zfbw5
     OrganizationProject:
       title: Organization project
       x-stoplight:
