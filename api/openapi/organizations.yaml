@@ -137,7 +137,7 @@ paths:
         '402':
           description: Payment Required
       description: Enterprise edition feature.
-  '/organizations/{org_id}/users':
+  '/organizations/{org_id}/members':
     get:
       summary: Get organization information
       tags:
@@ -180,12 +180,6 @@ paths:
       summary: ''
       operationId: post-org_id-user
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationUser'
         '201':
           description: Created
           content:
@@ -344,13 +338,13 @@ components:
           description: |-
             Unique identifying part.
             Generated according to the organization name if not specified by the user.
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
       required:
         - name
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:
         id: 08jgykhqykh7b
-      examples: []
       description: Organization metadata. Represent fields are generated internal.
       type: object
       properties:
@@ -368,25 +362,9 @@ components:
             - UPSA
           description: |-
             There are three types:
-            - INTERNAL: created by API request
-            - PERSONAL: built-in type for users
-            - UPSA: created for EPAM integration
-        billing_plane:
-          type: string
-          x-stoplight:
-            id: qj1bhzo1o8tse
-        storage_usage:
-          type: integer
-          x-stoplight:
-            id: j383bph8mk17z
-          format: date-time
-          minimum: 0
-          maximum: 100
-        last_launch_at:
-          type: string
-          x-stoplight:
-            id: ivc8sbqfsnus0
-          format: date-time
+            - INTERNAL: created by API request.
+            - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
+            - UPSA: created for internal integrations.
         created_at:
           type: string
           x-stoplight:
@@ -397,43 +375,58 @@ components:
           x-stoplight:
             id: wy58s9p7s4l81
           format: date-time
-    OrganizationRelations:
-      title: Organization relations
+    OrganizationInfo:
+      title: Organization information
       x-stoplight:
         id: mvjaoy2fofepj
       type: object
       description: Related information about the organization.
       properties:
-        users:
+        users_info:
           type: object
           x-stoplight:
             id: aau80pjhj0ecs
           properties:
-            href:
-              type: string
-              x-stoplight:
-                id: 830r80ti7k6nk
-              format: uri
-              example: 'https://example.com/organizations/18/users'
             total_count:
-              type: string
+              type: integer
               x-stoplight:
                 id: iumvdhplkj4h0
-        projects:
+              minimum: 0
+        projects_info:
           type: object
           x-stoplight:
             id: gfcxxarpmzbsn
           properties:
-            href:
-              type: string
-              x-stoplight:
-                id: c61rs2yqbaylv
-              format: uri
-              example: 'https://example.com/organizations/18/projects'
             total_count:
-              type: string
+              type: integer
               x-stoplight:
                 id: ypqfuxxevu2si
+              minimum: 0
+        launches_info:
+          type: object
+          x-stoplight:
+            id: cz8q9j1tg4ak0
+          properties:
+            last_occurred_at:
+              type: string
+              x-stoplight:
+                id: ry81p33pd7rr1
+              format: date-time
+        billing_info:
+          type: object
+          x-stoplight:
+            id: kp0guqf27icwi
+          properties:
+            plan_name:
+              type: string
+              x-stoplight:
+                id: dg7lhxj6xspo9
+            storage_usage:
+              type: integer
+              x-stoplight:
+                id: vbbgb3u6pyequ
+              minimum: 0
+              maximum: 100
     Organization:
       title: Organization
       x-stoplight:
@@ -445,7 +438,7 @@ components:
         - $ref: '#/components/schemas/OrganizationMetadata'
           x-stoplight:
             id: rb1se3yql0uil
-        - $ref: '#/components/schemas/OrganizationRelations'
+        - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
             id: 64kdwn8nva4jg
     OrganizationUser:
@@ -463,10 +456,10 @@ components:
           type: string
           x-stoplight:
             id: fe0s6tnyozrxs
-        surename:
+        login:
           type: string
           x-stoplight:
-            id: 3qwnp5mmy4sv3
+            id: g1yy53imn75w1
         email:
           type: string
           x-stoplight:

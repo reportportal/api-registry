@@ -14,29 +14,37 @@ frame OrganizationPresenter {
   entity OrganizationMetadata {
     id Int
     type OrganizationType
-    storage_usage Int
-    billing_plane String
-    last_launch_at DateTime
     created_at DateTime
     updated_at DateTime
   }
 
-  entity OrganizationRelations {
-    projects OrgProjectsRelations
-    members OrgMembersRelations
+  entity OrganizationInfo {
+    projects_info OrgProjectsInfo
+    members_info OrgMembersInfo
+    launches_info OrgLaunchesInfo
+    billing_info OrgBillingInfo
   }
 
-  entity OrgProjectsRelations {
-    projects String
+  entity OrgProjectsInfo {
     total_count Int
   }
-  OrgProjectsRelations -up- OrganizationRelations
+  OrgProjectsInfo -up- OrganizationInfo
 
-  entity OrgMembersRelations {
-    members String
+  entity OrgMembersInfo {
     total_count Int
   }
-  OrgMembersRelations -up- OrganizationRelations
+  OrgMembersInfo -up- OrganizationInfo
+
+  entity OrgLaunchesInfo {
+    last_occurred_at DateTime
+  }
+  OrgLaunchesInfo -up- OrganizationInfo
+
+  entity OrgBillingInfo {
+    plan_name String
+    storage_usage Int
+  }
+  OrgBillingInfo -up- OrganizationInfo
 
   enum OrganizationType {
     INTERNAL
@@ -48,7 +56,7 @@ frame OrganizationPresenter {
   entity Organization
   Organization *-- OrganizationDefinition
   Organization *-- OrganizationMetadata
-  Organization *-- OrganizationRelations
+  Organization *-- OrganizationInfo
 
 }
 
@@ -60,19 +68,24 @@ frame Members {
     name String
     type UserType
     role UserRole
+    projects List<MemberProject>
   }
 
   enum UserType {
     USER
     ADMIN
   }
-  UserType -- Member
+  UserType -up- Member
 
   enum UserRole {
     PROJECT_MANAGER
     MEMBER
   }
-  UserRole -- Member
+  UserRole -up- Member
+
+  entity MemberProject {
+  }
+  MemberProject -up- Member
 
 }
 
