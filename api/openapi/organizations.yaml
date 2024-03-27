@@ -63,7 +63,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationBase'
+              $ref: '#/components/schemas/OrganizationDefinition'
       parameters: []
   '/organizations/{org_id}':
     get:
@@ -76,7 +76,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationInfo'
+                $ref: '#/components/schemas/Organization'
       operationId: get-organizations-org_id
       description: ''
     parameters:
@@ -98,7 +98,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationBase'
+              $ref: '#/components/schemas/OrganizationDefinition'
         description: ''
     patch:
       summary: Partichial
@@ -106,6 +106,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
         '402':
           description: Payment Required
       description: Enterprise edition feature.
@@ -378,6 +382,11 @@ components:
           format: date-time
           minimum: 0
           maximum: 100
+        last_launch_at:
+          type: string
+          x-stoplight:
+            id: ivc8sbqfsnus0
+          format: date-time
         created_at:
           type: string
           x-stoplight:

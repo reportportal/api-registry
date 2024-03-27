@@ -1,0 +1,79 @@
+---
+stoplight-id: dp15zhxks2i84
+---
+
+@startuml organizational-entities
+
+frame OrganizationPresenter {
+
+  entity OrganizationDefinition {
+    name String
+    slug String
+  }
+
+  entity OrganizationMetadata {
+    id Int
+    type OrganizationType
+    storage_usage Int
+    billing_plane String
+    last_launch_at DateTime
+    created_at DateTime
+    updated_at DateTime
+  }
+
+  entity OrganizationRelations {
+    projects OrgProjectsRelations
+    members OrgMembersRelations
+  }
+
+  entity OrgProjectsRelations {
+    projects String
+    total_count Int
+  }
+  OrgProjectsRelations -up- OrganizationRelations
+
+  entity OrgMembersRelations {
+    members String
+    total_count Int
+  }
+  OrgMembersRelations -up- OrganizationRelations
+
+  enum OrganizationType {
+    INTERNAL
+    PERSONAL
+    UPSA
+  }
+  OrganizationMetadata -- OrganizationType
+
+  entity Organization
+  Organization *-- OrganizationDefinition
+  Organization *-- OrganizationMetadata
+  Organization *-- OrganizationRelations
+
+}
+
+frame Members {
+
+  entity Member {
+    id Int
+    email String
+    name String
+    type UserType
+    role UserRole
+  }
+
+  enum UserType {
+    USER
+    ADMIN
+  }
+  UserType -- Member
+
+  enum UserRole {
+    PROJECT_MANAGER
+    MEMBER
+  }
+  UserRole -- Member
+
+}
+
+@enduml
