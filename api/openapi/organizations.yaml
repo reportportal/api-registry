@@ -29,15 +29,11 @@ paths:
                       items:
                         x-stoplight:
                           id: p6c0g6dra4c11
-                        oneOf:
-                          - $ref: '#/components/schemas/Organization'
-                            x-stoplight:
-                              id: 0mqegssoe9y5m
-                            description: Default response model
-                          - $ref: '#/components/schemas/OrganizationInfo'
-                            x-stoplight:
-                              id: 014w2j8r7r67s
-                            description: Returned if only the info parameter is true
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Organization'
+                          x-stoplight:
+                            id: 8zm4xnkiool8l
               examples: {}
       operationId: get-organizations
       description: Get a list of existing organizations.
@@ -46,11 +42,6 @@ paths:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
-        - schema:
-            type: boolean
-          in: query
-          name: info
-          description: Get  related information with organizations
       requestBody:
         content: {}
     post:
@@ -376,12 +367,23 @@ components:
             - INTERNAL: created by API request
             - PERSONAL: built-in type for users
             - UPSA: created for EPAM integration
+        billing_plane:
+          type: string
+          x-stoplight:
+            id: qj1bhzo1o8tse
+        storage_usage:
+          type: integer
+          x-stoplight:
+            id: j383bph8mk17z
+          format: date-time
+          minimum: 0
+          maximum: 100
         created_at:
           type: string
           x-stoplight:
             id: murxta40l19cz
           format: date-time
-        modified_at:
+        updated_at:
           type: string
           x-stoplight:
             id: wy58s9p7s4l81
@@ -423,16 +425,6 @@ components:
               type: string
               x-stoplight:
                 id: ypqfuxxevu2si
-        launches:
-          type: object
-          x-stoplight:
-            id: 7njyjxsqxojpa
-          properties:
-            last_occurred_at:
-              type: string
-              x-stoplight:
-                id: 00ymrdicq9wjy
-              format: date-time
     Organization:
       title: Organization
       x-stoplight:
@@ -444,16 +436,9 @@ components:
         - $ref: '#/components/schemas/OrganizationMetadata'
           x-stoplight:
             id: rb1se3yql0uil
-    OrganizationInfo:
-      title: Organization information
-      x-stoplight:
-        id: 91rl0zs7sjsca
-      description: Full information about the organization. Includes metadata and relations.
-      allOf:
-        - $ref: '#/components/schemas/Organization'
         - $ref: '#/components/schemas/OrganizationRelations'
           x-stoplight:
-            id: vof6oci69ptfy
+            id: 64kdwn8nva4jg
     OrganizationUser:
       title: Organization user
       x-stoplight:
@@ -478,10 +463,11 @@ components:
           x-stoplight:
             id: tn2iv2c88jbbk
           format: email
-        org_role:
+        role:
           type: string
           x-stoplight:
             id: kpd5hjr3pa7mo
+          description: Organization role
         projects:
           type: array
           x-stoplight:
