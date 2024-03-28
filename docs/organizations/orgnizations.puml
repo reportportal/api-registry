@@ -5,7 +5,8 @@ stoplight-id: dp15zhxks2i84
 @startuml organizational-entities
 
 frame OrganizationPresenter {
-
+  entity Organization
+  
   entity OrganizationDefinition {
     name String
     slug String
@@ -53,7 +54,6 @@ frame OrganizationPresenter {
   }
   OrganizationMetadata -- OrganizationType
 
-  entity Organization
   Organization *-- OrganizationDefinition
   Organization *-- OrganizationMetadata
   Organization *-- OrganizationInfo
@@ -62,31 +62,62 @@ frame OrganizationPresenter {
 
 frame Members {
 
-  entity Member {
-    id Int
+  entity Member
+
+  entity MemberDefinition {
     email String
-    name String
-    type UserType
-    role UserRole
-    projects List<MemberProject>
+    role OrgRole
   }
+  MemberDefinition -up-* Member
+
+  entity MemberMetadata {
+    id Int
+    created_at DateTime
+    updated_at DateTime
+    last_active_at DateTime
+  }
+  MemberMetadata -up-* Member
+
+  entity MemberInfo {
+    full_name String
+    projects_info MemberProjectsInfo
+  }
+  MemberInfo -up-* Member
 
   enum UserType {
     USER
     ADMIN
   }
-  UserType -up- Member
+  UserType -up- MemberDefinition
 
-  enum UserRole {
+  enum OrgRole {
     PROJECT_MANAGER
     MEMBER
   }
-  UserRole -up- Member
+  OrgRole -up- MemberDefinition
+
+  entity MemberProjectsInfo {
+    total_count Int
+  }
+  MemberProjectsInfo -up-* MemberInfo
 
   entity MemberProject {
+    id Int
+    name String
+    slug String
+    key String
+    role ProjectRole
   }
-  MemberProject -up- Member
 
+  enum ProjectRole {
+    EDITOR
+    VIEWER
+  }
+  ProjectRole -up- MemberProject
+}
+
+frame Users {
+  entity User 
 }
 
 @enduml
