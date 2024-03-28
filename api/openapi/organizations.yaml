@@ -196,7 +196,7 @@ paths:
                         x-stoplight:
                           id: nhn8okg3fl6au
                         items:
-                          $ref: '#/components/schemas/OrganizationUser'
+                          $ref: '#/components/schemas/Member'
                           x-stoplight:
                             id: 5j1d2qcvz0ukr
       operationId: get-org_id-users
@@ -230,8 +230,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationUser'
-  '/organizations/{org_id}/users/{user_id}':
+              $ref: '#/components/schemas/Member'
+  '/organizations/{org_id}/members/{user_id}':
     parameters:
       - name: org_id
         in: path
@@ -396,7 +396,7 @@ components:
           enum:
             - INTERNAL
             - PERSONAL
-            - UPSA
+            - EXTERNAL
           description: |-
             Type for automatization purposes.
 
@@ -493,7 +493,7 @@ components:
         - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
             id: 64kdwn8nva4jg
-    OrganizationUser:
+    Member:
       title: Organization user
       x-stoplight:
         id: 290y8u7rv2whx
@@ -504,10 +504,6 @@ components:
           x-stoplight:
             id: 8cvr7o8alfq5b
           format: int64
-        name:
-          type: string
-          x-stoplight:
-            id: fe0s6tnyozrxs
         login:
           type: string
           x-stoplight:
@@ -517,6 +513,14 @@ components:
           x-stoplight:
             id: tn2iv2c88jbbk
           format: email
+        full_name:
+          type: string
+          x-stoplight:
+            id: fe0s6tnyozrxs
+        user_type:
+          type: string
+          x-stoplight:
+            id: srm3ph4vw6zrb
         role:
           type: string
           x-stoplight:
@@ -537,6 +541,14 @@ components:
                 x-stoplight:
                   id: x8yvv69qqw9g1
                 format: int64
+              name:
+                type: string
+                x-stoplight:
+                  id: caj83cmho12c6
+              slug:
+                type: string
+                x-stoplight:
+                  id: 79dwamczihu7n
               key:
                 type: string
                 x-stoplight:
