@@ -14,6 +14,7 @@ paths:
       summary: Get a list of organizations
       tags:
         - Organizations
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -34,7 +35,7 @@ paths:
                           $ref: '#/components/schemas/Organization'
                           x-stoplight:
                             id: 8zm4xnkiool8l
-              examples: {}
+                description: The list of organizations
       operationId: get-organizations
       description: Get a list of existing organizations.
       parameters:
@@ -57,19 +58,28 @@ paths:
         '402':
           description: Payment Required
       description: |-
-        Enterprise edition feature.
-        Create a new organization.
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Create a new organization. Provide name and slug.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationDefinition'
-      parameters: []
+        description: |-
+          You can create an organization provide name and slug.
+          If the slug is not provided, it will be generated from the name.
+      tags:
+        - Organizations
+        - Ready for implementation
   '/organizations/{org_id}':
     get:
       summary: Get organization information
       tags:
         - Organizations
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -78,7 +88,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Organization'
       operationId: get-organizations-org_id
-      description: ''
+      description: Provide organization information.
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     put:
@@ -93,15 +103,24 @@ paths:
                 $ref: '#/components/schemas/Organization'
         '402':
           description: Payment Required
-      description: Enterprise edition feature.
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Update organization information with the provided data.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationDefinition'
         description: ''
+      tags:
+        - Organizations
+        - Ready for implementation
+      x-internal: false
     patch:
-      summary: Partichial
+      summary: Partial organization update
       operationId: patch-organizations-org_id
       responses:
         '200':
@@ -112,7 +131,12 @@ paths:
                 $ref: '#/components/schemas/Organization'
         '402':
           description: Payment Required
-      description: Enterprise edition feature.
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Particular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).
       requestBody:
         content:
           application/merge-patch+json:
@@ -128,15 +152,28 @@ paths:
                   x-stoplight:
                     id: gt4uavhbr5qq9
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
+      tags:
+        - Organizations
+        - Ready for implementation
+      x-internal: false
     delete:
-      summary: ''
+      summary: Delete organization
       operationId: delete-organizations-org_id
       responses:
         '204':
           description: No Content
         '402':
           description: Payment Required
-      description: Enterprise edition feature.
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+      tags:
+        - Organizations
+        - Ready for implementation
+      x-internal: false
   '/organizations/{org_id}/members':
     get:
       summary: Get organization information
@@ -345,13 +382,13 @@ components:
       title: Organization metadata
       x-stoplight:
         id: 08jgykhqykh7b
-      description: Organization metadata. Represent fields are generated internal.
+      description: Organization metadata. Represent generated fields.
       type: object
       properties:
         id:
           type: integer
           format: int64
-          description: Internal ID
+          description: Organization ReportPortal ID.
         type:
           type: string
           x-stoplight:
@@ -361,6 +398,8 @@ components:
             - PERSONAL
             - UPSA
           description: |-
+            Type for automatization purposes.
+
             There are three types:
             - INTERNAL: created by API request.
             - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
@@ -370,11 +409,13 @@ components:
           x-stoplight:
             id: murxta40l19cz
           format: date-time
+          description: Creation date.
         updated_at:
           type: string
           x-stoplight:
             id: wy58s9p7s4l81
           format: date-time
+          description: Last update date.
     OrganizationInfo:
       title: Organization information
       x-stoplight:
@@ -382,62 +423,73 @@ components:
       type: object
       description: Related information about the organization.
       properties:
-        users_info:
+        members_info:
           type: object
           x-stoplight:
             id: aau80pjhj0ecs
+          description: General information about the organization members.
           properties:
             total_count:
               type: integer
               x-stoplight:
                 id: iumvdhplkj4h0
               minimum: 0
+              description: Total count of members.
         projects_info:
           type: object
           x-stoplight:
             id: gfcxxarpmzbsn
+          description: General information about the organization projects.
           properties:
             total_count:
               type: integer
               x-stoplight:
                 id: ypqfuxxevu2si
               minimum: 0
+              description: Total count of projects in the organization.
         launches_info:
           type: object
           x-stoplight:
             id: cz8q9j1tg4ak0
+          description: General information about the organization launches.
           properties:
             last_occurred_at:
               type: string
               x-stoplight:
                 id: ry81p33pd7rr1
               format: date-time
+              description: Last launch occurrence date.
         billing_info:
           type: object
           x-stoplight:
             id: kp0guqf27icwi
+          description: |-
+            General information about the organization billing.
+            Available only if a Billing plugin is enabled.
           properties:
             plan_name:
               type: string
               x-stoplight:
                 id: dg7lhxj6xspo9
+              description: Plan name.
             storage_usage:
               type: integer
               x-stoplight:
                 id: vbbgb3u6pyequ
               minimum: 0
               maximum: 100
+              description: Storage usage in percents.
     Organization:
       title: Organization
       x-stoplight:
         id: lzs7p3khz8n9d
       examples: []
-      description: Organization model with metadata
+      description: Organization complete information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationDefinition'
         - $ref: '#/components/schemas/OrganizationMetadata'
           x-stoplight:
             id: rb1se3yql0uil
+        - $ref: '#/components/schemas/OrganizationDefinition'
         - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
             id: 64kdwn8nva4jg
@@ -624,3 +676,8 @@ components:
         type: string
       description: User identifier
   requestBodies: {}
+tags:
+  - name: Members
+  - name: Organizations
+  - name: Projects
+  - name: Ready for implementation
