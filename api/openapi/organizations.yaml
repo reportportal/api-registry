@@ -355,29 +355,6 @@ paths:
       description: Enterprise edition feature.
 components:
   schemas:
-    OrganizationDefinition:
-      title: Organization basic definition
-      x-stoplight:
-        id: 2gyt1v3d2gfmm
-      type: object
-      examples: []
-      description: Basic information provided by the client.
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: dz5igu0m6iy9o
-          description: Organization display name.
-        slug:
-          type: string
-          x-stoplight:
-            id: hsav6x2ci2qt1
-          description: |-
-            Unique identifying part.
-            Generated according to the organization name if not specified by the user.
-          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-      required:
-        - name
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:
@@ -420,6 +397,29 @@ components:
             id: wy58s9p7s4l81
           format: date-time
           description: Last update date.
+    OrganizationDefinition:
+      title: Organization basic definition
+      x-stoplight:
+        id: 2gyt1v3d2gfmm
+      type: object
+      examples: []
+      description: Basic information provided by the client.
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: dz5igu0m6iy9o
+          description: Organization display name.
+        slug:
+          type: string
+          x-stoplight:
+            id: hsav6x2ci2qt1
+          description: |-
+            Unique identifying part.
+            Generated according to the organization name if not specified by the user.
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+      required:
+        - name
     OrganizationInfo:
       title: Organization information
       x-stoplight:
@@ -427,11 +427,11 @@ components:
       type: object
       description: Related information about the organization.
       properties:
-        members_info:
+        users_info:
           type: object
           x-stoplight:
             id: aau80pjhj0ecs
-          description: General information about the organization members.
+          description: General information about the organization users.
           properties:
             total_count:
               type: integer

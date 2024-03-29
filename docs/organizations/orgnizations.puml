@@ -21,7 +21,7 @@ frame OrganizationPresenter {
 
   entity OrganizationInfo {
     projects_info OrgProjectsInfo
-    members_info OrgMembersInfo
+    Users_info OrgUsersInfo
     launches_info OrgLaunchesInfo
     billing_info OrgBillingInfo
   }
@@ -31,10 +31,10 @@ frame OrganizationPresenter {
   }
   OrgProjectsInfo -up- OrganizationInfo
 
-  entity OrgMembersInfo {
+  entity OrgUsersInfo {
     total_count Int
   }
-  OrgMembersInfo -up- OrganizationInfo
+  OrgUsersInfo -up- OrganizationInfo
 
   entity OrgLaunchesInfo {
     last_occurred_at DateTime
@@ -60,48 +60,48 @@ frame OrganizationPresenter {
 
 }
 
-frame Members {
+frame Users {
 
-  entity Member
+  entity User
 
-  entity MemberDefinition {
+  entity UserDefinition {
     email String
     role OrgRole
   }
-  MemberDefinition -up-* Member
+  UserDefinition -up-* User
 
-  entity MemberMetadata {
+  entity UserMetadata {
     id Int
     created_at DateTime
     updated_at DateTime
     last_active_at DateTime
   }
-  MemberMetadata -up-* Member
+  UserMetadata -up-* User
 
-  entity MemberInfo {
+  entity UserInfo {
     full_name String
-    projects_info MemberProjectsInfo
+    projects_info UserProjectsInfo
   }
-  MemberInfo -up-* Member
+  UserInfo -up-* User
 
   enum UserType {
     USER
     ADMIN
   }
-  UserType -up- MemberDefinition
+  UserType -up- UserDefinition
 
   enum OrgRole {
     PROJECT_MANAGER
-    MEMBER
+    User
   }
-  OrgRole -up- MemberDefinition
+  OrgRole -up- UserDefinition
 
-  entity MemberProjectsInfo {
+  entity UserProjectsInfo {
     total_count Int
   }
-  MemberProjectsInfo -up-* MemberInfo
+  UserProjectsInfo -up-* UserInfo
 
-  entity MemberProject {
+  entity UserProject {
     id Int
     name String
     slug String
@@ -113,7 +113,7 @@ frame Members {
     EDITOR
     VIEWER
   }
-  ProjectRole -up- MemberProject
+  ProjectRole -up- UserProject
 }
 
 frame Users {

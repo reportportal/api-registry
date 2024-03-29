@@ -1,0 +1,17 @@
+title: Link
+x-stoplight:
+  id: 0acnclxpqv8m3
+type: object
+properties:
+  href:
+    type: string
+    x-stoplight:
+      id: ntmqhhrrepqgz
+  rel:
+    type: string
+    x-stoplight:
+      id: wp97no7q9ua6m
+  type:
+    type: string
+    x-stoplight:
+      id: n1qvf928x3kld
