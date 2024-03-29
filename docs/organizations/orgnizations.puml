@@ -4,10 +4,11 @@ stoplight-id: dp15zhxks2i84
 
 @startuml organizational-entities
 
-frame OrganizationPresenter {
+package OrganizationPresenter {
+  
   entity Organization
   
-  entity OrganizationDefinition {
+  entity OrganizationData {
     name String
     slug String
   }
@@ -15,11 +16,12 @@ frame OrganizationPresenter {
   entity OrganizationMetadata {
     id Int
     type OrganizationType
+    external_id String
     created_at DateTime
     updated_at DateTime
   }
 
-  entity OrganizationInfo {
+  entity OrganizationRelation {
     projects_info OrgProjectsInfo
     Users_info OrgUsersInfo
     launches_info OrgLaunchesInfo
@@ -58,15 +60,17 @@ frame OrganizationPresenter {
   Organization *-- OrganizationMetadata
   Organization *-- OrganizationInfo
 
+
+
+  
 }
 
-frame Users {
+package OrganizationUsers {
 
   entity User
 
   entity UserDefinition {
     email String
-    role OrgRole
   }
   UserDefinition -up-* User
 
@@ -114,10 +118,6 @@ frame Users {
     VIEWER
   }
   ProjectRole -up- UserProject
-}
-
-frame Users {
-  entity User 
 }
 
 @enduml

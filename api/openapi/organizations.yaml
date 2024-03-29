@@ -317,8 +317,8 @@ components:
           x-stoplight:
             id: mlbwuzzsovyma
           properties:
-            relations:
-              $ref: '#/components/schemas/OrganizationRelated'
+            related:
+              $ref: '#/components/schemas/OrganizationRelation'
               x-stoplight:
                 id: 2j23biyi2hfqo
     OrganizationData:
@@ -386,7 +386,7 @@ components:
             id: wy58s9p7s4l81
           format: date-time
           description: Last update date.
-    OrganizationRelated:
+    OrganizationRelation:
       title: Organization relations
       x-stoplight:
         id: mvjaoy2fofepj
