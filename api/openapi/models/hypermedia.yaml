@@ -1,0 +1,24 @@
+title: Hypermedia Link
+x-stoplight:
+  id: 0acnclxpqv8m3
+type: object
+description: |-
+  Allows clients to dynamically follow the hypermedia links to quickly navigate to the relevant resources.
+
+  Uses for Hypermedia as the Engine of Application State (HATEOAS).
+
+  Represent the JSON:API [link object](https://jsonapi.org/format/#auto-id--link-objects).
+properties:
+  href:
+    type: string
+    x-stoplight:
+      id: ntmqhhrrepqgz
+    format: uri
+    description: The target resource URI reference.
+  rel:
+    type: string
+    x-stoplight:
+      id: wp97no7q9ua6m
+    description: The link relation type describes how the current context is related to the target resource.
+required:
+  - href

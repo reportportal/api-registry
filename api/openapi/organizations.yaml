@@ -174,11 +174,12 @@ paths:
         - Organizations
         - Ready for implementation
       x-internal: false
-  '/organizations/{org_id}/members':
+  '/organizations/{org_id}/users':
     get:
       summary: Get organization information
       tags:
         - Organizations
+        - Users
       responses:
         '200':
           description: OK
@@ -196,7 +197,7 @@ paths:
                         x-stoplight:
                           id: nhn8okg3fl6au
                         items:
-                          $ref: '#/components/schemas/Member'
+                          $ref: '#/components/schemas/User'
                           x-stoplight:
                             id: 5j1d2qcvz0ukr
       operationId: get-org_id-users
@@ -231,7 +232,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Member'
-  '/organizations/{org_id}/members/{user_id}':
+      tags:
+        - Organizations
+        - Users
+  '/organizations/{org_id}/users/{user_id}':
     parameters:
       - name: org_id
         in: path
@@ -296,65 +300,31 @@ paths:
             schema:
               $ref: '#/components/schemas/OrganizationUser'
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-  '/organizations/{org_id}/projects':
-    get:
-      summary: Get organization information
-      tags:
-        - Organizations
-      responses: {}
-      operationId: get-org_id-projects
-      description: ''
-    parameters:
-      - name: org_id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: Organization identifier
-    post:
-      summary: ''
-      operationId: post-org_id-project
-      responses:
-        '200':
-          description: OK
-  '/organizations/{org_id}/settings':
-    get:
-      summary: Get organization information
-      tags:
-        - Organizations
-      responses: {}
-      operationId: get-organizations-org_id
-      description: ''
-    parameters:
-      - name: org_id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: Organization identifier
-    put:
-      summary: ''
-      operationId: put-organizations-org_id
-      responses:
-        '200':
-          description: OK
-      description: Enterprise edition feature.
-    patch:
-      summary: ''
-      operationId: patch-organizations-org_id
-      responses:
-        '200':
-          description: OK
-      description: Enterprise edition feature.
-    delete:
-      summary: ''
-      operationId: delete-organizations-org_id
-      responses:
-        '200':
-          description: OK
-      description: Enterprise edition feature.
 components:
   schemas:
+    OrganizationData:
+      title: Organization basic definition
+      x-stoplight:
+        id: 2gyt1v3d2gfmm
+      type: object
+      examples: []
+      description: Basic information provided by the client.
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: dz5igu0m6iy9o
+          description: Organization display name.
+        slug:
+          type: string
+          x-stoplight:
+            id: hsav6x2ci2qt1
+          description: |-
+            Unique identifying part.
+            Generated according to the organization name if not specified by the user.
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+      required:
+        - name
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:
@@ -397,61 +367,38 @@ components:
             id: wy58s9p7s4l81
           format: date-time
           description: Last update date.
-    OrganizationDefinition:
-      title: Organization basic definition
-      x-stoplight:
-        id: 2gyt1v3d2gfmm
-      type: object
-      examples: []
-      description: Basic information provided by the client.
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: dz5igu0m6iy9o
-          description: Organization display name.
-        slug:
-          type: string
-          x-stoplight:
-            id: hsav6x2ci2qt1
-          description: |-
-            Unique identifying part.
-            Generated according to the organization name if not specified by the user.
-          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-      required:
-        - name
-    OrganizationInfo:
-      title: Organization information
+    OrganizationRelated:
+      title: Organization relations
       x-stoplight:
         id: mvjaoy2fofepj
       type: object
       description: Related information about the organization.
       properties:
-        users_info:
-          type: object
+        users:
           x-stoplight:
             id: aau80pjhj0ecs
           description: General information about the organization users.
+          type: object
           properties:
-            total_count:
+            count:
               type: integer
               x-stoplight:
-                id: iumvdhplkj4h0
+                id: wqrlqc1knwtwb
+              description: Total count of users in the organization.
               minimum: 0
-              description: Total count of members.
-        projects_info:
+        projects:
           type: object
           x-stoplight:
             id: gfcxxarpmzbsn
           description: General information about the organization projects.
           properties:
-            total_count:
+            count:
               type: integer
               x-stoplight:
                 id: ypqfuxxevu2si
               minimum: 0
               description: Total count of projects in the organization.
-        launches_info:
+        launches:
           type: object
           x-stoplight:
             id: cz8q9j1tg4ak0
@@ -463,7 +410,7 @@ components:
                 id: ry81p33pd7rr1
               format: date-time
               description: Last launch occurrence date.
-        billing_info:
+        billing:
           type: object
           x-stoplight:
             id: kp0guqf27icwi
@@ -490,14 +437,19 @@ components:
       examples: []
       description: Organization complete information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationMetadata'
-          x-stoplight:
-            id: rb1se3yql0uil
-        - $ref: '#/components/schemas/OrganizationDefinition'
-        - $ref: '#/components/schemas/OrganizationInfo'
+        - $ref: '#/components/schemas/OrganizationData'
           x-stoplight:
             id: 64kdwn8nva4jg
-    Member:
+        - $ref: '#/components/schemas/OrganizationMetadata'
+        - type: object
+          x-stoplight:
+            id: mlbwuzzsovyma
+          properties:
+            relations:
+              $ref: '#/components/schemas/OrganizationRelated'
+              x-stoplight:
+                id: 2j23biyi2hfqo
+    User:
       title: Organization user
       x-stoplight:
         id: 290y8u7rv2whx
@@ -676,7 +628,7 @@ components:
       description: User identifier
   requestBodies: {}
 tags:
-  - name: Members
   - name: Organizations
   - name: Projects
   - name: Ready for implementation
+  - name: Users
