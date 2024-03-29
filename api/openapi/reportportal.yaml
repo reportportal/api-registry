@@ -254,7 +254,7 @@ paths:
           name: limits
           description: Maximum number of suggestions
       description: |-
-        Get project suggestions by type for autocomplete.
+        Get project activities suggestions by type for autocomplete.
         Supported types:
         - subject_name: Get suggestions for activity subject names in the project.
 
