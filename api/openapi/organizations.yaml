@@ -302,8 +302,27 @@ paths:
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
 components:
   schemas:
+    Organization:
+      title: Organization
+      x-stoplight:
+        id: lzs7p3khz8n9d
+      examples: []
+      description: Organization complete information.
+      allOf:
+        - $ref: '#/components/schemas/OrganizationData'
+          x-stoplight:
+            id: 64kdwn8nva4jg
+        - $ref: '#/components/schemas/OrganizationMetadata'
+        - type: object
+          x-stoplight:
+            id: mlbwuzzsovyma
+          properties:
+            relations:
+              $ref: '#/components/schemas/OrganizationRelated'
+              x-stoplight:
+                id: 2j23biyi2hfqo
     OrganizationData:
-      title: Organization basic definition
+      title: Organization definition
       x-stoplight:
         id: 2gyt1v3d2gfmm
       type: object
@@ -430,25 +449,6 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
-    Organization:
-      title: Organization
-      x-stoplight:
-        id: lzs7p3khz8n9d
-      examples: []
-      description: Organization complete information.
-      allOf:
-        - $ref: '#/components/schemas/OrganizationData'
-          x-stoplight:
-            id: 64kdwn8nva4jg
-        - $ref: '#/components/schemas/OrganizationMetadata'
-        - type: object
-          x-stoplight:
-            id: mlbwuzzsovyma
-          properties:
-            relations:
-              $ref: '#/components/schemas/OrganizationRelated'
-              x-stoplight:
-                id: 2j23biyi2hfqo
     User:
       title: Organization user
       x-stoplight:
