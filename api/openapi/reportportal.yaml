@@ -251,7 +251,7 @@ paths:
         - schema:
             type: integer
           in: query
-          name: limits
+          name: limit
           description: Maximum number of suggestions
       description: |-
         Get project activities suggestions by type for autocomplete.
