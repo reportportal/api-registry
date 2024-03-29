@@ -403,7 +403,11 @@ components:
             There are three types:
             - INTERNAL: created by API request.
             - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
-            - UPSA: created for internal integrations.
+            - EXTERNAL: created for external integrations.
+        external_id:
+          type: string
+          x-stoplight:
+            id: m0wvgkfndhpag
         created_at:
           type: string
           x-stoplight:
@@ -526,37 +530,20 @@ components:
           x-stoplight:
             id: kpd5hjr3pa7mo
           description: Organization role
-        projects:
-          type: array
+        projects_info:
+          type: object
           x-stoplight:
             id: j727wl4gsxms7
           format: uri
-          items:
-            x-stoplight:
-              id: 5kkw98zhayvya
-            type: object
-            properties:
-              id:
-                type: integer
-                x-stoplight:
-                  id: x8yvv69qqw9g1
-                format: int64
-              name:
-                type: string
-                x-stoplight:
-                  id: caj83cmho12c6
-              slug:
-                type: string
-                x-stoplight:
-                  id: 79dwamczihu7n
-              key:
-                type: string
-                x-stoplight:
-                  id: txcdvngzf9vxx
-              role:
-                type: string
-                x-stoplight:
-                  id: eib32nj9zfbw5
+          properties:
+            total_count:
+              type: integer
+              x-stoplight:
+                id: xt36spxmxef4d
+            href:
+              type: string
+              x-stoplight:
+                id: a0u3ylvokj5ax
     OrganizationProject:
       title: Organization project
       x-stoplight:
