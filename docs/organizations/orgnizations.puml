@@ -6,12 +6,15 @@ stoplight-id: dp15zhxks2i84
 
 package OrganizationPresenter {
   
-  entity Organization
+  entity Organization {
+    related OrganizationRelation
+  }
   
   entity OrganizationData {
     name String
     slug String
   }
+  Organization *-- OrganizationData
 
   entity OrganizationMetadata {
     id Int
@@ -20,92 +23,89 @@ package OrganizationPresenter {
     created_at DateTime
     updated_at DateTime
   }
+  Organization *-- OrganizationMetadata
 
   entity OrganizationRelation {
-    projects_info OrgProjectsInfo
-    Users_info OrgUsersInfo
-    launches_info OrgLaunchesInfo
-    billing_info OrgBillingInfo
+    projects OrgProjectsRelation
+    users OrgUsersRelation
+    launches OrgLaunchesRelation
+    billing OrgBillingRelation
   }
+  OrganizationRelation -up- Organization
 
-  entity OrgProjectsInfo {
-    total_count Int
+  entity OrgProjectsRelation {
+    count Int
   }
-  OrgProjectsInfo -up- OrganizationInfo
+  OrgProjectsRelation -up- OrganizationRelation
 
-  entity OrgUsersInfo {
-    total_count Int
+  entity OrgUsersRelation {
+    count Int
   }
-  OrgUsersInfo -up- OrganizationInfo
+  OrgUsersRelation -up- OrganizationRelation
 
-  entity OrgLaunchesInfo {
+  entity OrgLaunchesRelation {
     last_occurred_at DateTime
   }
-  OrgLaunchesInfo -up- OrganizationInfo
+  OrgLaunchesRelation -up- OrganizationRelation
 
-  entity OrgBillingInfo {
+  entity OrgBillingRelation {
     plan_name String
     storage_usage Int
   }
-  OrgBillingInfo -up- OrganizationInfo
+  OrgBillingRelation -up- OrganizationRelation
 
   enum OrganizationType {
     INTERNAL
     PERSONAL
-    UPSA
+    EXTERNAL
   }
   OrganizationMetadata -- OrganizationType
-
-  Organization *-- OrganizationDefinition
-  Organization *-- OrganizationMetadata
-  Organization *-- OrganizationInfo
-
-
-
   
 }
 
 package OrganizationUsers {
 
-  entity User
+  entity OrganizationUser
 
-  entity UserDefinition {
+  entity OrganizationUserData {
     email String
+    role OrgRole
   }
-  UserDefinition -up-* User
+  OrganizationUserData -up-* OrganizationUser
 
   entity UserMetadata {
     id Int
+    type UserType
     created_at DateTime
     updated_at DateTime
     last_active_at DateTime
   }
-  UserMetadata -up-* User
+  OrganizationUserMetadata -up-* OrganizationUser
 
-  entity UserInfo {
+  entity OrganizationUserInfo {
     full_name String
-    projects_info UserProjectsInfo
+    projects_info OrganizationUserProjectsInfo
   }
-  UserInfo -up-* User
+  OrganizationUserInfo -up-* OrganizationUser
 
   enum UserType {
     USER
     ADMIN
   }
-  UserType -up- UserDefinition
+  UserType -up- OrganizationUserMetadata
 
   enum OrgRole {
     PROJECT_MANAGER
-    User
+    OrganizationUser
   }
-  OrgRole -up- UserDefinition
+  OrgRole -up- OrganizationUserDefinition
 
-  entity UserProjectsInfo {
-    total_count Int
+  entity OrganizationUserProjectsInfo {
+    count Int
   }
-  UserProjectsInfo -up-* UserInfo
+  OrganizationUserProjectsInfo -up-* OrganizationUserInfo
 
-  entity UserProject {
+  entity OrganizationUserProject {
     id Int
     name String
     slug String
@@ -117,7 +117,7 @@ package OrganizationUsers {
     EDITOR
     VIEWER
   }
-  ProjectRole -up- UserProject
+  ProjectRole -up- OrganizationUserProject
 }
 
 @enduml
