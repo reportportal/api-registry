@@ -1,9 +1,9 @@
-title: Limits
+title: Limit
 x-stoplight:
   id: vxcrcboqb394o
 type: object
 properties:
-  limits:
+  limit:
     type: integer
     x-stoplight:
       id: 568vjghxgbno6
