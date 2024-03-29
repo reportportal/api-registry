@@ -342,39 +342,6 @@ components:
           type: string
           x-stoplight:
             id: v9nqnpq0lzcv3
-    UserData - copy:
-      title: Organization user
-      x-stoplight:
-        id: 21pb4kqthj69v
-      type: object
-      properties:
-        id:
-          type: integer
-          x-stoplight:
-            id: 8cvr7o8alfq5b
-          format: int64
-        login:
-          type: string
-          x-stoplight:
-            id: g1yy53imn75w1
-        email:
-          type: string
-          x-stoplight:
-            id: tn2iv2c88jbbk
-          format: email
-        full_name:
-          type: string
-          x-stoplight:
-            id: fe0s6tnyozrxs
-        user_type:
-          type: string
-          x-stoplight:
-            id: srm3ph4vw6zrb
-        role:
-          type: string
-          x-stoplight:
-            id: kpd5hjr3pa7mo
-          description: Organization role
     OrganizationProject:
       title: Organization project
       x-stoplight:
