@@ -63,24 +63,20 @@ package OrganizationPresenter {
   
 }
 
-package OrganizationUsers {
+package OrganizationUserPresenter {
 
   entity OrganizationUser
+
+  entity OrganizationUserDefinition {
+    projects List<OrganizationUserProject>
+  }
 
   entity OrganizationUserData {
     email String
     role OrgRole
   }
-  OrganizationUserData -up-* OrganizationUser
-
-  entity UserMetadata {
-    id Int
-    type UserType
-    created_at DateTime
-    updated_at DateTime
-    last_active_at DateTime
-  }
-  OrganizationUserMetadata -up-* OrganizationUser
+  OrganizationUserData -up-o OrganizationUser
+  OrganizationUserData -up-o OrganizationUserDefinition
 
   entity OrganizationUserInfo {
     full_name String
@@ -88,17 +84,11 @@ package OrganizationUsers {
   }
   OrganizationUserInfo -up-* OrganizationUser
 
-  enum UserType {
-    USER
-    ADMIN
-  }
-  UserType -up- OrganizationUserMetadata
-
   enum OrgRole {
     PROJECT_MANAGER
     OrganizationUser
   }
-  OrgRole -up- OrganizationUserDefinition
+  OrgRole -up-* OrganizationUserData
 
   entity OrganizationUserProjectsInfo {
     count Int
@@ -107,17 +97,37 @@ package OrganizationUsers {
 
   entity OrganizationUserProject {
     id Int
-    name String
-    slug String
     key String
     role ProjectRole
   }
+  OrganizationUserProject -up- OrganizationUserDefinition
 
   enum ProjectRole {
     EDITOR
     VIEWER
   }
-  ProjectRole -up- OrganizationUserProject
+  ProjectRole -up-* OrganizationUserProject
+}
+
+package UserPresenter {
+  entity User
+
+  entity UserMetadata {
+    id Int
+    type UserType
+    created_at DateTime
+    updated_at DateTime
+    last_active_at DateTime
+  }
+  UserMetadata -up-o OrganizationUser
+  UserMetadata -up-o User
+
+  enum UserType {
+    USER
+    ADMIN
+  }
+  UserType -up-* UserMetadata
+
 }
 
 @enduml
