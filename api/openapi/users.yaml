@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: ./models/users/user.yaml
               examples:
                 Get User Alice Smith:
                   value:
@@ -148,8 +148,181 @@ paths:
     parameters: []
 components:
   schemas:
-    User:
+    UserData:
       title: User
+      x-stoplight:
+        id: 09e01368c126f
+      type: object
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          format: int64
+        login:
+          type: string
+          x-stoplight:
+            id: pm950oqygft34
+        email:
+          type: string
+          format: email
+        full_name:
+          type: string
+          x-stoplight:
+            id: 2k7b88t5w2tzq
+        type:
+          type: string
+          x-stoplight:
+            id: oaekr7jsynbyx
+        created_at:
+          type: string
+          format: date-time
+          description: The date that the user was created.
+          x-stoplight:
+            id: ie2rprn3nzzf9
+        updated_at:
+          type: string
+          x-stoplight:
+            id: rpgoi7d5d7ebb
+          format: date-time
+        organizatioins:
+          type: array
+          x-stoplight:
+            id: enja5xi01gl4h
+          items: {}
+        projects:
+          type: array
+          x-stoplight:
+            id: m3r77ytyr3he6
+          items: {}
+      required:
+        - id
+        - email
+    UserMetadata:
+      title: User
+      x-stoplight:
+        id: awvmb3n53unlt
+      type: object
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          format: int64
+        login:
+          type: string
+          x-stoplight:
+            id: pm950oqygft34
+        email:
+          type: string
+          format: email
+        full_name:
+          type: string
+          x-stoplight:
+            id: 2k7b88t5w2tzq
+        type:
+          type: string
+          x-stoplight:
+            id: oaekr7jsynbyx
+        created_at:
+          type: string
+          format: date-time
+          description: The date that the user was created.
+          x-stoplight:
+            id: ie2rprn3nzzf9
+        updated_at:
+          type: string
+          x-stoplight:
+            id: rpgoi7d5d7ebb
+          format: date-time
+        organizatioins:
+          type: array
+          x-stoplight:
+            id: enja5xi01gl4h
+          items: {}
+        projects:
+          type: array
+          x-stoplight:
+            id: m3r77ytyr3he6
+          items: {}
+      required:
+        - id
+        - email
+    UserOrgRelations:
+      title: User
+      x-stoplight:
+        id: k0o1i4bw5uryw
+      type: object
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          format: int64
+        login:
+          type: string
+          x-stoplight:
+            id: pm950oqygft34
+        email:
+          type: string
+          format: email
+        full_name:
+          type: string
+          x-stoplight:
+            id: 2k7b88t5w2tzq
+        type:
+          type: string
+          x-stoplight:
+            id: oaekr7jsynbyx
+        created_at:
+          type: string
+          format: date-time
+          description: The date that the user was created.
+          x-stoplight:
+            id: ie2rprn3nzzf9
+        updated_at:
+          type: string
+          x-stoplight:
+            id: rpgoi7d5d7ebb
+          format: date-time
+        organizatioins:
+          type: array
+          x-stoplight:
+            id: enja5xi01gl4h
+          items: {}
+        projects:
+          type: array
+          x-stoplight:
+            id: m3r77ytyr3he6
+          items: {}
+      required:
+        - id
+        - email
+    UserInstanceRelations:
+      title: User
+      x-stoplight:
+        id: avc67gwk7qxr0
       type: object
       examples:
         - id: 142

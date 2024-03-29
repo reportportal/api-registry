@@ -7,7 +7,7 @@ description: |-
 
   Uses for Hypermedia as the Engine of Application State (HATEOAS).
 
-  Represent the JSON:API [link object](https://jsonapi.org/format/#auto-id--link-objects).
+  Represents the [JSON:API link object](https://jsonapi.org/format/#auto-id--link-objects) and accepts `Web linking` as the de-facto datamodel.
 properties:
   href:
     type: string

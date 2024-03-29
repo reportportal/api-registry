@@ -1,0 +1,9 @@
+title: user
+x-stoplight:
+  id: r9ugblvo07h21
+type: object
+properties:
+  id:
+    type: string
+    x-stoplight:
+      id: s48ow2ypk9wj7

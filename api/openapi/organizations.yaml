@@ -22,7 +22,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/offset.yaml
+                  - $ref: ./models/Offset.yaml
                   - x-stoplight:
                       id: nsdfmhu6y0tgj
                     type: object
@@ -67,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationDefinition'
+              $ref: '#/components/schemas/OrganizationData'
         description: |-
           You can create an organization provide name and slug.
           If the slug is not provided, it will be generated from the name.
@@ -113,7 +113,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationDefinition'
+              $ref: '#/components/schemas/OrganizationData'
         description: ''
       tags:
         - Organizations
@@ -187,7 +187,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/offset.yaml
+                  - $ref: ./models/Offset.yaml
                     x-stoplight:
                       id: 67vo9o9k2fxf6
                   - type: object
@@ -231,7 +231,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Member'
+              $ref: '#/components/schemas/OrganiztionUserData'
       tags:
         - Organizations
         - Users
@@ -449,10 +449,29 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
-    User:
+    OrganizationUser:
       title: Organization user
       x-stoplight:
         id: 290y8u7rv2whx
+      type: object
+    OrganiztionUserData:
+      title: Organization user
+      x-stoplight:
+        id: ww6j30xwgbvu1
+      type: object
+      properties:
+        email:
+          type: string
+          x-stoplight:
+            id: xlmjbgi83cjrt
+        role:
+          type: string
+          x-stoplight:
+            id: v9nqnpq0lzcv3
+    UserData - copy:
+      title: Organization user
+      x-stoplight:
+        id: 21pb4kqthj69v
       type: object
       properties:
         id:
@@ -482,20 +501,6 @@ components:
           x-stoplight:
             id: kpd5hjr3pa7mo
           description: Organization role
-        projects_info:
-          type: object
-          x-stoplight:
-            id: j727wl4gsxms7
-          format: uri
-          properties:
-            total_count:
-              type: integer
-              x-stoplight:
-                id: xt36spxmxef4d
-            href:
-              type: string
-              x-stoplight:
-                id: a0u3ylvokj5ax
     OrganizationProject:
       title: Organization project
       x-stoplight:
