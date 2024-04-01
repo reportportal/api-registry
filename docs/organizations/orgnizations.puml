@@ -67,6 +67,8 @@ package OrganizationView {
 }
 
 package OrganizationUserView {
+  entity OrganizationUserProfile
+
   entity OrganizationUserInfo
 
   entity OrganizationUserDetails {
@@ -202,13 +204,15 @@ package ProjectUserView {
     last_active_at DateTime
   }
   ProjectUserMetadata -up-o ProjectUserInfo
-
-  entity ProjectUserAssignment {
+  
+  entity UserProjectAssignment {
+    id Int
     slug String
+    role ProjectRole
+    projects List<ProjectUserDetails>
   }
-  ProjectUserAssignment o-- ProjectUserDetails
-  ProjectUserAssignment -- OrganizationUserAssignment
-
+  UserProjectAssignment o-up- ProjectUserDetails
+  UserProjectAssignment -- OrganizationUserAssignment
 }
 
 @enduml

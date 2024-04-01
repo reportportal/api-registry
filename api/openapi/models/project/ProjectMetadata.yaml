@@ -1,0 +1,29 @@
+title: ProjectMetadata
+x-stoplight:
+  id: ii9cdfjnv5vqk
+type: object
+properties:
+  id:
+    type: string
+    description: '#TODO Add discription'
+  type:
+    type: string
+    x-stoplight:
+      id: 57m6ufpadyy97
+    enum:
+      - INTERNAL
+      - EXTERNAL
+      - PERSONAL
+    description: '#TODO Add discription'
+  created_at:
+    type: string
+    x-stoplight:
+      id: jvvpxawexlff9
+    format: date-time
+    description: '#TODO Add discription'
+  updated_at:
+    type: string
+    x-stoplight:
+      id: 16yiiuxiokhiu
+    format: date-time
+    description: '#TODO Add discription'

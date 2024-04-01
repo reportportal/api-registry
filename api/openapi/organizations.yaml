@@ -183,9 +183,61 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/Offset.yaml
+                  - type: object
+                    x-stoplight:
+                      id: kn7zavpzj9nfz
+                    properties:
+                      items:
+                        type: array
+                        x-stoplight:
+                          id: niglepk1k2g3s
+                        items:
+                          $ref: '#/components/schemas/OrganizationUserProfile'
+                          x-stoplight:
+                            id: yc96ertdqgoq3
       operationId: get-organizations-org_id-users
+      description: Provides a list of organzation's users.
+      requestBody:
+        content: {}
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Sort'
+        - $ref: '#/components/parameters/Order'
+    post:
+      summary: ''
+      operationId: post-organizations-org_id-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                    x-stoplight:
+                      id: 2yywvcbehaw9j
+                    description: |-
+                      The information about we sent an assignment
+                      request to the user.
+        '207':
+          description: Multi-Status (WebDAV)
       description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUserAssignment'
 components:
   schemas:
     OrganizationProfile:
@@ -193,7 +245,7 @@ components:
       x-stoplight:
         id: lzs7p3khz8n9d
       examples: []
-      description: Comprehensive set of organization information.
+      description: A comprehensive set of organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
@@ -253,7 +305,7 @@ components:
         id:
           type: integer
           format: int64
-          description: Organization ReportPortal ID.
+          description: Organization ReportPortal identifier.
         type:
           type: string
           x-stoplight:
@@ -273,6 +325,9 @@ components:
           type: string
           x-stoplight:
             id: m0wvgkfndhpag
+          description: |-
+            External organization identifier.
+            It is created for integration.
         created_at:
           type: string
           x-stoplight:
@@ -348,6 +403,16 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
+    OrganizationUserProfile:
+      title: Organization user profile
+      x-stoplight:
+        id: mtgs7v0icru14
+      allOf:
+        - $ref: ./models/user/UserAccountInfo.yaml
+          x-stoplight:
+            id: z9t6c1tqs0zl7
+        - $ref: '#/components/schemas/OrganizationUserInfo'
+      description: A comprehensive set of user information related to a user's organization.
     OrganizationUserInfo:
       title: Organization user information
       x-stoplight:
@@ -357,12 +422,13 @@ components:
         - $ref: '#/components/schemas/OrganizationUserMetadata'
           x-stoplight:
             id: 0ao0t2fs2p7gc
-      description: Related information about user in organization.
+      description: Related information about a user in the organization.
     OrganizationUserDetails:
-      title: Organization user
+      title: Organization user details
       x-stoplight:
         id: 5nqrewxfku9tn
       type: object
+      description: Basic information about a user in the organization.
       properties:
         role:
           type: string
@@ -371,9 +437,9 @@ components:
           enum:
             - PROJECT_MANAGER
             - MEMBER
-          description: Organization user's role.
+          description: Organization user role.
     OrganizationUserMetadata:
-      title: Organization user
+      title: Organization user metadata
       x-stoplight:
         id: g7a81q7nu3zgo
       allOf:
@@ -385,16 +451,25 @@ components:
               x-stoplight:
                 id: a7gp7z7wei0p6
               format: date-time
+              description: |-
+                A time when the user was assigned to
+                the organization.
             updated_at:
               type: string
               x-stoplight:
                 id: a7gp7z7wei0p6
               format: date-time
+              description: |-
+                A last time user data was updated in
+                the organization.
             last_active_at:
               type: string
               x-stoplight:
                 id: a7gp7z7wei0p6
               format: date-time
+              description: |-
+                A last user activity time in
+                the organization.
         - x-stoplight:
             id: 0srgatmno8b4b
           properties:
@@ -402,6 +477,7 @@ components:
               $ref: '#/components/schemas/OrganizationUserRelation'
               x-stoplight:
                 id: wrawjhpa10y1j
+      description: User's organization metadata. Represent generated fields.
       type: object
     OrganizationUserRelation:
       title: Organization user relations
@@ -439,14 +515,14 @@ components:
                 id: 7qf3duno409l9
               type: array
               description: |-
-                List of projects for assigment an user.
-                It's optional, you can assigne the user to
-                an orgnization without projects.
+                List of projects for user assignment.
+                It's optional; you can assign the user 
+                to an organization without projects.
               items:
-                $ref: ./models/project/ProjectUserAssignment.yaml
+                $ref: ./models/user/UserProjectAssignment.yaml
                 x-stoplight:
                   id: fmzilkgtzpdmu
-      description: ''
+      description: 'Assigning a user to a specific organization. '
   parameters:
     OrganizationId:
       name: org_id
@@ -492,9 +568,9 @@ components:
       description: User identifier
   requestBodies: {}
   securitySchemes:
-    ApiKey:
+    BearerAuth:
       type: http
-      scheme: basic
+      scheme: bearer
       description: ''
 tags:
   - name: Organizations
@@ -502,4 +578,4 @@ tags:
   - name: Ready for implementation
   - name: Users
 security:
-  - ApiKey: []
+  - BearerAuth: []

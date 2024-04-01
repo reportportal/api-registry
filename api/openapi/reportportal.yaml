@@ -264,7 +264,7 @@ paths:
         description: Project name
 components:
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT

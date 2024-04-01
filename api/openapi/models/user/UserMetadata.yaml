@@ -8,18 +8,22 @@ properties:
     x-stoplight:
       id: g3b344eju3s69
     format: int64
+    description: User internal identifier.
   created_at:
     type: string
     x-stoplight:
       id: j6yblknliqi00
     format: date-time
+    description: When user's account was created.
   updated_at:
     type: string
     x-stoplight:
       id: 88lji1tkyif14
     format: date-time
+    description: When user's data was modifed.
   last_active_at:
     type: string
     x-stoplight:
       id: zxycvrmb3q9qm
     format: date-time
+    description: When user made some activities.

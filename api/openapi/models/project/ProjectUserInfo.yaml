@@ -1,0 +1,8 @@
+title: ProjectUserInfo
+x-stoplight:
+  id: zj13niiaiigwf
+allOf:
+  - $ref: ./ProjectUserDetails.yaml
+  - $ref: ./ProjectUserMetadata.yaml
+    x-stoplight:
+      id: bt8yeyetxngcg

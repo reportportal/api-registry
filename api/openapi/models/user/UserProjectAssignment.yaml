@@ -11,7 +11,7 @@ allOf:
         x-stoplight:
           id: f7stmdjdqi95y
         format: int64
-        description: Project's internal ID.
+        description: Project internal identifier.
       slug:
         type: string
         x-stoplight:
@@ -19,4 +19,10 @@ allOf:
         description: |-
           Unique identifying part of a project
           in an organization. You can use it instead the project ID.
-  - $ref: ./ProjectUserDetails.yaml
+      role:
+        type: string
+        x-stoplight:
+          id: 9m1bxa81xyl81
+  - $ref: ../project/ProjectUserDetails.yaml
+    x-stoplight:
+      id: 1wbn8k1p6xi19

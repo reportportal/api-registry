@@ -13,6 +13,7 @@ allOf:
         type: string
         x-stoplight:
           id: t3xotuhofwfex
+        description: User full name.
       type:
         type: string
         x-stoplight:
