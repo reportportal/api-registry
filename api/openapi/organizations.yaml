@@ -333,6 +333,11 @@ components:
       x-stoplight:
         id: snwrtcmq8wvt1
       type: object
+    OrganizationUserAssignment:
+      title: Organization user
+      x-stoplight:
+        id: u52hc1apf7q2q
+      type: object
   parameters:
     OrganizationId:
       name: org_id

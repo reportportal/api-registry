@@ -197,7 +197,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/offset.yaml
+                  - $ref: ./models/Offset.yaml
                   - type: object
                     properties:
                       items:
@@ -228,7 +228,7 @@ paths:
                           x-stoplight:
                             id: xw9kqvns5x1uk
                           type: string
-                  - $ref: ./models/limits.yaml
+                  - $ref: ./models/Limit.yaml
         '404':
           description: Not Found
       operationId: get-project-suggestions
