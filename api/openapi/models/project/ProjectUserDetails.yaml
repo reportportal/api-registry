@@ -1,13 +1,12 @@
-title: User project's data
+title: ProjectDetails
 x-stoplight:
-  id: xuyckaqe0wtc3
+  id: msbxfonb90si2
 type: object
 properties:
   role:
     type: string
     x-stoplight:
-      id: ddyegm87zdum5
+      id: k7uxpi9vxvg0g
     enum:
       - EDITOR
       - VIEWER
-    description: User's project role.

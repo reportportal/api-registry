@@ -1,0 +1,7 @@
+title: ProjectUserAssignment
+x-stoplight:
+  id: c6ouurwz290zv
+type: object
+properties:
+  id:
+    type: string

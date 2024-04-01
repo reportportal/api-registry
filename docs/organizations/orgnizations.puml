@@ -7,16 +7,18 @@ stoplight-id: dp15zhxks2i84
 skinparam linetype ortho
 
 package OrganizationView {
-  
   entity OrganizationProfile {
     related OrganizationRelation
   }
+  
+  entity OrganizationInfo
+  OrganizationInfo -up- OrganizationProfile
   
   entity OrganizationDetails {
     name String
     slug String
   }
-  OrganizationProfile *-- OrganizationDetails
+  OrganizationInfo *-- OrganizationDetails
 
   entity OrganizationMetadata {
     id Int
@@ -25,7 +27,7 @@ package OrganizationView {
     created_at DateTime
     updated_at DateTime
   }
-  OrganizationProfile *-- OrganizationMetadata
+  OrganizationInfo *-- OrganizationMetadata
 
   entity OrganizationRelation {
     projects OrgProjectsRelation
@@ -65,48 +67,56 @@ package OrganizationView {
 }
 
 package OrganizationUserView {
-  entity OrganizationUserProfile
   entity OrganizationUserInfo
-  OrganizationUserInfo -up-o OrganizationUserProfile
 
-  entity OrganizationUserAssignment {
-    projects List<UserProject>
-  }
-
-  entity OrganizationUserAccountInfo {
+  entity OrganizationUserDetails {
     role OrgRole
   }
-  OrganizationUserAccountInfo -up-o OrganizationUserInfo
-  OrganizationUserAccountInfo -up-o OrganizationUserAssignment
+  OrganizationUserDetails -up-o OrganizationUserInfo
 
   enum OrgRole {
     PROJECT_MANAGER
     MEMBER
   }
-  OrgRole -up- OrganizationUserAccountInfo
+  OrgRole -up- OrganizationUserDetails
 
   entity OrganizationUserMetadata {
     assigned_at DateTime
     updated_at DateTime
     last_active_at DateTime
+    related OrgUserRelation
   }
   OrganizationUserMetadata -up-o OrganizationUserInfo
+
+  entity OrgUserRelation {
+    projects OrgUserProjectsRelation
+  }
+  OrgUserRelation -up- OrganizationUserMetadata
+  
+  entity OrgUserProjectsRelation {
+    count Int
+  }
+  OrgUserProjectsRelation -up- OrgUserRelation
+
+  entity OrganizationUserAssignment {
+    projects List<ProjectUserAssignment>
+  }
+  OrganizationUserAssignment o-up- OrganizationUserDetails 
 }
 
 package UserView {
-  entity UserProfile
-  UserProfile --o OrganizationUserProfile
+  entity UserAccountInfo
 
-  entity UserAccountInfo {
+  entity UserDetails {
     full_name String
     type UserType
   }
-  UserAccountInfo -up-o UserProfile
+  UserDetails -up-o UserAccountInfo
 
   entity UserContactData {
     email String
   }
-  UserContactData -up-o UserAccountInfo
+  UserContactData -up-o UserDetails
   UserContactData -up-o OrganizationUserAssignment
  
   entity UserMetadata {
@@ -115,27 +125,89 @@ package UserView {
     updated_at DateTime
     last_active_at DateTime
   }
-  UserMetadata -up-o UserProfile
+  UserMetadata -up-o UserAccountInfo
 
   enum UserType {
     USER
     ADMIN
   }
-  UserType -up- UserAccountInfo
+  UserType -up- UserDetails
+}
 
-  entity UserProjectData {
-    id Int
+package ProjectView {
+  entity ProjectProfile {
+    related ProjectRelation
+  }
+  
+  entity ProjectInfo
+  ProjectInfo -up- ProjectProfile
+
+  entity ProjectDetails {
+    name String
     slug String
     key String
+    external_id String
+  }
+  ProjectInfo o-- ProjectDetails
+
+  entity ProjectMetadata {
+    id Int
+    type ProjectType
+    created_at DateTime
+    updated_at DateTime
+  }
+  ProjectInfo o-- ProjectMetadata
+
+  enum ProjectType {
+    INTERNAL
+    EXTERNAL
+    PERSONAL
+  }
+  ProjectMetadata -- ProjectType
+
+  entity ProjectRelation {
+    users ProjectUsersRelation
+    launches ProjectLaunchesRelation
+  }
+  ProjectRelation -up- ProjectProfile
+
+  entity ProjectUsersRelation {
+    count Int
+  }
+  ProjectUsersRelation -up- ProjectRelation
+
+  entity ProjectLaunchesRelation {
+    last_occurred_at DateTime
+  }
+  ProjectLaunchesRelation -up- ProjectRelation
+}
+
+package ProjectUserView {
+  entity ProjectUserInfo
+
+  entity ProjectUserDetails {
     role ProjectRole
   }
-  UserProjectData -up-o OrganizationUserAssignment
+  ProjectUserDetails -up-o ProjectUserInfo
 
   enum ProjectRole {
-    EDITOR
-    VIEWER
+    PROJECT_MANAGER
+    MEMBER
   }
-  ProjectRole -up- UserProjectData
+  ProjectRole -up- ProjectUserDetails
+
+  entity ProjectUserMetadata {
+    assigned_at DateTime
+    updated_at DateTime
+    last_active_at DateTime
+  }
+  ProjectUserMetadata -up-o ProjectUserInfo
+
+  entity ProjectUserAssignment
+  ProjectUserAssignment o-- ProjectUserDetails
+  ProjectUserAssignment o-up- ProjectDetails
+  ProjectUserAssignment -- OrganizationUserAssignment
+
 }
 
 @enduml

@@ -183,10 +183,9 @@ components:
       examples: []
       description: Organization complete information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationDetails'
+        - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
             id: 64kdwn8nva4jg
-        - $ref: '#/components/schemas/OrganizationMetadata'
         - type: object
           x-stoplight:
             id: mlbwuzzsovyma
@@ -195,6 +194,19 @@ components:
               $ref: '#/components/schemas/OrganizationRelation'
               x-stoplight:
                 id: 2j23biyi2hfqo
+    OrganizationInfo:
+      title: Organization
+      x-stoplight:
+        id: x7vdhfbeaz5pu
+      examples: []
+      description: Organization complete information.
+      allOf:
+        - $ref: '#/components/schemas/OrganizationDetails'
+          x-stoplight:
+            id: 64kdwn8nva4jg
+        - $ref: '#/components/schemas/OrganizationMetadata'
+          x-stoplight:
+            id: 2bhjwvbwlhrlb
     OrganizationDetails:
       title: Organization definition
       x-stoplight:
@@ -323,21 +335,65 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
-    OrganizationUserProfile:
-      title: Organization user
-      x-stoplight:
-        id: 290y8u7rv2whx
-      type: object
     OrganizationUserInfo:
       title: Organization user
       x-stoplight:
         id: snwrtcmq8wvt1
+      allOf:
+        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - $ref: '#/components/schemas/OrganizationUserMetadata'
+          x-stoplight:
+            id: 0ao0t2fs2p7gc
+    OrganizationUserDetails:
+      title: Organization user
+      x-stoplight:
+        id: 5nqrewxfku9tn
       type: object
+    OrganizationUserMetadata:
+      title: Organization user
+      x-stoplight:
+        id: g7a81q7nu3zgo
+      allOf:
+        - type: object
+          x-stoplight:
+            id: 3b9125n1gljg0
+        - $ref: '#/components/schemas/OrganizationUserRelation'
+    OrganizationUserRelation:
+      title: Organization user
+      x-stoplight:
+        id: 0v55lmrhzuy8t
+      type: object
+      properties:
+        projects:
+          type: object
+          x-stoplight:
+            id: c9yj84iq8c79w
+          properties:
+            count:
+              type: string
+              x-stoplight:
+                id: 127i76hh550kj
     OrganizationUserAssignment:
       title: Organization user
       x-stoplight:
         id: u52hc1apf7q2q
-      type: object
+      allOf:
+        - $ref: ./models/user/UserContactData.yaml
+          x-stoplight:
+            id: fh1989fa101o2
+        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - type: object
+          x-stoplight:
+            id: nh1gunacinw5v
+          properties:
+            projects:
+              x-stoplight:
+                id: 7qf3duno409l9
+              type: array
+              items:
+                $ref: ./models/project/ProjectUserDetails.yaml
+                x-stoplight:
+                  id: fmzilkgtzpdmu
   parameters:
     OrganizationId:
       name: org_id
