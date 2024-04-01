@@ -1,0 +1,17 @@
+title: ProjectDetails
+x-stoplight:
+  id: 8xas9tgve4cfk
+type: object
+properties:
+  name:
+    type: string
+    x-stoplight:
+      id: ia7sekdpu4yac
+  slug:
+    type: string
+    x-stoplight:
+      id: z0ol4urqp54ye
+  key:
+    type: string
+    x-stoplight:
+      id: 9up0sba6ni0se

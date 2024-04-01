@@ -4,17 +4,19 @@ stoplight-id: dp15zhxks2i84
 
 @startuml organizational-entities
 
-package OrganizationPresenter {
+skinparam linetype ortho
+
+package OrganizationView {
   
-  entity Organization {
+  entity OrganizationProfile {
     related OrganizationRelation
   }
   
-  entity OrganizationData {
+  entity OrganizationDetails {
     name String
     slug String
   }
-  Organization *-- OrganizationData
+  OrganizationProfile *-- OrganizationDetails
 
   entity OrganizationMetadata {
     id Int
@@ -23,7 +25,7 @@ package OrganizationPresenter {
     created_at DateTime
     updated_at DateTime
   }
-  Organization *-- OrganizationMetadata
+  OrganizationProfile *-- OrganizationMetadata
 
   entity OrganizationRelation {
     projects OrgProjectsRelation
@@ -31,7 +33,7 @@ package OrganizationPresenter {
     launches OrgLaunchesRelation
     billing OrgBillingRelation
   }
-  OrganizationRelation -up- Organization
+  OrganizationRelation -up- OrganizationProfile
 
   entity OrgProjectsRelation {
     count Int
@@ -60,74 +62,80 @@ package OrganizationPresenter {
     EXTERNAL
   }
   OrganizationMetadata -- OrganizationType
-  
 }
 
-package OrganizationUserPresenter {
+package OrganizationUserView {
+  entity OrganizationUserProfile
+  entity OrganizationUserInfo
+  OrganizationUserInfo -up-o OrganizationUserProfile
 
-  entity OrganizationUser
-
-  entity OrganizationUserDefinition {
-    projects List<OrganizationUserProject>
+  entity OrganizationUserAssignment {
+    projects List<UserProject>
   }
 
-  entity OrganizationUserData {
-    email String
+  entity OrganizationUserAccountInfo {
     role OrgRole
   }
-  OrganizationUserData -up-o OrganizationUser
-  OrganizationUserData -up-o OrganizationUserDefinition
-
-  entity OrganizationUserInfo {
-    full_name String
-    projects_info OrganizationUserProjectsInfo
-  }
-  OrganizationUserInfo -up-* OrganizationUser
+  OrganizationUserAccountInfo -up-o OrganizationUserInfo
+  OrganizationUserAccountInfo -up-o OrganizationUserAssignment
 
   enum OrgRole {
     PROJECT_MANAGER
-    OrganizationUser
+    MEMBER
   }
-  OrgRole -up-* OrganizationUserData
+  OrgRole -up- OrganizationUserAccountInfo
 
-  entity OrganizationUserProjectsInfo {
-    count Int
+  entity OrganizationUserMetadata {
+    assigned_at DateTime
+    updated_at DateTime
+    last_active_at DateTime
   }
-  OrganizationUserProjectsInfo -up-* OrganizationUserInfo
-
-  entity OrganizationUserProject {
-    id Int
-    key String
-    role ProjectRole
-  }
-  OrganizationUserProject -up- OrganizationUserDefinition
-
-  enum ProjectRole {
-    EDITOR
-    VIEWER
-  }
-  ProjectRole -up-* OrganizationUserProject
+  OrganizationUserMetadata -up-o OrganizationUserInfo
 }
 
-package UserPresenter {
-  entity User
+package UserView {
+  entity UserProfile
+  UserProfile --o OrganizationUserProfile
 
+  entity UserAccountInfo {
+    full_name String
+    type UserType
+  }
+  UserAccountInfo -up-o UserProfile
+
+  entity UserContactData {
+    email String
+  }
+  UserContactData -up-o UserAccountInfo
+  UserContactData -up-o OrganizationUserAssignment
+ 
   entity UserMetadata {
     id Int
-    type UserType
     created_at DateTime
     updated_at DateTime
     last_active_at DateTime
   }
-  UserMetadata -up-o OrganizationUser
-  UserMetadata -up-o User
+  UserMetadata -up-o UserProfile
 
   enum UserType {
     USER
     ADMIN
   }
-  UserType -up-* UserMetadata
+  UserType -up- UserAccountInfo
 
+  entity UserProjectData {
+    id Int
+    slug String
+    key String
+    role ProjectRole
+  }
+  UserProjectData -up-o OrganizationUserAssignment
+
+  enum ProjectRole {
+    EDITOR
+    VIEWER
+  }
+  ProjectRole -up- UserProjectData
 }
 
 @enduml

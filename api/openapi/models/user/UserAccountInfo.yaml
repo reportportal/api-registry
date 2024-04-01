@@ -1,0 +1,24 @@
+title: User account info
+x-stoplight:
+  id: tmzoufzfy8v9g
+allOf:
+  - x-stoplight:
+      id: a9z2wmi6w732r
+    type: object
+    properties:
+      full_name:
+        type: string
+        x-stoplight:
+          id: t3xotuhofwfex
+      type:
+        type: string
+        x-stoplight:
+          id: 7xz0ez36bzmr7
+        enum:
+          - ADMIN
+          - USER
+        description: Instance account type.
+  - $ref: ./UserContactData.yaml
+    x-stoplight:
+      id: 601j4p7k07txc
+description: Contains details pertinent to user account.

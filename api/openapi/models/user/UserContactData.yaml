@@ -1,0 +1,13 @@
+title: User contact information
+x-stoplight:
+  id: q4t1178nygbh8
+type: object
+description: Represents contact data for a user
+properties:
+  email:
+    type: string
+    x-stoplight:
+      id: 80799nsyszbif
+    format: email
+required:
+  - email

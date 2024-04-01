@@ -1,0 +1,14 @@
+title: ProjectDetails
+x-stoplight:
+  id: msbxfonb90si2
+type: object
+properties:
+  id:
+    type: integer
+    x-stoplight:
+      id: kco3emvfkwibt
+  created_at:
+    type: string
+    x-stoplight:
+      id: 4yz7u46rgr41y
+    format: date-time

@@ -32,7 +32,7 @@ paths:
                           id: p6c0g6dra4c11
                         type: array
                         items:
-                          $ref: '#/components/schemas/Organization'
+                          $ref: '#/components/schemas/OrganizationProfile'
                           x-stoplight:
                             id: 8zm4xnkiool8l
                 description: The list of organizations
@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationProfile'
         '402':
           description: Payment Required
       description: |-
@@ -67,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationData'
+              $ref: '#/components/schemas/OrganizationDetails'
         description: |-
           You can create an organization provide name and slug.
           If the slug is not provided, it will be generated from the name.
@@ -86,7 +86,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationProfile'
       operationId: get-organizations-org_id
       description: Provide organization information.
     parameters:
@@ -100,7 +100,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationProfile'
         '402':
           description: Payment Required
       description: |-
@@ -113,7 +113,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationData'
+              $ref: '#/components/schemas/OrganizationDetails'
         description: ''
       tags:
         - Organizations
@@ -128,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationProfile'
         '402':
           description: Payment Required
       description: |-
@@ -176,14 +176,14 @@ paths:
       x-internal: false
 components:
   schemas:
-    Organization:
+    OrganizationProfile:
       title: Organization
       x-stoplight:
         id: lzs7p3khz8n9d
       examples: []
       description: Organization complete information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationData'
+        - $ref: '#/components/schemas/OrganizationDetails'
           x-stoplight:
             id: 64kdwn8nva4jg
         - $ref: '#/components/schemas/OrganizationMetadata'
@@ -195,7 +195,7 @@ components:
               $ref: '#/components/schemas/OrganizationRelation'
               x-stoplight:
                 id: 2j23biyi2hfqo
-    OrganizationData:
+    OrganizationDetails:
       title: Organization definition
       x-stoplight:
         id: 2gyt1v3d2gfmm

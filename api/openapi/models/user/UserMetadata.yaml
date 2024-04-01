@@ -1,0 +1,25 @@
+title: User metadata
+x-stoplight:
+  id: wh4m94b2ezx0i
+type: object
+properties:
+  id:
+    type: integer
+    x-stoplight:
+      id: g3b344eju3s69
+    format: int64
+  created_at:
+    type: string
+    x-stoplight:
+      id: j6yblknliqi00
+    format: date-time
+  updated_at:
+    type: string
+    x-stoplight:
+      id: 88lji1tkyif14
+    format: date-time
+  last_active_at:
+    type: string
+    x-stoplight:
+      id: zxycvrmb3q9qm
+    format: date-time
