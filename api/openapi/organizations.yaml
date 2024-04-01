@@ -177,6 +177,15 @@ paths:
         - Organizations
         - Ready for implementation
       x-internal: false
+  '/organizations/{org_id}/users':
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-organizations-org_id-users
+      description: ''
 components:
   schemas:
     OrganizationProfile:
@@ -184,7 +193,7 @@ components:
       x-stoplight:
         id: lzs7p3khz8n9d
       examples: []
-      description: Organization complete information.
+      description: Comprehensive set of organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
@@ -203,7 +212,7 @@ components:
       x-stoplight:
         id: x7vdhfbeaz5pu
       examples: []
-      description: Organization complete information.
+      description: Various information about the organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationDetails'
           x-stoplight:
@@ -229,7 +238,7 @@ components:
           x-stoplight:
             id: hsav6x2ci2qt1
           description: |-
-            Unique identifying part.
+            Unique identifying part of an organization.
             Generated according to the organization name if not specified by the user.
           pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
       required:
@@ -482,8 +491,15 @@ components:
         type: string
       description: User identifier
   requestBodies: {}
+  securitySchemes:
+    ApiKey:
+      type: http
+      scheme: basic
+      description: ''
 tags:
   - name: Organizations
   - name: Projects
   - name: Ready for implementation
   - name: Users
+security:
+  - ApiKey: []
