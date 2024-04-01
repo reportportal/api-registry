@@ -7,11 +7,21 @@ properties:
     type: string
     x-stoplight:
       id: ia7sekdpu4yac
+    description: Display project name.
   slug:
     type: string
     x-stoplight:
       id: z0ol4urqp54ye
+    description: |-
+      Unique identifying part of a project
+      in an organization.
+      Generated according to the project name
+      if not specified by the user.
   key:
     type: string
     x-stoplight:
       id: 9up0sba6ni0se
+    description: |-
+      Unique identifying part of a project in
+      an instance. Generated from an organization
+      slug and project slug.

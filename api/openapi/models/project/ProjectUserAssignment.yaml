@@ -1,0 +1,8 @@
+title: ProjectUserAssignment
+x-stoplight:
+  id: c6ouurwz290zv
+allOf:
+  - $ref: ./ProjectDetails.yaml
+    x-stoplight:
+      id: h0cb3m1kcqoj2
+  - $ref: ./ProjectUserDetails.yaml

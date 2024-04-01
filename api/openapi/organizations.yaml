@@ -183,10 +183,9 @@ components:
       examples: []
       description: Organization complete information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationDetails'
+        - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
             id: 64kdwn8nva4jg
-        - $ref: '#/components/schemas/OrganizationMetadata'
         - type: object
           x-stoplight:
             id: mlbwuzzsovyma
@@ -195,6 +194,19 @@ components:
               $ref: '#/components/schemas/OrganizationRelation'
               x-stoplight:
                 id: 2j23biyi2hfqo
+    OrganizationInfo:
+      title: Organization
+      x-stoplight:
+        id: x7vdhfbeaz5pu
+      examples: []
+      description: Organization complete information.
+      allOf:
+        - $ref: '#/components/schemas/OrganizationDetails'
+          x-stoplight:
+            id: 64kdwn8nva4jg
+        - $ref: '#/components/schemas/OrganizationMetadata'
+          x-stoplight:
+            id: 2bhjwvbwlhrlb
     OrganizationDetails:
       title: Organization definition
       x-stoplight:
@@ -323,21 +335,100 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
-    OrganizationUserProfile:
-      title: Organization user
-      x-stoplight:
-        id: 290y8u7rv2whx
-      type: object
     OrganizationUserInfo:
-      title: Organization user
+      title: Organization user information
       x-stoplight:
         id: snwrtcmq8wvt1
+      allOf:
+        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - $ref: '#/components/schemas/OrganizationUserMetadata'
+          x-stoplight:
+            id: 0ao0t2fs2p7gc
+      description: Related information about user in organization.
+    OrganizationUserDetails:
+      title: Organization user
+      x-stoplight:
+        id: 5nqrewxfku9tn
       type: object
+      properties:
+        role:
+          type: string
+          x-stoplight:
+            id: 3v2e1cyby216c
+          enum:
+            - PROJECT_MANAGER
+            - MEMBER
+          description: Organization user's role.
+    OrganizationUserMetadata:
+      title: Organization user
+      x-stoplight:
+        id: g7a81q7nu3zgo
+      allOf:
+        - x-stoplight:
+            id: 3b9125n1gljg0
+          properties:
+            assigned_at:
+              type: string
+              x-stoplight:
+                id: a7gp7z7wei0p6
+              format: date-time
+            updated_at:
+              type: string
+              x-stoplight:
+                id: a7gp7z7wei0p6
+              format: date-time
+            last_active_at:
+              type: string
+              x-stoplight:
+                id: a7gp7z7wei0p6
+              format: date-time
+        - x-stoplight:
+            id: 0srgatmno8b4b
+          properties:
+            related:
+              $ref: '#/components/schemas/OrganizationUserRelation'
+              x-stoplight:
+                id: wrawjhpa10y1j
+      type: object
+    OrganizationUserRelation:
+      title: Organization user relations
+      x-stoplight:
+        id: 0v55lmrhzuy8t
+      type: object
+      properties:
+        projects:
+          type: object
+          x-stoplight:
+            id: c9yj84iq8c79w
+          description: User's projects relation metadata.
+          properties:
+            count:
+              type: integer
+              x-stoplight:
+                id: 127i76hh550kj
+              description: Total number of user's projects in organization.
+              minimum: 0
     OrganizationUserAssignment:
       title: Organization user
       x-stoplight:
         id: u52hc1apf7q2q
-      type: object
+      allOf:
+        - $ref: ./models/user/UserContactData.yaml
+          x-stoplight:
+            id: fh1989fa101o2
+        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - type: object
+          x-stoplight:
+            id: nh1gunacinw5v
+          properties:
+            projects:
+              x-stoplight:
+                id: 7qf3duno409l9
+              type: array
+              items:
+                $ref: ./models/project/ProjectUserAssignment.yaml
+                x-stoplight:
+                  id: fmzilkgtzpdmu
   parameters:
     OrganizationId:
       name: org_id
