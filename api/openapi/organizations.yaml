@@ -208,19 +208,6 @@ components:
         - $ref: '#/components/schemas/OrganizationMetadata'
           x-stoplight:
             id: 2bhjwvbwlhrlb
-    OrganizationInfo:
-      title: Organization
-      x-stoplight:
-        id: x7vdhfbeaz5pu
-      examples: []
-      description: Organization complete information.
-      allOf:
-        - $ref: '#/components/schemas/OrganizationDetails'
-          x-stoplight:
-            id: 64kdwn8nva4jg
-        - $ref: '#/components/schemas/OrganizationMetadata'
-          x-stoplight:
-            id: 2bhjwvbwlhrlb
     OrganizationDetails:
       title: Organization definition
       x-stoplight:
