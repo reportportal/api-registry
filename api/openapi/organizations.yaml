@@ -323,112 +323,16 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
-    OrganizationUser:
+    OrganizationUserProfile:
       title: Organization user
       x-stoplight:
         id: 290y8u7rv2whx
       type: object
-    OrganiztionUserData:
+    OrganizationUserInfo:
       title: Organization user
       x-stoplight:
-        id: ww6j30xwgbvu1
+        id: snwrtcmq8wvt1
       type: object
-      properties:
-        email:
-          type: string
-          x-stoplight:
-            id: xlmjbgi83cjrt
-        role:
-          type: string
-          x-stoplight:
-            id: v9nqnpq0lzcv3
-    OrganizationProject:
-      title: Organization project
-      x-stoplight:
-        id: 7qhfm2mljfnab
-      type: object
-      properties:
-        id:
-          type: string
-        users:
-          type: array
-          x-stoplight:
-            id: 7bvv21b3xbg3o
-          items:
-            x-stoplight:
-              id: qq16ytcg8sdpy
-            type: object
-            properties:
-              id:
-                type: integer
-                x-stoplight:
-                  id: bn9r3o44qsi7v
-                format: int64
-              href:
-                type: string
-                x-stoplight:
-                  id: rynxepiwb70or
-                format: uri
-    OrgLaunchSettings:
-      title: OrganizationSettings
-      x-stoplight:
-        id: 870b1czmtb2s6
-      type: object
-      properties:
-        duration:
-          type: string
-          x-stoplight:
-            id: f59ejwit0d152
-          format: duration
-        '':
-          type: string
-          x-stoplight:
-            id: 685cyif333065
-    OrgIntegrationSettings:
-      title: OrganizationSettings
-      x-stoplight:
-        id: 9w0g4scmjx4eh
-      type: object
-      properties:
-        duration:
-          type: string
-          x-stoplight:
-            id: f59ejwit0d152
-          format: duration
-        '':
-          type: string
-          x-stoplight:
-            id: 685cyif333065
-    OrgBillingSettings:
-      title: OrganizationSettings
-      x-stoplight:
-        id: e3lvf0kvy0m73
-      type: object
-      properties:
-        duration:
-          type: string
-          x-stoplight:
-            id: f59ejwit0d152
-          format: duration
-        '':
-          type: string
-          x-stoplight:
-            id: 685cyif333065
-    OrgNotificationSettings:
-      title: OrganizationSettings
-      x-stoplight:
-        id: kngx83xbxpy6y
-      type: object
-      properties:
-        duration:
-          type: string
-          x-stoplight:
-            id: f59ejwit0d152
-          format: duration
-        '':
-          type: string
-          x-stoplight:
-            id: 685cyif333065
   parameters:
     OrganizationId:
       name: org_id
