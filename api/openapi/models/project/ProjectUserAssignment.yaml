@@ -1,8 +1,22 @@
-title: ProjectUserAssignment
+title: Project user assignment
 x-stoplight:
   id: c6ouurwz290zv
 allOf:
-  - $ref: ./ProjectDetails.yaml
+  - type: object
     x-stoplight:
-      id: h0cb3m1kcqoj2
+      id: 4kgvm161hzvtr
+    properties:
+      id:
+        type: integer
+        x-stoplight:
+          id: f7stmdjdqi95y
+        format: int64
+        description: Project's internal ID.
+      slug:
+        type: string
+        x-stoplight:
+          id: e5hthodw9bh5e
+        description: |-
+          Unique identifying part of a project
+          in an organization. You can use it instead the project ID.
   - $ref: ./ProjectUserDetails.yaml

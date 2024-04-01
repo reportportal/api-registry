@@ -9,5 +9,3 @@ properties:
     x-stoplight:
       id: 80799nsyszbif
     format: email
-required:
-  - email

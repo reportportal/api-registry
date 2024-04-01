@@ -410,7 +410,7 @@ components:
               description: Total number of user's projects in organization.
               minimum: 0
     OrganizationUserAssignment:
-      title: Organization user
+      title: Organization user assignment
       x-stoplight:
         id: u52hc1apf7q2q
       allOf:
@@ -426,10 +426,15 @@ components:
               x-stoplight:
                 id: 7qf3duno409l9
               type: array
+              description: |-
+                List of projects for assigment an user.
+                It's optional, you can assigne the user to
+                an orgnization without projects.
               items:
                 $ref: ./models/project/ProjectUserAssignment.yaml
                 x-stoplight:
                   id: fmzilkgtzpdmu
+      description: ''
   parameters:
     OrganizationId:
       name: org_id
