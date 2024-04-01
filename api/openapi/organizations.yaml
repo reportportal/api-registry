@@ -6,6 +6,9 @@ info:
   version: '0.1'
   description: ''
   summary: API Collection for organizations management
+  contact:
+    name: Reingold Shekhtel
+    email: reingold_shekhtel@epam.com
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -184,17 +187,17 @@ components:
       description: Organization complete information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
-        - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
-            id: 64kdwn8nva4jg
+            id: u4a57jsjnfope
         - type: object
           x-stoplight:
-            id: mlbwuzzsovyma
+            id: fo8ntqji7y6xs
           properties:
             related:
               $ref: '#/components/schemas/OrganizationRelation'
               x-stoplight:
-                id: 2j23biyi2hfqo
+                id: 3j6b648g9dfyp
+              description: Related metadata for the organization.
     OrganizationInfo:
       title: Organization
       x-stoplight:

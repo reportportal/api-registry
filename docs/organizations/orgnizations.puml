@@ -4,7 +4,7 @@ stoplight-id: dp15zhxks2i84
 
 @startuml organizational-entities
 
-skinparam linetype ortho
+' skinparam linetype ortho
 
 package OrganizationView {
   entity OrganizationProfile {
@@ -148,7 +148,7 @@ package ProjectView {
     key String
     external_id String
   }
-  ProjectInfo o-- ProjectDetails
+  ProjectDetails --o ProjectInfo
 
   entity ProjectMetadata {
     id Int
@@ -203,9 +203,10 @@ package ProjectUserView {
   }
   ProjectUserMetadata -up-o ProjectUserInfo
 
-  entity ProjectUserAssignment
+  entity ProjectUserAssignment {
+    slug String
+  }
   ProjectUserAssignment o-- ProjectUserDetails
-  ProjectUserAssignment o-up- ProjectDetails
   ProjectUserAssignment -- OrganizationUserAssignment
 
 }

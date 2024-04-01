@@ -25,3 +25,5 @@ properties:
       Unique identifying part of a project in
       an instance. Generated from an organization
       slug and project slug.
+required:
+  - name
