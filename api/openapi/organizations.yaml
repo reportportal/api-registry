@@ -221,9 +221,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserDefinition'
+                $ref: ./models/EventStatus.yaml
         '207':
           description: Multi-Status (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    x-stoplight:
+                      id: tv2psyijqtql3
+                    type: array
+                    items:
+                      $ref: ./models/EventStatus.yaml
+                      x-stoplight:
+                        id: tlxl05k73zejt
       description: ''
       requestBody:
         content:
@@ -514,10 +527,12 @@ components:
       x-stoplight:
         id: mtgs7v0icru14
       allOf:
-        - $ref: ./models/user/UserAccountInfo.yaml
+        - $ref: '#/components/schemas/OrganizationUserInfo'
           x-stoplight:
             id: z9t6c1tqs0zl7
-        - $ref: '#/components/schemas/OrganizationUserInfo'
+        - $ref: ./models/user/UserAccountInfo.yaml
+          x-stoplight:
+            id: 2hn2quqj2tknt
         - type: object
           x-stoplight:
             id: ryd1bkgqoi60r
@@ -567,14 +582,6 @@ components:
               format: date-time
               description: |-
                 A time when the user was assigned to
-                the organization.
-            updated_at:
-              type: string
-              x-stoplight:
-                id: a7gp7z7wei0p6
-              format: date-time
-              description: |-
-                A last time user data was updated in
                 the organization.
       description: User's organization metadata. Represent generated fields.
       type: object

@@ -2,9 +2,7 @@ title: Relationships
 x-stoplight:
   id: tg2o5g8kh8evo
 type: object
-description: |-
-  Related information about the organization. Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships).
-  We use only `links` and `meta` objects.
+description: 'Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.'
 properties:
   relationships:
     type: object

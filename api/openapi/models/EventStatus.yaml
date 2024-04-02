@@ -1,0 +1,26 @@
+title: EventStatus
+x-stoplight:
+  id: c0yfyurojnb6b
+type: object
+properties:
+  id:
+    type: string
+    description: Identifier of a request item.
+    format: int64
+  status:
+    type: string
+    x-stoplight:
+      id: nmyb8koi7rsju
+    description: |-
+      Response status value. A number or extensible enum describing
+                    the execution status of the batch or bulk request items.
+  description:
+    type: string
+    x-stoplight:
+      id: n1yxnyalgcqw8
+    description: |-
+      Human readable status description and containing additional
+                    context information about failures etc.
+required:
+  - id
+  - status
