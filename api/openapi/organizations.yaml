@@ -615,6 +615,11 @@ components:
               description: |-
                 A time when the user was assigned to
                 the organization.
+            updated_at:
+              type: string
+              x-stoplight:
+                id: 8ctm4subuqa7k
+              format: date-time
       description: User's organization metadata. Represent generated fields.
       type: object
     OrganizationUserRelation:
