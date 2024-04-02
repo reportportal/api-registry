@@ -223,7 +223,7 @@ package ProjectUserView {
 
   entity ProjectUserMetadata {
     assigned_at DateTime
-    updated_at DateTime  
+    updated_at DateTime
   }
   ProjectUserMetadata -right-o ProjectUserInfo
 }

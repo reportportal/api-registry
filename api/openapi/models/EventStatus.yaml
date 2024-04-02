@@ -1,4 +1,4 @@
-title: EventStatus
+title: Event status
 x-stoplight:
   id: c0yfyurojnb6b
 type: object
@@ -12,8 +12,18 @@ properties:
     x-stoplight:
       id: nmyb8koi7rsju
     description: |-
-      Response status value. A number or extensible enum describing
-                    the execution status of the batch or bulk request items.
+      Field indicating the execution status of
+      the request item.
+
+      The status can be one of the following:
+
+      * "SUCCESS" 
+      * "FAILURE" 
+      * "PENDING"
+    enum:
+      - SUCCESS
+      - FAILURE
+      - PENDING
   description:
     type: string
     x-stoplight:

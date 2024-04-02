@@ -216,33 +216,35 @@ paths:
       summary: ''
       operationId: post-organizations-org_id-users
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ./models/EventStatus.yaml
         '207':
           description: Multi-Status (WebDAV)
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
+                allOf:
+                  - $ref: '#/components/schemas/OrganizationUserInfo'
                     x-stoplight:
-                      id: tv2psyijqtql3
-                    type: array
-                    items:
-                      $ref: ./models/EventStatus.yaml
-                      x-stoplight:
-                        id: tlxl05k73zejt
+                      id: qczj8a6wf2gxv
+                  - type: object
+                    properties:
+                      items:
+                        x-stoplight:
+                          id: tv2psyijqtql3
+                        type: array
+                        description: |-
+                          Change statuses for projects.
+                          For cases when a user is assigned projects.
+                        items:
+                          $ref: ./models/EventStatus.yaml
+                          x-stoplight:
+                            id: tlxl05k73zejt
       description: ''
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
+        description: Definition for a user assignment.
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -263,12 +265,31 @@ paths:
       summary: ''
       operationId: put-organizations-org_id-users-user_id
       responses:
-        '200':
-          description: OK
+        '207':
+          description: |-
+            Multi-Status (WebDAV)
+
+            Response for a user assignment with projects.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserDefinition'
+                allOf:
+                  - $ref: '#/components/schemas/OrganizationUserInfo'
+                    x-stoplight:
+                      id: vr6fer4du1z6d
+                  - type: object
+                    properties:
+                      items:
+                        x-stoplight:
+                          id: nxwqi2ot8md9m
+                        type: array
+                        description: |-
+                          Change statuses for projects.
+                          For cases when a user is assigned projects.
+                        items:
+                          $ref: ./models/EventStatus.yaml
+                          x-stoplight:
+                            id: o9wfyd597iupr
       requestBody:
         content:
           application/json:
@@ -279,30 +300,41 @@ paths:
       summary: ''
       operationId: patch-organizations-org_id-users-user_id
       responses:
-        '200':
-          description: OK
+        '207':
+          description: |-
+            Multi-Status (WebDAV)
+
+            Response for a user assignment with projects.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserDefinition'
+                allOf:
+                  - $ref: '#/components/schemas/OrganizationUserInfo'
+                  - type: object
+                    x-stoplight:
+                      id: ktzksl9dz8ii1
+                    properties:
+                      items:
+                        type: array
+                        x-stoplight:
+                          id: 3ujdjt3ivvssf
+                        description: |-
+                          Change statuses for projects.
+                          For cases when a user is assigned projects.
+                        items:
+                          $ref: ./models/EventStatus.yaml
+                          x-stoplight:
+                            id: q4dxrz1yz0hcd
       requestBody:
         content:
-          application/json:
+          application/merge-patch+json:
             schema:
               allOf:
-                - type: object
-                  x-stoplight:
-                    id: v72zk74q61413
-                  properties:
-                    email:
-                      type: string
-                      x-stoplight:
-                        id: vwz03efsaphdv
-                      format: date-time
                 - $ref: '#/components/schemas/OrganizationUserDefinition'
                   x-stoplight:
                     id: gefsrv69jcdbi
-        description: ''
+        description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
+      description: ''
     delete:
       summary: ''
       operationId: delete-organizations-org_id-users-user_id
