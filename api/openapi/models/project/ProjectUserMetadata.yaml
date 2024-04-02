@@ -14,9 +14,3 @@ properties:
       id: jnf0ztd1iio4f
     description: '#TODO Add discription'
     format: date-time
-  last_active_at:
-    type: string
-    x-stoplight:
-      id: wgpbyuz6xe8h8
-    description: '#TODO Add discription'
-    format: date-time

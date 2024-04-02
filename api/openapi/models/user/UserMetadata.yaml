@@ -21,9 +21,3 @@ properties:
       id: 88lji1tkyif14
     format: date-time
     description: When user's data was modifed.
-  last_active_at:
-    type: string
-    x-stoplight:
-      id: zxycvrmb3q9qm
-    format: date-time
-    description: When user made some activities.

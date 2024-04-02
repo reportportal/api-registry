@@ -309,9 +309,14 @@ components:
         - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
             id: arejror5jwj3n
-        - $ref: '#/components/schemas/OrganizationRelation'
+        - type: object
           x-stoplight:
-            id: fo8ntqji7y6xs
+            id: xxy7z5blvo389
+          properties:
+            relationships:
+              $ref: '#/components/schemas/OrganizationRelation'
+              x-stoplight:
+                id: lkpinpm5hhpzy
     OrganizationInfo:
       title: Organization
       x-stoplight:
@@ -398,89 +403,86 @@ components:
       x-stoplight:
         id: mvjaoy2fofepj
       type: object
-      description: ''
       properties:
-        relationships:
+        users:
           type: object
           x-stoplight:
-            id: 5m9b6w0wb2lci
-          description: 'A relationship object contains members that represent a relationship of the organization. '
+            id: krjw7vjy2izad
+          description: General information about the organization users.
           properties:
-            users:
+            meta:
               type: object
               x-stoplight:
-                id: krjw7vjy2izad
-              description: General information about the organization users.
+                id: d6fwspiop6x0l
               properties:
-                meta:
-                  type: object
+                count:
+                  type: integer
                   x-stoplight:
-                    id: d6fwspiop6x0l
-                  properties:
-                    count:
-                      type: integer
-                      x-stoplight:
-                        id: hjzuzo3w0fblt
-                      minimum: 0
-                      description: Total count of users in the organization.
-            projects:
+                    id: hjzuzo3w0fblt
+                  minimum: 0
+                  description: Total count of users in the organization.
+        projects:
+          type: object
+          x-stoplight:
+            id: ccus3qpgo1r30
+          description: General information about the organization projects.
+          properties:
+            meta:
               type: object
               x-stoplight:
-                id: ccus3qpgo1r30
-              description: General information about the organization projects.
+                id: ez4r3fb2cr2ts
               properties:
-                meta:
-                  type: object
+                count:
+                  type: integer
                   x-stoplight:
-                    id: ez4r3fb2cr2ts
-                  properties:
-                    count:
-                      type: integer
-                      x-stoplight:
-                        id: 1l7k5p1fnlpfv
-                      minimum: 0
-                      description: Total count of projects in the organization.
-            launches:
+                    id: 1l7k5p1fnlpfv
+                  minimum: 0
+                  description: Total count of projects in the organization.
+        launches:
+          type: object
+          x-stoplight:
+            id: mwmj5j0ckj15e
+          description: General information about the organization launches.
+          properties:
+            meta:
               type: object
               x-stoplight:
-                id: mwmj5j0ckj15e
-              description: General information about the organization launches.
+                id: s2lmbnao0c7sw
               properties:
-                meta:
-                  type: object
+                last_occurred_at:
+                  type: string
                   x-stoplight:
-                    id: s2lmbnao0c7sw
-                  properties:
-                    last_occurred_at:
-                      type: string
-                      x-stoplight:
-                        id: l5t9kyok3gjee
-                      format: date-time
-                      description: Last launch occurrence date.
-            billing:
+                    id: l5t9kyok3gjee
+                  format: date-time
+                  description: Last launch occurrence date.
+        billing:
+          type: object
+          x-stoplight:
+            id: 2dmd4f0yulayn
+          description: |-
+            General information about the organization billing.
+            Available only if a Billing plugin is enabled.
+          properties:
+            meta:
               type: object
               x-stoplight:
-                id: 2dmd4f0yulayn
-              description: |-
-                General information about the organization billing.
-                Available only if a Billing plugin is enabled.
+                id: kycmg6uetm4ny
               properties:
-                meta:
-                  type: object
+                plan_name:
+                  type: string
                   x-stoplight:
-                    id: kycmg6uetm4ny
-                  properties:
-                    plan_name:
-                      type: string
-                      x-stoplight:
-                        id: an0sg4e2taicm
-                      description: Plan name.
-                    storage_usage:
-                      type: integer
-                      x-stoplight:
-                        id: kfsaova2wetdj
-                      minimum: 0
-                      description: Storage usage in percents.
+                    id: an0sg4e2taicm
+                  description: Plan name.
+                storage_usage:
+                  type: integer
+                  x-stoplight:
+                    id: kfsaova2wetdj
+                  minimum: 0
+                  description: Storage usage in percents.
+      description: |-
+        A relationship object contains members that represent a relationship of the organization.
+
+        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
     OrganizationUserDefinition:
       title: Organization user definition
       x-stoplight:
@@ -516,6 +518,14 @@ components:
           x-stoplight:
             id: z9t6c1tqs0zl7
         - $ref: '#/components/schemas/OrganizationUserInfo'
+        - type: object
+          x-stoplight:
+            id: ryd1bkgqoi60r
+          properties:
+            relationships:
+              $ref: '#/components/schemas/OrganizationUserRelation'
+              x-stoplight:
+                id: 40bx6wtd0uvnz
       description: A comprehensive set of user information related to a user's organization.
     OrganizationUserInfo:
       title: Organization user information
@@ -549,7 +559,6 @@ components:
       allOf:
         - x-stoplight:
             id: 3b9125n1gljg0
-          type: object
           properties:
             assigned_at:
               type: string
@@ -567,53 +576,38 @@ components:
               description: |-
                 A last time user data was updated in
                 the organization.
-            last_active_at:
-              type: string
-              x-stoplight:
-                id: a7gp7z7wei0p6
-              format: date-time
-              description: |-
-                A last user activity time in
-                the organization.
-        - $ref: '#/components/schemas/OrganizationUserRelation'
-          x-stoplight:
-            id: 0srgatmno8b4b
       description: User's organization metadata. Represent generated fields.
+      type: object
     OrganizationUserRelation:
       title: Organization user relations
       x-stoplight:
         id: 0v55lmrhzuy8t
-      allOf:
-        - type: object
+      properties:
+        projects:
+          type: object
+          x-stoplight:
+            id: liq2focmyttih
+          description: User's projects relations.
           properties:
-            relationships:
+            meta:
               type: object
               x-stoplight:
-                id: ew4b8xmi47jcr
+                id: p06xmlipg4irk
+              description: User's projects relation metadata.
               properties:
-                projects:
-                  type: object
+                count:
+                  type: integer
                   x-stoplight:
-                    id: liq2focmyttih
-                  description: User's projects relations.
-                  properties:
-                    meta:
-                      type: object
-                      x-stoplight:
-                        id: p06xmlipg4irk
-                      description: User's projects relation metadata.
-                      properties:
-                        count:
-                          type: integer
-                          x-stoplight:
-                            id: 3tcj2ts8foup5
-                          minimum: 0
-                          description: |-
-                            Total number of user's projects in
-                            organization.
-        - $ref: ./models/Relationships.yaml
-          x-stoplight:
-            id: pgeqhhki6bczs
+                    id: 3tcj2ts8foup5
+                  minimum: 0
+                  description: |-
+                    Total number of user's projects in
+                    organization.
+      type: object
+      description: |-
+        A relationship object contains members that represent a relationship of the user in the organization.
+
+        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
   parameters:
     OrganizationId:
       name: org_id

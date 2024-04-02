@@ -8,17 +8,17 @@ stoplight-id: dp15zhxks2i84
 
 package OrganizationView {
   entity OrganizationProfile {
-    related OrganizationRelation
+    relationships OrganizationRelation
   }
   
   entity OrganizationInfo
-  OrganizationInfo -up- OrganizationProfile
+  OrganizationInfo -up-o OrganizationProfile
   
   entity OrganizationDetails {
     name String
     slug String
   }
-  OrganizationInfo *-- OrganizationDetails
+  OrganizationInfo o-- OrganizationDetails
 
   entity OrganizationMetadata {
     id Int
@@ -27,7 +27,7 @@ package OrganizationView {
     created_at DateTime
     updated_at DateTime
   }
-  OrganizationInfo *-- OrganizationMetadata
+  OrganizationInfo o-- OrganizationMetadata
 
   entity OrganizationRelation {
     projects OrgProjectsRelation
@@ -91,7 +91,9 @@ package OrganizationView {
 }
 
 package OrganizationUserView {
-  entity OrganizationUserProfile
+  entity OrganizationUserProfile {
+    relationships OrganizationUserRelation
+  }
 
   entity OrganizationUserInfo
   OrganizationUserInfo -up-o OrganizationUserProfile
@@ -110,21 +112,19 @@ package OrganizationUserView {
   entity OrganizationUserMetadata {
     assigned_at DateTime
     updated_at DateTime
-    last_active_at DateTime
-    related OrgUserRelation
   }
   OrganizationUserMetadata -up-o OrganizationUserInfo
 
-  entity OrgUserRelation {
+  entity OrganizationUserRelation {
     projects OrgUserProjectsRelation
   }
-  OrgUserRelation -up- OrganizationUserMetadata
+  OrganizationUserRelation -up- OrganizationUserProfile
   
   entity OrgUserProjectsRelation {
     links OrgUserProjectsRelationLinks
     meta OrgUserProjectsRelationMeta
   }
-  OrgUserProjectsRelation -up- OrgUserRelation
+  OrgUserProjectsRelation -up- OrganizationUserRelation
 
   entity OrgUserProjectsRelationMeta {
     count Int
@@ -157,7 +157,7 @@ package UserView {
     id Int
     created_at DateTime
     updated_at DateTime
-    last_active_at DateTime
+    last_login_at DateTime
   }
   UserMetadata -up-o UserAccountInfo
 
@@ -176,7 +176,7 @@ package UserView {
 
 package ProjectView {
   entity ProjectProfile {
-    related ProjectRelation
+    relationships ProjectRelation
   }
   
   entity ProjectInfo
@@ -223,8 +223,7 @@ package ProjectUserView {
 
   entity ProjectUserMetadata {
     assigned_at DateTime
-    updated_at DateTime
-    last_active_at DateTime
+    updated_at DateTime  
   }
   ProjectUserMetadata -right-o ProjectUserInfo
 }
