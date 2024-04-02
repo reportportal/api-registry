@@ -339,8 +339,8 @@ paths:
       summary: ''
       operationId: delete-organizations-org_id-users-user_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: Unassigned user from an organization and all organization projects.
 components:
   schemas:
