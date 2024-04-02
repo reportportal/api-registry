@@ -43,11 +43,21 @@ package OrganizationView {
   }
   OrgProjectsRelation -up- OrganizationRelation
 
+  entity OrgProjectsRelationMeta {
+    count Int
+  }
+  OrgProjectsRelationMeta -up- OrgProjectsRelation
+
   entity OrgUsersRelation {
     links OrgUsersRelationLinks
     meta OrgUsersRelationMeta
   }
   OrgUsersRelation -up- OrganizationRelation
+
+  entity OrgUsersRelationMeta {
+    count Int
+  }
+  OrgUsersRelationMeta -up- OrgUsersRelation
 
   entity OrgLaunchesRelation {
     links OrgLaunchesRelationLinks
@@ -55,11 +65,22 @@ package OrganizationView {
   }
   OrgLaunchesRelation -up- OrganizationRelation
 
+  entity OrgLaunchesRelationMeta {
+    last_occurred_at DateTime
+  }
+  OrgLaunchesRelationMeta -up- OrgLaunchesRelation
+
   entity OrgBillingRelation {
     links OrgBillingRelationLinks
     meta OrgBillingRelationMeta
   }
   OrgBillingRelation -up- OrganizationRelation
+
+  entity OrgBillingRelationMeta {
+    plan String
+    storage_usage String
+  }
+  OrgBillingRelationMeta -up- OrgBillingRelation
 
   enum OrganizationType {
     INTERNAL
@@ -104,6 +125,11 @@ package OrganizationUserView {
     meta OrgUserProjectsRelationMeta
   }
   OrgUserProjectsRelation -up- OrgUserRelation
+
+  entity OrgUserProjectsRelationMeta {
+    count Int
+  }
+  OrgUserProjectsRelationMeta -up- OrgUserProjectsRelation
 
   entity OrganizationUserDefinition {
     projects List<UserProjectDetails>
