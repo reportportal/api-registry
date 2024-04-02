@@ -2,6 +2,7 @@ title: Project user details
 x-stoplight:
   id: msbxfonb90si2
 type: object
+description: '#TODO Add discription'
 properties:
   role:
     type: string
@@ -12,7 +13,8 @@ properties:
       - VIEWER
       - NONE
     description: |-
-      User's role in the project.
-      All users with a `PROJECT_MANAGER` role have
-      the `EDITOR` role by default.
-description: '#TODO Add discription'
+      User role in the project.
+
+      - `EDITOR` is a full-access role for the project. By default, all users with a `PROJECT_MANAGER` role have the `EDITOR` role.
+      - `VIEWER` is a base role for members. Provides a read-only permission.
+      - `NONE` is a role you can use to unassign a user from the project.
