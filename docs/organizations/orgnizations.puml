@@ -38,23 +38,26 @@ package OrganizationView {
   OrganizationRelation -up- OrganizationProfile
 
   entity OrgProjectsRelation {
-    count Int
+    links OrgProjectsRelationLinks
+    meta OrgProjectsRelationMeta
   }
   OrgProjectsRelation -up- OrganizationRelation
 
   entity OrgUsersRelation {
-    count Int
+    links OrgUsersRelationLinks
+    meta OrgUsersRelationMeta
   }
   OrgUsersRelation -up- OrganizationRelation
 
   entity OrgLaunchesRelation {
-    last_occurred_at DateTime
+    links OrgLaunchesRelationLinks
+    meta OrgLaunchesRelationMeta
   }
   OrgLaunchesRelation -up- OrganizationRelation
 
   entity OrgBillingRelation {
-    plan_name String
-    storage_usage Int
+    links OrgBillingRelationLinks
+    meta OrgBillingRelationMeta
   }
   OrgBillingRelation -up- OrganizationRelation
 
@@ -97,7 +100,8 @@ package OrganizationUserView {
   OrgUserRelation -up- OrganizationUserMetadata
   
   entity OrgUserProjectsRelation {
-    count Int
+    links OrgUserProjectsRelationLinks
+    meta OrgUserProjectsRelationMeta
   }
   OrgUserProjectsRelation -up- OrgUserRelation
 
@@ -174,22 +178,6 @@ package ProjectView {
     PERSONAL
   }
   ProjectMetadata -- ProjectType
-
-  entity ProjectRelation {
-    users ProjectUsersRelation
-    launches ProjectLaunchesRelation
-  }
-  ProjectRelation -up- ProjectProfile
-
-  entity ProjectUsersRelation {
-    count Int
-  }
-  ProjectUsersRelation -up- ProjectRelation
-
-  entity ProjectLaunchesRelation {
-    last_occurred_at DateTime
-  }
-  ProjectLaunchesRelation -up- ProjectRelation
 }
 
 package ProjectUserView {
