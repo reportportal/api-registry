@@ -1,0 +1,9 @@
+title: UserRelated
+x-stoplight:
+  id: kcmqqkyc4bdln
+type: object
+properties:
+  relationships:
+    type: object
+    x-stoplight:
+      id: r1jssveug9fzq

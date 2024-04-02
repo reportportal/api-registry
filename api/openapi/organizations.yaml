@@ -308,16 +308,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
           x-stoplight:
-            id: u4a57jsjnfope
-        - type: object
+            id: arejror5jwj3n
+        - $ref: '#/components/schemas/OrganizationRelation'
           x-stoplight:
             id: fo8ntqji7y6xs
-          properties:
-            related:
-              $ref: '#/components/schemas/OrganizationRelation'
-              x-stoplight:
-                id: 3j6b648g9dfyp
-              description: Related metadata for the organization.
     OrganizationInfo:
       title: Organization
       x-stoplight:
@@ -404,64 +398,89 @@ components:
       x-stoplight:
         id: mvjaoy2fofepj
       type: object
-      description: Related information about the organization.
+      description: ''
       properties:
-        users:
-          x-stoplight:
-            id: aau80pjhj0ecs
-          description: General information about the organization users.
-          type: object
-          properties:
-            count:
-              type: integer
-              x-stoplight:
-                id: wqrlqc1knwtwb
-              description: Total count of users in the organization.
-              minimum: 0
-        projects:
+        relationships:
           type: object
           x-stoplight:
-            id: gfcxxarpmzbsn
-          description: General information about the organization projects.
+            id: 5m9b6w0wb2lci
+          description: 'A relationship object contains members that represent a relationship of the organization. '
           properties:
-            count:
-              type: integer
+            users:
+              type: object
               x-stoplight:
-                id: ypqfuxxevu2si
-              minimum: 0
-              description: Total count of projects in the organization.
-        launches:
-          type: object
-          x-stoplight:
-            id: cz8q9j1tg4ak0
-          description: General information about the organization launches.
-          properties:
-            last_occurred_at:
-              type: string
+                id: krjw7vjy2izad
+              description: General information about the organization users.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: d6fwspiop6x0l
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: hjzuzo3w0fblt
+                      minimum: 0
+                      description: Total count of users in the organization.
+            projects:
+              type: object
               x-stoplight:
-                id: ry81p33pd7rr1
-              format: date-time
-              description: Last launch occurrence date.
-        billing:
-          type: object
-          x-stoplight:
-            id: kp0guqf27icwi
-          description: |-
-            General information about the organization billing.
-            Available only if a Billing plugin is enabled.
-          properties:
-            plan_name:
-              type: string
+                id: ccus3qpgo1r30
+              description: General information about the organization projects.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: ez4r3fb2cr2ts
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: 1l7k5p1fnlpfv
+                      minimum: 0
+                      description: Total count of projects in the organization.
+            launches:
+              type: object
               x-stoplight:
-                id: dg7lhxj6xspo9
-              description: Plan name.
-            storage_usage:
-              type: integer
+                id: mwmj5j0ckj15e
+              description: General information about the organization launches.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: s2lmbnao0c7sw
+                  properties:
+                    last_occurred_at:
+                      type: string
+                      x-stoplight:
+                        id: l5t9kyok3gjee
+                      format: date-time
+                      description: Last launch occurrence date.
+            billing:
+              type: object
               x-stoplight:
-                id: vbbgb3u6pyequ
-              minimum: 0
-              maximum: 100
-              description: Storage usage in percents.
+                id: 2dmd4f0yulayn
+              description: |-
+                General information about the organization billing.
+                Available only if a Billing plugin is enabled.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: kycmg6uetm4ny
+                  properties:
+                    plan_name:
+                      type: string
+                      x-stoplight:
+                        id: an0sg4e2taicm
+                      description: Plan name.
+                    storage_usage:
+                      type: integer
+                      x-stoplight:
+                        id: kfsaova2wetdj
+                      minimum: 0
+                      description: Storage usage in percents.
     OrganizationUserDefinition:
       title: Organization user definition
       x-stoplight:
@@ -530,6 +549,7 @@ components:
       allOf:
         - x-stoplight:
             id: 3b9125n1gljg0
+          type: object
           properties:
             assigned_at:
               type: string
@@ -555,33 +575,45 @@ components:
               description: |-
                 A last user activity time in
                 the organization.
-        - x-stoplight:
+        - $ref: '#/components/schemas/OrganizationUserRelation'
+          x-stoplight:
             id: 0srgatmno8b4b
-          properties:
-            related:
-              $ref: '#/components/schemas/OrganizationUserRelation'
-              x-stoplight:
-                id: wrawjhpa10y1j
       description: User's organization metadata. Represent generated fields.
-      type: object
     OrganizationUserRelation:
       title: Organization user relations
       x-stoplight:
         id: 0v55lmrhzuy8t
-      type: object
-      properties:
-        projects:
-          type: object
-          x-stoplight:
-            id: c9yj84iq8c79w
-          description: User's projects relation metadata.
+      allOf:
+        - type: object
           properties:
-            count:
-              type: integer
+            relationships:
+              type: object
               x-stoplight:
-                id: 127i76hh550kj
-              description: Total number of user's projects in organization.
-              minimum: 0
+                id: ew4b8xmi47jcr
+              properties:
+                projects:
+                  type: object
+                  x-stoplight:
+                    id: liq2focmyttih
+                  description: User's projects relations.
+                  properties:
+                    meta:
+                      type: object
+                      x-stoplight:
+                        id: p06xmlipg4irk
+                      description: User's projects relation metadata.
+                      properties:
+                        count:
+                          type: integer
+                          x-stoplight:
+                            id: 3tcj2ts8foup5
+                          minimum: 0
+                          description: |-
+                            Total number of user's projects in
+                            organization.
+        - $ref: ./models/Relationships.yaml
+          x-stoplight:
+            id: pgeqhhki6bczs
   parameters:
     OrganizationId:
       name: org_id
