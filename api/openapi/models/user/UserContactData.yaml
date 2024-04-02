@@ -10,3 +10,5 @@ properties:
       id: 80799nsyszbif
     format: email
     description: User's main email.
+required:
+  - email

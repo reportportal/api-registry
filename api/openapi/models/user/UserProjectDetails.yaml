@@ -1,4 +1,4 @@
-title: Project user assignment
+title: User's project details
 x-stoplight:
   id: c6ouurwz290zv
 allOf:
@@ -19,10 +19,7 @@ allOf:
         description: |-
           Unique identifying part of a project
           in an organization. You can use it instead the project ID.
-      role:
-        type: string
-        x-stoplight:
-          id: 9m1bxa81xyl81
   - $ref: ../project/ProjectUserDetails.yaml
     x-stoplight:
       id: 1wbn8k1p6xi19
+description: Information about user's project.

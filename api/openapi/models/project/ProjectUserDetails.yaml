@@ -10,7 +10,9 @@ properties:
     enum:
       - EDITOR
       - VIEWER
+      - NONE
     description: |-
       User's role in the project.
       All users with a `PROJECT_MANAGER` role have
       the `EDITOR` role by default.
+description: ''

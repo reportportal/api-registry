@@ -221,15 +221,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  Message:
-                    type: string
-                    x-stoplight:
-                      id: 2yywvcbehaw9j
-                    description: |-
-                      The information about we sent an assignment
-                      request to the user.
+                $ref: '#/components/schemas/OrganizationUserDefinition'
         '207':
           description: Multi-Status (WebDAV)
       description: ''
@@ -237,7 +229,74 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationUserAssignment'
+              $ref: '#/components/schemas/OrganizationUserDefinition'
+  '/organizations/{org_id}/users/{user_id}':
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserProfile'
+      operationId: get-organizations-org_id-users-user_id
+      description: ''
+    put:
+      summary: ''
+      operationId: put-organizations-org_id-users-user_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserDefinition'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUserDefinition'
+        description: ''
+    patch:
+      summary: ''
+      operationId: patch-organizations-org_id-users-user_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserDefinition'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  x-stoplight:
+                    id: v72zk74q61413
+                  properties:
+                    email:
+                      type: string
+                      x-stoplight:
+                        id: vwz03efsaphdv
+                      format: date-time
+                - $ref: '#/components/schemas/OrganizationUserDefinition'
+                  x-stoplight:
+                    id: gefsrv69jcdbi
+        description: ''
+    delete:
+      summary: ''
+      operationId: delete-organizations-org_id-users-user_id
+      responses:
+        '200':
+          description: OK
+      description: Unassigned user from an organization and all organization projects.
 components:
   schemas:
     OrganizationProfile:
@@ -403,6 +462,32 @@ components:
               minimum: 0
               maximum: 100
               description: Storage usage in percents.
+    OrganizationUserDefinition:
+      title: Organization user definition
+      x-stoplight:
+        id: u52hc1apf7q2q
+      allOf:
+        - $ref: ./models/user/UserContactData.yaml
+          x-stoplight:
+            id: fh1989fa101o2
+        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - type: object
+          x-stoplight:
+            id: nh1gunacinw5v
+          properties:
+            projects:
+              x-stoplight:
+                id: 7qf3duno409l9
+              type: array
+              description: |-
+                List of projects for user assignment.
+                It's optional; you can assign the user 
+                to an organization without projects.
+              items:
+                $ref: ./models/user/UserProjectDetails.yaml
+                x-stoplight:
+                  id: fmzilkgtzpdmu
+      description: Base information about a user in an organization.
     OrganizationUserProfile:
       title: Organization user profile
       x-stoplight:
@@ -497,32 +582,6 @@ components:
                 id: 127i76hh550kj
               description: Total number of user's projects in organization.
               minimum: 0
-    OrganizationUserAssignment:
-      title: Organization user assignment
-      x-stoplight:
-        id: u52hc1apf7q2q
-      allOf:
-        - $ref: ./models/user/UserContactData.yaml
-          x-stoplight:
-            id: fh1989fa101o2
-        - $ref: '#/components/schemas/OrganizationUserDetails'
-        - type: object
-          x-stoplight:
-            id: nh1gunacinw5v
-          properties:
-            projects:
-              x-stoplight:
-                id: 7qf3duno409l9
-              type: array
-              description: |-
-                List of projects for user assignment.
-                It's optional; you can assign the user 
-                to an organization without projects.
-              items:
-                $ref: ./models/user/UserProjectAssignment.yaml
-                x-stoplight:
-                  id: fmzilkgtzpdmu
-      description: 'Assigning a user to a specific organization. '
   parameters:
     OrganizationId:
       name: org_id
