@@ -58,6 +58,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationProfile'
+        '400':
+          description: Bad Request
         '402':
           description: Payment Required
       description: |-
