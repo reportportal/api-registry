@@ -6,15 +6,6 @@ properties:
   id:
     type: string
     description: '#TODO Add discription'
-  type:
-    type: string
-    x-stoplight:
-      id: 57m6ufpadyy97
-    enum:
-      - INTERNAL
-      - EXTERNAL
-      - PERSONAL
-    description: '#TODO Add discription'
   created_at:
     type: string
     x-stoplight:
@@ -27,3 +18,7 @@ properties:
       id: 16yiiuxiokhiu
     format: date-time
     description: '#TODO Add discription'
+  organization_id:
+    type: integer
+    x-stoplight:
+      id: frhn7d66k1t31
