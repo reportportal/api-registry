@@ -7,5 +7,5 @@ properties:
     type: string
     x-stoplight:
       id: tnw34p90cyb4o
-    description: '#TODO Add discription'
+    description: 'Timestamp when user was assigned to project.'
     format: date-time

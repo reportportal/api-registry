@@ -5,16 +5,16 @@ type: object
 properties:
   id:
     type: string
-    description: '#TODO Add discription'
+    description: 'Project internal identifier.'
   created_at:
     type: string
     x-stoplight:
       id: jvvpxawexlff9
     format: date-time
-    description: '#TODO Add discription'
+    description: 'Timestamp when project was created.'
   updated_at:
     type: string
     x-stoplight:
       id: 16yiiuxiokhiu
     format: date-time
-    description: '#TODO Add discription'
+    description: 'Timestamp when project was last updated.'

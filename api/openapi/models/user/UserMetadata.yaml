@@ -26,4 +26,4 @@ properties:
     x-stoplight:
       id: 9426kkbzmqjvl
     format: date-time
-    description: '#TODO'
+    description: 'When user last logged in.'
