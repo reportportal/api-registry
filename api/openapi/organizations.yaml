@@ -260,6 +260,8 @@ paths:
 
         - `PENDING` or `FAILURE` for non-existing users.
         - `SUCCESS` or `FAILURE` for existing users.
+
+        Items contain statuses for each event. Inside the event, you can find the `id` that links to the identifier you provided in the request.
       requestBody:
         content:
           application/json:
