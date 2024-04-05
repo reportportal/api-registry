@@ -9,8 +9,3 @@ properties:
       id: tnw34p90cyb4o
     description: '#TODO Add discription'
     format: date-time
-  updated_at:
-    type: string
-    x-stoplight:
-      id: 2arqk94efatgc
-    format: date-time

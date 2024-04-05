@@ -104,14 +104,13 @@ package OrganizationUserView {
   OrganizationUserDetails -up-o OrganizationUserInfo
 
   enum OrgRole {
-    PROJECT_MANAGER
+    MANAGER
     MEMBER
   }
   OrgRole -up- OrganizationUserDetails
 
   entity OrganizationUserMetadata {
     assigned_at DateTime
-    updated_at DateTime
   }
   OrganizationUserMetadata -up-o OrganizationUserInfo
 
@@ -135,6 +134,11 @@ package OrganizationUserView {
     projects List<UserProjectDetails>
   }
   OrganizationUserDefinition o-- OrganizationUserDetails 
+
+  entity OrganizationUserAssignment{
+    email String
+  }
+  OrganizationUserAssignment o-l- OrganizationUserDefinition
 }
 
 package UserView {
@@ -142,17 +146,12 @@ package UserView {
   UserAccountInfo --o OrganizationUserProfile
 
   entity UserDetails {
+    email String
     full_name String
     type UserType
   }
   UserDetails -up-o UserAccountInfo
 
-  entity UserContactData {
-    email String
-  }
-  UserContactData -up-o UserDetails
-  UserContactData -up-o OrganizationUserDefinition
- 
   entity UserMetadata {
     id Int
     created_at DateTime
@@ -208,14 +207,13 @@ package ProjectUserView {
   ProjectUserDetails --o UserProjectDetails
 
   enum ProjectRole {
-    PROJECT_MANAGER
-    MEMBER
+    EDITOR
+    VIEWER
   }
   ProjectRole -right- ProjectUserDetails
 
   entity ProjectUserMetadata {
     assigned_at DateTime
-    updated_at DateTime
   }
   ProjectUserMetadata -right-o ProjectUserInfo
 }

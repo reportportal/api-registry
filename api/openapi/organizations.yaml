@@ -240,12 +240,38 @@ paths:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: tlxl05k73zejt
-      description: ''
+              examples:
+                Fur inexisting users:
+                  value:
+                    role: MEMBER
+                    items:
+                      - id: project-1
+                        status: PENDING
+                        description: Will be assigned after registration
+                      - id: project-2
+                        status: FAILURE
+                        description: Wrong project slug/id
+      description: PENDING for unexisting users
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationUserDefinition'
+              allOf:
+                - type: object
+                  x-stoplight:
+                    id: hegm1o9y8qo07
+                  properties:
+                    email:
+                      type: string
+                      x-stoplight:
+                        id: qh7mnlt7rkde5
+                      description: User email for assigment.
+                  required:
+                    - email
+                - $ref: '#/components/schemas/OrganizationUserDefinition'
+                  x-stoplight:
+                    id: qrw9asilmfw46
+            examples: {}
         description: Definition for a user assignment.
   '/organizations/{org_id}/users/{user_id}':
     parameters:
@@ -297,6 +323,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
+            examples:
+              Example 1:
+                value:
+                  role: MEMBER
+                  projects:
+                    - id: 0
+                      slug: string
+                      role: EDITOR
         description: ''
     patch:
       summary: ''
@@ -335,6 +369,12 @@ paths:
                 - $ref: '#/components/schemas/OrganizationUserDefinition'
                   x-stoplight:
                     id: gefsrv69jcdbi
+            examples:
+              Unassignment a user from project:
+                value:
+                  projects:
+                    - id: '0'
+                      role: null
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: ''
     delete:
@@ -535,9 +575,6 @@ components:
       x-stoplight:
         id: u52hc1apf7q2q
       allOf:
-        - $ref: ./models/user/UserContactData.yaml
-          x-stoplight:
-            id: fh1989fa101o2
         - $ref: '#/components/schemas/OrganizationUserDetails'
         - type: object
           x-stoplight:
@@ -598,9 +635,11 @@ components:
           x-stoplight:
             id: 3v2e1cyby216c
           enum:
-            - PROJECT_MANAGER
             - MEMBER
+            - MANAGER
           description: Organization user role.
+      required:
+        - role
     OrganizationUserMetadata:
       title: Organization user metadata
       x-stoplight:
@@ -615,13 +654,8 @@ components:
                 id: a7gp7z7wei0p6
               format: date-time
               description: |-
-                A time when the user was assigned to
+                A time when a user was assigned to
                 the organization.
-            updated_at:
-              type: string
-              x-stoplight:
-                id: 8ctm4subuqa7k
-              format: date-time
       description: User's organization metadata. Represent generated fields.
       type: object
     OrganizationUserRelation:

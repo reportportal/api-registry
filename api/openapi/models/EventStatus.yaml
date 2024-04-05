@@ -6,7 +6,6 @@ properties:
   id:
     type: string
     description: Identifier of a request item.
-    format: int64
   status:
     type: string
     x-stoplight:
