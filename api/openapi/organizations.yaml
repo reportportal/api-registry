@@ -225,9 +225,6 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/user/UserDetails.yaml
-                    x-stoplight:
-                      id: byhjdq3oiou48
                   - $ref: '#/components/schemas/OrganizationUserInfo'
                     x-stoplight:
                       id: qczj8a6wf2gxv
