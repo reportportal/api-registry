@@ -1,6 +1,8 @@
 title: User details
 x-stoplight:
   id: tmzoufzfy8v9g
+description: Contains details pertinent to user account.
+type: object
 properties:
   email:
     type: string
@@ -21,5 +23,5 @@ properties:
       - ADMIN
       - USER
     description: Instance account type.
-description: Contains details pertinent to user account.
-type: object
+required:
+  - email
