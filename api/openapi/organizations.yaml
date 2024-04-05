@@ -57,7 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfile'
+                $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
         '402':
@@ -105,7 +105,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfile'
+                $ref: '#/components/schemas/OrganizationInfo'
         '402':
           description: Payment Required
       description: |-
@@ -133,7 +133,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfile'
+                $ref: '#/components/schemas/OrganizationInfo'
         '402':
           description: Payment Required
       description: |-
@@ -628,6 +628,11 @@ components:
       title: Organization user relations
       x-stoplight:
         id: 0v55lmrhzuy8t
+      type: object
+      description: |-
+        A relationship object contains members that represent a relationship of the user in the organization.
+
+        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
       properties:
         projects:
           type: object
@@ -649,11 +654,6 @@ components:
                   description: |-
                     Total number of user's projects in
                     organization.
-      type: object
-      description: |-
-        A relationship object contains members that represent a relationship of the user in the organization.
-
-        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
   parameters:
     OrganizationId:
       name: org_id

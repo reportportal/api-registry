@@ -192,18 +192,10 @@ package ProjectView {
 
   entity ProjectMetadata {
     id Int
-    type ProjectType
     created_at DateTime
     updated_at DateTime
   }
   ProjectInfo o-- ProjectMetadata
-
-  enum ProjectType {
-    INTERNAL
-    EXTERNAL
-    PERSONAL
-  }
-  ProjectMetadata -- ProjectType
 }
 
 package ProjectUserView {
