@@ -225,6 +225,9 @@ paths:
             application/json:
               schema:
                 allOf:
+                  - $ref: ./models/user/UserDetails.yaml
+                    x-stoplight:
+                      id: byhjdq3oiou48
                   - $ref: '#/components/schemas/OrganizationUserInfo'
                     x-stoplight:
                       id: qczj8a6wf2gxv
@@ -252,7 +255,14 @@ paths:
                       - id: project-2
                         status: FAILURE
                         description: Wrong project slug/id
-      description: PENDING for unexisting users
+      description: |-
+        This endpoint provides a flow for bulk assigning a user to the organization and projects.
+        You can provide a project list as an additional option for assigning to a user.
+
+        You will get different statuses for project assignments according to which user you want to assign to the organization:
+
+        - `PENDING` or `FAILURE` for non-existing users.
+        - `SUCCESS` or `FAILURE` for existing users.
       requestBody:
         content:
           application/json:

@@ -21,3 +21,9 @@ properties:
       id: 88lji1tkyif14
     format: date-time
     description: When user's data was modifed.
+  last_login_at:
+    type: string
+    x-stoplight:
+      id: 9426kkbzmqjvl
+    format: date-time
+    description: '#TODO'
