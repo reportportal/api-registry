@@ -285,7 +285,6 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Users
-      deprecated: true
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
