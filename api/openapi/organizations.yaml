@@ -183,8 +183,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get organization's users
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -215,7 +216,7 @@ paths:
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
     post:
-      summary: ''
+      summary: Assignment user to organization
       operationId: post-organizations-org_id-users
       responses:
         '207':
@@ -273,13 +274,17 @@ paths:
                     id: qrw9asilmfw46
             examples: {}
         description: Definition for a user assignment.
+      tags:
+        - Users
+      deprecated: true
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
       - $ref: '#/components/parameters/UserId'
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get organization user profile
+      tags:
+        - Users
       responses:
         '200':
           description: OK
@@ -290,7 +295,7 @@ paths:
       operationId: get-organizations-org_id-users-user_id
       description: ''
     put:
-      summary: ''
+      summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
       responses:
         '207':
@@ -332,8 +337,10 @@ paths:
                       slug: string
                       role: EDITOR
         description: ''
+      tags:
+        - Users
     patch:
-      summary: ''
+      summary: Partial organization user update
       operationId: patch-organizations-org_id-users-user_id
       responses:
         '207':
@@ -377,6 +384,8 @@ paths:
                       role: null
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: ''
+      tags:
+        - Users
     delete:
       summary: ''
       operationId: delete-organizations-org_id-users-user_id
@@ -384,6 +393,8 @@ paths:
         '204':
           description: No Content
       description: Unassigned user from an organization and all organization projects.
+      tags:
+        - Users
 components:
   schemas:
     OrganizationProfile:
