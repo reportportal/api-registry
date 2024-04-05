@@ -387,7 +387,7 @@ paths:
       tags:
         - Users
     delete:
-      summary: Unassigned user
+      summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
       responses:
         '204':
