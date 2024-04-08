@@ -432,6 +432,13 @@ paths:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
+    post:
+      summary: ''
+      operationId: post-organizations-org_id-projects
+      responses:
+        '200':
+          description: OK
+      description: ''
 components:
   schemas:
     OrganizationProfile:

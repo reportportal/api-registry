@@ -12,13 +12,9 @@ allOf:
           id: f7stmdjdqi95y
         format: int64
         description: Project internal identifier.
-      slug:
-        type: string
-        x-stoplight:
-          id: e5hthodw9bh5e
-        description: |-
-          Unique identifying part of a project
-          in an organization. You can use it instead the project ID.
+  - $ref: ../Slug.yaml
+    x-stoplight:
+      id: mq0kagsd2m7tg
   - $ref: ../project/ProjectUserDetails.yaml
     x-stoplight:
       id: 0new1li2b8uld
