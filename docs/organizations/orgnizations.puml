@@ -4,9 +4,9 @@ stoplight-id: dp15zhxks2i84
 
 @startuml organizational-entities
 
-'skinparam linetype ortho
+skinparam linetype ortho
 
-package OrganizationView {
+frame OrganizationView {
   entity OrganizationProfile {
     relationships OrganizationRelation
   }
@@ -88,9 +88,7 @@ package OrganizationView {
     EXTERNAL
   }
   OrganizationMetadata -- OrganizationType
-}
 
-package OrganizationUserView {
   entity OrganizationUserProfile {
     relationships OrganizationUserRelation
   }
@@ -141,9 +139,9 @@ package OrganizationUserView {
   OrganizationUserAssignment o-l- OrganizationUserDefinition
 }
 
-package UserView {
+frame UserView {
   entity UserAccountInfo
-  UserAccountInfo --o OrganizationUserProfile
+  UserAccountInfo -up-o OrganizationUserProfile
 
   entity UserDetails {
     email String
@@ -173,7 +171,7 @@ package UserView {
   UserProjectDefinition -- OrganizationUserDefinition
 }
 
-package ProjectView {
+frame ProjectView {
   entity ProjectProfile {
     relationships ProjectRelation
   }
@@ -185,19 +183,17 @@ package ProjectView {
     name String
     slug Slug
     key String
-    external_id String
   }
   ProjectDetails -up-o ProjectInfo
 
   entity ProjectMetadata {
     id Int
+    external_id String
     created_at DateTime
     updated_at DateTime
   }
   ProjectInfo o-- ProjectMetadata
-}
 
-package ProjectUserView {
   entity ProjectUserInfo
 
   entity ProjectUserDetails {
@@ -210,12 +206,12 @@ package ProjectUserView {
     EDITOR
     VIEWER
   }
-  ProjectRole -right- ProjectUserDetails
+  ProjectRole -- ProjectUserDetails
 
   entity ProjectUserMetadata {
     assigned_at DateTime
   }
-  ProjectUserMetadata -right-o ProjectUserInfo
+  ProjectUserMetadata --o ProjectUserInfo
 }
 
 @enduml

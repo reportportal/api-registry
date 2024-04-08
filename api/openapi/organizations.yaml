@@ -186,6 +186,7 @@ paths:
       summary: Get organization's users
       tags:
         - Users
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -271,6 +272,7 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Users
+        - Ready for implementation
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -279,6 +281,7 @@ paths:
       summary: Get organization user profile
       tags:
         - Users
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -325,6 +328,7 @@ paths:
         description: Organization user details for update.
       tags:
         - Users
+        - Ready for implementation
       description: Update organization user details.
     patch:
       summary: Partial organization user update
@@ -385,6 +389,7 @@ paths:
       description: Partial organization user update.
       tags:
         - Users
+        - Ready for implementation
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
@@ -394,6 +399,7 @@ paths:
       description: Unassigned user from an organization and all organization projects.
       tags:
         - Users
+        - Ready for implementation
 components:
   schemas:
     OrganizationProfile:
