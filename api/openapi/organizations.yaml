@@ -439,6 +439,11 @@ paths:
         '200':
           description: OK
       description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/project/ProjectDetails.yaml
 components:
   schemas:
     OrganizationProfile:
