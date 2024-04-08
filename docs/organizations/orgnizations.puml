@@ -4,8 +4,6 @@ stoplight-id: dp15zhxks2i84
 
 @startuml organizational-entities
 
-skinparam linetype ortho
-
 frame OrganizationView {
   entity OrganizationProfile {
     relationships OrganizationRelation
