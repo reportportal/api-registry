@@ -16,7 +16,7 @@ package OrganizationView {
   
   entity OrganizationDetails {
     name String
-    slug String
+    slug Slug
     external_id String
   }
   OrganizationInfo o-- OrganizationDetails
@@ -131,7 +131,7 @@ package OrganizationUserView {
   OrgUserProjectsRelationMeta -up- OrgUserProjectsRelation
 
   entity OrganizationUserDefinition {
-    projects List<UserProjectDetails>
+    projects List<UserProjectDefinition>
   }
   OrganizationUserDefinition o-- OrganizationUserDetails 
 
@@ -166,11 +166,11 @@ package UserView {
   }
   UserType -up- UserDetails
 
-  entity UserProjectDetails {
+  entity UserProjectDefinition {
     id Int
-    slug String
+    slug Slug
   }
-  UserProjectDetails -- OrganizationUserDefinition
+  UserProjectDefinition -- OrganizationUserDefinition
 }
 
 package ProjectView {
@@ -183,7 +183,7 @@ package ProjectView {
 
   entity ProjectDetails {
     name String
-    slug String
+    slug Slug
     key String
     external_id String
   }
@@ -204,7 +204,7 @@ package ProjectUserView {
     role ProjectRole
   }
   ProjectUserDetails -up-o ProjectUserInfo
-  ProjectUserDetails --o UserProjectDetails
+  ProjectUserDetails --o UserProjectDefinition
 
   enum ProjectRole {
     EDITOR

@@ -21,5 +21,5 @@ allOf:
           in an organization. You can use it instead the project ID.
   - $ref: ../project/ProjectUserDetails.yaml
     x-stoplight:
-      id: 1wbn8k1p6xi19
+      id: 0new1li2b8uld
 description: Information about user's project.

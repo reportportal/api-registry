@@ -75,7 +75,7 @@ paths:
               $ref: '#/components/schemas/OrganizationDetails'
         description: |-
           You can create an organization provide name and slug.
-          If the slug is not provided, it will be generated from the name.
+          If the `slug` is not provided, it will be generated from the `name`.
       tags:
         - Organizations
         - Ready for implementation
@@ -146,16 +146,16 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
+              allOf:
+                - type: object
+                  properties:
+                    name:
+                      type: string
+                      x-stoplight:
+                        id: 6906m5222zvx6
+                - $ref: ./models/Slug.yaml
                   x-stoplight:
-                    id: 6906m5222zvx6
-                slug:
-                  type: string
-                  x-stoplight:
-                    id: gt4uavhbr5qq9
+                    id: 4t2f16ac5xz63
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       tags:
         - Organizations
@@ -336,14 +336,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
-            examples:
-              Example 1:
-                value:
-                  role: MEMBER
-                  projects:
-                    - id: 0
-                      slug: string
-                      role: EDITOR
         description: ''
       tags:
         - Users
@@ -384,12 +376,9 @@ paths:
                 - $ref: '#/components/schemas/OrganizationUserDefinition'
                   x-stoplight:
                     id: gefsrv69jcdbi
-            examples:
-              Unassignment a user from project:
-                value:
-                  projects:
-                    - id: '0'
-                      role: null
+                - type: object
+                  x-stoplight:
+                    id: pcco8msr17mge
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: ''
       tags:
@@ -440,25 +429,24 @@ components:
       title: Organization definition
       x-stoplight:
         id: 2gyt1v3d2gfmm
-      type: object
       examples: []
-      description: Basic information provided by the client.
-      properties:
-        name:
-          type: string
+      description: |
+        Basic information provided by the client.
+
+        A `slug` is a unique identifying part of an organization. Generated according to the organization name if not specified by the user.
+      allOf:
+        - type: object
+          properties:
+            name:
+              type: string
+              x-stoplight:
+                id: dz5igu0m6iy9o
+              description: Organization display name.
+          required:
+            - name
+        - $ref: ./models/Slug.yaml
           x-stoplight:
-            id: dz5igu0m6iy9o
-          description: Organization display name.
-        slug:
-          type: string
-          x-stoplight:
-            id: hsav6x2ci2qt1
-          description: |-
-            Unique identifying part of an organization.
-            Generated according to the organization name if not specified by the user.
-          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-      required:
-        - name
+            id: x3i2u6w5oic01
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:
@@ -589,6 +577,25 @@ components:
         A relationship object contains members that represent a relationship of the organization.
 
         Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
+    OrganizationUserAssignment:
+      title: Organization user assignment
+      x-stoplight:
+        id: do613cpv1l3mq
+      allOf:
+        - type: object
+          x-stoplight:
+            id: dpp525u8ppl7y
+          properties:
+            email:
+              type: string
+              x-stoplight:
+                id: pkkj2y5bs0u1l
+              format: email
+              description: User email for assigment.
+        - $ref: '#/components/schemas/OrganizationUserDefinition'
+          x-stoplight:
+            id: fkz8x6jcbf9uo
+      description: Definition for a user assignment to the organization.
     OrganizationUserDefinition:
       title: Organization user definition
       x-stoplight:
@@ -608,7 +615,7 @@ components:
                 It's optional; you can assign the user 
                 to an organization without projects.
               items:
-                $ref: ./models/user/UserProjectDetails.yaml
+                $ref: ./models/user/UserProjectDefinition.yaml
                 x-stoplight:
                   id: fmzilkgtzpdmu
       description: Base information about a user in an organization.

@@ -1,0 +1,15 @@
+title: URL slug
+x-stoplight:
+  id: b6ibm3dgtik3q
+type: object
+properties:
+  slug:
+    type: string
+    x-stoplight:
+      id: z0ol4urqp54ye
+    description: |-
+      A slug is a string that is used to identify
+      a resource.
+      It should be unique and contain only lowercase letters, numbers, and hyphens.
+      It should not start or end with a hyphen.
+    pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
