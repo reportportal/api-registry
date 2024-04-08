@@ -1,0 +1,52 @@
+title: Project relationships
+x-stoplight:
+  id: 9te44oixml3e0
+type: object
+description: '#TODO'
+properties:
+  users:
+    type: object
+    x-stoplight:
+      id: rl9rn3uem2lqr
+    description: '#TODO'
+    properties:
+      meta:
+        type: object
+        properties:
+          count:
+            type: integer
+            x-stoplight:
+              id: wx82090xc31qx
+            minimum: 0
+            description: '#TODO'
+  launches:
+    type: object
+    x-stoplight:
+      id: hgjhfk60prehs
+    description: '#TODO'
+    properties:
+      meta:
+        type: object
+        properties:
+          last_occurred_at:
+            type: string
+            x-stoplight:
+              id: gbpfmzgfwob1f
+            description: '#TODO'
+            format: date-time
+  billing:
+    type: object
+    x-stoplight:
+      id: 379ot3sc3y00i
+    description: '#TODO'
+    properties:
+      meta:
+        type: object
+        properties:
+          storage_usage:
+            type: integer
+            x-stoplight:
+              id: sey5prxc3ttr1
+            minimum: 0
+            maximum: 100
+            description: '#TODO'

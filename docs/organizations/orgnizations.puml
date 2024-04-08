@@ -4,7 +4,7 @@ stoplight-id: dp15zhxks2i84
 
 @startuml organizational-entities
 
-frame OrganizationView {
+package OrganizationView {
   entity OrganizationProfile {
     relationships OrganizationRelation
   }
@@ -137,7 +137,7 @@ frame OrganizationView {
   OrganizationUserAssignment o-- OrganizationUserDefinition
 }
 
-frame UserView {
+package UserView {
   entity UserAccountInfo
   UserAccountInfo -up-o OrganizationUserProfile
 
@@ -169,7 +169,7 @@ frame UserView {
   UserProjectDefinition -- OrganizationUserDefinition
 }
 
-frame ProjectView {
+package ProjectView {
   entity ProjectProfile {
     relationships ProjectRelation
   }
@@ -192,6 +192,46 @@ frame ProjectView {
   }
   ProjectInfo o-- ProjectMetadata
 
+  entity ProjectRelation {
+    users ProjectUsersRelation
+    launches ProjectLaunchesRelation
+    billing ProjectBillingRelation
+  }
+  ProjectRelation -up- ProjectProfile
+
+  entity ProjectUsersRelation {
+    links ProjectUsersRelationLinks
+    meta ProjectUsersRelationMeta
+  }
+  ProjectUsersRelation -up- ProjectRelation
+
+  entity ProjectUsersRelationMeta {
+    count Int
+  }
+  ProjectUsersRelationMeta -up- ProjectUsersRelation
+
+  entity ProjectLaunchesRelation {
+    links ProjectLaunchesRelationLinks
+    meta ProjectLaunchesRelationMeta
+  }
+  ProjectLaunchesRelation -up- ProjectRelation
+
+  entity ProjectLaunchesRelationMeta {
+    last_occurred_at DateTime
+  }
+  ProjectLaunchesRelationMeta -up- ProjectLaunchesRelation
+
+  entity ProjectBillingRelation {
+    links ProjectBillingRelationLinks
+    meta ProjectBillingRelationMeta
+  }
+  ProjectBillingRelation -up- ProjectRelation
+
+  entity ProjectBillingRelationMeta {
+    storage_usage String
+  }
+  ProjectBillingRelationMeta -up- ProjectBillingRelation
+
   entity ProjectUserInfo
 
   entity ProjectUserDetails {
@@ -209,7 +249,7 @@ frame ProjectView {
   entity ProjectUserMetadata {
     assigned_at DateTime
   }
-  ProjectUserMetadata --o ProjectUserInfo
+  ProjectUserMetadata -up-o ProjectUserInfo
 }
 
 @enduml

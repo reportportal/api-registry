@@ -400,6 +400,38 @@ paths:
       tags:
         - Users
         - Ready for implementation
+  '/organizations/{org_id}/projects/':
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/Offset.yaml
+                  - type: object
+                    x-stoplight:
+                      id: 98qt8fb088ryy
+                    properties:
+                      items:
+                        type: array
+                        x-stoplight:
+                          id: dl8caqxxjx971
+                        items:
+                          $ref: ./models/project/ProjectProfile.yaml
+                          x-stoplight:
+                            id: audexyacafge7
+      operationId: get-organizations-org_id-projects
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Sort'
+        - $ref: '#/components/parameters/Order'
 components:
   schemas:
     OrganizationProfile:
