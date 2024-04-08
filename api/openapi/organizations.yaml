@@ -380,6 +380,7 @@ paths:
                         x-stoplight:
                           id: huy07cjxhqn0h
               type: object
+            examples: {}
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: Partial organization user update.
       tags:
