@@ -2,26 +2,22 @@ title: User details
 x-stoplight:
   id: tmzoufzfy8v9g
 description: Contains details pertinent to user account.
-type: object
-properties:
-  email:
-    type: string
+allOf:
+  - $ref: ./UserUniqueKey.yaml
     x-stoplight:
-      id: ewj2w94r7u4w3
-    description: User's main email.
-    format: email
-  full_name:
-    type: string
-    x-stoplight:
-      id: t3xotuhofwfex
-    description: User full name.
-  type:
-    type: string
-    x-stoplight:
-      id: 7xz0ez36bzmr7
-    enum:
-      - ADMIN
-      - USER
-    description: Instance account type.
-required:
-  - email
+      id: 7x0kel0f6ie2o
+  - type: object
+    properties:
+      full_name:
+        type: string
+        x-stoplight:
+          id: t3xotuhofwfex
+        description: User full name.
+      type:
+        type: string
+        x-stoplight:
+          id: 7xz0ez36bzmr7
+        enum:
+          - ADMIN
+          - USER
+        description: Instance account type.

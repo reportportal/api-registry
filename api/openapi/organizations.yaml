@@ -266,21 +266,7 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - type: object
-                  x-stoplight:
-                    id: hegm1o9y8qo07
-                  properties:
-                    email:
-                      type: string
-                      x-stoplight:
-                        id: qh7mnlt7rkde5
-                      description: User email for assigment.
-                  required:
-                    - email
-                - $ref: '#/components/schemas/OrganizationUserDefinition'
-                  x-stoplight:
-                    id: qrw9asilmfw46
+              $ref: '#/components/schemas/OrganizationUserAssignment'
             examples: {}
         description: Definition for a user assignment.
       tags:
@@ -373,12 +359,25 @@ paths:
           application/merge-patch+json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/OrganizationUserDefinition'
-                  x-stoplight:
-                    id: gefsrv69jcdbi
-                - type: object
-                  x-stoplight:
+                - x-stoplight:
                     id: pcco8msr17mge
+                  properties:
+                    role:
+                      type: string
+                      x-stoplight:
+                        id: ux9njonecvir5
+                      enum:
+                        - MEMBER
+                        - MANAGER
+                    projects:
+                      type: array
+                      x-stoplight:
+                        id: s4p0cyzapk47w
+                      items:
+                        $ref: ./models/user/UserProjectDefinition.yaml
+                        x-stoplight:
+                          id: huy07cjxhqn0h
+              type: object
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: ''
       tags:
