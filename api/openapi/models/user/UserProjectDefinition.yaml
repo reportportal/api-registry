@@ -23,3 +23,4 @@ allOf:
     x-stoplight:
       id: 0new1li2b8uld
 description: Information about user's project.
+examples: []

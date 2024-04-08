@@ -4,7 +4,7 @@ x-stoplight:
 info:
   title: Organizations
   version: '0.1'
-  description: ''
+  description: 'Organizations API Collection'
   summary: API Collection for organizations management
   contact:
     name: Reingold Shekhtel
@@ -287,7 +287,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationUserProfile'
       operationId: get-organizations-org_id-users-user_id
-      description: ''
+      description: 'Get organization user profile.'
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
@@ -322,9 +322,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
-        description: ''
+        description: 'Organization user details for update.'
       tags:
         - Users
+      description: 'Update organization user details.'
     patch:
       summary: Partial organization user update
       operationId: patch-organizations-org_id-users-user_id
@@ -354,6 +355,7 @@ paths:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: q4dxrz1yz0hcd
+              examples: {}
       requestBody:
         content:
           application/merge-patch+json:
@@ -363,7 +365,9 @@ paths:
                     id: pcco8msr17mge
                   properties:
                     role:
-                      type: string
+                      type:
+                        - string
+                        - 'null'
                       x-stoplight:
                         id: ux9njonecvir5
                       enum:
@@ -379,7 +383,7 @@ paths:
                           id: huy07cjxhqn0h
               type: object
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-      description: ''
+      description: 'Partial organization user update.'
       tags:
         - Users
     delete:
@@ -583,14 +587,16 @@ components:
       allOf:
         - type: object
           x-stoplight:
-            id: dpp525u8ppl7y
+            id: 2uhe2kffvezvt
           properties:
             email:
               type: string
               x-stoplight:
-                id: pkkj2y5bs0u1l
+                id: sufi4vxtjz3kw
               format: email
-              description: User email for assigment.
+              description: User email for assignment.
+          required:
+            - email
         - $ref: '#/components/schemas/OrganizationUserDefinition'
           x-stoplight:
             id: fkz8x6jcbf9uo

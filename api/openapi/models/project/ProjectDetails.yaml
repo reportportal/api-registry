@@ -11,6 +11,6 @@ allOf:
         description: Display project name.
     required:
       - name
-  - $ref: ./ProjectUniqueKey.yaml
+  - $ref: ../Slug.yaml
     x-stoplight:
       id: eac9sdm2tal7x
