@@ -4,7 +4,7 @@ x-stoplight:
 info:
   title: Organizations
   version: '0.1'
-  description: 'Organizations API Collection'
+  description: Organizations API Collection
   summary: API Collection for organizations management
   contact:
     name: Reingold Shekhtel
@@ -287,7 +287,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationUserProfile'
       operationId: get-organizations-org_id-users-user_id
-      description: 'Get organization user profile.'
+      description: Get organization user profile.
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
@@ -322,10 +322,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
-        description: 'Organization user details for update.'
+        description: Organization user details for update.
       tags:
         - Users
-      description: 'Update organization user details.'
+      description: Update organization user details.
     patch:
       summary: Partial organization user update
       operationId: patch-organizations-org_id-users-user_id
@@ -365,9 +365,7 @@ paths:
                     id: pcco8msr17mge
                   properties:
                     role:
-                      type:
-                        - string
-                        - 'null'
+                      type: string
                       x-stoplight:
                         id: ux9njonecvir5
                       enum:
@@ -383,7 +381,7 @@ paths:
                           id: huy07cjxhqn0h
               type: object
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-      description: 'Partial organization user update.'
+      description: Partial organization user update.
       tags:
         - Users
     delete:
