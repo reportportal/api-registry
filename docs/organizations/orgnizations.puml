@@ -17,13 +17,13 @@ package OrganizationView {
   entity OrganizationDetails {
     name String
     slug String
+    external_id String
   }
   OrganizationInfo o-- OrganizationDetails
 
   entity OrganizationMetadata {
     id Int
     type OrganizationType
-    external_id String
     created_at DateTime
     updated_at DateTime
   }

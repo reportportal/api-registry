@@ -6,6 +6,15 @@ properties:
   id:
     type: string
     description: 'Project internal identifier.'
+  key:
+    type: string
+    x-stoplight:
+      id: 9up0sba6ni0se
+    description: |-
+      Unique identifying part of a project in
+      an instance.
+      Generated from an organization
+      slug and project slug.
   created_at:
     type: string
     x-stoplight:

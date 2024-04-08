@@ -18,13 +18,5 @@ properties:
       Generated according to the project name
       if not specified by the user.
     pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-  key:
-    type: string
-    x-stoplight:
-      id: 9up0sba6ni0se
-    description: |-
-      Unique identifying part of a project in
-      an instance. Generated from an organization
-      slug and project slug.
 required:
   - name
