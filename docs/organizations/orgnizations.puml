@@ -134,7 +134,7 @@ frame OrganizationView {
   entity OrganizationUserAssignment{
     email String
   }
-  OrganizationUserAssignment o-l- OrganizationUserDefinition
+  OrganizationUserAssignment o-- OrganizationUserDefinition
 }
 
 frame UserView {
@@ -197,7 +197,7 @@ frame ProjectView {
   entity ProjectUserDetails {
     role ProjectRole
   }
-  ProjectUserDetails -up-o ProjectUserInfo
+  ProjectUserDetails --o ProjectUserInfo
   ProjectUserDetails --o UserProjectDefinition
 
   enum ProjectRole {
