@@ -439,7 +439,7 @@ paths:
       tags:
         - Users
         - Ready for implementation
-  '/organizations/{org_id}/projects/':
+  '/organizations/{org_id}/projects':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     get:
@@ -475,6 +475,8 @@ paths:
       description: Get a list of organization projects.
     post:
       summary: Create a new project
+      tags:
+        - Projects
       operationId: post-organizations-org_id-projects
       responses:
         '200':
@@ -489,8 +491,6 @@ paths:
           application/json:
             schema:
               $ref: ./models/project/ProjectDetails.yaml
-      tags:
-        - Projects
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -571,6 +571,8 @@ paths:
         - Projects
     delete:
       summary: Delete project
+      tags:
+        - Projects
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -952,13 +954,6 @@ components:
       schema:
         type: string
       description: Project identifier
-    ProjectKey:
-      name: project_key
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Project key
   requestBodies: {}
   securitySchemes:
     BearerAuth:

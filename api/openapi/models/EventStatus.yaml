@@ -33,3 +33,4 @@ properties:
 required:
   - id
   - status
+description: '#TODO'

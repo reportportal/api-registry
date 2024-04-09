@@ -4,8 +4,9 @@ x-stoplight:
 type: object
 properties:
   id:
-    type: string
-    description: 'Project internal identifier.'
+    type: integer
+    description: Project internal identifier.
+    format: int64
   key:
     type: string
     x-stoplight:
@@ -15,15 +16,21 @@ properties:
       an instance.
       Generated from an organization
       slug and project slug.
+  organization_id:
+    type: integer
+    x-stoplight:
+      id: yeosbd661wv1h
+    format: int64
+    description: '#TODO'
   created_at:
     type: string
     x-stoplight:
       id: jvvpxawexlff9
     format: date-time
-    description: 'Timestamp when project was created.'
+    description: Timestamp when project was created.
   updated_at:
     type: string
     x-stoplight:
       id: 16yiiuxiokhiu
     format: date-time
-    description: 'Timestamp when project was last updated.'
+    description: Timestamp when project was last updated.

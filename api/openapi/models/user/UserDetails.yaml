@@ -1,7 +1,10 @@
 title: User details
 x-stoplight:
   id: tmzoufzfy8v9g
-description: Contains details pertinent to user account.
+description: |-
+  Contains details associated with a user account.
+
+  #TODO
 type: object
 properties:
   email:
