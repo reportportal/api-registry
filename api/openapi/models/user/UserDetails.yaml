@@ -4,7 +4,11 @@ x-stoplight:
 description: |-
   Contains details associated with a user account.
 
-  #TODO
+  User has a unique email address, full name, and account type.
+
+  Account type can be either `ADMIN` or `USER`.
+  Only `ADMIN` users have access to change account type.
+
 type: object
 properties:
   email:
