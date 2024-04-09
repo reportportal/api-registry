@@ -446,6 +446,7 @@ paths:
       summary: Get organization projects
       tags:
         - Projects
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -477,6 +478,7 @@ paths:
       summary: Create a new project
       tags:
         - Projects
+        - Ready for implementation
       operationId: post-organizations-org_id-projects
       responses:
         '200':
@@ -499,6 +501,7 @@ paths:
       summary: Get project information
       tags:
         - Projects
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -535,6 +538,7 @@ paths:
       description: Update project information.
       tags:
         - Projects
+        - Ready for implementation
     patch:
       summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
@@ -569,10 +573,12 @@ paths:
       description: Partial project update.
       tags:
         - Projects
+        - Ready for implementation
     delete:
       summary: Delete project
       tags:
         - Projects
+        - Ready for implementation
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
