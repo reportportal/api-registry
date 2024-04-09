@@ -60,6 +60,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
+        '401':
+          description: Unauthorized
         '402':
           description: Payment Required
       description: |-
@@ -220,6 +222,12 @@ paths:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users
       responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserInfo'
         '207':
           description: Multi-Status (WebDAV)
           content:
@@ -289,12 +297,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationUserProfile'
+        '404':
+          description: Not Found
       operationId: get-organizations-org_id-users-user_id
       description: Get organization user profile.
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
       responses:
+        '200':
+          description: OK
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -320,6 +332,12 @@ paths:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: o9wfyd597iupr
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
       requestBody:
         content:
           application/json:
@@ -334,6 +352,8 @@ paths:
       summary: Partial organization user update
       operationId: patch-organizations-org_id-users-user_id
       responses:
+        '200':
+          description: OK
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -360,6 +380,12 @@ paths:
                           x-stoplight:
                             id: q4dxrz1yz0hcd
               examples: {}
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
       requestBody:
         content:
           application/merge-patch+json:
@@ -396,6 +422,10 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
       description: Unassigned user from an organization and all organization projects.
       tags:
         - Users
@@ -404,7 +434,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     get:
-      summary: Your GET endpoint
+      summary: '#TODO'
       tags: []
       responses:
         '200':
@@ -432,18 +462,103 @@ paths:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
+      description: '#TODO'
     post:
-      summary: ''
+      summary: '#TODO'
       operationId: post-organizations-org_id-projects
       responses:
         '200':
           description: OK
-      description: ''
+          content:
+            application/json:
+              schema:
+                $ref: ./models/project/ProjectInfo.yaml
+      description: '#TODO'
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./models/project/ProjectDetails.yaml
+  '/organizations/{org_id}/projects/{project_id}':
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/ProjectId'
+    get:
+      summary: '#TODO'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/project/ProjectProfile.yaml
+        '404':
+          description: Not Found
+      operationId: get-organizations-org_id-projects-project_id
+      parameters: []
+      description: '#TODO'
+    put:
+      summary: '#TODO'
+      operationId: put-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/project/ProjectInfo.yaml
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/project/ProjectDetails.yaml
+      description: '#TODO'
+    patch:
+      summary: '#TODO'
+      operationId: patch-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/project/ProjectInfo.yaml
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    name:
+                      type: string
+                      x-stoplight:
+                        id: mytj6moteu7c7
+                - $ref: ./models/Slug.yaml
+                  x-stoplight:
+                    id: wkb8fb6yjn6z9
+        description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
+      description: '#TODO'
+    delete:
+      summary: '#TODO'
+      operationId: delete-organizations-org_id-projects-project_id
+      responses:
+        '204':
+          description: No Content
+      description: '#TODO'
 components:
   schemas:
     OrganizationProfile:
@@ -782,6 +897,7 @@ components:
       required: false
       schema:
         type: string
+        default: '10'
       description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
     Offset:
       name: offset
@@ -789,6 +905,7 @@ components:
       required: false
       schema:
         type: string
+        default: '0'
       description: The offset used for this page of results
     Sort:
       name: sort
@@ -811,6 +928,20 @@ components:
       schema:
         type: string
       description: User identifier
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Project identifier
+    ProjectKey:
+      name: project_key
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Project key
   requestBodies: {}
   securitySchemes:
     BearerAuth:

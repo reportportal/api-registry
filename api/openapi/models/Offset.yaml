@@ -10,12 +10,14 @@ properties:
     minimum: 0
     x-stoplight:
       id: z9jg7o4fe4jkn
+    default: 0
   limit:
     type: integer
     description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint.
     minimum: 0
     x-stoplight:
       id: i0krz9nwy1ndt
+    default: 10
   total_count:
     type: integer
     description: One greater than the offset of the last item in the entire collection. The total number of items in the collection may be less than total_count.
@@ -37,13 +39,12 @@ properties:
       id: 77qo4i7sq47x6
   items:
     type: array
+    x-stoplight:
+      id: qkgi498bvvex6
     items:
       x-stoplight:
         id: dsgodc8fbfyfo
-    x-stoplight:
-      id: qkgi498bvvex6
 required:
   - offset
   - limit
-  - total_count
   - items
