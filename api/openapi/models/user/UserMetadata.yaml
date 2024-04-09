@@ -9,6 +9,7 @@ properties:
       id: g3b344eju3s69
     format: int64
     description: User internal identifier.
+    minimum: 0
   created_at:
     type: string
     x-stoplight:

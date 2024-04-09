@@ -12,6 +12,7 @@ allOf:
           id: f7stmdjdqi95y
         format: int64
         description: Project internal identifier.
+        minimum: 0
   - $ref: ../Slug.yaml
     x-stoplight:
       id: mq0kagsd2m7tg

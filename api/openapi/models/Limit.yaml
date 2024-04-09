@@ -8,9 +8,11 @@ properties:
     x-stoplight:
       id: 568vjghxgbno6
     description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint.
+    minimum: 0
   count:
     type: integer
     x-stoplight:
       id: 8u3oihl0ki3dj
     description: The number of results returned in this page of results.
+    minimum: 0
 description: ''
