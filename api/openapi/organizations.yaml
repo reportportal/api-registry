@@ -74,7 +74,6 @@ paths:
         Authority:
 
         - ADMINISTRATOR
-
       requestBody:
         content:
           application/json:
@@ -122,17 +121,16 @@ paths:
 
         Update organization information with the provided data.
 
-        ### Authority:
+        #### Authority:
 
         - ADMINISTRATOR
         - MANAGER
-
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationDetails'
-        description: 'Provide organization information for update.'
+        description: Provide organization information for update.
       tags:
         - Organizations
         - Ready for implementation
@@ -445,10 +443,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     get:
-      summary: 'Get organization projects'
+      summary: Get organization projects
       tags:
         - Projects
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -475,9 +472,9 @@ paths:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
-      description: 'Get a list of organization projects.'
+      description: Get a list of organization projects.
     post:
-      summary: 'Create a new project'
+      summary: Create a new project
       operationId: post-organizations-org_id-projects
       responses:
         '200':
@@ -486,21 +483,22 @@ paths:
             application/json:
               schema:
                 $ref: ./models/project/ProjectInfo.yaml
-      description: 'Create a new project in the organization.'
+      description: Create a new project in the organization.
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./models/project/ProjectDetails.yaml
+      tags:
+        - Projects
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
       - $ref: '#/components/parameters/ProjectId'
     get:
-      summary: 'Get project information'
+      summary: Get project information
       tags:
         - Projects
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -512,9 +510,9 @@ paths:
           description: Not Found
       operationId: get-organizations-org_id-projects-project_id
       parameters: []
-      description: 'Get project information.'
+      description: Get project information.
     put:
-      summary: 'Update project'
+      summary: Update project
       operationId: put-organizations-org_id-projects-project_id
       responses:
         '200':
@@ -534,9 +532,11 @@ paths:
           application/json:
             schema:
               $ref: ./models/project/ProjectDetails.yaml
-      description: 'Update project information.'
+      description: Update project information.
+      tags:
+        - Projects
     patch:
-      summary: 'Partial project update'
+      summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
       responses:
         '200':
@@ -566,14 +566,16 @@ paths:
                   x-stoplight:
                     id: wkb8fb6yjn6z9
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-      description: 'Partial project update.'
+      description: Partial project update.
+      tags:
+        - Projects
     delete:
-      summary: 'Delete project'
+      summary: Delete project
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
           description: No Content
-      description: 'Delete project.'
+      description: Delete project.
 components:
   schemas:
     OrganizationProfile:
