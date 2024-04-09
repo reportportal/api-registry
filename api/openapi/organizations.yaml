@@ -10,7 +10,21 @@ info:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
 servers:
-  - url: 'http://localhost:3000'
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
 paths:
   /organizations:
     get:
@@ -60,10 +74,10 @@ paths:
                 $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
         '402':
           description: Payment Required
+        '403':
+          description: Forbidden
       description: |-
         > **Enterprise edition feature** 
         >
@@ -650,6 +664,7 @@ components:
           type: integer
           format: int64
           description: Organization ReportPortal identifier.
+          minimum: 0
         type:
           type: string
           x-stoplight:
@@ -689,6 +704,10 @@ components:
       x-stoplight:
         id: mvjaoy2fofepj
       type: object
+      description: |-
+        A relationship object contains members that represent a relationship of the organization.
+
+        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
       properties:
         users:
           type: object
@@ -765,10 +784,7 @@ components:
                     id: kfsaova2wetdj
                   minimum: 0
                   description: Storage usage in percents.
-      description: |-
-        A relationship object contains members that represent a relationship of the organization.
-
-        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
+                  maximum: 100
     OrganizationUserAssignment:
       title: Organization user assignment
       x-stoplight:
