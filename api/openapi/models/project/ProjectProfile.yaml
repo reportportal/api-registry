@@ -11,7 +11,7 @@ allOf:
         $ref: ./ProjectRelation.yaml
         x-stoplight:
           id: g4mai64rch5zv
-description: '#TODO'
+description: 'Comprehensive information about a project.'
 examples:
   - name: string
     slug: string-string
