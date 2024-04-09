@@ -21,7 +21,7 @@ properties:
     x-stoplight:
       id: yeosbd661wv1h
     format: int64
-    description: '#TODO'
+    description: 'Organization ID to which the project belongs.'
   created_at:
     type: string
     x-stoplight:
