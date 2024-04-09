@@ -126,8 +126,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationInfo'
+        '400':
+          description: Bad Request
         '402':
           description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       description: |-
         > **Enterprise edition feature** 
         >
@@ -159,8 +165,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationInfo'
+        '400':
+          description: Bad Request
         '402':
           description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       description: |-
         > **Enterprise edition feature** 
         >
@@ -194,6 +206,10 @@ paths:
           description: No Content
         '402':
           description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       description: |-
         > **Enterprise edition feature** 
         >
@@ -357,8 +373,8 @@ paths:
                             id: o9wfyd597iupr
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       requestBody:
@@ -405,8 +421,8 @@ paths:
               examples: {}
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       requestBody:
@@ -445,8 +461,8 @@ paths:
       responses:
         '204':
           description: No Content
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       description: Unassigned user from an organization and all organization projects.
@@ -481,6 +497,8 @@ paths:
                           $ref: ./models/project/ProjectProfile.yaml
                           x-stoplight:
                             id: audexyacafge7
+        '404':
+          description: Not Found
       operationId: get-organizations-org_id-projects
       parameters:
         - $ref: '#/components/parameters/Limit'
@@ -501,6 +519,10 @@ paths:
             application/json:
               schema:
                 $ref: ./models/project/ProjectInfo.yaml
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
       description: Create a new project in the organization.
       requestBody:
         content:
@@ -540,8 +562,8 @@ paths:
                 $ref: ./models/project/ProjectInfo.yaml
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       requestBody:
@@ -565,8 +587,8 @@ paths:
                 $ref: ./models/project/ProjectInfo.yaml
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       requestBody:
@@ -597,6 +619,10 @@ paths:
       responses:
         '204':
           description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       description: Delete project.
 components:
   schemas:
@@ -652,7 +678,7 @@ components:
             - name
         - $ref: ./models/Slug.yaml
           x-stoplight:
-            id: x3i2u6w5oic01
+            id: cp3h04ftbupxt
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:
