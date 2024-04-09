@@ -345,7 +345,7 @@ paths:
         This is a complex endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
 
-        ### Organization authority:
+        ### Authority:
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -419,6 +419,11 @@ paths:
         - `MEMBER`
 
         A user with `MEMBER` role can get only his profile.
+
+        ### Member authority:
+
+        - `EDITOR`
+        - `VIEWER`
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
@@ -464,15 +469,18 @@ paths:
         description: |-
           Organization user details for update.
 
-          You can provide a project list as an additional option for assigning to a user.
+          You can provide a project list as an additional option for assigning or unassigned
+          a user from projects.
 
-          ### Authority:
+          ### Organization authority:
 
           - `ADMINISTRATOR`
           - `MANAGER`
           - `MEMBER`
 
-          A user with the `MEMBER` role can update only his profile.
+          ### Project authority:
+
+          - `EDITOR`
       tags:
         - Users
         - Ready for implementation
@@ -508,7 +516,6 @@ paths:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: q4dxrz1yz0hcd
-              examples: {}
         '400':
           description: Bad Request
         '403':
@@ -544,13 +551,18 @@ paths:
       description: |-
         Partial organization user update.
 
-        ### Authority:
+        You can provide a project list as an additional option for assigning or unassigned
+        a user from projects.
+
+        ### Organization authority:
 
         - `ADMINISTRATOR`
         - `MANAGER`
         - `MEMBER`
 
-        A user with the `MEMBER` role can update only his profile.
+        ### Project authority:
+
+        - `EDITOR`
       tags:
         - Users
         - Ready for implementation
@@ -571,9 +583,6 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can unassign only himself.
       tags:
         - Users
         - Ready for implementation
