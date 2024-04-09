@@ -52,7 +52,14 @@ paths:
                           $ref: '#/components/schemas/OrganizationProfile'
                           x-stoplight:
                             id: 8zm4xnkiool8l
-                description: The list of organizations
+                description: |-
+                  The response contains a list of organizations with their metadata.
+                  
+                  ### Authority:
+
+                  - `ADMINISTRATOR`
+          '403':
+            description: Forbidden
       operationId: get-organizations
       description: Get a list of existing organizations.
       parameters:
@@ -85,9 +92,9 @@ paths:
 
         Create a new organization. Provide name and slug.
 
-        Authority:
-
-        - ADMINISTRATOR
+        ### Authority: 
+        
+        - `ADMINISTRATOR`
       requestBody:
         content:
           application/json:
@@ -112,8 +119,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationProfile'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       operationId: get-organizations-org_id
-      description: Provide organization information.
+      description: |- 
+        Provide organization information.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     put:
@@ -141,10 +159,10 @@ paths:
 
         Update organization information with the provided data.
 
-        #### Authority:
+        ### Authority:
 
-        - ADMINISTRATOR
-        - MANAGER
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content:
           application/json:
@@ -179,6 +197,11 @@ paths:
         > Available only if an Organization plugin is enabled.
 
         Particular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content:
           application/merge-patch+json:
@@ -216,6 +239,10 @@ paths:
         > Available only if an Organization plugin is enabled.
 
         Delete organization by identifier.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
       tags:
         - Organizations
         - Ready for implementation
@@ -248,8 +275,18 @@ paths:
                           $ref: '#/components/schemas/OrganizationUserProfile'
                           x-stoplight:
                             id: yc96ertdqgoq3
+          '403':
+            description: Forbidden
+          '404':
+            description: Not Found
       operationId: get-organizations-org_id-users
-      description: Provides a list of organzation's users.
+      description: |-
+        Provides a list of organzation's users.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content: {}
       parameters:
@@ -290,7 +327,7 @@ paths:
                           x-stoplight:
                             id: tlxl05k73zejt
               examples:
-                Fur inexisting users:
+                Fur non-existing users:
                   value:
                     role: MEMBER
                     items:
@@ -300,16 +337,47 @@ paths:
                       - id: project-2
                         status: FAILURE
                         description: Wrong project slug/id
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
       description: |-
-        This endpoint provides a flow for bulk assigning a user to the organization and projects.
-        You can provide a project list as an additional option for assigning to a user.
+        This is a complex endpoint that provides a flow for assigning a user to the organization.
+        It can be used as a bulk endpoint if you provide a list of projects for assignment.
 
-        You will get different statuses for project assignments according to which user you want to assign to the organization:
+        ### Organization authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Project authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `EDITOR`
+
+        ### Assignment rules
+
+        #### For assignment user to the organization:
+
+        A user with the `MEMBER` role can assign only users with the `MEMBER` role.
+
+        #### For assignment user to the organization's projects:
+
+        A users with the `ADMINISTRATOR`, `MANAGER`, and `MEMBER` with `EDITOR` roles can assign
+        users to the organization's projects.
+      
+        ### Response event statuses
+
+        You will get different statuses for project assignments according to which user you want
+        to assign to the organization:
 
         - `PENDING` or `FAILURE` for non-existing users.
         - `SUCCESS` or `FAILURE` for existing users.
 
-        Items contain statuses for each event. Inside the event, you can find the `id` that links to the identifier you provided in the request.
+        Items contain statuses for each event. Inside the event, you can find the `id` that links
+        to the identifier you provided in the request.
       requestBody:
         content:
           application/json:
@@ -336,10 +404,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationUserProfile'
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       operationId: get-organizations-org_id-users-user_id
-      description: Get organization user profile.
+      description: |-
+        Get organization user profile.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with `MEMBER` role can get only his profile.
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
@@ -382,7 +461,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
-        description: Organization user details for update.
+        description: |-
+          Organization user details for update.
+
+          You can provide a project list as an additional option for assigning to a user.
+
+          ### Authority:
+
+          - `ADMINISTRATOR`
+          - `MANAGER`
+          - `MEMBER`
+
+          A user with the `MEMBER` role can update only his profile.
       tags:
         - Users
         - Ready for implementation
@@ -451,7 +541,16 @@ paths:
               type: object
             examples: {}
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-      description: Partial organization user update.
+      description: |-
+        Partial organization user update.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his profile.
       tags:
         - Users
         - Ready for implementation
@@ -465,7 +564,16 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      description: Unassigned user from an organization and all organization projects.
+      description: |-
+        Unassigned user from an organization and all organization projects.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can unassign only himself.
       tags:
         - Users
         - Ready for implementation
@@ -497,6 +605,8 @@ paths:
                           $ref: ./models/project/ProjectProfile.yaml
                           x-stoplight:
                             id: audexyacafge7
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       operationId: get-organizations-org_id-projects
@@ -505,7 +615,13 @@ paths:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
-      description: Get a list of organization projects.
+      description: |- 
+        Get a list of organization projects.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
     post:
       summary: Create a new project
       tags:
@@ -521,9 +637,17 @@ paths:
                 $ref: ./models/project/ProjectInfo.yaml
         '400':
           description: Bad Request
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
-      description: Create a new project in the organization.
+      description: |-
+        Create a new project in the organization. 
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content:
           application/json:
@@ -545,11 +669,26 @@ paths:
             application/json:
               schema:
                 $ref: ./models/project/ProjectProfile.yaml
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       operationId: get-organizations-org_id-projects-project_id
-      parameters: []
-      description: Get project information.
+      description: |- 
+        Get project information.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can get only his project.
+
+        ### Member authority:
+
+        - 'EDITOR'
+        - 'VIEWER'
     put:
       summary: Update project
       operationId: put-organizations-org_id-projects-project_id
@@ -571,7 +710,20 @@ paths:
           application/json:
             schema:
               $ref: ./models/project/ProjectDetails.yaml
-      description: Update project information.
+      description: |-
+        Update project information.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority:
+
+        - `EDITOR`
       tags:
         - Projects
         - Ready for implementation
@@ -606,7 +758,20 @@ paths:
                   x-stoplight:
                     id: wkb8fb6yjn6z9
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-      description: Partial project update.
+      description: |- 
+        Partial project update.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority:
+
+        - `EDITOR`
       tags:
         - Projects
         - Ready for implementation
@@ -623,7 +788,13 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      description: Delete project.
+      description: |- 
+        Delete project.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
 components:
   schemas:
     OrganizationProfile:
