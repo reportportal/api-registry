@@ -52,16 +52,20 @@ paths:
                           $ref: '#/components/schemas/OrganizationProfile'
                           x-stoplight:
                             id: 8zm4xnkiool8l
-                description: |-
-                  The response contains a list of organizations with their metadata.
-                  
-                  ### Authority:
-
-                  - `ADMINISTRATOR`
-          '403':
-            description: Forbidden
+                description: The response contains a list of organizations with their metadata.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations
-      description: Get a list of existing organizations.
+      description: |-
+        Get a list of existing organizations.
+
+        ### Authority: 
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -81,10 +85,22 @@ paths:
                 $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
         '402':
           description: Payment Required
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -93,7 +109,7 @@ paths:
         Create a new organization. Provide name and slug.
 
         ### Authority: 
-        
+
         - `ADMINISTRATOR`
       requestBody:
         content:
@@ -121,10 +137,18 @@ paths:
                 $ref: '#/components/schemas/OrganizationProfile'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id
-      description: |- 
+      description: |-
         Provide organization information.
 
         ### Authority:
@@ -146,12 +170,28 @@ paths:
                 $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
         '402':
           description: Payment Required
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -275,10 +315,10 @@ paths:
                           $ref: '#/components/schemas/OrganizationUserProfile'
                           x-stoplight:
                             id: yc96ertdqgoq3
-          '403':
-            description: Forbidden
-          '404':
-            description: Not Found
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       operationId: get-organizations-org_id-users
       description: |-
         Provides a list of organzation's users.
@@ -367,7 +407,7 @@ paths:
 
         A users with the `ADMINISTRATOR`, `MANAGER`, and `MEMBER` with `EDITOR` roles can assign
         users to the organization's projects.
-      
+
         ### Response event statuses
 
         You will get different statuses for project assignments according to which user you want
@@ -624,7 +664,7 @@ paths:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
-      description: |- 
+      description: |-
         Get a list of organization projects.
 
         ### Authority:
@@ -683,7 +723,7 @@ paths:
         '404':
           description: Not Found
       operationId: get-organizations-org_id-projects-project_id
-      description: |- 
+      description: |-
         Get project information.
 
         ### Authority:
@@ -767,7 +807,7 @@ paths:
                   x-stoplight:
                     id: wkb8fb6yjn6z9
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
-      description: |- 
+      description: |-
         Partial project update.
 
         ### Authority:
@@ -797,7 +837,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      description: |- 
+      description: |-
         Delete project.
 
         ### Authority:
