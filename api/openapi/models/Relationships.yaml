@@ -24,9 +24,10 @@ properties:
             type: object
             properties:
               self:
-                $ref: ./Link.yaml
                 x-stoplight:
                   id: t0nnh0hw64ce0
+                type: string
+                format: uri
               related:
                 $ref: ./Link.yaml
                 x-stoplight:
