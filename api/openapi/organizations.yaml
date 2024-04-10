@@ -56,7 +56,7 @@ paths:
         '403':
           description: Forbidden
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
       operationId: get-organizations
@@ -86,19 +86,19 @@ paths:
         '400':
           description: Bad Request
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
         '402':
           description: Payment Required
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
       description: |-
@@ -138,13 +138,13 @@ paths:
         '403':
           description: Forbidden
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
         '404':
           description: Not Found
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id
@@ -171,25 +171,25 @@ paths:
         '400':
           description: Bad Request
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
         '402':
           description: Payment Required
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
         '404':
           description: Not Found
           content:
-            application/json:
+            application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
       description: |-
@@ -225,12 +225,28 @@ paths:
                 $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '402':
           description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -269,10 +285,22 @@ paths:
           description: No Content
         '402':
           description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -317,8 +345,16 @@ paths:
                             id: yc96ertdqgoq3
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id-users
       description: |-
         Provides a list of organzation's users.
@@ -379,8 +415,16 @@ paths:
                         description: Wrong project slug/id
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         This is a complex endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
@@ -446,8 +490,16 @@ paths:
                 $ref: '#/components/schemas/OrganizationUserProfile'
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id-users-user_id
       description: |-
         Get organization user profile.
@@ -497,10 +549,22 @@ paths:
                             id: o9wfyd597iupr
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       requestBody:
         content:
           application/json:
@@ -558,10 +622,22 @@ paths:
                             id: q4dxrz1yz0hcd
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       requestBody:
         content:
           application/merge-patch+json:
@@ -614,8 +690,16 @@ paths:
           description: No Content
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -656,8 +740,16 @@ paths:
                             id: audexyacafge7
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id-projects
       parameters:
         - $ref: '#/components/parameters/Limit'
@@ -686,10 +778,22 @@ paths:
                 $ref: ./models/project/ProjectInfo.yaml
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         Create a new project in the organization. 
 
@@ -720,8 +824,16 @@ paths:
                 $ref: ./models/project/ProjectProfile.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id-projects-project_id
       description: |-
         Get project information.
@@ -750,10 +862,22 @@ paths:
                 $ref: ./models/project/ProjectInfo.yaml
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       requestBody:
         content:
           application/json:
@@ -788,10 +912,22 @@ paths:
                 $ref: ./models/project/ProjectInfo.yaml
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       requestBody:
         content:
           application/merge-patch+json:
@@ -835,8 +971,16 @@ paths:
           description: No Content
         '403':
           description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
         '404':
           description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
       description: |-
         Delete project.
 
