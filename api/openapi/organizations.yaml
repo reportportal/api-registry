@@ -1183,11 +1183,26 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
-      operationId: get-organizations-org_id-notifications
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/Offset.yaml
+                    x-stoplight:
+                      id: 3d2dowzgaj8l1
+                  - type: object
+                    properties:
+                      items:
+                        type: string
+                        x-stoplight:
+                          id: bx10o84org4sg
+      operationId: get-organizations-org_id-notification-rules
     post:
       summary: ''
-      operationId: post-organizations-org_id-notifications
+      operationId: post-organizations-org_id-notification-rules
       responses:
         '200':
           description: OK
@@ -1207,7 +1222,7 @@ paths:
       summary: Your GET endpoint
       tags: []
       responses: {}
-      operationId: get-organizations-org_id-notifications
+      operationId: get-organizations-org_id-notifications-rules-rule_id
 components:
   schemas:
     OrganizationProfile:
@@ -1644,11 +1659,28 @@ components:
             type: string
             format: email
     OrganizationNotificationRule:
-      title: Notification rule
+      title: OrganizationNotificationRule
       x-stoplight:
-        id: i2kh1t7th6duo
+        id: l4gmpbqm9o282
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            created_at:
+              type: string
+              x-stoplight:
+                id: wfur0bro7bnox
+              format: date-time
+            updated_at:
+              type: string
+              x-stoplight:
+                id: pcaygplw12pnq
+              format: date-time
+        - $ref: '#/components/schemas/OrganizationNotificationRuleDefinition'
+          x-stoplight:
+            id: e76mwgs2t0lkq
       description: '#TODO'
-      type: object
     OrganizationPluginInfo:
       title: Organization plugin info
       x-stoplight:
