@@ -1,0 +1,19 @@
+title: Execute script
+x-stoplight:
+  id: a3ve9x09gq0yb
+type: object
+description: This action executes a custom script or function to perform specific tasks.
+properties:
+  execute_script:
+    type: object
+    x-stoplight:
+      id: grld6m811zd2w
+    properties:
+      script:
+        type: string
+        x-stoplight:
+          id: script_id
+      parameters:
+        type: object
+        x-stoplight:
+          id: script_parameters_id

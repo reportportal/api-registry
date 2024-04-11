@@ -53,12 +53,6 @@ paths:
                           x-stoplight:
                             id: 8zm4xnkiool8l
                 description: The response contains a list of organizations with their metadata.
-        '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: ./models/Problem.yaml
       operationId: get-organizations
       description: |-
         Get a list of existing organizations.
@@ -66,11 +60,19 @@ paths:
         ### Authority: 
 
         - `ADMINISTRATOR`
+        - `USER`
+
+        #TODO
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter organizations by name
       requestBody:
         content: {}
     post:
@@ -167,7 +169,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationInfo'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: hiod6ajoz3rrg
+                    default: The organization update was completed successfully.
         '400':
           description: Bad Request
           content:
@@ -222,7 +230,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationInfo'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: y1kxomqmeigfg
+                    default: The organization update was completed successfully.
         '400':
           description: Bad Request
           content:
@@ -379,40 +393,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: ./models/EventStatus.yaml
         '207':
           description: Multi-Status (WebDAV)
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/OrganizationUserInfo'
+                  - $ref: ./models/EventStatus.yaml
                     x-stoplight:
                       id: qczj8a6wf2gxv
                   - type: object
                     properties:
-                      items:
+                      statuses:
                         x-stoplight:
                           id: tv2psyijqtql3
                         type: array
-                        description: |-
-                          Change statuses for projects.
-                          For cases when a user is assigned projects.
+                        description: Statuses for updating projects. This is for cases when a user is assigned projects.
                         items:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: tlxl05k73zejt
-              examples:
-                Fur non-existing users:
-                  value:
-                    role: MEMBER
-                    items:
-                      - id: project-1
-                        status: PENDING
-                        description: Will be assigned after registration
-                      - id: project-2
-                        status: FAILURE
-                        description: Wrong project slug/id
         '400':
           description: Bad Request
           content:
@@ -472,6 +473,7 @@ paths:
       tags:
         - Users
         - Ready for implementation
+      x-extension-1: null
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -487,7 +489,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserProfile'
+                oneOf:
+                  - $ref: '#/components/schemas/OrganizationUserProfile'
+                    x-stoplight:
+                      id: ekx5qsl7cyvj4
+                  - $ref: ./models/EventStatus.yaml
+                    x-stoplight:
+                      id: et3rp2iwlmgn7
         '403':
           description: Forbidden
           content:
@@ -522,6 +530,16 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 4rm267zsfzu58
+                    default: The user's role in the organization has been updated.
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -531,12 +549,16 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/OrganizationUserInfo'
-                    x-stoplight:
-                      id: vr6fer4du1z6d
-                  - type: object
+                  - x-stoplight:
+                      id: vz0j5aismjjdv
                     properties:
-                      items:
+                      message:
+                        type: string
+                        x-stoplight:
+                          id: qq0wvtnebtzyb
+                        default: The user's role in the organization has been updated.
+                  - properties:
+                      statuses:
                         x-stoplight:
                           id: nxwqi2ot8md9m
                         type: array
@@ -547,6 +569,7 @@ paths:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: o9wfyd597iupr
+                type: object
         '400':
           description: Bad Request
           content:
@@ -595,6 +618,16 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: zbdjojwwvcpma
+                    default: The user's role in the organization has been updated.
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -604,12 +637,18 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/OrganizationUserInfo'
-                  - type: object
-                    x-stoplight:
+                  - x-stoplight:
+                      id: tt0m9r127vs2z
+                    properties:
+                      message:
+                        type: string
+                        x-stoplight:
+                          id: 6lc772ylkoq6r
+                        default: The user's role in the organization has been updated.
+                  - x-stoplight:
                       id: ktzksl9dz8ii1
                     properties:
-                      items:
+                      statuses:
                         type: array
                         x-stoplight:
                           id: 3ujdjt3ivvssf
@@ -620,6 +659,7 @@ paths:
                           $ref: ./models/EventStatus.yaml
                           x-stoplight:
                             id: q4dxrz1yz0hcd
+                type: object
         '400':
           description: Bad Request
           content:
@@ -1074,7 +1114,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/EventStatus.yaml
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 7uyn7ehgi6ovb
               examples:
                 Retention policy:
                   value:
@@ -1125,7 +1170,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/EventStatus.yaml
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: ic96azfhunvje
         '400':
           description: Bad Request
         '403':
@@ -1142,37 +1192,6 @@ paths:
                   x-stoplight:
                     id: 3ln8ef23j7ncm
       description: '#TODO'
-  '/organizations/{org_id}/plugins':
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    x-stoplight:
-                      id: 0f2zwzdi367v0
-                    items:
-                      $ref: '#/components/schemas/OrganizationPluginInfo'
-                      x-stoplight:
-                        id: sxyt6xg59r9d9
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: get-organizations-org_id-plugins
   '/organizations/{org_id}/notification-rules':
     parameters:
       - schema:
@@ -1196,17 +1215,32 @@ paths:
                   - type: object
                     properties:
                       items:
-                        type: string
+                        type: array
                         x-stoplight:
                           id: bx10o84org4sg
+                        items:
+                          $ref: '#/components/schemas/OrganizationNotifyRule'
+                          x-stoplight:
+                            id: kcsi3bhqflf5v
       operationId: get-organizations-org_id-notification-rules
+      description: '#TODO'
     post:
-      summary: ''
+      summary: '#TODO'
       operationId: post-organizations-org_id-notification-rules
       responses:
         '200':
           description: OK
-  '/organizations/{org_id}/notification-rules/{notification_rule_id}':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationNotifyRule'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      description: '#TODO'
+  '/organizations/{org_id}/notification-rules/{notify_rule_id}':
     parameters:
       - schema:
           type: string
@@ -1215,14 +1249,104 @@ paths:
         required: true
       - schema:
           type: string
-        name: notification_rule_id
+        name: notify_rule_id
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: '#TODO'
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationNotifyRule'
       operationId: get-organizations-org_id-notifications-rules-rule_id
+      description: '#TODO'
+    put:
+      summary: '#TODO'
+      operationId: put-organizations-org_id-notification-rules-notify_rule_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 925zkivx5dclj
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      description: '#TODO'
+    patch:
+      summary: '#TODO'
+      operationId: patch-organizations-org_id-notification-rules-notify_rule_id
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 8maqxc1fpt87t
+      description: '#TODO'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+    delete:
+      summary: '#TODO'
+      operationId: delete-organizations-org_id-notification-rules-notify_rule_id
+      responses:
+        '204':
+          description: No Content
+          content: {}
+      description: '#TODO'
+  '/organizations/{org_id}/plugins':
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    get:
+      summary: '#TODO'
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    x-stoplight:
+                      id: 0f2zwzdi367v0
+                    items:
+                      $ref: '#/components/schemas/OrganizationPluginInfo'
+                      x-stoplight:
+                        id: sxyt6xg59r9d9
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: get-organizations-org_id-plugins
+      description: '#TODO'
 components:
   schemas:
     OrganizationProfile:
@@ -1584,7 +1708,30 @@ components:
           type: boolean
           x-stoplight:
             id: zi73b396he1hp
-    OrganizationNotificationRuleDefinition:
+    OrganizationNotifyRule:
+      title: OrganizationNotificationRule
+      x-stoplight:
+        id: l4gmpbqm9o282
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            created_at:
+              type: string
+              x-stoplight:
+                id: wfur0bro7bnox
+              format: date-time
+            updated_at:
+              type: string
+              x-stoplight:
+                id: pcaygplw12pnq
+              format: date-time
+        - $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+          x-stoplight:
+            id: e76mwgs2t0lkq
+      description: '#TODO'
+    OrganizationNotifyRuleDefinition:
       title: Notification rule definition
       x-stoplight:
         id: wzds6axw03vkv
@@ -1600,12 +1747,12 @@ components:
           type: boolean
           x-stoplight:
             id: eljifjwy0myo9
-        launch_conditions:
+        conditions:
           type: object
           x-stoplight:
             id: xiq7u96dbyi7c
           properties:
-            names:
+            launch_names:
               type: array
               x-stoplight:
                 id: zndum9movjram
@@ -1613,7 +1760,7 @@ components:
                 x-stoplight:
                   id: xxjj79wsegq04
                 type: string
-            attributes:
+            launch_attributes:
               type: array
               x-stoplight:
                 id: 2pcrjayzwdyia
@@ -1638,7 +1785,7 @@ components:
                 - AND
                 - OR
               default: AND
-            case:
+            result_condition:
               type: string
               x-stoplight:
                 id: 3nt3mq3p0mj0z
@@ -1649,38 +1796,41 @@ components:
                 - MORE_10
                 - MORE_20
                 - MORE_50
-        recipients:
+        actions:
           type: array
           x-stoplight:
-            id: kx6i73tjdzm9p
+            id: 5kl2r7880cz8x
           items:
             x-stoplight:
-              id: e8iucb5ce8ud6
-            type: string
-            format: email
-    OrganizationNotificationRule:
-      title: OrganizationNotificationRule
-      x-stoplight:
-        id: l4gmpbqm9o282
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-            created_at:
-              type: string
-              x-stoplight:
-                id: wfur0bro7bnox
-              format: date-time
-            updated_at:
-              type: string
-              x-stoplight:
-                id: pcaygplw12pnq
-              format: date-time
-        - $ref: '#/components/schemas/OrganizationNotificationRuleDefinition'
-          x-stoplight:
-            id: e76mwgs2t0lkq
-      description: '#TODO'
+              id: htfufyrh48dqh
+            oneOf:
+              - $ref: ./models/notify-actions/SendEmail.yaml
+                x-stoplight:
+                  id: wdf0u1vgxhx4f
+              - $ref: ./models/notify-actions/SendSms.yaml
+                x-stoplight:
+                  id: vx5ncaiq4tq02
+      examples:
+        - name: string
+          enabled: true
+          conditions:
+            launch_names:
+              - string
+            launch_attributes:
+              - key: string
+                value: string
+            attributes_operator: AND
+            result_condition: ALWAYS
+          actions:
+            - send_email:
+                recipients:
+                  - user@example.com
+                subject: string
+                body: string
+            - send_sms:
+                recipients:
+                  - '+16308520397'
+                message: string
     OrganizationPluginInfo:
       title: Organization plugin info
       x-stoplight:
@@ -1740,11 +1890,6 @@ components:
           x-stoplight:
             id: 83f3uddm8eenm
           format: date-time
-          description: '#TODO'
-        listed:
-          type: boolean
-          x-stoplight:
-            id: pgtaunrk56f2l
           description: '#TODO'
         assets:
           type: object

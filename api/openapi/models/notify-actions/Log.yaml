@@ -1,0 +1,23 @@
+title: Log
+x-stoplight:
+  id: 83yiryhpyg3lc
+type: object
+description: This action logs the notification or any relevant information.
+properties:
+  log:
+    type: object
+    x-stoplight:
+      id: mdf10hq1jdek1
+    properties:
+      log_level:
+        type: string
+        enum:
+          - INFO
+          - WARNING
+          - ERROR
+        x-stoplight:
+          id: log_level_id
+      message:
+        type: string
+        x-stoplight:
+          id: log_message_id

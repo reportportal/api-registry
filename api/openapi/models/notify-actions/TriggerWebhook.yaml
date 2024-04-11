@@ -1,0 +1,46 @@
+title: Trigger webhook
+x-stoplight:
+  id: 35ck6u42rh8ob
+type: object
+description: This action triggers a webhook to notify an external service or system.
+properties:
+  trigger_webhook:
+    type: object
+    x-stoplight:
+      id: mywv6z6e4fptn
+    properties:
+      url:
+        type: string
+        x-stoplight:
+          id: srwbz8qfszpvr
+        format: uri
+      method:
+        type: string
+        x-stoplight:
+          id: yhepi1jhxtubt
+        enum:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+      headers:
+        type: array
+        items:
+          x-stoplight:
+            id: l7wbhrokvxf64
+          type: object
+          properties:
+            key:
+              type: string
+              x-stoplight:
+                id: ls9jsxrjoy904
+            value:
+              type: string
+              x-stoplight:
+                id: 8f1rmv6bylvlb
+        x-stoplight:
+          id: mce7wh81v3ao9
+      body:
+        type: string
+        x-stoplight:
+          id: 42dc25patacut

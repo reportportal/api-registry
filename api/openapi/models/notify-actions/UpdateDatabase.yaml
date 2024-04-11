@@ -1,0 +1,23 @@
+title: Update database
+x-stoplight:
+  id: es1jq2lrb6wnr
+type: object
+description: ' This action updates a database with relevant information.'
+properties:
+  update_database:
+    type: object
+    x-stoplight:
+      id: i9myqlxdbax5h
+    properties:
+      database:
+        type: string
+        x-stoplight:
+          id: database_id
+      table:
+        type: string
+        x-stoplight:
+          id: table_id
+      data:
+        type: object
+        x-stoplight:
+          id: database_data_id
