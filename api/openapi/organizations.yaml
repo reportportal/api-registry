@@ -1737,6 +1737,7 @@ components:
         id: wzds6axw03vkv
       type: object
       description: '#TODO'
+      examples: []
       properties:
         name:
           type: string
@@ -1797,40 +1798,10 @@ components:
                 - MORE_20
                 - MORE_50
         actions:
-          type: array
           x-stoplight:
             id: 5kl2r7880cz8x
-          items:
-            x-stoplight:
-              id: htfufyrh48dqh
-            oneOf:
-              - $ref: ./models/notify-actions/SendEmail.yaml
-                x-stoplight:
-                  id: wdf0u1vgxhx4f
-              - $ref: ./models/notify-actions/SendSms.yaml
-                x-stoplight:
-                  id: vx5ncaiq4tq02
-      examples:
-        - name: string
-          enabled: true
-          conditions:
-            launch_names:
-              - string
-            launch_attributes:
-              - key: string
-                value: string
-            attributes_operator: AND
-            result_condition: ALWAYS
-          actions:
-            - send_email:
-                recipients:
-                  - user@example.com
-                subject: string
-                body: string
-            - send_sms:
-                recipients:
-                  - '+16308520397'
-                message: string
+          allOf:
+            - $ref: ./models/notify-actions/SendEmail.yaml
     OrganizationPluginInfo:
       title: Organization plugin info
       x-stoplight:
