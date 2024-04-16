@@ -73,8 +73,6 @@ paths:
           in: query
           name: name
           description: Filter organizations by name
-      requestBody:
-        content: {}
     post:
       summary: Create a new organization
       operationId: post-organizations
@@ -377,8 +375,6 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
-      requestBody:
-        content: {}
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
@@ -1313,7 +1309,6 @@ paths:
       responses:
         '204':
           description: No Content
-          content: {}
       description: '#TODO'
   '/organizations/{org_id}/plugins':
     parameters:
