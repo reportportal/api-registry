@@ -463,7 +463,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserAssignment'
-            examples: {}
         description: Definition for a user assignment.
       tags:
         - Users
@@ -697,7 +696,6 @@ paths:
                         x-stoplight:
                           id: huy07cjxhqn0h
               type: object
-            examples: {}
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: |-
         Partial organization user update.
@@ -1028,7 +1026,8 @@ paths:
       - $ref: '#/components/parameters/OrganizationId'
     get:
       summary: '#TODO'
-      tags: []
+      tags:
+        - TODO
       responses:
         '200':
           description: Ok
@@ -1073,7 +1072,8 @@ paths:
         description: Specific setting name
     get:
       summary: '#TODO'
-      tags: []
+      tags:
+        - TODO
       responses:
         '200':
           description: OK
@@ -1196,7 +1196,8 @@ paths:
         required: true
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TODO
       responses:
         '200':
           description: OK
@@ -1249,7 +1250,8 @@ paths:
         required: true
     get:
       summary: '#TODO'
-      tags: []
+      tags:
+        - TODO
       responses:
         '200':
           description: OK
@@ -1286,7 +1288,6 @@ paths:
       responses:
         '200':
           description: OK
-          headers: {}
           content:
             application/json:
               schema:
@@ -1318,7 +1319,8 @@ paths:
         required: true
     get:
       summary: '#TODO'
-      tags: []
+      tags:
+        - TODO
       responses:
         '200':
           description: OK
@@ -1984,7 +1986,6 @@ components:
       schema:
         type: string
       description: Project identifier
-  requestBodies: {}
   securitySchemes:
     BearerAuth:
       type: http
