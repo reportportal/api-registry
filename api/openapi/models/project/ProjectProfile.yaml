@@ -12,20 +12,3 @@ allOf:
         x-stoplight:
           id: g4mai64rch5zv
 description: 'Comprehensive information about a project.'
-examples:
-  - name: string
-    slug: string-string
-    id: string
-    key: string
-    created_at: '2019-08-24T14:15:22Z'
-    updated_at: '2019-08-24T14:15:22Z'
-    relationships:
-      users:
-        meta:
-          count: 0
-      launches:
-        meta:
-          last_occurred_at: '2019-08-24T14:15:22Z'
-      billing:
-        meta:
-          storage_usage: 0
