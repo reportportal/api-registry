@@ -10,9 +10,8 @@ description: |-
   - `null` is a state you can use to unassign a user from the project.
 properties:
   role:
-    type:
-      - string
-      - 'null'
+    type: string
+    nullable: true
     x-stoplight:
       id: k7uxpi9vxvg0g
     enum:
