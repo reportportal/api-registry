@@ -42,13 +42,9 @@ paths:
                     type: object
                     properties:
                       items:
-                        x-stoplight:
-                          id: p6c0g6dra4c11
                         type: array
                         items:
                           $ref: '#/components/schemas/OrganizationProfile'
-                          x-stoplight:
-                            id: 8zm4xnkiool8l
                 description: The response contains a list of organizations with their metadata.
       operationId: get-organizations
       description: |-
@@ -348,8 +344,6 @@ paths:
                           id: niglepk1k2g3s
                         items:
                           $ref: '#/components/schemas/OrganizationUserProfile'
-                          x-stoplight:
-                            id: yc96ertdqgoq3
         '403':
           description: Forbidden
           content:
@@ -401,8 +395,6 @@ paths:
                         description: Statuses for updating projects. This is for cases when a user is assigned projects.
                         items:
                           $ref: ./models/EventStatus.yaml
-                          x-stoplight:
-                            id: tlxl05k73zejt
         '400':
           description: Bad Request
           content:
@@ -461,7 +453,6 @@ paths:
       tags:
         - Users
         - Ready for implementation
-      x-extension-1: null
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
