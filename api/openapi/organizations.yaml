@@ -39,8 +39,7 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/Offset.yaml
-                    type: object
-                    properties:
+                  - properties:
                       items:
                         type: array
                         items:
