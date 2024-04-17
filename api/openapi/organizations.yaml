@@ -1522,8 +1522,6 @@ components:
           properties:
             relationships:
               $ref: '#/components/schemas/OrganizationUserRelation'
-              x-stoplight:
-                id: 40bx6wtd0uvnz
       description: A comprehensive set of user information related to a user's organization.
     OrganizationUserInfo:
       title: Organization user information
@@ -1825,12 +1823,8 @@ components:
           properties:
             source:
               $ref: ./models/Link.yaml
-              x-stoplight:
-                id: u0pr0q2rpkozk
             documentation:
               $ref: ./models/Link.yaml
-              x-stoplight:
-                id: 6f373e4upi8rr
         commands:
           type: object
           x-stoplight:
