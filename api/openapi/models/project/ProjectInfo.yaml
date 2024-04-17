@@ -4,5 +4,3 @@ x-stoplight:
 allOf:
   - $ref: ./ProjectDetails.yaml
   - $ref: ./ProjectMetadata.yaml
-    x-stoplight:
-      id: j28j90a73icbd

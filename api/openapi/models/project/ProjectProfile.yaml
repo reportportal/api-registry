@@ -9,6 +9,4 @@ allOf:
     properties:
       relationships:
         $ref: ./ProjectRelation.yaml
-        x-stoplight:
-          id: g4mai64rch5zv
 description: 'Comprehensive information about a project.'

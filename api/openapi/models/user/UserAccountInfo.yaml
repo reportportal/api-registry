@@ -3,8 +3,4 @@ x-stoplight:
   id: 2a6cm6zrojhcx
 allOf:
   - $ref: ./UserDetails.yaml
-    x-stoplight:
-      id: cd9fv44a7d4pj
   - $ref: ./UserMetadata.yaml
-    x-stoplight:
-      id: m12gn4c2iqhp1

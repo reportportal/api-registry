@@ -14,9 +14,5 @@ allOf:
         description: Project internal identifier.
         minimum: 0
   - $ref: ../Slug.yaml
-    x-stoplight:
-      id: mq0kagsd2m7tg
   - $ref: ../project/ProjectUserDetails.yaml
-    x-stoplight:
-      id: 0new1li2b8uld
 description: Information about user's project.
