@@ -541,8 +541,6 @@ paths:
                           For cases when a user is assigned projects.
                         items:
                           $ref: ./models/EventStatus.yaml
-                          x-stoplight:
-                            id: o9wfyd597iupr
                 type: object
         '400':
           description: Bad Request
@@ -631,8 +629,6 @@ paths:
                           For cases when a user is assigned projects.
                         items:
                           $ref: ./models/EventStatus.yaml
-                          x-stoplight:
-                            id: q4dxrz1yz0hcd
                 type: object
         '400':
           description: Bad Request
@@ -673,8 +669,6 @@ paths:
                         id: s4p0cyzapk47w
                       items:
                         $ref: ./models/user/UserProjectDefinition.yaml
-                        x-stoplight:
-                          id: huy07cjxhqn0h
               type: object
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: |-
@@ -749,8 +743,6 @@ paths:
                           id: dl8caqxxjx971
                         items:
                           $ref: ./models/project/ProjectProfile.yaml
-                          x-stoplight:
-                            id: audexyacafge7
         '403':
           description: Forbidden
           content:
@@ -1016,12 +1008,8 @@ paths:
                 properties:
                   retention_policy:
                     $ref: '#/components/schemas/OrganizationRetentionPolicy'
-                    x-stoplight:
-                      id: 4n046ms2ge4qu
                   notification_policy:
                     $ref: '#/components/schemas/OrganizationNotificationPolicy'
-                    x-stoplight:
-                      id: n8ngrc31aot6x
         '403':
           description: Forbidden
           content:
@@ -1184,8 +1172,6 @@ paths:
                           id: bx10o84org4sg
                         items:
                           $ref: '#/components/schemas/OrganizationNotifyRule'
-                          x-stoplight:
-                            id: kcsi3bhqflf5v
       operationId: get-organizations-org_id-notification-rules
       description: '#TODO'
     post:
