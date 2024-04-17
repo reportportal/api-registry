@@ -39,8 +39,6 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/Offset.yaml
-                  - x-stoplight:
-                      id: nsdfmhu6y0tgj
                     type: object
                     properties:
                       items:
@@ -281,8 +279,6 @@ paths:
                       x-stoplight:
                         id: 6906m5222zvx6
                 - $ref: ./models/Slug.yaml
-                  x-stoplight:
-                    id: 4t2f16ac5xz63
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       tags:
         - Organizations
@@ -396,8 +392,6 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/EventStatus.yaml
-                    x-stoplight:
-                      id: qczj8a6wf2gxv
                   - type: object
                     properties:
                       statuses:
@@ -485,11 +479,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/OrganizationUserProfile'
-                    x-stoplight:
-                      id: ekx5qsl7cyvj4
                   - $ref: ./models/EventStatus.yaml
-                    x-stoplight:
-                      id: et3rp2iwlmgn7
         '403':
           description: Forbidden
           content:
@@ -973,8 +963,6 @@ paths:
                       x-stoplight:
                         id: mytj6moteu7c7
                 - $ref: ./models/Slug.yaml
-                  x-stoplight:
-                    id: wkb8fb6yjn6z9
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: |-
         Partial project update.
@@ -1083,8 +1071,6 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                   - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-                    x-stoplight:
-                      id: gv3x79uxwj119
                 description: '#TODO'
         '403':
           description: Forbidden
@@ -1147,15 +1133,11 @@ paths:
               oneOf:
                 - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-                  x-stoplight:
-                    id: 9wm8sten2ueun
           application/xml:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-                  x-stoplight:
-                    id: 6ce6ly4mx1i8i
     patch:
       summary: '#TODO'
       operationId: patch-organizations-org_id-settings-setting_name
@@ -1184,8 +1166,6 @@ paths:
               oneOf:
                 - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-                  x-stoplight:
-                    id: 3ln8ef23j7ncm
       description: '#TODO'
   '/organizations/{org_id}/notification-rules':
     parameters:
@@ -1206,8 +1186,6 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/Offset.yaml
-                    x-stoplight:
-                      id: 3d2dowzgaj8l1
                   - type: object
                     properties:
                       items:
@@ -1335,8 +1313,6 @@ paths:
                       id: 0f2zwzdi367v0
                     items:
                       $ref: '#/components/schemas/OrganizationPluginInfo'
-                      x-stoplight:
-                        id: sxyt6xg59r9d9
         '403':
           description: Forbidden
         '404':
@@ -1352,16 +1328,12 @@ components:
       description: A comprehensive set of organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
-          x-stoplight:
-            id: arejror5jwj3n
         - type: object
           x-stoplight:
             id: xxy7z5blvo389
           properties:
             relationships:
               $ref: '#/components/schemas/OrganizationRelation'
-              x-stoplight:
-                id: lkpinpm5hhpzy
     OrganizationInfo:
       title: Organization
       x-stoplight:
@@ -1369,11 +1341,7 @@ components:
       description: Various information about the organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationDetails'
-          x-stoplight:
-            id: 64kdwn8nva4jg
         - $ref: '#/components/schemas/OrganizationMetadata'
-          x-stoplight:
-            id: 2bhjwvbwlhrlb
     OrganizationDetails:
       title: Organization definition
       x-stoplight:
@@ -1393,8 +1361,6 @@ components:
           required:
             - name
         - $ref: ./models/Slug.yaml
-          x-stoplight:
-            id: cp3h04ftbupxt
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:
@@ -1545,8 +1511,6 @@ components:
           required:
             - email
         - $ref: '#/components/schemas/OrganizationUserDefinition'
-          x-stoplight:
-            id: fkz8x6jcbf9uo
       description: Definition for a user assignment to the organization.
     OrganizationUserDefinition:
       title: Organization user definition
@@ -1568,8 +1532,6 @@ components:
                 to an organization without projects.
               items:
                 $ref: ./models/user/UserProjectDefinition.yaml
-                x-stoplight:
-                  id: fmzilkgtzpdmu
       description: Base information about a user in an organization.
     OrganizationUserProfile:
       title: Organization user profile
@@ -1577,11 +1539,7 @@ components:
         id: mtgs7v0icru14
       allOf:
         - $ref: '#/components/schemas/OrganizationUserInfo'
-          x-stoplight:
-            id: z9t6c1tqs0zl7
         - $ref: ./models/user/UserAccountInfo.yaml
-          x-stoplight:
-            id: 2hn2quqj2tknt
         - type: object
           x-stoplight:
             id: ryd1bkgqoi60r
@@ -1598,8 +1556,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/OrganizationUserDetails'
         - $ref: '#/components/schemas/OrganizationUserMetadata'
-          x-stoplight:
-            id: 0ao0t2fs2p7gc
       description: Related information about a user in the organization.
     OrganizationUserDetails:
       title: Organization user details
@@ -1721,8 +1677,6 @@ components:
                 id: pcaygplw12pnq
               format: date-time
         - $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
-          x-stoplight:
-            id: e76mwgs2t0lkq
       description: '#TODO'
     OrganizationNotifyRuleDefinition:
       title: Notification rule definition
