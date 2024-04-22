@@ -93,7 +93,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
-      description: |-
+      description: |
         > **Enterprise edition feature** 
         >
         > Available only if an Organization plugin is enabled.
