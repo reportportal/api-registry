@@ -37,14 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: ./models/Offset.yaml
-                  - properties:
-                      items:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/OrganizationProfile'
-                description: The response contains a list of organizations with their metadata.
+                $ref: '#/components/schemas/OrganizationProfileList'
       operationId: get-organizations
       description: |-
         Get a list of existing organizations.
@@ -266,14 +259,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              allOf:
-                - type: object
-                  properties:
-                    name:
-                      type: string
-                      x-stoplight:
-                        id: 6906m5222zvx6
-                - $ref: ./models/Slug.yaml
+              $ref: '#/components/schemas/OrganizationDetails'
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       tags:
         - Organizations
@@ -1310,6 +1296,22 @@ components:
           properties:
             relationships:
               $ref: '#/components/schemas/OrganizationRelation'
+    OrganizationProfileList:
+      title: OrganizationProfileList
+      x-stoplight:
+        id: qhues3miswoao
+      allOf:
+        - $ref: ./models/Offset.yaml
+        - type: object
+          x-stoplight:
+            id: 47wlz4hpcqq6m
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: 7udfw4feoc516
+              items:
+                $ref: '#/components/schemas/OrganizationProfile'
     OrganizationInfo:
       title: Organization
       x-stoplight:
@@ -1334,6 +1336,7 @@ components:
               x-stoplight:
                 id: dz5igu0m6iy9o
               description: Organization display name.
+              minLength: 1
           required:
             - name
         - $ref: ./models/Slug.yaml
