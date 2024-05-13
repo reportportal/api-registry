@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfileList'
+                $ref: '#/components/schemas/OrganizationProfilesList'
       operationId: get-organizations
       description: |-
         Get a list of existing organizations.
@@ -317,18 +317,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: ./models/Offset.yaml
-                  - type: object
-                    x-stoplight:
-                      id: kn7zavpzj9nfz
-                    properties:
-                      items:
-                        type: array
-                        x-stoplight:
-                          id: niglepk1k2g3s
-                        items:
-                          $ref: '#/components/schemas/OrganizationUserProfile'
+                $ref: '#/components/schemas/OrganizationUsersList'
         '403':
           description: Forbidden
           content:
@@ -369,17 +358,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: ./models/EventStatus.yaml
-                  - type: object
-                    properties:
-                      statuses:
-                        x-stoplight:
-                          id: tv2psyijqtql3
-                        type: array
-                        description: Statuses for updating projects. This is for cases when a user is assigned projects.
-                        items:
-                          $ref: ./models/EventStatus.yaml
+                $ref: '#/components/schemas/OrganizationUserAssignmentStatuses'
         '400':
           description: Bad Request
           content:
@@ -459,7 +438,7 @@ paths:
         '403':
           description: Forbidden
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: ./models/Problem.yaml
         '404':
@@ -638,24 +617,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              allOf:
-                - x-stoplight:
-                    id: pcco8msr17mge
-                  properties:
-                    role:
-                      type: string
-                      x-stoplight:
-                        id: ux9njonecvir5
-                      enum:
-                        - MEMBER
-                        - MANAGER
-                    projects:
-                      type: array
-                      x-stoplight:
-                        id: s4p0cyzapk47w
-                      items:
-                        $ref: ./models/user/UserProjectDefinition.yaml
-              type: object
+              $ref: '#/components/schemas/OrganizationUserDefinition'
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: |-
         Partial organization user update.
@@ -717,18 +679,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: ./models/Offset.yaml
-                  - type: object
-                    x-stoplight:
-                      id: 98qt8fb088ryy
-                    properties:
-                      items:
-                        type: array
-                        x-stoplight:
-                          id: dl8caqxxjx971
-                        items:
-                          $ref: ./models/project/ProjectProfile.yaml
+                $ref: '#/components/schemas/OrganizationProjectsList'
         '403':
           description: Forbidden
           content:
@@ -923,14 +874,7 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              allOf:
-                - type: object
-                  properties:
-                    name:
-                      type: string
-                      x-stoplight:
-                        id: mytj6moteu7c7
-                - $ref: ./models/Slug.yaml
+              $ref: ./models/project/ProjectDetails.yaml
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       description: |-
         Partial project update.
@@ -1148,16 +1092,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: ./models/Offset.yaml
-                  - type: object
-                    properties:
-                      items:
-                        type: array
-                        x-stoplight:
-                          id: bx10o84org4sg
-                        items:
-                          $ref: '#/components/schemas/OrganizationNotifyRule'
+                $ref: '#/components/schemas/OrganizationNotifyRulesList'
       operationId: get-organizations-org_id-notification-rules
       description: '#TODO'
     post:
@@ -1250,37 +1185,6 @@ paths:
         '204':
           description: No Content
       description: '#TODO'
-  '/organizations/{org_id}/plugins':
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-    get:
-      summary: '#TODO'
-      tags:
-        - TODO
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    x-stoplight:
-                      id: 0f2zwzdi367v0
-                    items:
-                      $ref: '#/components/schemas/OrganizationPluginInfo'
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      operationId: get-organizations-org_id-plugins
-      description: '#TODO'
 components:
   schemas:
     OrganizationProfile:
@@ -1296,7 +1200,7 @@ components:
           properties:
             relationships:
               $ref: '#/components/schemas/OrganizationRelation'
-    OrganizationProfileList:
+    OrganizationProfilesList:
       title: OrganizationProfileList
       x-stoplight:
         id: qhues3miswoao
@@ -1472,6 +1376,22 @@ components:
                   minimum: 0
                   description: Storage usage in percents.
                   maximum: 100
+    OrganizationUsersList:
+      title: OrganizationUserList
+      x-stoplight:
+        id: 66kg4poe1y1gj
+      allOf:
+        - $ref: ./models/Offset.yaml
+        - type: object
+          x-stoplight:
+            id: mkscp9pmtpyfo
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: idwchd8i25mof
+              items:
+                $ref: '#/components/schemas/OrganizationUserProfile'
     OrganizationUserAssignment:
       title: Organization user assignment
       x-stoplight:
@@ -1599,6 +1519,22 @@ components:
                   description: |-
                     Total number of user's projects in
                     organization.
+    OrganizationProjectsList:
+      title: OrganizationProjectsList
+      x-stoplight:
+        id: enov9cs27yo63
+      allOf:
+        - $ref: ./models/Offset.yaml
+        - type: object
+          x-stoplight:
+            id: 5esw685nrwg63
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: n80ynhp4r7gpz
+              items:
+                $ref: ./models/project/ProjectProfile.yaml
     OrganizationRetentionPolicy:
       title: Organization retention policy
       x-stoplight:
@@ -1634,6 +1570,23 @@ components:
           type: boolean
           x-stoplight:
             id: zi73b396he1hp
+    OrganizationNotifyRulesList:
+      title: OrganizationNotifyRulesList
+      x-stoplight:
+        id: w0439pq86z8fy
+      allOf:
+        - $ref: ./models/Offset.yaml
+        - type: object
+          x-stoplight:
+            id: rj6ft52tz1vis
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: 2zs7yqid6u08a
+              items:
+                $ref: '#/components/schemas/OrganizationNotifyRule'
+      description: ''
     OrganizationNotifyRule:
       title: OrganizationNotificationRule
       x-stoplight:
@@ -1861,6 +1814,22 @@ components:
               x-stoplight:
                 id: ln7j1pvb10qm5
               description: '#TODO'
+    OrganizationUserAssignmentStatuses:
+      title: User organization assignment statuses
+      x-stoplight:
+        id: q88qdi5b7ck97
+      allOf:
+        - $ref: ./models/EventStatus.yaml
+        - type: object
+          x-stoplight:
+            id: plf82odynqb7n
+          properties:
+            project_statuses:
+              type: array
+              x-stoplight:
+                id: cu2g6iyfm4cnf
+              items:
+                $ref: ./models/EventStatus.yaml
   parameters:
     OrganizationId:
       name: org_id
