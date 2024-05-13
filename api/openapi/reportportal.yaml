@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ReportPortal API
   version: 5.12.0
-  description: |
+  description: |+
     ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
 
     This is the API documentation for ReportPortal. We describe this documentation
@@ -29,6 +29,7 @@ info:
     for agent requests.
 
     Both approaches use the same security scheme: `Bearer`.
+
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
