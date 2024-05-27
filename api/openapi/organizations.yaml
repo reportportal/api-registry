@@ -1299,6 +1299,10 @@ components:
         A relationship object contains members that represent a relationship of the organization.
 
         Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
+
+        The following fields are accessible only for Admin and Manager roles:
+
+        - launches.meta.count
       properties:
         users:
           type: object
@@ -1351,6 +1355,14 @@ components:
                     id: l5t9kyok3gjee
                   format: date-time
                   description: Last launch occurrence date.
+                count:
+                  type: integer
+                  x-stoplight:
+                    id: xbg55uxoz8nle
+                  minimum: 0
+                  description: |-
+                    Total count of launches in the organization.
+                    Access: Admin, Manager
         billing:
           type: object
           x-stoplight:
