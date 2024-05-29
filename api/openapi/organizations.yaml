@@ -42,12 +42,19 @@ paths:
       description: |-
         Get a list of existing organizations.
 
-        ### Authority: 
+        ### Authority
 
         - `ADMINISTRATOR`
-        - `USER`
+        - `MANAGER`
+        - `MEMBER`
 
-        #TODO
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictons.
+        - `MANAGER` - limited to viewing only their assigned projects.
+        - `MEMBER` - limited access:
+          - can view only their assigned organizations.
+          - restricted access to organization profile relationships.
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -705,6 +712,13 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - restricted to viewing only their assigned projects.
     post:
       summary: Create a new project
       tags:
@@ -1188,7 +1202,7 @@ paths:
 components:
   schemas:
     OrganizationProfile:
-      title: Organization
+      title: Organization profile
       x-stoplight:
         id: lzs7p3khz8n9d
       description: A comprehensive set of organization information.
