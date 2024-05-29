@@ -51,7 +51,7 @@ paths:
         ### Access level
 
         - `ADMINISTRATOR` - no restrictons.
-        - `MANAGER` - limited to viewing only their assigned projects.
+        - `MANAGER` - limited to viewing only their assigned organizations.
         - `MEMBER` - limited access:
           - can view only their assigned organizations.
           - restricted access to organization profile relationships.
