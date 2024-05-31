@@ -1869,7 +1869,7 @@ components:
       required: false
       schema:
         type: integer
-        default: '10'
+        default: 10
       description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
     Offset:
       name: offset
@@ -1877,7 +1877,7 @@ components:
       required: false
       schema:
         type: integer
-        default: '0'
+        default: 0
       description: The offset used for this page of results
     Sort:
       name: sort
