@@ -108,9 +108,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationDetails'
-        description: |-
-          You can create an organization provide name and slug.
-          If the `slug` is not provided, it will be generated from the `name`.
+        description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
         - Organizations
         - Ready for implementation
@@ -537,25 +535,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationUserDefinition'
-        description: |-
-          Organization user details for update.
-
-          You can provide a project list as an additional option for assigning or unassigned
-          a user from projects.
-
-          ### Organization authority:
-
-          - `ADMINISTRATOR`
-          - `MANAGER`
-          - `MEMBER`
-
-          ### Project authority:
-
-          - `EDITOR`
+        description: Provide organization's user information for update.
       tags:
         - Users
         - Ready for implementation
-      description: Update organization user details.
+      description: |-
+        Update organization user details.
+
+        Organization user details for update.
+
+        You can provide a project list as an additional option for assigning or unassigned
+        a user from projects.
+
+        ### Organization authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Project authority:
+
+        - `EDITOR`
     patch:
       summary: Partial organization user update
       operationId: patch-organizations-org_id-users-user_id
@@ -762,6 +762,7 @@ paths:
           application/json:
             schema:
               $ref: ./models/project/ProjectDetails.yaml
+        description: 'You can create an project provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -1859,14 +1860,15 @@ components:
       in: path
       required: true
       schema:
-        type: string
+        type: integer
+        format: int64
       description: Organization identifier
     Limit:
       name: limit
       in: query
       required: false
       schema:
-        type: string
+        type: integer
         default: '10'
       description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
     Offset:
@@ -1874,13 +1876,12 @@ components:
       in: query
       required: false
       schema:
-        type: string
+        type: integer
         default: '0'
       description: The offset used for this page of results
     Sort:
       name: sort
       in: query
-      required: false
       schema:
         type: string
       description: Indicate sort by field
@@ -1890,20 +1891,25 @@ components:
       required: false
       schema:
         type: string
+        enum:
+          - ASC
+          - DESC
       description: Indicate sorting direction
     UserId:
       name: user_id
       in: path
       required: true
       schema:
-        type: string
+        type: integer
+        format: int64
       description: User identifier
     ProjectId:
       name: project_id
       in: path
       required: true
       schema:
-        type: string
+        type: integer
+        format: int64
       description: Project identifier
   securitySchemes:
     BearerAuth:
