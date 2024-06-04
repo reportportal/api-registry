@@ -705,6 +705,11 @@ paths:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter projects by name
       description: |-
         Get a list of organization projects.
 
