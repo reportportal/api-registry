@@ -1890,7 +1890,6 @@ components:
       required: true
       schema:
         type: integer
-        format: int64
       description: Organization identifier
     Limit:
       name: limit
