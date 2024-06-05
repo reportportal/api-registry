@@ -79,6 +79,7 @@ paths:
           description: Filter organizations by name
         - schema:
             type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           in: query
           name: slug
           description: Filter organizations by slug
@@ -731,6 +732,7 @@ paths:
           description: Filter projects by name
         - schema:
             type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           in: query
           name: slug
           description: Filter projects by slug
