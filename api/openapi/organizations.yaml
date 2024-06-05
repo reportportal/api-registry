@@ -83,8 +83,6 @@ paths:
           in: query
           name: slug
           description: Filter organizations by slug
-      requestBody:
-        content: {}
     post:
       summary: Create a new organization
       operationId: post-organizations
