@@ -38,6 +38,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationProfilesList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
       operationId: get-organizations
       description: |-
         Get a list of existing organizations.
@@ -65,6 +77,13 @@ paths:
           in: query
           name: name
           description: Filter organizations by name
+        - schema:
+            type: string
+          in: query
+          name: slug
+          description: Filter organizations by slug
+      requestBody:
+        content: {}
     post:
       summary: Create a new organization
       operationId: post-organizations
@@ -710,6 +729,11 @@ paths:
           in: query
           name: name
           description: Filter projects by name
+        - schema:
+            type: string
+          in: query
+          name: slug
+          description: Filter projects by slug
       description: |-
         Get a list of organization projects.
 
