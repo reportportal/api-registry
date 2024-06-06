@@ -1890,6 +1890,7 @@ components:
       required: true
       schema:
         type: integer
+        format: int64
       description: Organization identifier
     Limit:
       name: limit
@@ -1916,12 +1917,12 @@ components:
     Order:
       name: order
       in: query
-      required: false
       schema:
         type: string
         enum:
           - ASC
           - DESC
+        default: ASC
       description: Indicate sorting direction
     UserId:
       name: user_id
