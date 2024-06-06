@@ -70,7 +70,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
         - schema:
             type: string
@@ -83,6 +82,12 @@ paths:
           in: query
           name: slug
           description: Filter organizations by slug
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field
     post:
       summary: Create a new organization
       operationId: post-organizations
@@ -721,7 +726,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Sort'
         - $ref: '#/components/parameters/Order'
         - schema:
             type: string
@@ -734,6 +738,12 @@ paths:
           in: query
           name: slug
           description: Filter projects by slug
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field
       description: |-
         Get a list of organization projects.
 
@@ -1898,7 +1908,7 @@ components:
       required: false
       schema:
         type: integer
-        default: 10
+        default: 300
       description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
     Offset:
       name: offset
