@@ -75,7 +75,7 @@ paths:
             type: string
           in: query
           name: name
-          description: Filter organizations by containing name
+          description: Filter organizations by name by substring
         - schema:
             type: string
             pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
@@ -114,6 +114,12 @@ paths:
           description: Forbidden
           content:
             application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
+        '409':
+          description: Conflict
+          content:
+            application/json:
               schema:
                 $ref: ./models/Problem.yaml
       description: |
@@ -397,6 +403,12 @@ paths:
           description: Forbidden
           content:
             application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
+        '409':
+          description: Conflict
+          content:
+            application/json:
               schema:
                 $ref: ./models/Problem.yaml
       description: |-
@@ -765,8 +777,8 @@ paths:
         - Ready for implementation
       operationId: post-organizations-org_id-projects
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -787,6 +799,12 @@ paths:
           description: Not Found
           content:
             application/problem+json:
+              schema:
+                $ref: ./models/Problem.yaml
+        '409':
+          description: Conflict
+          content:
+            application/json:
               schema:
                 $ref: ./models/Problem.yaml
       description: |-
@@ -1153,8 +1171,8 @@ paths:
       summary: '#TODO'
       operationId: post-organizations-org_id-notification-rules
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
