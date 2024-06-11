@@ -1257,6 +1257,104 @@ paths:
         '204':
           description: No Content
       description: '#TODO'
+  /organizations/searches:
+    post:
+      summary: Create search request for organizations
+      operationId: post-organizations-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProfilesList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
+      description: |
+        Create search request for organizations by provided criteria.
+
+        You can use the following attributes as a `filter_key` for filtering:
+
+        - `name` - filter by organization name.
+        - `slug` - filter by organization slug.
+        - `type` - filter by organization type.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `projects` - filter by the number of projects.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+        - `billing_plan_name` - filter by the billing plan name.
+        - `billing_storage_usage` - filter by the billing storage usage.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/SearchCriteria.yaml
+      tags:
+        - Organizations
+        - Ready for implementation
+  '/organizations/{org_id}/projects/searches':
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    post:
+      summary: Create search request for organization projects
+      operationId: post-organizations-org_id-projects-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectsList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Problem.yaml
+      description: |
+        Create search request for organization projects by provided criteria.
+
+        You can use the following attributes as a `filter_key` for filtering:
+
+        - `name` - filter by project name.
+        - `slug` - filter by project slug.
+        - `key` - filter by project key.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+        - `billing_storage_usage` - filter by the billing storage usage.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/SearchCriteria.yaml
+      tags:
+        - Projects
+        - Ready for implementation
 components:
   schemas:
     OrganizationProfile:
