@@ -1306,11 +1306,7 @@ paths:
         - Ready for implementation
   '/organizations/{org_id}/projects/searches':
     parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/OrganizationId'
     post:
       summary: Create search request for organization projects
       operationId: post-organizations-org_id-projects-searches
