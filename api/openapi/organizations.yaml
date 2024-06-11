@@ -1304,6 +1304,7 @@ paths:
       tags:
         - Organizations
         - Ready for implementation
+      x-extension-authority: ReportPortalUser
   '/organizations/{org_id}/projects/searches':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
