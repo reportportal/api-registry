@@ -64,9 +64,7 @@ paths:
 
         - `ADMINISTRATOR` - no restrictons.
         - `MANAGER` - limited to viewing only their assigned organizations.
-        - `MEMBER` - limited access:
-          - can view only their assigned organizations.
-          - restricted access to organization profile relationships.
+        - `MEMBER` - limited to viewing only their assigned organizations.
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -1368,19 +1366,6 @@ paths:
         - Ready for implementation
 components:
   schemas:
-    OrganizationProfile:
-      title: Organization profile
-      x-stoplight:
-        id: lzs7p3khz8n9d
-      description: A comprehensive set of organization information.
-      allOf:
-        - $ref: '#/components/schemas/OrganizationInfo'
-        - type: object
-          x-stoplight:
-            id: xxy7z5blvo389
-          properties:
-            relationships:
-              $ref: '#/components/schemas/OrganizationRelation'
     OrganizationProfilesList:
       title: List of organization profiles
       x-stoplight:
@@ -1397,6 +1382,19 @@ components:
                 id: 7udfw4feoc516
               items:
                 $ref: '#/components/schemas/OrganizationProfile'
+    OrganizationProfile:
+      title: Organization profile
+      x-stoplight:
+        id: lzs7p3khz8n9d
+      description: A comprehensive set of organization information.
+      allOf:
+        - $ref: '#/components/schemas/OrganizationInfo'
+        - type: object
+          x-stoplight:
+            id: xxy7z5blvo389
+          properties:
+            relationships:
+              $ref: '#/components/schemas/OrganizationRelation'
     OrganizationInfo:
       title: Organization
       x-stoplight:
@@ -1478,7 +1476,6 @@ components:
       type: object
       description: |-
         A relationship object contains members that represent a relationship of the organization.
-        Provided only for `Administrator` and `Manager`.
 
         Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
       properties:
