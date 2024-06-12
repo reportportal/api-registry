@@ -1258,6 +1258,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      tags:
+        - TODO
     delete:
       summary: '#TODO'
       operationId: delete-organizations-org_id-notification-rules-notify_rule_id
