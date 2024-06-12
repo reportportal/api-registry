@@ -1380,7 +1380,7 @@ components:
             relationships:
               $ref: '#/components/schemas/OrganizationRelation'
     OrganizationProfilesList:
-      title: OrganizationProfileList
+      title: List of organization profiles
       x-stoplight:
         id: qhues3miswoao
       allOf:
@@ -1565,7 +1565,7 @@ components:
                   description: Storage usage in percents.
                   maximum: 100
     OrganizationUsersList:
-      title: OrganizationUserList
+      title: List of organization users
       x-stoplight:
         id: 66kg4poe1y1gj
       allOf:
@@ -1708,7 +1708,7 @@ components:
                     Total number of user's projects in
                     organization.
     OrganizationProjectsList:
-      title: OrganizationProjectsList
+      title: List of organization projects
       x-stoplight:
         id: enov9cs27yo63
       allOf:
@@ -1759,7 +1759,7 @@ components:
           x-stoplight:
             id: zi73b396he1hp
     OrganizationNotifyRulesList:
-      title: OrganizationNotifyRulesList
+      title: List of organization notification rules
       x-stoplight:
         id: w0439pq86z8fy
       allOf:
@@ -1776,7 +1776,7 @@ components:
                 $ref: '#/components/schemas/OrganizationNotifyRule'
       description: ''
     OrganizationNotifyRule:
-      title: OrganizationNotificationRule
+      title: Organization notification rule
       x-stoplight:
         id: l4gmpbqm9o282
       allOf:
