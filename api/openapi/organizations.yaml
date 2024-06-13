@@ -384,13 +384,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/EventStatus.yaml
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: afgrunmf5xc2n
+                    example: The user has been created in the organization.
+              examples:
+                Assign or create:
+                  value:
+                    message: The user has been created in the organization.
+                Send request:
+                  value:
+                    message: The user assignment request has been sent.
         '207':
           description: Multi-Status (WebDAV)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserAssignmentStatuses'
+                $ref: ./models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
@@ -470,9 +483,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/OrganizationUserProfile'
-                  - $ref: ./models/EventStatus.yaml
+                $ref: '#/components/schemas/OrganizationUserProfile'
         '403':
           description: Forbidden
           content:
@@ -525,26 +536,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - x-stoplight:
-                      id: vz0j5aismjjdv
-                    properties:
-                      message:
-                        type: string
-                        x-stoplight:
-                          id: qq0wvtnebtzyb
-                        default: The user's role in the organization has been updated.
-                  - properties:
-                      statuses:
-                        x-stoplight:
-                          id: nxwqi2ot8md9m
-                        type: array
-                        description: |-
-                          Change statuses for projects.
-                          For cases when a user is assigned projects.
-                        items:
-                          $ref: ./models/EventStatus.yaml
-                type: object
+                $ref: ./models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
@@ -613,28 +605,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - x-stoplight:
-                      id: tt0m9r127vs2z
-                    properties:
-                      message:
-                        type: string
-                        x-stoplight:
-                          id: 6lc772ylkoq6r
-                        default: The user's role in the organization has been updated.
-                  - x-stoplight:
-                      id: ktzksl9dz8ii1
-                    properties:
-                      statuses:
-                        type: array
-                        x-stoplight:
-                          id: 3ujdjt3ivvssf
-                        description: |-
-                          Change statuses for projects.
-                          For cases when a user is assigned projects.
-                        items:
-                          $ref: ./models/EventStatus.yaml
-                type: object
+                $ref: ./models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
@@ -1624,8 +1595,9 @@ components:
       x-stoplight:
         id: mtgs7v0icru14
       allOf:
-        - $ref: '#/components/schemas/OrganizationUserInfo'
         - $ref: ./models/user/UserAccountInfo.yaml
+        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - $ref: '#/components/schemas/OrganizationUserMetadata'
         - type: object
           x-stoplight:
             id: ryd1bkgqoi60r
@@ -1633,14 +1605,6 @@ components:
             relationships:
               $ref: '#/components/schemas/OrganizationUserRelation'
       description: A comprehensive set of user information related to a user's organization.
-    OrganizationUserInfo:
-      title: Organization user information
-      x-stoplight:
-        id: snwrtcmq8wvt1
-      allOf:
-        - $ref: '#/components/schemas/OrganizationUserDetails'
-        - $ref: '#/components/schemas/OrganizationUserMetadata'
-      description: Related information about a user in the organization.
     OrganizationUserDetails:
       title: Organization user details
       x-stoplight:
@@ -2001,22 +1965,6 @@ components:
               x-stoplight:
                 id: ln7j1pvb10qm5
               description: '#TODO'
-    OrganizationUserAssignmentStatuses:
-      title: User organization assignment statuses
-      x-stoplight:
-        id: q88qdi5b7ck97
-      allOf:
-        - $ref: ./models/EventStatus.yaml
-        - type: object
-          x-stoplight:
-            id: plf82odynqb7n
-          properties:
-            project_statuses:
-              type: array
-              x-stoplight:
-                id: cu2g6iyfm4cnf
-              items:
-                $ref: ./models/EventStatus.yaml
   parameters:
     OrganizationId:
       name: org_id

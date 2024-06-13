@@ -2,43 +2,37 @@ title: Event status
 x-stoplight:
   id: c0yfyurojnb6b
 type: object
-properties:
-  id:
-    type: string
-    description: Identifier of a request item.
-  status:
-    type: string
-    x-stoplight:
-      id: nmyb8koi7rsju
-    description: |-
-      Field indicating the execution status of
-      the request item.
-
-      The status can be one of the following:
-
-      * "SUCCESS" 
-      * "FAILURE" 
-      * "PENDING"
-    enum:
-      - SUCCESS
-      - FAILURE
-      - PENDING
-  description:
-    type: string
-    x-stoplight:
-      id: n1yxnyalgcqw8
-    description: |-
-      Human readable status description and containing additional
-                    context information about failures etc.
-required:
-  - id
-  - status
 description: |-
   Event status object used to represent the status of a request item in
   bulk operations.
-
-  The status can be one of the following:
-
-  * "SUCCESS" - The request item was successfully processed.
-  * "FAILURE" - The request item failed to be processed.
-  * "PENDING" - The request item is still pending processing.
+properties:
+  href:
+    type: string
+    description: Identifier of a request item.
+    x-stoplight:
+      id: u5ug6x5ctzd7m
+  status:
+    type: object
+    x-stoplight:
+      id: axzjwb9ccdqd8
+    description: |-
+      Object indicating the execution status of
+      the request item.
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: HTTP status code indicating the resource's status.
+        minimum: 100
+        exclusiveMaximum: true
+        maximum: 600
+      description:
+        type: string
+        x-stoplight:
+          id: a9ble11ota6w5
+        description: |-
+          Human readable status description and containing additional
+                        context information about failures etc.
+required:
+  - href
+  - status
