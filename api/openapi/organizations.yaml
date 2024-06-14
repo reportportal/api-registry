@@ -1304,7 +1304,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/SearchCriteria.yaml
+              $ref: '#/components/schemas/OrganizationProjectSearchCriteria'
       tags:
         - Projects
         - Ready for implementation
@@ -2018,7 +2018,7 @@ components:
                       - launches
                       - last_launch_occurred
       description: |-
-        You can use the following attributes as a `filter_key` for filtering:
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
 
         - `name` - filter by project name.
         - `slug` - filter by project slug.
