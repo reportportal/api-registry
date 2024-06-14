@@ -1261,25 +1261,13 @@ paths:
             application/json:
               schema:
                 $ref: ./models/Problem.yaml
-      description: |-
-        Create search request for organizations by provided criteria.
-
-        You can use the following attributes as a `filter_key` for filtering:
-
-        - `name` - filter by organization name.
-        - `slug` - filter by organization slug.
-        - `type` - filter by organization type.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `projects` - filter by the number of projects.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
+      description: Create search request for organizations by provided criteria.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./models/SearchCriteria.yaml
+              $ref: '#/components/schemas/OrganizationSearchCriteria'
+        description: ''
       tags:
         - Organizations
         - Ready for implementation
@@ -1311,19 +1299,7 @@ paths:
             application/json:
               schema:
                 $ref: ./models/Problem.yaml
-      description: |-
-        Create search request for organization projects by provided criteria.
-
-        You can use the following attributes as a `filter_key` for filtering:
-
-        - `name` - filter by project name.
-        - `slug` - filter by project slug.
-        - `key` - filter by project key.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
+      description: Create search request for organization projects by provided criteria.
       requestBody:
         content:
           application/json:
@@ -1962,6 +1938,96 @@ components:
               x-stoplight:
                 id: ln7j1pvb10qm5
               description: '#TODO'
+    OrganizationSearchCriteria:
+      title: OrganizationSearchCriteria
+      x-stoplight:
+        id: drxq3elc1z77d
+      allOf:
+        - $ref: ./models/OffsetRequest.yaml
+        - $ref: ./models/SearchCriteriaList.yaml
+        - type: object
+          x-stoplight:
+            id: 89u53g8og5l72
+          properties:
+            search_criteria:
+              type: array
+              x-stoplight:
+                id: 6ziu9u87tafut
+              items:
+                x-stoplight:
+                  id: suemb9qjah2wy
+                type: object
+                properties:
+                  filter_key:
+                    type: string
+                    x-stoplight:
+                      id: udhi6v0lp0c8f
+                    enum:
+                      - name
+                      - slug
+                      - type
+                      - created_at
+                      - updated_at
+                      - users
+                      - projects
+                      - launches
+                      - last_launch_occurred
+      description: |-
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `name` - filter by organization name.
+        - `slug` - filter by organization slug.
+        - `type` - filter by organization type.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `projects` - filter by the number of projects.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+    OrganizationProjectSearchCriteria:
+      title: Organization project search criteria
+      x-stoplight:
+        id: q2jdc59cgjt2i
+      allOf:
+        - $ref: ./models/OffsetRequest.yaml
+        - $ref: ./models/SearchCriteriaList.yaml
+        - type: object
+          x-stoplight:
+            id: bo5dkm7fkumbf
+          properties:
+            search_criteria:
+              type: array
+              x-stoplight:
+                id: 8rznd35ks5bwm
+              items:
+                x-stoplight:
+                  id: al43f4acrsopv
+                type: object
+                properties:
+                  filter_key:
+                    type: string
+                    x-stoplight:
+                      id: dwoc58mjxkmql
+                    enum:
+                      - name
+                      - slug
+                      - key
+                      - created_at
+                      - updated_at
+                      - users
+                      - launches
+                      - last_launch_occurred
+      description: |-
+        You can use the following attributes as a `filter_key` for filtering:
+
+        - `name` - filter by project name.
+        - `slug` - filter by project slug.
+        - `key` - filter by project key.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
   parameters:
     OrganizationId:
       name: org_id

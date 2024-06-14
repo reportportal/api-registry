@@ -1,0 +1,13 @@
+title: SearchCriteriaList
+x-stoplight:
+  id: 9a369rch7x90g
+type: object
+properties:
+  search_criteria:
+    type: array
+    x-stoplight:
+      id: h73i5rm1neg4q
+    items:
+      $ref: ./SearchCriteria.yaml
+      x-stoplight:
+        id: cxupmd5x0197e

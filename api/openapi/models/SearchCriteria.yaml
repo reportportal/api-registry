@@ -1,34 +1,21 @@
-title: Search criteria list
+title: Search criteria
 x-stoplight:
   id: i6aljjkxukm9y
-allOf:
-  - $ref: ./OffsetRequest.yaml
-    x-stoplight:
-      id: 68oyijm4jtc6z
-  - type: object
-    properties:
-      'search_criteria ':
-        type: array
-        x-stoplight:
-          id: uxswl9patd0r3
-        items:
-          x-stoplight:
-            id: 8lbx2gxokvnp8
-          type: object
-          properties:
-            filter_key:
-              type: string
-              description: search by field
-            operation:
-              type: string
-              enum:
-                - EQ
-                - NE
-                - CNT
-                - NON_CNT
-                - BTW
-                - IN
-              description: operation to perform for the filter
-            value:
-              type: string
-              description: search value
+type: object
+properties:
+  filter_key:
+    type: string
+    description: search by field
+  operation:
+    type: string
+    enum:
+      - EQ
+      - NE
+      - CNT
+      - NON_CNT
+      - BTW
+      - IN
+    description: operation to perform for the filter
+  value:
+    type: string
+    description: search value
