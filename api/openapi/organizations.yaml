@@ -1939,7 +1939,7 @@ components:
                 id: ln7j1pvb10qm5
               description: '#TODO'
     OrganizationSearchCriteria:
-      title: OrganizationSearchCriteria
+      title: Organization search criteria
       x-stoplight:
         id: drxq3elc1z77d
       allOf:
