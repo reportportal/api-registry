@@ -751,7 +751,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/project/ProjectInfo.yaml
+                $ref: '#/components/schemas/OrganizationProjectInfo'
         '400':
           description: Bad Request
           content:
@@ -1585,7 +1585,7 @@ components:
       type: object
       description: Basic information about a user in the organization.
       properties:
-        role:
+        organization_role:
           type: string
           x-stoplight:
             id: 3v2e1cyby216c
@@ -1594,7 +1594,7 @@ components:
             - MANAGER
           description: Organization user role.
       required:
-        - role
+        - organization_role
     OrganizationUserMetadata:
       title: Organization user metadata
       x-stoplight:
@@ -1659,6 +1659,13 @@ components:
                 id: n80ynhp4r7gpz
               items:
                 $ref: ./models/project/ProjectProfile.yaml
+    OrganizationProjectInfo:
+      title: OrganizationProjectInfo
+      x-stoplight:
+        id: 252q8n6hgyymb
+      allOf:
+        - $ref: ./models/project/ProjectMetadata.yaml
+        - $ref: ./models/project/ProjectDetails.yaml
     OrganizationRetentionPolicy:
       title: Organization retention policy
       x-stoplight:

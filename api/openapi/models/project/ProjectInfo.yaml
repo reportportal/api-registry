@@ -1,6 +1,0 @@
-title: ProjectInfo
-x-stoplight:
-  id: 0938dyxh8tyrr
-allOf:
-  - $ref: ./ProjectDetails.yaml
-  - $ref: ./ProjectMetadata.yaml

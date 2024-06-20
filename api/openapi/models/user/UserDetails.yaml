@@ -8,7 +8,6 @@ description: |-
 
   Account type can be either `ADMIN` or `USER`.
   Only `ADMIN` users have access to change account type.
-
 type: object
 properties:
   email:
@@ -22,11 +21,16 @@ properties:
     x-stoplight:
       id: t3xotuhofwfex
     description: User full name.
-  type:
+  instance_role:
     type: string
     x-stoplight:
       id: 7xz0ez36bzmr7
     enum:
       - ADMIN
       - USER
-    description: Instance account type.
+    description: Instance account role.
+  external_id:
+    type: string
+    x-stoplight:
+      id: raenftb30iv9g
+    description: User external identifier. Provided by external systems.

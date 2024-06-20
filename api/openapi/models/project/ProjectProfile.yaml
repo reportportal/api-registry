@@ -2,11 +2,16 @@ title: Project profile
 x-stoplight:
   id: ur5ebd3h35b5c
 allOf:
-  - $ref: ./ProjectInfo.yaml
+  - $ref: ./ProjectMetadata.yaml
+    x-stoplight:
+      id: cz6tkmovoyd1t
+  - $ref: ./ProjectDetails.yaml
+    x-stoplight:
+      id: dxkywu7gqez1o
   - type: object
     x-stoplight:
       id: zjk54j90siijv
     properties:
       relationships:
         $ref: ./ProjectRelation.yaml
-description: 'Comprehensive information about a project.'
+description: Comprehensive information about a project.
