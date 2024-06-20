@@ -232,12 +232,9 @@ package ProjectView {
   }
   ProjectBillingRelationMeta -up- ProjectBillingRelation
 
-  entity ProjectUserInfo
-
   entity ProjectUserDetails {
     role ProjectRole
   }
-  ProjectUserDetails --o ProjectUserInfo
   ProjectUserDetails --o UserProjectDefinition
 
   enum ProjectRole {
@@ -245,11 +242,6 @@ package ProjectView {
     VIEWER
   }
   ProjectRole -- ProjectUserDetails
-
-  entity ProjectUserMetadata {
-    assigned_at DateTime
-  }
-  ProjectUserMetadata -up-o ProjectUserInfo
 }
 
 @enduml
