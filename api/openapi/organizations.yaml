@@ -1956,6 +1956,12 @@ components:
           x-stoplight:
             id: 89u53g8og5l72
           properties:
+            sort:
+              type: string
+              x-stoplight:
+                id: m0fd3k09tsrgh
+              description: Field to define the sort field.
+              default: name
             search_criteria:
               type: array
               x-stoplight:
@@ -2002,6 +2008,12 @@ components:
           x-stoplight:
             id: bo5dkm7fkumbf
           properties:
+            sort:
+              type: string
+              x-stoplight:
+                id: bmgm4vyy7l1td
+              description: Field to define the sort field.
+              default: name
             search_criteria:
               type: array
               x-stoplight:
