@@ -842,7 +842,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/project/ProjectInfo.yaml
+                $ref: '#/components/schemas/OrganizationProjectInfo'
         '400':
           description: Bad Request
           content:
@@ -892,7 +892,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/project/ProjectInfo.yaml
+                $ref: '#/components/schemas/OrganizationProjectInfo'
         '400':
           description: Bad Request
           content:

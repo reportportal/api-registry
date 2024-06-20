@@ -1,4 +1,4 @@
-title: ProjectMetadata
+title: Project metadata
 x-stoplight:
   id: ii9cdfjnv5vqk
 type: object
@@ -22,7 +22,7 @@ properties:
     x-stoplight:
       id: yeosbd661wv1h
     format: int64
-    description: 'Organization ID to which the project belongs.'
+    description: Organization ID to which the project belongs.
     minimum: 0
   created_at:
     type: string
