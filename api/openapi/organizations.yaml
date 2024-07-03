@@ -62,7 +62,7 @@ paths:
 
         ### Access level
 
-        - `ADMINISTRATOR` - no restrictons.
+        - `ADMINISTRATOR` - no restrictions.
         - `MANAGER` - limited to viewing only their assigned organizations.
         - `MEMBER` - limited to viewing only their assigned organizations.
       parameters:
@@ -364,7 +364,7 @@ paths:
                 $ref: ./models/Problem.yaml
       operationId: get-organizations-org_id-users
       description: |-
-        Provides a list of organzation's users.
+        Provides a list of organization's users.
 
         ### Authority:
 

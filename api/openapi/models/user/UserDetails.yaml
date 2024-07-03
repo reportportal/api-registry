@@ -26,7 +26,7 @@ properties:
     x-stoplight:
       id: 7xz0ez36bzmr7
     enum:
-      - ADMIN
+      - ADMINISTRATOR
       - USER
     description: Instance account role.
   external_id:
