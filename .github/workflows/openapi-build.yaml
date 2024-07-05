@@ -1,0 +1,44 @@
+name: OpenAPI Build
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - api/openapi/*.yaml
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container: node:21
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine changed OpenAPI files
+        id: changed_files
+        uses: dorny/paths-filter@v3
+        with:
+          list-files: json
+          filters: |
+            openapi:
+              - '/api/openapi/*.yaml'
+
+      - name: Verify OpenAPI
+        if: steps.changed_files.outputs.openapi == 'true'
+        run: |
+          FILES=${{ steps.changed_files.outputs.openapi_files }}
+          echo "Changed OpenAPI files: $FILES"
+          for FILE in $FILES; do
+            npx @redocly/cli@latest lint $FILE
+          done
+
+      - name: Bundle OpenAPI
+        if: steps.changed_files.outputs.openapi == 'true'
+        run: |
+          FILES=${{ steps.changed_files.outputs.openapi_files }}
+          for FILE in $FILES; do
+            npx @redocly/cli@latest bundle $FILE -d -o api/openapi/bundles/$(basename $FILE).yaml
+          done
