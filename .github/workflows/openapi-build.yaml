@@ -14,6 +14,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install JQ
+        run: sudo apt-get install jq
+
       - name: Configurate Git Safe Directory
         run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
 
