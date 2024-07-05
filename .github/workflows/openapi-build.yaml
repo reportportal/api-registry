@@ -33,7 +33,7 @@ jobs:
         if: steps.changed_files.outputs.openapi == 'true'
         run: |
           echo "${{ steps.changed_files.outputs.openapi_files }}" | xargs -n 1 | while read FILE; do
-            npx @redocly/cli@latest lint "$FILE"
+            npx @redocly/cli@latest lint "$FILE" --lint-config=error
           done
 
       - name: Bundle OpenAPI
