@@ -8,10 +8,7 @@ allOf:
   - $ref: ./ProjectDetails.yaml
     x-stoplight:
       id: dxkywu7gqez1o
-  - type: object
+  - $ref: ./ProjectRelationships.yaml
     x-stoplight:
-      id: zjk54j90siijv
-    properties:
-      relationships:
-        $ref: ./ProjectRelation.yaml
+      id: 6r9hh7ghbeiby
 description: Comprehensive information about a project.

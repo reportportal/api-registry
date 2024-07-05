@@ -1,0 +1,13 @@
+title: ProjectRelationships
+x-stoplight:
+  id: 86aiedn8tx1m5
+type: object
+properties:
+  relationships:
+    type: array
+    x-stoplight:
+      id: n09w3z0r6xsd1
+    items:
+      $ref: ./ProjectRelation.yaml
+      x-stoplight:
+        id: zaobfhq7ldxve
