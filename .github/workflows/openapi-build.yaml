@@ -14,9 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install JQ
-        run: apt-get update && apt-get install -y jq
-
       - name: Configurate Git Safe Directory
         run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
 
@@ -24,7 +21,7 @@ jobs:
         id: changed_files
         uses: dorny/paths-filter@v3
         with:
-          list-files: json
+          list-files: shell
           filters: |
             openapi:
               - 'api/openapi/*.yaml'
@@ -32,18 +29,18 @@ jobs:
       - name: Verify OpenAPI
         if: steps.changed_files.outputs.openapi == 'true'
         run: |
-          FILES_JSON=${{ steps.changed_files.outputs.openapi_files }}
-          FILES=$(echo $FILES_JSON | jq -r '.[]')
-          echo "Changed OpenAPI files: $FILES"
-          for FILE in $FILES; do
+          FILES_STR=${{ steps.changed_files.outputs.openapi_files }}
+          eval "FILES=($FILES_STR)"
+          echo "Changed OpenAPI files: ${FILES[@]}"
+          for FILE in "${FILES[@]}"; do
             npx @redocly/cli@latest lint "$FILE"
           done
 
       - name: Bundle OpenAPI
         if: steps.changed_files.outputs.openapi == 'true'
         run: |
-          FILES_JSON=${{ steps.changed_files.outputs.openapi_files }}
-          FILES=$(echo $FILES_JSON | jq -r '.[]')
-          for FILE in $FILES; do
+          FILES_STR=${{ steps.changed_files.outputs.openapi_files }}
+          eval "FILES=($FILES_STR)"
+          for FILE in "${FILES[@]}"; do
             npx @redocly/cli@latest bundle "$FILE" -d -o api/openapi/bundles/$(basename "$FILE").yaml
           done
