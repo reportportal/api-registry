@@ -18,7 +18,7 @@ jobs:
         run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
 
       - name: Create OpenAPI bundles directory
-        run: mkdir -p api/openapi/bundles/
+        run: mkdir -p bundles/
 
       - name: Determine changed OpenAPI files
         id: changed_files
