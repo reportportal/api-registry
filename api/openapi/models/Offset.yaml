@@ -37,14 +37,6 @@ properties:
       - DESC
     x-stoplight:
       id: 77qo4i7sq47x6
-  items:
-    type: array
-    x-stoplight:
-      id: qkgi498bvvex6
-    items:
-      x-stoplight:
-        id: dsgodc8fbfyfo
 required:
   - offset
   - limit
-  - items

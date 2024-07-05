@@ -349,7 +349,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUsersList'
+                $ref: '#/components/schemas/OrganizationUsersPage'
         '403':
           description: Forbidden
           content:
@@ -690,7 +690,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProjectsList'
+                $ref: '#/components/schemas/OrganizationProjectsPage'
         '403':
           description: Forbidden
           content:
@@ -1507,22 +1507,27 @@ components:
                   minimum: 0
                   description: Storage usage in percents.
                   maximum: 100
-    OrganizationUsersList:
+    OrganizationUsersPage:
       title: List of organization users
       x-stoplight:
         id: 66kg4poe1y1gj
       allOf:
         - $ref: ./models/Offset.yaml
-        - type: object
+        - $ref: '#/components/schemas/OrganizationUsersList'
+    OrganizationUsersList:
+      title: OrganizationUsersList
+      x-stoplight:
+        id: gb5aqlrw1229a
+      type: object
+      properties:
+        items:
+          type: array
           x-stoplight:
-            id: mkscp9pmtpyfo
-          properties:
-            items:
-              type: array
-              x-stoplight:
-                id: idwchd8i25mof
-              items:
-                $ref: '#/components/schemas/OrganizationUserProfile'
+            id: j8z1d5itvz11g
+          items:
+            $ref: '#/components/schemas/OrganizationUserProfile'
+      required:
+        - items
     OrganizationUserAssignment:
       title: Organization user assignment
       x-stoplight:
@@ -1643,22 +1648,27 @@ components:
                   description: |-
                     Total number of user's projects in
                     organization.
-    OrganizationProjectsList:
+    OrganizationProjectsPage:
       title: List of organization projects
       x-stoplight:
         id: enov9cs27yo63
       allOf:
         - $ref: ./models/Offset.yaml
-        - type: object
+        - $ref: '#/components/schemas/OrganizationProjectsList'
+    OrganizationProjectsList:
+      title: OrganizationProjectsList
+      x-stoplight:
+        id: tgmoax768epah
+      type: object
+      properties:
+        items:
+          type: array
           x-stoplight:
-            id: 5esw685nrwg63
-          properties:
-            items:
-              type: array
-              x-stoplight:
-                id: n80ynhp4r7gpz
-              items:
-                $ref: ./models/project/ProjectProfile.yaml
+            id: gy6rp66c3r4ja
+          items:
+            $ref: ./models/project/ProjectProfile.yaml
+      required:
+        - items
     OrganizationProjectInfo:
       title: OrganizationProjectInfo
       x-stoplight:
