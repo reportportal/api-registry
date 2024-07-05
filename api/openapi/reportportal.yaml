@@ -50,7 +50,7 @@ servers:
         default: api
         description: Base path of Report Portal API
 security:
-  - bearerAuth: []
+  - BearerAuth: []
 paths:
   '/users/{user_id}/api-keys':
     parameters:
