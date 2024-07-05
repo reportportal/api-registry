@@ -1309,6 +1309,11 @@ paths:
         - Projects
         - Ready for implementation
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: ''
   schemas:
     OrganizationProfilesList:
       title: List of organization profiles
@@ -2114,11 +2119,6 @@ components:
         type: integer
         format: int64
       description: Project identifier
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: ''
 tags:
   - name: Organizations
   - name: Projects
