@@ -6,13 +6,17 @@ on:
       - api/openapi/*.yaml
 
 jobs:
-  verify:
+  buid:
+    name: OpenAPI Build
     runs-on: ubuntu-latest
     container: node:21
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configurate Git Safe Directory
+        run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
+        
       - name: Determine changed OpenAPI files
         id: changed_files
         uses: dorny/paths-filter@v3
