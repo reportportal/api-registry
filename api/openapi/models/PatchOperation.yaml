@@ -18,7 +18,7 @@ properties:
   value:
     x-stoplight:
       id: jwtfead2hsnwc
-    anyOf:
+    oneOf:
       - type: object
         x-stoplight:
           id: kyk6aosnfka9s
