@@ -2,42 +2,21 @@ title: Patch Operation Object
 x-stoplight:
   id: f5feb86f13676
 oneOf:
-  - properties:
-      op:
-        type: string
-        enum:
-          - add
-          - replacy
-          - remove
-        x-stoplight:
-          id: wi3g8bp776m2g
-      path:
-        type: string
-        x-stoplight:
-          id: 37b0dh0w0iaj7
-      value:
-        type: object
-        x-stoplight:
-          id: w51z522fsimxl
+  - $ref: ./patch-operations/PatchObject.yaml
     x-stoplight:
-      id: hq23peto63kom
-  - x-stoplight:
-      id: 53z1b47gfa42n
-    properties:
-      op:
-        type: string
-        enum:
-          - add
-          - replacy
-          - remove
-        x-stoplight:
-          id: wi3g8bp776m2g
-      path:
-        type: string
-        x-stoplight:
-          id: 37b0dh0w0iaj7
-      value:
-        type: string
-        x-stoplight:
-          id: w51z522fsimxl
-type: object
+      id: spilcsv08w2x8
+  - $ref: ./patch-operations/PatchArray.yaml
+    x-stoplight:
+      id: qteg9q13li74h
+  - $ref: ./patch-operations/PatchString.yaml
+    x-stoplight:
+      id: ky4qyoalymi55
+  - $ref: ./patch-operations/PatchNumber.yaml
+    x-stoplight:
+      id: 0amvyj1zh4in0
+  - $ref: ./patch-operations/PatchInteger.yaml
+    x-stoplight:
+      id: vt6qsh8k92tzk
+  - $ref: ./patch-operations/PatchBoolean.yaml
+    x-stoplight:
+      id: grfp79b5x0dic

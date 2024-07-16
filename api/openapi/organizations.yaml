@@ -526,13 +526,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    x-stoplight:
-                      id: 4rm267zsfzu58
-                    default: The user's role in the organization has been updated.
+                $ref: '#/components/schemas/OrganizationUserProfile'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -592,13 +586,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    x-stoplight:
-                      id: zbdjojwwvcpma
-                    default: The user's role in the organization has been updated.
+                $ref: '#/components/schemas/OrganizationUserProfile'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -644,6 +632,12 @@ paths:
       tags:
         - Users
         - Ready for implementation
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: ./models/PatchOperation.yaml
+        description: ''
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
@@ -909,7 +903,7 @@ paths:
                 $ref: ./models/Problem.yaml
       requestBody:
         content:
-          application/patch:
+          application/json-patch+json:
             schema:
               $ref: ./models/PatchOperation.yaml
         description: ''
