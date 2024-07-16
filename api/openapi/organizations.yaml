@@ -569,9 +569,6 @@ paths:
 
         Organization user details for update.
 
-        You can provide a project list as an additional option for assigning or unassigned
-        a user from projects.
-
         ### Organization authority:
 
         - `ADMINISTRATOR`
@@ -628,8 +625,8 @@ paths:
         content:
           application/merge-patch+json:
             schema:
-              $ref: '#/components/schemas/OrganizationUserDefinition'
-        description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
+              $ref: ./models/PatchOperation.yaml
+        description: ''
       description: |-
         Partial organization user update.
 
@@ -913,10 +910,10 @@ paths:
                 $ref: ./models/Problem.yaml
       requestBody:
         content:
-          application/merge-patch+json:
+          application/patch:
             schema:
-              $ref: ./models/project/ProjectDetails.yaml
-        description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
+              $ref: ./models/PatchOperation.yaml
+        description: ''
       description: |-
         Partial project update.
 

@@ -1,0 +1,27 @@
+title: PatchOperation
+x-stoplight:
+  id: 8nhqccmoq2qfm
+type: object
+properties:
+  op:
+    type: string
+    x-stoplight:
+      id: i2w28fh33jhyc
+    enum:
+      - add
+      - replacy
+      - remove
+  path:
+    type: string
+    x-stoplight:
+      id: x4aaojhmu27z2
+  value:
+    type:
+      - string
+      - object
+      - array
+      - boolean
+      - integer
+      - number
+    x-stoplight:
+      id: jwtfead2hsnwc
