@@ -3,8 +3,9 @@ x-stoplight:
   id: f5feb86f13676
 oneOf:
   - $ref: ./patch-operations/PatchObject.yaml
-  - $ref: ./patch-operations/PatchArray.yaml
+  - $ref: ./patch-operations/PatchArrayString.yaml
   - $ref: ./patch-operations/PatchString.yaml
   - $ref: ./patch-operations/PatchNumber.yaml
   - $ref: ./patch-operations/PatchInteger.yaml
   - $ref: ./patch-operations/PatchBoolean.yaml
+description: ''

@@ -1,0 +1,25 @@
+title: Patch Operation Array String
+x-stoplight:
+  id: d614d2be9ebdb
+type: object
+properties:
+  op:
+    type: string
+    enum:
+      - add
+      - replace
+      - delete
+    x-stoplight:
+      id: 20f5tsppjjhsm
+  path:
+    type: string
+    x-stoplight:
+      id: db193eru0e161
+  value:
+    type: array
+    items:
+      x-stoplight:
+        id: cv61qvzqnvn3w
+      type: string
+    x-stoplight:
+      id: 9wooz0egvl1p5
