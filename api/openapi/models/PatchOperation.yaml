@@ -1,0 +1,43 @@
+title: Patch Operation Object
+x-stoplight:
+  id: f5feb86f13676
+oneOf:
+  - properties:
+      op:
+        type: string
+        enum:
+          - add
+          - replacy
+          - remove
+        x-stoplight:
+          id: wi3g8bp776m2g
+      path:
+        type: string
+        x-stoplight:
+          id: 37b0dh0w0iaj7
+      value:
+        type: object
+        x-stoplight:
+          id: w51z522fsimxl
+    x-stoplight:
+      id: hq23peto63kom
+  - x-stoplight:
+      id: 53z1b47gfa42n
+    properties:
+      op:
+        type: string
+        enum:
+          - add
+          - replacy
+          - remove
+        x-stoplight:
+          id: wi3g8bp776m2g
+      path:
+        type: string
+        x-stoplight:
+          id: 37b0dh0w0iaj7
+      value:
+        type: string
+        x-stoplight:
+          id: w51z522fsimxl
+type: object

@@ -512,6 +512,11 @@ paths:
 
         - `EDITOR`
         - `VIEWER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/PatchOperation.yaml
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
@@ -906,9 +911,7 @@ paths:
         content:
           application/patch:
             schema:
-              oneOf:
-                - $ref: ./models/PatchOperationString.yaml
-                - $ref: ./models/PatchOpObject.yaml
+              $ref: ./models/PatchOperation.yaml
         description: ''
       description: |-
         Partial project update.
