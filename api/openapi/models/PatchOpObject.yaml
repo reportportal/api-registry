@@ -1,0 +1,13 @@
+title: Patch Operation Object
+type: object
+properties:
+  op:
+    type: string
+    enum:
+      - add
+      - replacy
+      - remove
+  path:
+    type: string
+  value:
+    type: object

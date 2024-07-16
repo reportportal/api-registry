@@ -621,12 +621,6 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/Problem.yaml
-      requestBody:
-        content:
-          application/merge-patch+json:
-            schema:
-              $ref: ./models/PatchOperation.yaml
-        description: ''
       description: |-
         Partial organization user update.
 
@@ -912,7 +906,9 @@ paths:
         content:
           application/patch:
             schema:
-              $ref: ./models/PatchOperation.yaml
+              oneOf:
+                - $ref: ./models/PatchOperationString.yaml
+                - $ref: ./models/PatchOpObject.yaml
         description: ''
       description: |-
         Partial project update.
