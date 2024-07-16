@@ -3,20 +3,8 @@ x-stoplight:
   id: f5feb86f13676
 oneOf:
   - $ref: ./patch-operations/PatchObject.yaml
-    x-stoplight:
-      id: spilcsv08w2x8
   - $ref: ./patch-operations/PatchArray.yaml
-    x-stoplight:
-      id: qteg9q13li74h
   - $ref: ./patch-operations/PatchString.yaml
-    x-stoplight:
-      id: ky4qyoalymi55
   - $ref: ./patch-operations/PatchNumber.yaml
-    x-stoplight:
-      id: 0amvyj1zh4in0
   - $ref: ./patch-operations/PatchInteger.yaml
-    x-stoplight:
-      id: vt6qsh8k92tzk
   - $ref: ./patch-operations/PatchBoolean.yaml
-    x-stoplight:
-      id: grfp79b5x0dic
