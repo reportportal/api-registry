@@ -1350,18 +1350,28 @@ components:
         Basic information provided by the client.
 
         A `slug` is a unique identifying part of an organization. Generated according to the organization name if not specified by the user.
-      allOf:
-        - type: object
-          properties:
-            name:
-              type: string
-              x-stoplight:
-                id: dz5igu0m6iy9o
-              description: Organization display name.
-              minLength: 1
-          required:
-            - name
-        - $ref: ./models/Slug.yaml
+      type: object
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: dz5igu0m6iy9o
+          description: Organization display name.
+          minLength: 3
+          maxLength: 250
+        slug:
+          type: string
+          nullable: true
+          x-stoplight:
+            id: z8xex3cdkrzjz
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          minLength: 3
+          maxLength: 250
+          description: |+
+            A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.
+
+      required:
+        - name
     OrganizationMetadata:
       title: Organization metadata
       x-stoplight:

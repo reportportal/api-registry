@@ -11,13 +11,12 @@ properties:
     minLength: 3
     maxLength: 250
   slug:
-    type:
-      - string
-      - 'null'
+    type: string
     x-stoplight:
       id: 3uwa9dicxhmyl
     pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
     minLength: 3
     maxLength: 250
+    nullable: true
 required:
   - name
