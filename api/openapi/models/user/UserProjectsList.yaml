@@ -1,0 +1,13 @@
+title: UserProjectsList
+x-stoplight:
+  id: 5vazl0johqipq
+type: object
+properties:
+  items:
+    type: array
+    x-stoplight:
+      id: sh128r9a06uup
+    items:
+      $ref: ./UserProjectInfo.yaml
+      x-stoplight:
+        id: h4hbr8k0t6o9r

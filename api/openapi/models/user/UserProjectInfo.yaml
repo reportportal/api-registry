@@ -1,0 +1,29 @@
+title: User's project details
+x-stoplight:
+  id: c6ouurwz290zv
+properties:
+  id:
+    type: integer
+    x-stoplight:
+      id: f7stmdjdqi95y
+    format: int64
+    description: Project internal identifier.
+    minimum: 0
+  slug:
+    type: string
+    x-stoplight:
+      id: 6aev6y2yuc1f6
+    pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+    description: |
+      A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.
+  role:
+    type: string
+    x-stoplight:
+      id: 7d5t0rz75oa6r
+    description: |
+      User role in the project.
+    enum:
+      - EDITOR
+      - VIEWER
+description: Information about user's project.
+type: object

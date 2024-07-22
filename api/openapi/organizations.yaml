@@ -390,7 +390,7 @@ paths:
                     type: string
                     x-stoplight:
                       id: afgrunmf5xc2n
-                    example: The user has been created in the organization.
+                    example: The user was added to the organization.
               examples:
                 Assign or create:
                   value:
@@ -463,7 +463,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationUserAssignment'
+              allOf:
+                - $ref: '#/components/schemas/OrganizationUserDefinition'
+                - $ref: '#/components/schemas/OrganizationUserAttributes'
+                - $ref: ./models/user/UserProjectsList.yaml
         description: Definition for a user assignment.
       tags:
         - Users
@@ -483,7 +486,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserProfile'
+                $ref: '#/components/schemas/OrganizationUserInfo'
         '403':
           description: Forbidden
           content:
@@ -526,7 +529,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserProfile'
+                $ref: '#/components/schemas/OrganizationUserInfo'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -558,7 +561,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationUserDefinition'
+              allOf:
+                - $ref: '#/components/schemas/OrganizationUserAttributes'
+                - $ref: ./models/user/UserProjectsList.yaml
         description: Provide organization's user information for update.
       tags:
         - Users
@@ -586,7 +591,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserProfile'
+                $ref: '#/components/schemas/OrganizationUserInfo'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -1531,60 +1536,33 @@ components:
           x-stoplight:
             id: j8z1d5itvz11g
           items:
-            $ref: '#/components/schemas/OrganizationUserProfile'
+            $ref: '#/components/schemas/OrganizationUserInfo'
       required:
         - items
-    OrganizationUserAssignment:
-      title: Organization user assignment
-      x-stoplight:
-        id: do613cpv1l3mq
-      allOf:
-        - type: object
-          x-stoplight:
-            id: 2uhe2kffvezvt
-          properties:
-            email:
-              type: string
-              x-stoplight:
-                id: sufi4vxtjz3kw
-              format: email
-              description: User email for assignment.
-          required:
-            - email
-        - $ref: '#/components/schemas/OrganizationUserDefinition'
-      description: Definition for a user assignment to the organization.
-    OrganizationUserDefinition:
-      title: Organization user definition
-      x-stoplight:
-        id: u52hc1apf7q2q
-      allOf:
-        - $ref: '#/components/schemas/OrganizationUserDetails'
-        - type: object
-          x-stoplight:
-            id: nh1gunacinw5v
-          properties:
-            projects:
-              x-stoplight:
-                id: 7qf3duno409l9
-              type: array
-              description: |-
-                List of projects for user assignment.
-                It's optional; you can assign the user 
-                to an organization without projects.
-              items:
-                $ref: ./models/user/UserProjectDefinition.yaml
-      description: Base information about a user in an organization.
-    OrganizationUserProfile:
+    OrganizationUserInfo:
       title: Organization user profile
       x-stoplight:
         id: mtgs7v0icru14
       allOf:
         - $ref: ./models/user/UserAccountInfo.yaml
-        - $ref: '#/components/schemas/OrganizationUserDetails'
+        - $ref: '#/components/schemas/OrganizationUserAttributes'
         - $ref: '#/components/schemas/OrganizationUserMetadata'
         - $ref: '#/components/schemas/OrganizationUserRelation'
       description: A comprehensive set of user information related to a user's organization.
-    OrganizationUserDetails:
+    OrganizationUserDefinition:
+      title: Organization user definition
+      x-stoplight:
+        id: 0oor0xhjoj23w
+      description: Base information about user in organization.
+      type: object
+      properties:
+        email:
+          type: string
+          x-stoplight:
+            id: egt4wyym3bgvt
+          format: email
+          description: User email. Unique ID in an organization.
+    OrganizationUserAttributes:
       title: Organization user details
       x-stoplight:
         id: 5nqrewxfku9tn
@@ -1600,6 +1578,7 @@ components:
             - MANAGER
           description: Organization user role.
       required:
+        - email
         - organization_role
     OrganizationUserMetadata:
       title: Organization user metadata
