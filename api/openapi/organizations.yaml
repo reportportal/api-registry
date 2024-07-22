@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfilesList'
+                $ref: '#/components/schemas/OrganizationProfilesPage'
         '400':
           description: Bad Request
           content:
@@ -1305,22 +1305,25 @@ components:
       scheme: bearer
       description: ''
   schemas:
+    OrganizationProfilesPage:
+      title: OrganizationProfilesPage
+      x-stoplight:
+        id: i93u0nrum1v5d
+      allOf:
+        - $ref: ./bundles/organizations.yaml#/components/schemas/Offset
+        - $ref: '#/components/schemas/OrganizationProfilesList'
     OrganizationProfilesList:
       title: List of organization profiles
       x-stoplight:
         id: qhues3miswoao
-      allOf:
-        - $ref: ./models/Offset.yaml
-        - type: object
+      properties:
+        items:
+          type: array
           x-stoplight:
-            id: 47wlz4hpcqq6m
-          properties:
-            items:
-              type: array
-              x-stoplight:
-                id: 7udfw4feoc516
-              items:
-                $ref: '#/components/schemas/OrganizationProfile'
+            id: 7udfw4feoc516
+          items:
+            $ref: '#/components/schemas/OrganizationProfile'
+      type: object
     OrganizationProfile:
       title: Organization profile
       x-stoplight:
@@ -1328,12 +1331,7 @@ components:
       description: A comprehensive set of organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
-        - type: object
-          x-stoplight:
-            id: xxy7z5blvo389
-          properties:
-            relationships:
-              $ref: '#/components/schemas/OrganizationRelation'
+        - $ref: '#/components/schemas/OrganizationRelation'
     OrganizationInfo:
       title: Organization
       x-stoplight:
@@ -1367,8 +1365,7 @@ components:
           pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           minLength: 3
           maxLength: 250
-          description: |+
-            A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.
+          description: 'A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.'
       required:
         - name
     OrganizationMetadata:
@@ -1427,90 +1424,95 @@ components:
 
         Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
       properties:
-        users:
+        relationships:
           type: object
           x-stoplight:
-            id: krjw7vjy2izad
-          description: General information about the organization users.
+            id: yg04s1g3jh6hv
           properties:
-            meta:
+            users:
               type: object
               x-stoplight:
-                id: d6fwspiop6x0l
+                id: cpa37wk30kxvx
+              description: General information about the organization users.
               properties:
-                count:
-                  type: integer
+                meta:
+                  type: object
                   x-stoplight:
-                    id: hjzuzo3w0fblt
-                  minimum: 0
-                  description: Total count of users in the organization.
-        projects:
-          type: object
-          x-stoplight:
-            id: ccus3qpgo1r30
-          description: General information about the organization projects.
-          properties:
-            meta:
+                    id: 51qv1trnu44je
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: b1ydil6hgddf0
+                      minimum: 0
+                      description: Total count of users in the organization.
+            projects:
               type: object
               x-stoplight:
-                id: ez4r3fb2cr2ts
+                id: swhkgx5x0ob26
+              description: General information about the organization projects.
               properties:
-                count:
-                  type: integer
+                meta:
+                  type: object
                   x-stoplight:
-                    id: 1l7k5p1fnlpfv
-                  minimum: 0
-                  description: Total count of projects in the organization.
-        launches:
-          type: object
-          x-stoplight:
-            id: mwmj5j0ckj15e
-          description: General information about the organization launches.
-          properties:
-            meta:
+                    id: mmtw60hm0ykpc
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: itdaw7f7t6cy2
+                      minimum: 0
+                      description: Total count of projects in the organization.
+            launches:
               type: object
               x-stoplight:
-                id: s2lmbnao0c7sw
+                id: yyim9qntk2t0n
+              description: General information about the organization launches.
               properties:
-                last_occurred_at:
-                  type: string
+                meta:
+                  type: object
                   x-stoplight:
-                    id: l5t9kyok3gjee
-                  format: date-time
-                  description: Last launch occurrence date.
-                count:
-                  type: integer
-                  x-stoplight:
-                    id: xbg55uxoz8nle
-                  minimum: 0
-                  description: |-
-                    Total count of launches in the organization.
-                    Access: Admin, Manager
-        billing:
-          type: object
-          x-stoplight:
-            id: 2dmd4f0yulayn
-          description: |-
-            General information about the organization billing.
-            Available only if a Billing plugin is enabled.
-          properties:
-            meta:
+                    id: u1po8dndq7c8w
+                  properties:
+                    last_occurred_at:
+                      type: string
+                      x-stoplight:
+                        id: jfrvcl95jb302
+                      format: date-time
+                      description: Last launch occurrence date.
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: 2sqo1glg2ksei
+                      minimum: 0
+                      description: |-
+                        Total count of launches in the organization.
+                        Access: Admin, Manager
+            billing:
               type: object
               x-stoplight:
-                id: kycmg6uetm4ny
+                id: wboblz9c0y6xl
+              description: |-
+                General information about the organization billing.
+                Available only if a Billing plugin is enabled.
               properties:
-                plan_name:
-                  type: string
+                meta:
+                  type: object
                   x-stoplight:
-                    id: an0sg4e2taicm
-                  description: Plan name.
-                storage_usage:
-                  type: integer
-                  x-stoplight:
-                    id: kfsaova2wetdj
-                  minimum: 0
-                  description: Storage usage in percents.
-                  maximum: 100
+                    id: gaxjw82c62g8k
+                  properties:
+                    plan_name:
+                      type: string
+                      x-stoplight:
+                        id: mo6pndjukp2hn
+                      description: Plan name.
+                    storage_usage:
+                      type: integer
+                      x-stoplight:
+                        id: mmfbygmjnhg7y
+                      minimum: 0
+                      description: Storage usage in percents.
+                      maximum: 100
     OrganizationUsersPage:
       title: List of organization users
       x-stoplight:
@@ -1580,12 +1582,7 @@ components:
         - $ref: ./models/user/UserAccountInfo.yaml
         - $ref: '#/components/schemas/OrganizationUserDetails'
         - $ref: '#/components/schemas/OrganizationUserMetadata'
-        - type: object
-          x-stoplight:
-            id: ryd1bkgqoi60r
-          properties:
-            relationships:
-              $ref: '#/components/schemas/OrganizationUserRelation'
+        - $ref: '#/components/schemas/OrganizationUserRelation'
       description: A comprehensive set of user information related to a user's organization.
     OrganizationUserDetails:
       title: Organization user details
@@ -1632,26 +1629,31 @@ components:
 
         Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
       properties:
-        projects:
+        relationships:
           type: object
           x-stoplight:
-            id: liq2focmyttih
-          description: User's projects relations.
+            id: myt7sbqk6iyz5
           properties:
-            meta:
+            projects:
               type: object
               x-stoplight:
-                id: p06xmlipg4irk
-              description: User's projects relation metadata.
+                id: jijr6kx3dhi4n
+              description: User's projects relations.
               properties:
-                count:
-                  type: integer
+                meta:
+                  type: object
                   x-stoplight:
-                    id: 3tcj2ts8foup5
-                  minimum: 0
-                  description: |-
-                    Total number of user's projects in
-                    organization.
+                    id: kh36jlb1u9opz
+                  description: User's projects relation metadata.
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: acpl46w380az0
+                      minimum: 0
+                      description: |-
+                        Total number of user's projects in
+                        organization.
     OrganizationProjectsPage:
       title: List of organization projects
       x-stoplight:
