@@ -1315,7 +1315,7 @@ components:
       x-stoplight:
         id: i93u0nrum1v5d
       allOf:
-        - $ref: ./bundles/organizations.yaml#/components/schemas/Offset
+        - $ref: ./models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProfilesList'
     OrganizationProfilesList:
       title: List of organization profiles
