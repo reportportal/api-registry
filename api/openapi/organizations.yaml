@@ -1261,7 +1261,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationSearchCriteria'
+              allOf:
+                - $ref: ./models/OffsetRequest.yaml
+                - $ref: ./models/SearchCriteria.yaml
+                - $ref: '#/components/schemas/OrganizationSearchCriteria'
         description: ''
       tags:
         - Organizations
@@ -1299,7 +1302,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationProjectSearchCriteria'
+              allOf:
+                - $ref: ./models/OffsetRequest.yaml
+                - $ref: ./models/SearchCriteria.yaml
+                - $ref: '#/components/schemas/OrganizationProjectSearchCriteria'
       tags:
         - Projects
         - Ready for implementation
@@ -1945,10 +1951,7 @@ components:
       x-stoplight:
         id: drxq3elc1z77d
       allOf:
-        - $ref: ./models/OffsetRequest.yaml
-        - $ref: ./models/SearchCriteriaList.yaml
-        - type: object
-          x-stoplight:
+        - x-stoplight:
             id: 89u53g8og5l72
           properties:
             sort:
@@ -1992,15 +1995,13 @@ components:
         - `projects` - filter by the number of projects.
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
+      type: object
     OrganizationProjectSearchCriteria:
       title: Organization project search criteria
       x-stoplight:
         id: q2jdc59cgjt2i
       allOf:
-        - $ref: ./models/OffsetRequest.yaml
-        - $ref: ./models/SearchCriteriaList.yaml
-        - type: object
-          x-stoplight:
+        - x-stoplight:
             id: bo5dkm7fkumbf
           properties:
             sort:
@@ -2042,6 +2043,7 @@ components:
         - `users` - filter by the number of users.
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
+      type: object
   parameters:
     OrganizationId:
       name: org_id

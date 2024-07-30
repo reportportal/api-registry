@@ -3,19 +3,28 @@ x-stoplight:
   id: i6aljjkxukm9y
 type: object
 properties:
-  filter_key:
-    type: string
-    description: search by field
-  operation:
-    type: string
-    enum:
-      - EQ
-      - NE
-      - CNT
-      - NON_CNT
-      - BTW
-      - IN
-    description: operation to perform for the filter
-  value:
-    type: string
-    description: search value
+  search_criteria:
+    type: array
+    x-stoplight:
+      id: u3myifpqu9rf0
+    items:
+      x-stoplight:
+        id: v582q6e23t046
+      type: object
+      properties:
+        filter_key:
+          type: string
+          description: search by field
+        operation:
+          type: string
+          enum:
+            - EQ
+            - NE
+            - CNT
+            - NON_CNT
+            - BTW
+            - IN
+          description: operation to perform for the filter
+        value:
+          type: string
+          description: search value
