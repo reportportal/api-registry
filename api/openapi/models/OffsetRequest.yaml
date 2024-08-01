@@ -23,7 +23,6 @@ properties:
     description: Field to define the sort field.
     x-stoplight:
       id: gbh6joti5vtd4
-    default: id
   order:
     type: string
     description: To indicate sorting direction. Ascending or Descending.
