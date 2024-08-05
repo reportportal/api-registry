@@ -1243,7 +1243,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfilesList'
+                $ref: '#/components/schemas/OrganizationProfilesPage'
         '400':
           description: Bad Request
           content:
@@ -1294,7 +1294,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProjectsList'
+                $ref: '#/components/schemas/OrganizationProjectsPage'
         '400':
           description: Bad Request
           content:
