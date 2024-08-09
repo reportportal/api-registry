@@ -30,7 +30,7 @@ paths:
       summary: Get a list of organizations
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
       responses:
         '200':
           description: OK
@@ -138,13 +138,13 @@ paths:
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
   '/organizations/{org_id}':
     get:
       summary: Get organization information
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
       responses:
         '200':
           description: OK
@@ -234,7 +234,7 @@ paths:
         description: Provide organization information for update.
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
       x-internal: false
     patch:
       summary: Partial organization update
@@ -295,7 +295,7 @@ paths:
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
       x-internal: false
     delete:
       summary: Delete organization
@@ -333,7 +333,7 @@ paths:
         - `ADMINISTRATOR`
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
       x-internal: false
   '/organizations/{org_id}/users':
     parameters:
@@ -342,7 +342,7 @@ paths:
       summary: Get organization's users
       tags:
         - Users
-        - Ready for implementation
+        - Ready
       responses:
         '200':
           description: OK
@@ -430,7 +430,6 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
-        - `MEMBER`
 
         ### Project authority:
 
@@ -438,16 +437,9 @@ paths:
         - `MANAGER`
         - `EDITOR`
 
-        ### Assignment rules
-
-        #### For assignment user to the organization:
-
-        A user with the `MEMBER` role can assign only users with the `MEMBER` role.
-
         #### For assignment user to the organization's projects:
 
-        A users with the `ADMINISTRATOR`, `MANAGER`, and `MEMBER` with `EDITOR` roles can assign
-        users to the organization's projects.
+        A users with the `ADMINISTRATOR`, `MANAGER` roles can assign users to the organization's projects.
 
         ### Response event statuses
 
@@ -470,7 +462,7 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Users
-        - Ready for implementation
+        - Ready
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -479,7 +471,7 @@ paths:
       summary: Get organization user profile
       tags:
         - Users
-        - Ready for implementation
+        - Ready
       responses:
         '200':
           description: OK
@@ -567,7 +559,7 @@ paths:
         description: Provide organization's user information for update.
       tags:
         - Users
-        - Ready for implementation
+        - Ready
       description: |-
         Update organization user details.
 
@@ -636,7 +628,7 @@ paths:
         - `EDITOR`
       tags:
         - Users
-        - Ready for implementation
+        - Ready
       requestBody:
         content:
           application/json-patch+json:
@@ -670,7 +662,7 @@ paths:
         - `MANAGER`
       tags:
         - Users
-        - Ready for implementation
+        - Ready
   '/organizations/{org_id}/projects':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -678,7 +670,7 @@ paths:
       summary: Get organization projects
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
       responses:
         '200':
           description: OK
@@ -738,7 +730,7 @@ paths:
       summary: Create a new project
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -792,7 +784,7 @@ paths:
       summary: Get project information
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
       responses:
         '200':
           description: OK
@@ -877,7 +869,7 @@ paths:
         - `EDITOR`
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
     patch:
       summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
@@ -928,12 +920,12 @@ paths:
         - `EDITOR`
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
     delete:
       summary: Delete project
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -1278,7 +1270,7 @@ paths:
         description: ''
       tags:
         - Organizations
-        - Ready for implementation
+        - Ready
       x-extension-authority:
         - ReportPortal: User
         - ReportPortal: Admin
@@ -1327,7 +1319,7 @@ paths:
               $ref: ./models/SearchCriteriaRQ.yaml
       tags:
         - Projects
-        - Ready for implementation
+        - Ready
 components:
   securitySchemes:
     BearerAuth:
@@ -2123,7 +2115,7 @@ components:
 tags:
   - name: Organizations
   - name: Projects
-  - name: Ready for implementation
+  - name: Ready
   - name: Users
   - name: TODO
 security:
