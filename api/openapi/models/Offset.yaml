@@ -17,7 +17,7 @@ properties:
     minimum: 0
     x-stoplight:
       id: i0krz9nwy1ndt
-    default: 10
+    default: 300
   total_count:
     type: integer
     description: One greater than the offset of the last item in the entire collection. The total number of items in the collection may be less than total_count.
