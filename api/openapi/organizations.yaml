@@ -440,22 +440,15 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
-        - `EDITOR`
 
         #### For assignment user to the organization's projects:
 
-        A users with the `ADMINISTRATOR`, `MANAGER` roles can assign users to the organization's projects.
+        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to the organization.
 
         ### Response event statuses
 
         You will get different statuses for project assignments according to which user you want
-        to assign to the organization:
-
-        - `PENDING` or `FAILURE` for non-existing users.
-        - `SUCCESS` or `FAILURE` for existing users.
-
-        Items contain statuses for each event. Inside the event, you can find the `id` that links
-        to the identifier you provided in the request.
+        to assign to the organization.
       requestBody:
         content:
           application/json:
