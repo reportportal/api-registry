@@ -399,10 +399,7 @@ paths:
               examples:
                 Assign or create:
                   value:
-                    message: The user has been created in the organization.
-                Send request:
-                  value:
-                    message: The user assignment request has been sent.
+                    message: The user was added to the organization.
         '207':
           description: Multi-Status (WebDAV)
           content:
