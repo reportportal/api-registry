@@ -5,6 +5,9 @@ info:
   title: Users API Collection
   version: '0.1'
   description: API Collection for working with users.
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   contact:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
@@ -172,6 +175,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Invitation'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
       operationId: get-invitations-id
       description: Get invitation by ID.
     put:
@@ -314,3 +321,4 @@ security:
   - BearerAuth: []
 tags:
   - name: Invitations
+    description: User invitations
