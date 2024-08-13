@@ -1,0 +1,317 @@
+openapi: 3.0.3
+x-stoplight:
+  id: jm0s241nlt0t5
+info:
+  title: Users API Collection
+  version: '0.1'
+  description: API Collection for working with users.
+  contact:
+    name: Reingold Shekhtel
+    email: reingold_shekhtel@epam.com
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+paths:
+  /invitations:
+    parameters: []
+    post:
+      summary: Create user invitation
+      operationId: post-invitations
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    x-stoplight:
+                      id: nyz2ub0ckqzwg
+                    description: Invitation ID.
+                    format: uuid
+                  email:
+                    type: string
+                    x-stoplight:
+                      id: 4e3kd6gqnpfqr
+                    description: User's email.
+                  status:
+                    type: string
+                    x-stoplight:
+                      id: l0dc9yua5ja0q
+                    enum:
+                      - PENDING
+                      - ACTIVATED
+                    description: User invitations status.
+                  link:
+                    type: string
+                    x-stoplight:
+                      id: h9tid5irxqo33
+                    description: Link to invitation form.
+                  created_at:
+                    type: string
+                    x-stoplight:
+                      id: l855jzf5ll67m
+                    format: date-time
+                    description: Creation date.
+                  expires_at:
+                    type: string
+                    x-stoplight:
+                      id: hurbdmw60rvrh
+                    format: date-time
+                    description: Experation date.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '503':
+          description: Service Unavailable
+      description: Create and send user invitation to email.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  x-stoplight:
+                    id: ic3x2c322xsuj
+                  format: email
+                  description: Email for invitation.
+                organizations:
+                  type: array
+                  x-stoplight:
+                    id: uauk2noavwwpd
+                  description: Organizations to assign a user.
+                  items:
+                    $ref: ./models/user/UserOrgInfo.yaml
+                    x-stoplight:
+                      id: et9k8a6nw09t3
+                projects:
+                  type: array
+                  x-stoplight:
+                    id: 7zfxc93gf64j0
+                  description: Projects to assign a user.
+                  items:
+                    $ref: ./models/user/UserProjectInfo.yaml
+                    x-stoplight:
+                      id: diatrpos9v4p5
+              required:
+                - email
+        description: ''
+      tags:
+        - Invitations
+    get:
+      summary: Get invitations
+      operationId: get-invitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ./models/Offset.yaml
+                  - $ref: '#/components/schemas/Invitations'
+                    x-stoplight:
+                      id: 9vosc06vmopbp
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - $ref: ./organizations.yaml#/components/parameters/Limit
+        - $ref: ./organizations.yaml#/components/parameters/Offset
+        - $ref: ./organizations.yaml#/components/parameters/Order
+        - schema:
+            type: string
+            default: email
+          in: query
+          name: sort
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: email
+      description: Get all invitations
+      tags:
+        - Invitations
+  '/invitations/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get invitation
+      tags:
+        - Invitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+      operationId: get-invitations-id
+      description: Get invitation by ID.
+    put:
+      summary: Activate invitation
+      operationId: put-invitations-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    x-stoplight:
+                      id: 2vmx7f7syr7rp
+                    format: uuid
+                    description: Invitation ID.
+                  user_id:
+                    type: integer
+                    x-stoplight:
+                      id: ye1x2sikeh1hk
+                    format: int64
+                    description: Created user ID.
+                  email:
+                    type: string
+                    x-stoplight:
+                      id: w95fchyz41n9q
+                    format: email
+                    description: User email.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Create user from invitation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  x-stoplight:
+                    id: ky9i27qwv0cfy
+                  enum:
+                    - ACTIVATED
+                    - PENDING
+                  description: Change status to ACTIVATED to create a user.
+                  default: PENDING
+                email:
+                  type: string
+                  x-stoplight:
+                    id: haximyljirsne
+                  description: New email.
+                  format: email
+                full_name:
+                  type: string
+                  x-stoplight:
+                    id: de64w3j7jrzud
+                  description: User full name.
+                password:
+                  type: string
+                  x-stoplight:
+                    id: pznie81fmrstj
+                  format: password
+                  description: User password. Will be ignored for `PENDING` status.
+              required:
+                - password
+        description: ''
+      tags:
+        - Invitations
+components:
+  schemas:
+    Invitation:
+      title: Invitation
+      x-stoplight:
+        id: sndwfqza5siyf
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: aln8qbo8x7saz
+          description: Invitation ID.
+          format: uuid
+        email:
+          type: string
+          x-stoplight:
+            id: o53tk2foylb19
+          description: User's email.
+        status:
+          type: string
+          x-stoplight:
+            id: zbeykeqxyun04
+          enum:
+            - PENDING
+          description: User invitations status.
+        link:
+          type: string
+          x-stoplight:
+            id: le5luawcsm4hu
+          description: Link to invitation form.
+        created_at:
+          type: string
+          x-stoplight:
+            id: gh5ekuu0r1b3d
+          format: date-time
+          description: Creation date.
+        expires_at:
+          type: string
+          x-stoplight:
+            id: g5hvummebvs8d
+          format: date-time
+          description: Experation date.
+    Invitations:
+      title: InvitationsList
+      x-stoplight:
+        id: k43c1dj2mgfhv
+      type: object
+      properties:
+        items:
+          type: array
+          x-stoplight:
+            id: x6xvvffcs8w8s
+          items:
+            $ref: '#/components/schemas/Invitation'
+            x-stoplight:
+              id: rubu77h3mpwp1
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
+tags:
+  - name: Invitations
