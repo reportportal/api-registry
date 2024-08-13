@@ -373,7 +373,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Sort'
+        - in: query
+          name: sort
+          description: Indicate sort by field
+          schema:
+            type: string
+            default: name
         - $ref: '#/components/parameters/Order'
     post:
       summary: Assignment user to organization
@@ -2080,12 +2085,6 @@ components:
         type: integer
         default: 0
       description: The offset used for this page of results
-    Sort:
-      name: sort
-      in: query
-      schema:
-        type: string
-      description: Indicate sort by field
     Order:
       name: order
       in: query
