@@ -26,7 +26,6 @@ servers:
         description: Base path of Report Portal API
 paths:
   /invitations:
-    parameters: []
     post:
       summary: Create user invitation
       operationId: post-invitations
