@@ -1,6 +1,8 @@
 title: User's project details
 x-stoplight:
   id: c6ouurwz290zv
+description: Information about user's project.
+type: object
 properties:
   id:
     type: integer
@@ -13,10 +15,8 @@ properties:
     type: string
     x-stoplight:
       id: 7d5t0rz75oa6r
-    description: |
-      User role in the project.
+    description: User role in the project.
     enum:
       - EDITOR
       - VIEWER
-description: Information about user's project.
-type: object
+    default: VIEWER
