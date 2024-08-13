@@ -18,5 +18,3 @@ properties:
       - MANAGER
     default: MEMBER
     description: User role in the organization.
-required:
-  - id

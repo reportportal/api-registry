@@ -20,5 +20,3 @@ properties:
       - EDITOR
       - VIEWER
     default: VIEWER
-required:
-  - id
