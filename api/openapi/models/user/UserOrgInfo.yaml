@@ -2,6 +2,7 @@ title: User's organization details
 x-stoplight:
   id: 86wft5rp6je7f
 type: object
+description: Information about user's organization.
 properties:
   id:
     type: integer
@@ -17,4 +18,5 @@ properties:
       - MANAGER
     default: MEMBER
     description: User role in the organization.
-description: Information about user's organization.
+required:
+  - id
