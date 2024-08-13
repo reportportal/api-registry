@@ -1,0 +1,20 @@
+title: User's organization details
+x-stoplight:
+  id: 86wft5rp6je7f
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+    minimum: 0
+    description: Organization internal identifier.
+  role:
+    type: string
+    x-stoplight:
+      id: 1cvs3j3mv3rdw
+    enum:
+      - MEMBER
+      - MANAGER
+    default: MEMBER
+    description: User role in the organization.
+description: Information about user's organization.
