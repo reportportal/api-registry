@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: OpenAPI Build Bundle
+    name: OpenAPI Build
     runs-on: ubuntu-latest
     container: node:21
     steps:
