@@ -28,7 +28,7 @@ servers:
 paths:
   /invitations:
     post:
-      summary: Create user invitation by email
+      summary: Create user invitation
       operationId: post-invitations
       responses:
         '201':
