@@ -2,7 +2,7 @@ openapi: 3.0.3
 x-stoplight:
   id: jm0s241nlt0t5
 info:
-  title: Users API Collection
+  title: Users API
   version: '0.1'
   description: API Collection for working with users.
   license:
@@ -103,18 +103,14 @@ paths:
                     id: uauk2noavwwpd
                   description: Organizations to assign a user.
                   items:
-                    $ref: ./models/user/UserOrgInfo.yaml
-                    x-stoplight:
-                      id: et9k8a6nw09t3
+                    $ref: ../models/user/UserOrgInfo.yaml
                 projects:
                   type: array
                   x-stoplight:
                     id: 7zfxc93gf64j0
                   description: Projects to assign a user.
                   items:
-                    $ref: ./models/user/UserProjectInfo.yaml
-                    x-stoplight:
-                      id: diatrpos9v4p5
+                    $ref: ../models/user/UserProjectInfo.yaml
               required:
                 - email
         description: ''
@@ -130,10 +126,8 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/Offset.yaml
+                  - $ref: ../models/Offset.yaml
                   - $ref: '#/components/schemas/Invitations'
-                    x-stoplight:
-                      id: 9vosc06vmopbp
         '400':
           description: Bad Request
         '401':
@@ -141,9 +135,9 @@ paths:
         '403':
           description: Forbidden
       parameters:
-        - $ref: ./organizations.yaml#/components/parameters/Limit
-        - $ref: ./organizations.yaml#/components/parameters/Offset
-        - $ref: ./organizations.yaml#/components/parameters/Order
+        - $ref: ../parameters/Pagination.yaml#/Offset
+        - $ref: ../parameters/Pagination.yaml#/Limit
+        - $ref: ../parameters/Pagination.yaml#/Order
         - schema:
             type: string
             default: email
@@ -311,14 +305,16 @@ components:
             id: x6xvvffcs8w8s
           items:
             $ref: '#/components/schemas/Invitation'
-            x-stoplight:
-              id: rubu77h3mpwp1
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
+    $ref: ../security/BearerAuth.yaml
 security:
   - BearerAuth: []
 tags:
+  - name: In progress
+    description: Endpoints that are in designing
+  - name: Ready for implementation
+    description: Endpoints that are ready for development
+  - name: Implemented
+    description: Endpoints that are implemented
   - name: Invitation
     description: User invitations

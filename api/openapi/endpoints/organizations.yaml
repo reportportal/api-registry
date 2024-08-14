@@ -2,9 +2,9 @@ openapi: 3.0.3
 x-stoplight:
   id: hpx2e63mc8gcc
 info:
-  title: Organizations
+  title: Organizations API
   version: '0.1'
-  description: Organizations API Collection
+  description: API Collection for working with organizations.
   contact:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
@@ -43,13 +43,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations
       description: |-
         Get a list of existing organizations.
@@ -66,9 +66,9 @@ paths:
         - `MANAGER` - limited to viewing only their assigned organizations.
         - `MEMBER` - limited to viewing only their assigned organizations.
       parameters:
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Order'
+        - $ref: ../parameters/Pagination.yaml#/Offset
+        - $ref: ../parameters/Pagination.yaml#/Limit
+        - $ref: ../parameters/Pagination.yaml#/Order
         - schema:
             type: string
           in: query
@@ -101,25 +101,25 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '402':
           description: Payment Required
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '409':
           description: Conflict
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |
         > **Enterprise edition feature** 
         >
@@ -157,13 +157,13 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id
       description: |-
         Provide organization information.
@@ -196,25 +196,25 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '402':
           description: Payment Required
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -257,25 +257,25 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '402':
           description: Payment Required
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -308,19 +308,19 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         > **Enterprise edition feature** 
         >
@@ -355,13 +355,13 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id-users
       description: |-
         Provides a list of organization's users.
@@ -371,15 +371,15 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
       parameters:
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Offset'
+        - $ref: ../parameters/Pagination.yaml#/Offset
+        - $ref: ../parameters/Pagination.yaml#/Limit
+        - $ref: ../parameters/Pagination.yaml#/Order
         - in: query
           name: sort
           description: Indicate sort by field
           schema:
             type: string
             default: name
-        - $ref: '#/components/parameters/Order'
     post:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users
@@ -405,25 +405,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Multistatus.yaml
+                $ref: ../models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '409':
           description: Conflict
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         This is a complex endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
@@ -453,7 +453,7 @@ paths:
               allOf:
                 - $ref: '#/components/schemas/OrganizationUserDefinition'
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - $ref: ./models/user/UserProjectsList.yaml
+                - $ref: ../models/user/UserProjectsList.yaml
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -479,13 +479,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id-users-user_id
       description: |-
         Get organization user profile.
@@ -506,7 +506,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/PatchOperation.yaml
+              $ref: ../models/PatchOperation.yaml
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
@@ -525,32 +525,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Multistatus.yaml
+                $ref: ../models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       requestBody:
         content:
           application/json:
             schema:
               allOf:
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - $ref: ./models/user/UserProjectsList.yaml
+                - $ref: ../models/user/UserProjectsList.yaml
         description: Provide organization's user information for update.
       tags:
         - Organization User
@@ -587,25 +587,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Multistatus.yaml
+                $ref: ../models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         Partial organization user update.
 
@@ -628,7 +628,7 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              $ref: ./models/PatchOperation.yaml
+              $ref: ../models/PatchOperation.yaml
         description: ''
     delete:
       summary: Unassigned organization user
@@ -641,13 +641,13 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -678,18 +678,18 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id-projects
       parameters:
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Order'
+        - $ref: ../parameters/Pagination.yaml#/Limit
+        - $ref: ../parameters/Pagination.yaml#/Offset
+        - $ref: ../parameters/Pagination.yaml#/Order
         - schema:
             type: string
           in: query
@@ -739,25 +739,25 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '409':
           description: Conflict
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         Create a new project in the organization. 
 
@@ -769,7 +769,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/project/ProjectDetails.yaml
+              $ref: ../models/project/ProjectDetails.yaml
         description: 'You can create an project provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
@@ -786,19 +786,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/project/ProjectProfile.yaml
+                $ref: ../models/project/ProjectProfile.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id-projects-project_id
       description: |-
         Get project information.
@@ -830,24 +830,24 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./models/project/ProjectDetails.yaml
+              $ref: ../models/project/ProjectDetails.yaml
       description: |-
         Update project information.
 
@@ -880,24 +880,24 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       requestBody:
         content:
           application/json-patch+json:
             schema:
-              $ref: ./models/PatchOperation.yaml
+              $ref: ../models/PatchOperation.yaml
         description: ''
       description: |-
         Partial project update.
@@ -930,13 +930,13 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         Delete project.
 
@@ -968,13 +968,13 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: 'Not Found: Organization not found.'
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id-settings
       description: '#TODO'
   '/organizations/{org_id}/settings/{setting_name}':
@@ -1008,13 +1008,13 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: 'Not Found: Organization or setting not found.'
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       operationId: get-organizations-org_id-settings-setting_name
       description: '#TODO'
     put:
@@ -1043,19 +1043,19 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: '#TODO'
       requestBody:
         content:
@@ -1236,13 +1236,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         Create search request for organizations by provided criteria.
 
@@ -1261,7 +1261,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/SearchCriteriaRQ.yaml
+              $ref: ../models/SearchCriteriaRQ.yaml
         description: ''
       tags:
         - Organization
@@ -1287,13 +1287,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: ./models/Problem.yaml
+                $ref: ../models/Problem.yaml
       description: |-
         Create search request for organization projects by provided criteria.
 
@@ -1311,23 +1311,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/SearchCriteriaRQ.yaml
+              $ref: ../models/SearchCriteriaRQ.yaml
       tags:
         - Organization Project
         - Ready for implementation
 components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: ''
   schemas:
     OrganizationProfilesPage:
       title: OrganizationProfilesPage
       x-stoplight:
         id: i93u0nrum1v5d
       allOf:
-        - $ref: ./models/Offset.yaml
+        - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProfilesList'
     OrganizationProfilesList:
       title: List of organization profiles
@@ -1535,7 +1530,7 @@ components:
       x-stoplight:
         id: 66kg4poe1y1gj
       allOf:
-        - $ref: ./models/Offset.yaml
+        - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationUsersList'
     OrganizationUsersList:
       title: OrganizationUsersList
@@ -1556,7 +1551,7 @@ components:
       x-stoplight:
         id: mtgs7v0icru14
       allOf:
-        - $ref: ./models/user/UserAccountInfo.yaml
+        - $ref: ../models/user/UserAccountInfo.yaml
         - $ref: '#/components/schemas/OrganizationUserAttributes'
         - $ref: '#/components/schemas/OrganizationUserMetadata'
         - $ref: '#/components/schemas/OrganizationUserRelation'
@@ -1650,7 +1645,7 @@ components:
       x-stoplight:
         id: enov9cs27yo63
       allOf:
-        - $ref: ./models/Offset.yaml
+        - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProjectsList'
     OrganizationProjectsList:
       title: OrganizationProjectsList
@@ -1663,7 +1658,7 @@ components:
           x-stoplight:
             id: gy6rp66c3r4ja
           items:
-            $ref: ./models/project/ProjectProfile.yaml
+            $ref: ../models/project/ProjectProfile.yaml
       required:
         - items
     OrganizationProjectInfo:
@@ -1671,8 +1666,8 @@ components:
       x-stoplight:
         id: 252q8n6hgyymb
       allOf:
-        - $ref: ./models/project/ProjectMetadata.yaml
-        - $ref: ./models/project/ProjectDetails.yaml
+        - $ref: ../models/project/ProjectMetadata.yaml
+        - $ref: ../models/project/ProjectDetails.yaml
     OrganizationRetentionPolicy:
       title: Organization retention policy
       x-stoplight:
@@ -1713,7 +1708,7 @@ components:
       x-stoplight:
         id: w0439pq86z8fy
       allOf:
-        - $ref: ./models/Offset.yaml
+        - $ref: ../models/Offset.yaml
         - type: object
           x-stoplight:
             id: rj6ft52tz1vis
@@ -1827,7 +1822,7 @@ components:
           x-stoplight:
             id: 5kl2r7880cz8x
           allOf:
-            - $ref: ./models/notify-actions/SendEmail.yaml
+            - $ref: ../models/notify-actions/SendEmail.yaml
           description: '#TODO'
     OrganizationPluginInfo:
       title: Organization plugin info
@@ -1916,9 +1911,9 @@ components:
           description: '#TODO'
           properties:
             source:
-              $ref: ./models/Link.yaml
+              $ref: ../models/Link.yaml
             documentation:
-              $ref: ./models/Link.yaml
+              $ref: ../models/Link.yaml
         commands:
           type: object
           x-stoplight:
@@ -2059,32 +2054,7 @@ components:
         type: integer
         format: int64
       description: Organization identifier
-    Limit:
-      name: limit
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 300
-      description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
-    Offset:
-      name: offset
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 0
-      description: The offset used for this page of results
-    Order:
-      name: order
-      in: query
-      schema:
-        type: string
-        enum:
-          - ASC
-          - DESC
-        default: ASC
-      description: Indicate sorting direction
+
     UserId:
       name: user_id
       in: path
@@ -2101,6 +2071,10 @@ components:
         type: integer
         format: int64
       description: Project identifier
+  securitySchemes:
+    $ref: ../security/BearerAuth.yaml
+security:
+  - BearerAuth: []
 tags:
   - name: Organization
     description: Organizations collection
@@ -2114,5 +2088,3 @@ tags:
     description: Endpoints that are ready for development
   - name: Implemented
     description: Endpoints that are implemented
-security:
-  - BearerAuth: []

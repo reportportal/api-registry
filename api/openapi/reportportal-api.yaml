@@ -1,0 +1,3285 @@
+openapi: 3.0.3
+info:
+  title: Organizations API
+  version: '0.1'
+  description: API Collection for working with organizations.
+  contact:
+    name: Reingold Shekhtel
+    email: reingold_shekhtel@epam.com
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+tags:
+  - name: Organization
+    description: Organizations collection
+    x-displayName: Organization
+  - name: Organization Project
+    description: Organization projects collection
+    x-displayName: Organization Project
+  - name: Organization User
+    description: Organization users collection
+    x-displayName: Organization User
+  - name: In progress
+    description: Endpoints that are in designing
+    x-displayName: In progress
+  - name: Ready for implementation
+    description: Endpoints that are ready for development
+    x-displayName: Ready for implementation
+  - name: Implemented
+    description: Endpoints that are implemented
+    x-displayName: Implemented
+  - name: Invitation
+    description: User invitations
+    x-displayName: Invitation
+paths:
+  /organizations:
+    get:
+      summary: Get a list of organizations
+      tags:
+        - Organization
+        - Implemented
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProfilesPage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations
+      description: |-
+        Get a list of existing organizations.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - limited to viewing only their assigned organizations.
+        - `MEMBER` - limited to viewing only their assigned organizations.
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter organizations by name by substring
+        - schema:
+            type: string
+            pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          in: query
+          name: slug
+          description: Filter organizations by slug
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a new organization
+      operationId: post-organizations
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInfo'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '402':
+          description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: |
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Create a new organization. Provide name and slug.
+
+        ### Authority: 
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationDetails'
+        description: >-
+          You can create an organization provide name and slug. If the `slug` is
+          not provided, it will be generated from the `name`.
+      tags:
+        - Organization
+        - Ready for implementation
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}:
+    get:
+      summary: Get organization information
+      tags:
+        - Organization
+        - Ready for implementation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProfile'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id
+      description: |-
+        Provide organization information.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      security:
+        - BearerAuth: []
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    put:
+      summary: Update organization
+      operationId: put-organizations-org_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: hiod6ajoz3rrg
+                    default: The organization update was completed successfully.
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '402':
+          description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Update organization information with the provided data.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationDetails'
+        description: Provide organization information for update.
+      tags:
+        - Organization
+        - Ready for implementation
+      x-internal: false
+      security:
+        - BearerAuth: []
+    patch:
+      summary: Partial organization update
+      operationId: patch-organizations-org_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: y1kxomqmeigfg
+                    default: The organization update was completed successfully.
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '402':
+          description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: >-
+        > **Enterprise edition feature** 
+
+        >
+
+        > Available only if an Organization plugin is enabled.
+
+
+        Particular organization fields update via the [JSON Merge Patch
+        standard](https://datatracker.ietf.org/doc/html/rfc7386).
+
+
+        ### Authority:
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/OrganizationDetails'
+        description: >-
+          Use PATCH with JSON Merge Patch standard, a specialized media type
+          application/merge-patch+json for partial resource representation to
+          update parts of resource objects.
+      tags:
+        - Organization
+        - Ready for implementation
+      x-internal: false
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      responses:
+        '204':
+          description: No Content
+        '402':
+          description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+      tags:
+        - Organization
+        - Ready for implementation
+      x-internal: false
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/users:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      summary: Get organization's users
+      tags:
+        - Organization User
+        - Ready for implementation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUsersPage'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id-users
+      description: |-
+        Provides a list of organization's users.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - in: query
+          name: sort
+          description: Indicate sort by field
+          schema:
+            type: string
+            default: name
+      security:
+        - BearerAuth: []
+    post:
+      summary: Assignment user to organization
+      operationId: post-organizations-org_id-users
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: afgrunmf5xc2n
+                    example: The user was added to the organization.
+              examples:
+                Assign or create:
+                  value:
+                    message: The user was added to the organization.
+        '207':
+          description: Multi-Status (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Multistatus'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: >-
+        This is a complex endpoint that provides a flow for assigning a user to
+        the organization.
+
+        It can be used as a bulk endpoint if you provide a list of projects for
+        assignment.
+
+
+        ### Authority:
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        ### Project authority:
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        #### For assignment user to the organization's projects:
+
+
+        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to
+        the organization.
+
+
+        ### Response event statuses
+
+
+        You will get different statuses for project assignments according to
+        which user you want
+
+        to assign to the organization.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/OrganizationUserDefinition'
+                - $ref: '#/components/schemas/OrganizationUserAttributes'
+                - $ref: '#/components/schemas/UserProjectsList'
+        description: Definition for a user assignment.
+      tags:
+        - Organization User
+        - Ready for implementation
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/users/{user_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Get organization user profile
+      tags:
+        - Organization User
+        - Ready for implementation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserInfo'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id-users-user_id
+      description: |-
+        Get organization user profile.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with `MEMBER` role can get only his profile.
+
+        ### Member authority:
+
+        - `EDITOR`
+        - `VIEWER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOperation'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update organization user details
+      operationId: put-organizations-org_id-users-user_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserInfo'
+        '207':
+          description: |-
+            Multi-Status (WebDAV)
+
+            Response for a user assignment with projects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Multistatus'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/OrganizationUserAttributes'
+                - $ref: '#/components/schemas/UserProjectsList'
+        description: Provide organization's user information for update.
+      tags:
+        - Organization User
+        - Ready for implementation
+      description: |-
+        Update organization user details.
+
+        Organization user details for update.
+
+        ### Organization authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Project authority:
+
+        - `EDITOR`
+      security:
+        - BearerAuth: []
+    patch:
+      summary: Partial organization user update
+      operationId: patch-organizations-org_id-users-user_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUserInfo'
+        '207':
+          description: |-
+            Multi-Status (WebDAV)
+
+            Response for a user assignment with projects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Multistatus'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: >-
+        Partial organization user update.
+
+
+        You can provide a project list as an additional option for assigning or
+        unassigned
+
+        a user from projects.
+
+
+        ### Organization authority:
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+        - `MEMBER`
+
+
+        ### Project authority:
+
+
+        - `EDITOR`
+      tags:
+        - Organization User
+        - Ready for implementation
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PatchOperation'
+        description: ''
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Unassigned organization user
+      operationId: delete-organizations-org_id-users-user_id
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: |-
+        Unassigned user from an organization and all organization projects.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      tags:
+        - Organization User
+        - Ready for implementation
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/projects:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      summary: Get organization projects
+      tags:
+        - Organization Project
+        - Ready for implementation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectsPage'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id-projects
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter projects by containing name
+        - schema:
+            type: string
+            pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          in: query
+          name: slug
+          description: Filter projects by slug
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field
+      description: |-
+        Get a list of organization projects.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - restricted to viewing only their assigned projects.
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a new project
+      tags:
+        - Organization Project
+        - Ready for implementation
+      operationId: post-organizations-org_id-projects
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectInfo'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: |-
+        Create a new project in the organization. 
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDetails'
+        description: >-
+          You can create an project provide name and slug. If the `slug` is not
+          provided, it will be generated from the `name`.
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/projects/{project_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/ProjectId'
+    get:
+      summary: Get project information
+      tags:
+        - Organization Project
+        - Ready for implementation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectProfile'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id-projects-project_id
+      description: |-
+        Get project information.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can get only his project.
+
+        ### Member authority:
+
+        - 'EDITOR'
+        - 'VIEWER'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update project
+      operationId: put-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectInfo'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDetails'
+      description: |-
+        Update project information.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority:
+
+        - `EDITOR`
+      tags:
+        - Organization Project
+        - Ready for implementation
+      security:
+        - BearerAuth: []
+    patch:
+      summary: Partial project update
+      operationId: patch-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectInfo'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PatchOperation'
+        description: ''
+      description: |-
+        Partial project update.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority:
+
+        - `EDITOR`
+      tags:
+        - Organization Project
+        - Ready for implementation
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete project
+      tags:
+        - Organization Project
+        - Ready for implementation
+      operationId: delete-organizations-org_id-projects-project_id
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: |-
+        Delete project.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/settings:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    get:
+      summary: '#TODO'
+      tags:
+        - In progress
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  retention_policy:
+                    $ref: '#/components/schemas/OrganizationRetentionPolicy'
+                  notification_policy:
+                    $ref: '#/components/schemas/OrganizationNotificationPolicy'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: 'Not Found: Organization not found.'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id-settings
+      description: '#TODO'
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/settings/{setting_name}:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - schema:
+          type: string
+          enum:
+            - retention-policy
+            - notification-policy
+        name: setting_name
+        in: path
+        required: true
+        description: Specific setting name
+    get:
+      summary: '#TODO'
+      tags:
+        - In progress
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/OrganizationRetentionPolicy'
+                  - $ref: '#/components/schemas/OrganizationNotificationPolicy'
+                description: '#TODO'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: 'Not Found: Organization or setting not found.'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      operationId: get-organizations-org_id-settings-setting_name
+      description: '#TODO'
+      security:
+        - BearerAuth: []
+    put:
+      summary: '#TODO'
+      operationId: put-organizations-org_id-settings-setting_name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 7uyn7ehgi6ovb
+              examples:
+                Retention policy:
+                  value:
+                    id: retention-policy
+                    status: SUCCESS
+                    description: Retention policy updated successfully.
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: '#TODO'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/OrganizationRetentionPolicy'
+                - $ref: '#/components/schemas/OrganizationNotificationPolicy'
+          application/xml:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/OrganizationRetentionPolicy'
+                - $ref: '#/components/schemas/OrganizationNotificationPolicy'
+      tags:
+        - In progress
+      security:
+        - BearerAuth: []
+    patch:
+      summary: '#TODO'
+      operationId: patch-organizations-org_id-settings-setting_name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: ic96azfhunvje
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/OrganizationRetentionPolicy'
+                - $ref: '#/components/schemas/OrganizationNotificationPolicy'
+      description: '#TODO'
+      tags:
+        - In progress
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/notification-rules:
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - In progress
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationNotifyRulesList'
+      operationId: get-organizations-org_id-notification-rules
+      description: '#TODO'
+      security:
+        - BearerAuth: []
+    post:
+      summary: '#TODO'
+      operationId: post-organizations-org_id-notification-rules
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationNotifyRule'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      description: '#TODO'
+      tags:
+        - In progress
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/notification-rules/{notify_rule_id}:
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: notify_rule_id
+        in: path
+        required: true
+    get:
+      summary: '#TODO'
+      tags:
+        - In progress
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationNotifyRule'
+      operationId: get-organizations-org_id-notifications-rules-rule_id
+      description: '#TODO'
+      security:
+        - BearerAuth: []
+    put:
+      summary: '#TODO'
+      operationId: put-organizations-org_id-notification-rules-notify_rule_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 925zkivx5dclj
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      description: '#TODO'
+      tags:
+        - In progress
+      security:
+        - BearerAuth: []
+    patch:
+      summary: '#TODO'
+      operationId: patch-organizations-org_id-notification-rules-notify_rule_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: 8maqxc1fpt87t
+      description: '#TODO'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      tags:
+        - In progress
+      security:
+        - BearerAuth: []
+    delete:
+      summary: '#TODO'
+      operationId: delete-organizations-org_id-notification-rules-notify_rule_id
+      responses:
+        '204':
+          description: No Content
+      description: '#TODO'
+      tags:
+        - In progress
+      security:
+        - BearerAuth: []
+  /organizations/searches:
+    post:
+      summary: Create search request for organizations
+      operationId: post-organizations-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProfilesPage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: >-
+        Create search request for organizations by provided criteria.
+
+
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `name` - filter by organization name.
+
+        - `slug` - filter by organization slug.
+
+        - `type` - filter by organization type.
+
+        - `created_at` - filter by creation date.
+
+        - `updated_at` - filter by last update date.
+
+        - `users` - filter by the number of users.
+
+        - `projects` - filter by the number of projects.
+
+        - `launches` - filter by the number of launches.
+
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaRQ'
+        description: ''
+      tags:
+        - Organization
+        - Ready for implementation
+      x-extension-authority:
+        - ReportPortal: User
+        - ReportPortal: Admin
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/projects/searches:
+    parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+    post:
+      summary: Create search request for organization projects
+      operationId: post-organizations-org_id-projects-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectsPage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      description: >-
+        Create search request for organization projects by provided criteria.
+
+
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `name` - filter by project name.
+
+        - `slug` - filter by project slug.
+
+        - `key` - filter by project key.
+
+        - `created_at` - filter by creation date.
+
+        - `updated_at` - filter by last update date.
+
+        - `users` - filter by the number of users.
+
+        - `launches` - filter by the number of launches.
+
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaRQ'
+      tags:
+        - Organization Project
+        - Ready for implementation
+      security:
+        - BearerAuth: []
+  /invitations:
+    post:
+      summary: Create user invitation
+      operationId: post-invitations
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    x-stoplight:
+                      id: nyz2ub0ckqzwg
+                    description: Invitation ID.
+                    format: uuid
+                  email:
+                    type: string
+                    x-stoplight:
+                      id: 4e3kd6gqnpfqr
+                    description: User's email.
+                  status:
+                    type: string
+                    x-stoplight:
+                      id: l0dc9yua5ja0q
+                    enum:
+                      - PENDING
+                      - ACTIVATED
+                    description: User invitations status.
+                  link:
+                    type: string
+                    x-stoplight:
+                      id: h9tid5irxqo33
+                    description: Link to invitation form.
+                  created_at:
+                    type: string
+                    x-stoplight:
+                      id: l855jzf5ll67m
+                    format: date-time
+                    description: Creation date.
+                  expires_at:
+                    type: string
+                    x-stoplight:
+                      id: hurbdmw60rvrh
+                    format: date-time
+                    description: Experation date.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '503':
+          description: Service Unavailable
+      description: Create and send user invitation to email.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  x-stoplight:
+                    id: ic3x2c322xsuj
+                  format: email
+                  description: Email for invitation.
+                organizations:
+                  type: array
+                  x-stoplight:
+                    id: uauk2noavwwpd
+                  description: Organizations to assign a user.
+                  items:
+                    $ref: '#/components/schemas/UserOrgInfo'
+                projects:
+                  type: array
+                  x-stoplight:
+                    id: 7zfxc93gf64j0
+                  description: Projects to assign a user.
+                  items:
+                    $ref: '#/components/schemas/UserProjectInfo'
+              required:
+                - email
+        description: ''
+      tags:
+        - Invitation
+      security:
+        - BearerAuth: []
+    get:
+      summary: Get invitations
+      operationId: get-invitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Offset'
+                  - $ref: '#/components/schemas/Invitations'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: email
+          in: query
+          name: sort
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: email
+      description: Get all invitations
+      tags:
+        - Invitation
+      security:
+        - BearerAuth: []
+  /invitations/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get invitation
+      tags:
+        - Invitation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      operationId: get-invitations-id
+      description: Get invitation by ID.
+      security:
+        - BearerAuth: []
+    put:
+      summary: Activate invitation
+      operationId: put-invitations-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    x-stoplight:
+                      id: 2vmx7f7syr7rp
+                    format: uuid
+                    description: Invitation ID.
+                  user_id:
+                    type: integer
+                    x-stoplight:
+                      id: ye1x2sikeh1hk
+                    format: int64
+                    description: Created user ID.
+                  email:
+                    type: string
+                    x-stoplight:
+                      id: w95fchyz41n9q
+                    format: email
+                    description: User email.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Create user from invitation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  x-stoplight:
+                    id: ky9i27qwv0cfy
+                  enum:
+                    - ACTIVATED
+                    - PENDING
+                  description: Change status to ACTIVATED to create a user.
+                  default: PENDING
+                email:
+                  type: string
+                  x-stoplight:
+                    id: haximyljirsne
+                  description: New email.
+                  format: email
+                full_name:
+                  type: string
+                  x-stoplight:
+                    id: de64w3j7jrzud
+                  description: User full name.
+                password:
+                  type: string
+                  x-stoplight:
+                    id: pznie81fmrstj
+                  format: password
+                  description: User password. Will be ignored for `PENDING` status.
+              required:
+                - password
+        description: ''
+      tags:
+        - Invitation
+      security:
+        - BearerAuth: []
+components:
+  schemas:
+    OrganizationProfilesPage:
+      title: OrganizationProfilesPage
+      x-stoplight:
+        id: i93u0nrum1v5d
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - $ref: '#/components/schemas/OrganizationProfilesList'
+    OrganizationProfilesList:
+      title: List of organization profiles
+      x-stoplight:
+        id: qhues3miswoao
+      properties:
+        items:
+          type: array
+          x-stoplight:
+            id: 7udfw4feoc516
+          items:
+            $ref: '#/components/schemas/OrganizationProfile'
+      type: object
+    OrganizationProfile:
+      title: Organization profile
+      x-stoplight:
+        id: lzs7p3khz8n9d
+      description: A comprehensive set of organization information.
+      allOf:
+        - $ref: '#/components/schemas/OrganizationInfo'
+        - $ref: '#/components/schemas/OrganizationRelation'
+    OrganizationInfo:
+      title: Organization
+      x-stoplight:
+        id: x7vdhfbeaz5pu
+      description: Various information about the organization information.
+      allOf:
+        - $ref: '#/components/schemas/OrganizationDetails'
+        - $ref: '#/components/schemas/OrganizationMetadata'
+    OrganizationDetails:
+      title: Organization definition
+      x-stoplight:
+        id: 2gyt1v3d2gfmm
+      description: >
+        Basic information provided by the client.
+
+
+        A `slug` is a unique identifying part of an organization. Generated
+        according to the organization name if not specified by the user.
+      type: object
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: dz5igu0m6iy9o
+          description: Organization display name.
+          minLength: 3
+          maxLength: 250
+        slug:
+          type: string
+          nullable: true
+          x-stoplight:
+            id: z8xex3cdkrzjz
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          minLength: 3
+          maxLength: 250
+          description: >-
+            A slug is used to identify a resource. It should be unique and
+            contain only lowercase letters, numbers, and hyphens. It should not
+            start or end with a hyphen.
+      required:
+        - name
+    OrganizationMetadata:
+      title: Organization metadata
+      x-stoplight:
+        id: 08jgykhqykh7b
+      description: Organization metadata. Represent generated fields.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Organization ReportPortal identifier.
+          minimum: 0
+        type:
+          type: string
+          x-stoplight:
+            id: 4nf6lordbrqag
+          enum:
+            - INTERNAL
+            - PERSONAL
+            - EXTERNAL
+          description: >-
+            Type for automatization purposes.
+
+
+            There are three types:
+
+            - INTERNAL: created by API request.
+
+            - PERSONAL: created for a user after the user creating. Only
+            Enterprise edition feature.
+
+            - EXTERNAL: created for external integrations.
+        external_id:
+          type: string
+          x-stoplight:
+            id: m0wvgkfndhpag
+          description: |-
+            External organization identifier.
+            It is created for integration.
+        created_at:
+          type: string
+          x-stoplight:
+            id: murxta40l19cz
+          format: date-time
+          description: Creation date.
+        updated_at:
+          type: string
+          x-stoplight:
+            id: wy58s9p7s4l81
+          format: date-time
+          description: Last update date.
+    OrganizationRelation:
+      title: Organization relations
+      x-stoplight:
+        id: mvjaoy2fofepj
+      type: object
+      description: >-
+        A relationship object contains members that represent a relationship of
+        the organization.
+
+
+        Represents [JSON:API relationships
+        object](https://jsonapi.org/format/#document-resource-object-relationships).
+        We use only `links` and `meta` objects.
+      properties:
+        relationships:
+          type: object
+          x-stoplight:
+            id: yg04s1g3jh6hv
+          properties:
+            users:
+              type: object
+              x-stoplight:
+                id: cpa37wk30kxvx
+              description: General information about the organization users.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: 51qv1trnu44je
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: b1ydil6hgddf0
+                      minimum: 0
+                      description: Total count of users in the organization.
+            projects:
+              type: object
+              x-stoplight:
+                id: swhkgx5x0ob26
+              description: General information about the organization projects.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: mmtw60hm0ykpc
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: itdaw7f7t6cy2
+                      minimum: 0
+                      description: Total count of projects in the organization.
+            launches:
+              type: object
+              x-stoplight:
+                id: yyim9qntk2t0n
+              description: General information about the organization launches.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: u1po8dndq7c8w
+                  properties:
+                    last_occurred_at:
+                      type: string
+                      x-stoplight:
+                        id: jfrvcl95jb302
+                      format: date-time
+                      description: Last launch occurrence date.
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: 2sqo1glg2ksei
+                      minimum: 0
+                      description: |-
+                        Total count of launches in the organization.
+                        Access: Admin, Manager
+            billing:
+              type: object
+              x-stoplight:
+                id: wboblz9c0y6xl
+              description: |-
+                General information about the organization billing.
+                Available only if a Billing plugin is enabled.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: gaxjw82c62g8k
+                  properties:
+                    plan_name:
+                      type: string
+                      x-stoplight:
+                        id: mo6pndjukp2hn
+                      description: Plan name.
+                    storage_usage:
+                      type: integer
+                      x-stoplight:
+                        id: mmfbygmjnhg7y
+                      minimum: 0
+                      description: Storage usage in percents.
+                      maximum: 100
+    OrganizationUsersPage:
+      title: List of organization users
+      x-stoplight:
+        id: 66kg4poe1y1gj
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - $ref: '#/components/schemas/OrganizationUsersList'
+    OrganizationUsersList:
+      title: OrganizationUsersList
+      x-stoplight:
+        id: gb5aqlrw1229a
+      type: object
+      properties:
+        items:
+          type: array
+          x-stoplight:
+            id: j8z1d5itvz11g
+          items:
+            $ref: '#/components/schemas/OrganizationUserInfo'
+      required:
+        - items
+    OrganizationUserInfo:
+      title: Organization user profile
+      x-stoplight:
+        id: mtgs7v0icru14
+      allOf:
+        - $ref: '#/components/schemas/UserAccountInfo'
+        - $ref: '#/components/schemas/OrganizationUserAttributes'
+        - $ref: '#/components/schemas/OrganizationUserMetadata'
+        - $ref: '#/components/schemas/OrganizationUserRelation'
+      description: >-
+        A comprehensive set of user information related to a user's
+        organization.
+    OrganizationUserDefinition:
+      title: Organization user definition
+      x-stoplight:
+        id: 0oor0xhjoj23w
+      description: Base information about user in organization.
+      type: object
+      properties:
+        email:
+          type: string
+          x-stoplight:
+            id: egt4wyym3bgvt
+          format: email
+          description: User email. Unique ID in an organization.
+    OrganizationUserAttributes:
+      title: Organization user details
+      x-stoplight:
+        id: 5nqrewxfku9tn
+      type: object
+      description: Basic information about a user in the organization.
+      properties:
+        organization_role:
+          type: string
+          x-stoplight:
+            id: 3v2e1cyby216c
+          enum:
+            - MEMBER
+            - MANAGER
+          description: Organization user role.
+      required:
+        - email
+        - organization_role
+    OrganizationUserMetadata:
+      title: Organization user metadata
+      x-stoplight:
+        id: g7a81q7nu3zgo
+      allOf:
+        - x-stoplight:
+            id: 3b9125n1gljg0
+          properties:
+            assigned_at:
+              type: string
+              x-stoplight:
+                id: a7gp7z7wei0p6
+              format: date-time
+              description: |-
+                A time when a user was assigned to
+                the organization.
+      description: User's organization metadata. Represent generated fields.
+      type: object
+    OrganizationUserRelation:
+      title: Organization user relations
+      x-stoplight:
+        id: 0v55lmrhzuy8t
+      type: object
+      description: >-
+        A relationship object contains members that represent a relationship of
+        the user in the organization.
+
+
+        Represents [JSON:API relationships
+        object](https://jsonapi.org/format/#document-resource-object-relationships).
+        We use only `links` and `meta` objects.
+      properties:
+        relationships:
+          type: object
+          x-stoplight:
+            id: myt7sbqk6iyz5
+          properties:
+            projects:
+              type: object
+              x-stoplight:
+                id: jijr6kx3dhi4n
+              description: User's projects relations.
+              properties:
+                meta:
+                  type: object
+                  x-stoplight:
+                    id: kh36jlb1u9opz
+                  description: User's projects relation metadata.
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: acpl46w380az0
+                      minimum: 0
+                      description: |-
+                        Total number of user's projects in
+                        organization.
+    OrganizationProjectsPage:
+      title: List of organization projects
+      x-stoplight:
+        id: enov9cs27yo63
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - $ref: '#/components/schemas/OrganizationProjectsList'
+    OrganizationProjectsList:
+      title: OrganizationProjectsList
+      x-stoplight:
+        id: tgmoax768epah
+      type: object
+      properties:
+        items:
+          type: array
+          x-stoplight:
+            id: gy6rp66c3r4ja
+          items:
+            $ref: '#/components/schemas/ProjectProfile'
+      required:
+        - items
+    OrganizationProjectInfo:
+      title: OrganizationProjectInfo
+      x-stoplight:
+        id: 252q8n6hgyymb
+      allOf:
+        - $ref: '#/components/schemas/ProjectMetadata'
+        - $ref: '#/components/schemas/ProjectDetails'
+    OrganizationRetentionPolicy:
+      title: Organization retention policy
+      x-stoplight:
+        id: vow5yfxq4xtdk
+      type: object
+      description: '#TODO'
+      properties:
+        log_retention_period:
+          type: string
+          x-stoplight:
+            id: yhc9oev3lzd3x
+          format: duration
+          description: '#TODO'
+        launch_retention_period:
+          type: string
+          x-stoplight:
+            id: hgbjw8baqr7pd
+          format: duration
+          description: '#TODO'
+        attachment_retention_period:
+          type: string
+          x-stoplight:
+            id: 64yf88vs0o6pu
+          format: duration
+          description: '#TODO'
+    OrganizationNotificationPolicy:
+      title: Organization notification policy
+      x-stoplight:
+        id: 7n3016fxay9mo
+      type: object
+      properties:
+        auto_notification:
+          type: boolean
+          x-stoplight:
+            id: zi73b396he1hp
+    OrganizationNotifyRulesList:
+      title: List of organization notification rules
+      x-stoplight:
+        id: w0439pq86z8fy
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          x-stoplight:
+            id: rj6ft52tz1vis
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: 2zs7yqid6u08a
+              items:
+                $ref: '#/components/schemas/OrganizationNotifyRule'
+      description: ''
+    OrganizationNotifyRule:
+      title: Organization notification rule
+      x-stoplight:
+        id: l4gmpbqm9o282
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            created_at:
+              type: string
+              x-stoplight:
+                id: wfur0bro7bnox
+              format: date-time
+            updated_at:
+              type: string
+              x-stoplight:
+                id: pcaygplw12pnq
+              format: date-time
+        - $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
+      description: '#TODO'
+    OrganizationNotifyRuleDefinition:
+      title: Notification rule definition
+      x-stoplight:
+        id: wzds6axw03vkv
+      type: object
+      description: '#TODO'
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: pej9yl51jj2rr
+          description: '#TODO'
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: eljifjwy0myo9
+          description: '#TODO'
+        conditions:
+          type: object
+          x-stoplight:
+            id: xiq7u96dbyi7c
+          description: '#TODO'
+          properties:
+            launch:
+              type: object
+              x-stoplight:
+                id: prbt6dqyptw5n
+              description: '#TODO'
+              properties:
+                names:
+                  type: array
+                  x-stoplight:
+                    id: oiz4yf9t3fujn
+                  description: '#TODO'
+                  items:
+                    x-stoplight:
+                      id: 764t84ztffx3b
+                    type: string
+                attributes:
+                  type: array
+                  x-stoplight:
+                    id: 2y9ubm1ighepk
+                  description: '#TODO'
+                  items:
+                    x-stoplight:
+                      id: hjehsaosi9oyp
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        x-stoplight:
+                          id: 0pxjhtsyoibrf
+                      value:
+                        type: string
+                        x-stoplight:
+                          id: vd9a65e08xtu1
+                attributes_operator:
+                  type: string
+                  x-stoplight:
+                    id: 0w8fcw4ufcncl
+                  enum:
+                    - AND
+                    - OR
+                  default: AND
+                  description: '#TODO'
+                result_condition:
+                  type: string
+                  x-stoplight:
+                    id: 1icft97s6w96o
+                  enum:
+                    - ALWAYS
+                    - FAILED
+                    - TO_INVESTIGATE
+                    - MORE_10
+                    - MORE_20
+                    - MORE_50
+                  description: '#TODO'
+        actions:
+          x-stoplight:
+            id: 5kl2r7880cz8x
+          allOf:
+            - $ref: '#/components/schemas/SendEmail'
+          description: '#TODO'
+    OrganizationPluginInfo:
+      title: Organization plugin info
+      x-stoplight:
+        id: f0p1ux5joqai3
+      type: object
+      description: '#TODO'
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: '#TODO'
+        name:
+          type: string
+          x-stoplight:
+            id: lxowtpinnxi2i
+          description: '#TODO'
+        description:
+          type: string
+          x-stoplight:
+            id: 5foc3fxle75f8
+          description: '#TODO'
+        version:
+          type: string
+          x-stoplight:
+            id: ewqbneodpbu0p
+          description: '#TODO'
+        groups:
+          type: array
+          x-stoplight:
+            id: 78va080k1m3sb
+          description: '#TODO'
+          items:
+            x-stoplight:
+              id: qtcmmsrnlarmj
+            type: string
+            enum:
+              - BTS
+              - NOTIFICATION
+              - OTHER
+              - AUTH
+        configured:
+          type: boolean
+          x-stoplight:
+            id: 4vy27s8wo5bwc
+          description: '#TODO'
+        configuration_type:
+          type: string
+          x-stoplight:
+            id: 65cxbgcmfxhq5
+          enum:
+            - SINGLE
+            - MULTIPLE
+          description: '#TODO'
+        created_at:
+          type: string
+          x-stoplight:
+            id: 83f3uddm8eenm
+          format: date-time
+          description: '#TODO'
+        assets:
+          type: object
+          x-stoplight:
+            id: i89uf139hm8wf
+          description: '#TODO'
+          properties:
+            icon:
+              type: string
+              x-stoplight:
+                id: cw8lbnlyjahri
+              default: plugin-icon.svg
+            main:
+              type: string
+              x-stoplight:
+                id: acbh0e2bjrti9
+            descriptor:
+              type: string
+              x-stoplight:
+                id: 2cknhgw03bsi3
+              default: metadata.json
+        links:
+          type: object
+          x-stoplight:
+            id: jx9xyfsbbbs9k
+          description: '#TODO'
+          properties:
+            source:
+              $ref: '#/components/schemas/Link'
+            documentation:
+              $ref: '#/components/schemas/Link'
+        commands:
+          type: object
+          x-stoplight:
+            id: 5jh368p3nqpdr
+          description: '#TODO'
+          properties:
+            common:
+              type: array
+              x-stoplight:
+                id: 4fd17ylx0o3vc
+              items:
+                x-stoplight:
+                  id: fpjdzs8czm0sz
+                type: string
+            allowed:
+              type: array
+              x-stoplight:
+                id: 0da3mv1exbd80
+              items:
+                x-stoplight:
+                  id: lndqx1s8gomqe
+                type: string
+        details:
+          type: object
+          x-stoplight:
+            id: carch0mzjh2dl
+          description: '#TODO Legasy'
+          properties:
+            meta:
+              type: object
+              x-stoplight:
+                id: ln7j1pvb10qm5
+              description: '#TODO'
+    OrganizationSearchCriteria:
+      title: Organization search criteria
+      x-stoplight:
+        id: drxq3elc1z77d
+      allOf:
+        - x-stoplight:
+            id: 89u53g8og5l72
+          properties:
+            sort:
+              type: string
+              x-stoplight:
+                id: m0fd3k09tsrgh
+              description: Field to define the sort field.
+              default: name
+            search_criteria:
+              type: array
+              x-stoplight:
+                id: 6ziu9u87tafut
+              items:
+                x-stoplight:
+                  id: suemb9qjah2wy
+                type: object
+                properties:
+                  filter_key:
+                    type: string
+                    x-stoplight:
+                      id: udhi6v0lp0c8f
+                    enum:
+                      - name
+                      - slug
+                      - type
+                      - created_at
+                      - updated_at
+                      - Organization User
+                      - Organization Project
+                      - launches
+                      - last_launch_occurred
+      description: >-
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `name` - filter by organization name.
+
+        - `slug` - filter by organization slug.
+
+        - `type` - filter by organization type.
+
+        - `created_at` - filter by creation date.
+
+        - `updated_at` - filter by last update date.
+
+        - `users` - filter by the number of users.
+
+        - `projects` - filter by the number of projects.
+
+        - `launches` - filter by the number of launches.
+
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      type: object
+    OrganizationProjectSearchCriteria:
+      title: Organization project search criteria
+      x-stoplight:
+        id: q2jdc59cgjt2i
+      allOf:
+        - x-stoplight:
+            id: bo5dkm7fkumbf
+          properties:
+            sort:
+              type: string
+              x-stoplight:
+                id: bmgm4vyy7l1td
+              description: Field to define the sort field.
+              default: name
+            search_criteria:
+              type: array
+              x-stoplight:
+                id: 8rznd35ks5bwm
+              items:
+                x-stoplight:
+                  id: al43f4acrsopv
+                type: object
+                properties:
+                  filter_key:
+                    type: string
+                    x-stoplight:
+                      id: dwoc58mjxkmql
+                    enum:
+                      - name
+                      - slug
+                      - key
+                      - created_at
+                      - updated_at
+                      - Organization User
+                      - launches
+                      - last_launch_occurred
+      description: >-
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `name` - filter by project name.
+
+        - `slug` - filter by project slug.
+
+        - `key` - filter by project key.
+
+        - `created_at` - filter by creation date.
+
+        - `updated_at` - filter by last update date.
+
+        - `users` - filter by the number of users.
+
+        - `launches` - filter by the number of launches.
+
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      type: object
+    Offset:
+      type: object
+      x-stoplight:
+        id: a779774cbed57
+      title: Offset-based
+      description: Offset-based pagination
+      properties:
+        offset:
+          type: integer
+          description: The offset used for this page of results.
+          minimum: 0
+          x-stoplight:
+            id: z9jg7o4fe4jkn
+          default: 0
+        limit:
+          type: integer
+          description: >-
+            The limit used for this page of results. This will be the same as
+            the limit query parameter unless it exceeded the maximum value
+            allowed for this API endpoint.
+          minimum: 0
+          x-stoplight:
+            id: i0krz9nwy1ndt
+          default: 300
+        total_count:
+          type: integer
+          description: >-
+            One greater than the offset of the last item in the entire
+            collection. The total number of items in the collection may be less
+            than total_count.
+          minimum: 0
+          x-stoplight:
+            id: e0em1vnu8tj4a
+        sort:
+          type: string
+          description: Field to define the sort field.
+          x-stoplight:
+            id: 7oyq1tomalge1
+        order:
+          type: string
+          description: To indicate sorting direction. Ascending or Descending.
+          enum:
+            - ASC
+            - DESC
+          x-stoplight:
+            id: 77qo4i7sq47x6
+      required:
+        - offset
+        - limit
+    Problem:
+      title: Problem
+      x-stoplight:
+        id: gyqkvejezmctb
+      type: object
+      description: >-
+        Problem Details for HTTP APIs [RFC
+        9457](https://tools.ietf.org/html/rfc9457).
+
+
+        A Problem JSON object uses the media type `application/problem+json`.
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: >
+            A URI reference that uniquely identifies the problem type only in
+            the context of the provided API. Opposed to the specification in
+            RFC-9457, it is neither recommended to be dereferenceable and point
+            to a human-readable documentation nor globally unique for the
+            problem type.
+          default: about:blank
+          example: /problems/user-authorization-failed
+        title:
+          type: string
+          description: >
+            A short summary of the problem type. Written in English and readable
+            for engineers, usually not suited for non technical stakeholders and
+            not localized.
+          example: some title for the error situation
+        status:
+          type: integer
+          format: int32
+          description: >
+            The HTTP status code generated by the origin server for this
+            occurrence of the problem.
+          minimum: 100
+          exclusiveMaximum: true
+          maximum: 600
+        detail:
+          type: string
+          description: >
+            A human readable explanation specific to this occurrence of the
+            problem that is helpful to locate the problem and give advice on how
+            to proceed. Written in English and readable for engineers, usually
+            not suited for non technical stakeholders and not localized.
+          example: some description for the error situation
+        instance:
+          type: string
+          format: uri-reference
+          description: >
+            A URI reference that identifies the specific occurrence of the
+            problem, e.g. by adding a fragment identifier or sub-path to the
+            problem type. May be used to locate the root of this problem in the
+            source code.
+          example: /some/uri-reference#specific-occurrence-context
+    UserDetails:
+      title: User details
+      x-stoplight:
+        id: tmzoufzfy8v9g
+      description: |-
+        Contains details associated with a user account.
+
+        User has a unique email address, full name, and account type.
+
+        Account type can be either `ADMIN` or `USER`.
+        Only `ADMIN` users have access to change account type.
+      type: object
+      properties:
+        email:
+          type: string
+          x-stoplight:
+            id: anq98fsmeahvn
+          format: email
+          description: User email.
+        full_name:
+          type: string
+          x-stoplight:
+            id: t3xotuhofwfex
+          description: User full name.
+        instance_role:
+          type: string
+          x-stoplight:
+            id: 7xz0ez36bzmr7
+          enum:
+            - ADMINISTRATOR
+            - USER
+          description: Instance account role.
+        external_id:
+          type: string
+          x-stoplight:
+            id: raenftb30iv9g
+          description: User external identifier. Provided by external systems.
+    UserMetadata:
+      title: User metadata
+      x-stoplight:
+        id: wh4m94b2ezx0i
+      type: object
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: g3b344eju3s69
+          format: int64
+          description: User internal identifier.
+          minimum: 0
+        uuid:
+          type: string
+          x-stoplight:
+            id: 4fzct3bw5hgq0
+          format: uuid
+          description: User ID for external systems.
+        created_at:
+          type: string
+          x-stoplight:
+            id: j6yblknliqi00
+          format: date-time
+          description: When user's account was created.
+        updated_at:
+          type: string
+          x-stoplight:
+            id: 88lji1tkyif14
+          format: date-time
+          description: When user's data was modifed.
+        last_login_at:
+          type: string
+          x-stoplight:
+            id: 9426kkbzmqjvl
+          format: date-time
+          description: When user last logged in.
+        auth_provider:
+          type: string
+          x-stoplight:
+            id: sc109ps2wkpma
+          description: |-
+            Indicates through which service or
+            authentication method the user account
+            was created.
+          enum:
+            - INTERNAL
+            - UPSA
+            - GITHUB
+            - LDAP
+            - SAML
+            - SCIM
+          default: INTERNAL
+    UserAccountInfo:
+      title: User account info
+      x-stoplight:
+        id: 2a6cm6zrojhcx
+      allOf:
+        - $ref: '#/components/schemas/UserDetails'
+        - $ref: '#/components/schemas/UserMetadata'
+    UserProjectInfo:
+      title: User's project details
+      x-stoplight:
+        id: c6ouurwz290zv
+      description: Information about user's project.
+      type: object
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: f7stmdjdqi95y
+          format: int64
+          description: Project internal identifier.
+          minimum: 0
+        role:
+          type: string
+          x-stoplight:
+            id: 7d5t0rz75oa6r
+          description: User role in the project.
+          enum:
+            - EDITOR
+            - VIEWER
+          default: VIEWER
+    UserProjectsList:
+      title: UserProjectsList
+      x-stoplight:
+        id: 5vazl0johqipq
+      type: object
+      properties:
+        items:
+          type: array
+          x-stoplight:
+            id: sh128r9a06uup
+          items:
+            $ref: '#/components/schemas/UserProjectInfo'
+            x-stoplight:
+              id: h4hbr8k0t6o9r
+    EventStatus:
+      title: Event status
+      x-stoplight:
+        id: c0yfyurojnb6b
+      type: object
+      description: |-
+        Event status object used to represent the status of a request item in
+        bulk operations.
+      properties:
+        href:
+          type: string
+          description: Identifier of a request item.
+          x-stoplight:
+            id: u5ug6x5ctzd7m
+        status:
+          type: object
+          x-stoplight:
+            id: axzjwb9ccdqd8
+          description: |-
+            Object indicating the execution status of
+            the request item.
+          properties:
+            code:
+              type: integer
+              format: int32
+              description: HTTP status code indicating the resource's status.
+              minimum: 100
+              exclusiveMaximum: true
+              maximum: 600
+            description:
+              type: string
+              x-stoplight:
+                id: a9ble11ota6w5
+              description: |-
+                Human readable status description and containing additional
+                              context information about failures etc.
+      required:
+        - href
+        - status
+    Multistatus:
+      title: Multistatus
+      x-stoplight:
+        id: 6uocv3wqiqrwa
+      type: object
+      properties:
+        multistatus:
+          type: object
+          x-stoplight:
+            id: 8i6t8gjzlvanr
+          properties:
+            responses:
+              type: array
+              x-stoplight:
+                id: iv8193pqab64f
+              items:
+                $ref: '#/components/schemas/EventStatus'
+                x-stoplight:
+                  id: 2usewo5a31tz5
+    PatchObject:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: object
+    PatchArrayString:
+      title: Patch Operation Array String
+      x-stoplight:
+        id: d614d2be9ebdb
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+          x-stoplight:
+            id: 20f5tsppjjhsm
+        path:
+          type: string
+          x-stoplight:
+            id: db193eru0e161
+        value:
+          type: array
+          items:
+            x-stoplight:
+              id: cv61qvzqnvn3w
+            type: string
+          x-stoplight:
+            id: 9wooz0egvl1p5
+    PatchString:
+      title: Patch Operation String
+      type: object
+      properties:
+        op:
+          type: string
+          x-stoplight:
+            id: 438vvzs5l3sya
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+          x-stoplight:
+            id: 7qpaq74pqkz5i
+        value:
+          type: string
+          x-stoplight:
+            id: ri5btf8olbgn0
+    PatchNumber:
+      title: Patch Operation Number
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: number
+    PatchInteger:
+      title: Patch Operation Integer
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: integer
+    PatchBoolean:
+      title: Patch Operation Boolean
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: boolean
+    PatchOperation:
+      title: Patch Operation Object
+      x-stoplight:
+        id: f5feb86f13676
+      oneOf:
+        - $ref: '#/components/schemas/PatchObject'
+        - $ref: '#/components/schemas/PatchArrayString'
+        - $ref: '#/components/schemas/PatchString'
+        - $ref: '#/components/schemas/PatchNumber'
+        - $ref: '#/components/schemas/PatchInteger'
+        - $ref: '#/components/schemas/PatchBoolean'
+      description: ''
+    ProjectMetadata:
+      title: Project metadata
+      x-stoplight:
+        id: ii9cdfjnv5vqk
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Project internal identifier.
+          format: int64
+          minimum: 0
+        key:
+          type: string
+          x-stoplight:
+            id: 9up0sba6ni0se
+          description: |-
+            Unique identifying part of a project in
+            an instance.
+            Generated from an organization
+            slug and project slug.
+        organization_id:
+          type: integer
+          x-stoplight:
+            id: yeosbd661wv1h
+          format: int64
+          description: Organization ID to which the project belongs.
+          minimum: 0
+        created_at:
+          type: string
+          x-stoplight:
+            id: jvvpxawexlff9
+          format: date-time
+          description: Timestamp when project was created.
+        updated_at:
+          type: string
+          x-stoplight:
+            id: 16yiiuxiokhiu
+          format: date-time
+          description: Timestamp when project was last updated.
+    ProjectDetails:
+      title: Project details
+      x-stoplight:
+        id: 8xas9tgve4cfk
+      type: object
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: ia7sekdpu4yac
+          description: Display project name.
+          minLength: 3
+          maxLength: 250
+        slug:
+          type: string
+          x-stoplight:
+            id: 3uwa9dicxhmyl
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          minLength: 3
+          maxLength: 250
+          nullable: true
+      required:
+        - name
+    ProjectRelationships:
+      title: Project relationships
+      x-stoplight:
+        id: 86aiedn8tx1m5
+      type: object
+      properties:
+        relationships:
+          type: object
+          x-stoplight:
+            id: n09w3z0r6xsd1
+          properties:
+            users:
+              type: object
+              x-stoplight:
+                id: rl9rn3uem2lqr
+              description: Users assigned to the project.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: wx82090xc31qx
+                      minimum: 0
+                      description: Total number of users assigned to the project.
+            launches:
+              type: object
+              x-stoplight:
+                id: hgjhfk60prehs
+              description: Launches associated with the project.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    last_occurred_at:
+                      type: string
+                      x-stoplight:
+                        id: gbpfmzgfwob1f
+                      description: >-
+                        The date and time of the last launch occurred in the
+                        project.
+                      format: date-time
+                    count:
+                      type: integer
+                      x-stoplight:
+                        id: iluhtnz0tgvi9
+                      minimum: 0
+                      description: Total number of launches in the project.
+            billing:
+              type: object
+              x-stoplight:
+                id: 379ot3sc3y00i
+              description: >-
+                Billing information of the project. Available only if the
+                billing plugin is enabled.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    storage_usage:
+                      type: integer
+                      x-stoplight:
+                        id: sey5prxc3ttr1
+                      minimum: 0
+                      maximum: 100
+                      description: The percentage of storage used by the project.
+      description: Information about the relationships of a project.
+    ProjectProfile:
+      title: Project profile
+      x-stoplight:
+        id: ur5ebd3h35b5c
+      allOf:
+        - $ref: '#/components/schemas/ProjectMetadata'
+          x-stoplight:
+            id: cz6tkmovoyd1t
+        - $ref: '#/components/schemas/ProjectDetails'
+          x-stoplight:
+            id: dxkywu7gqez1o
+        - $ref: '#/components/schemas/ProjectRelationships'
+          x-stoplight:
+            id: 6r9hh7ghbeiby
+      description: Comprehensive information about a project.
+    SendEmail:
+      title: Send email
+      x-stoplight:
+        id: xoejj8r69bn6v
+      type: object
+      description: This action sends an email notification to specified recipients.
+      properties:
+        send_email:
+          type: object
+          x-stoplight:
+            id: 4xboe08wgwq4e
+          properties:
+            recipients:
+              type: array
+              x-stoplight:
+                id: 9b466jl0rrifs
+              format: email
+              items:
+                x-stoplight:
+                  id: ktbfxcl3noef5
+                type: string
+                format: email
+            subject:
+              type: string
+              x-stoplight:
+                id: epnthaasf0t2f
+            body:
+              type: string
+              x-stoplight:
+                id: oeg15tp6q5lxr
+    OffsetRequest:
+      type: object
+      x-stoplight:
+        id: 71ure2mgodfq8
+      title: Offset-based
+      description: Offset-based pagination
+      properties:
+        offset:
+          type: integer
+          description: The offset used for this page of results.
+          minimum: 0
+          x-stoplight:
+            id: asw47fvjqbqwh
+          default: 0
+        limit:
+          type: integer
+          description: >-
+            The limit used for this page of results. This will be the same as
+            the limit query parameter unless it exceeded the maximum value
+            allowed for this API endpoint.
+          minimum: 0
+          x-stoplight:
+            id: ms6zvx3v6sotu
+          default: 300
+        sort:
+          type: string
+          description: Field to define the sort field.
+          x-stoplight:
+            id: gbh6joti5vtd4
+        order:
+          type: string
+          description: To indicate sorting direction. Ascending or Descending.
+          enum:
+            - ASC
+            - DESC
+          x-stoplight:
+            id: 2zqygjyvs2pe3
+          default: ASC
+    SearchCriteria:
+      title: Search criteria
+      x-stoplight:
+        id: i6aljjkxukm9y
+      type: object
+      properties:
+        search_criteria:
+          type: array
+          x-stoplight:
+            id: u3myifpqu9rf0
+          items:
+            x-stoplight:
+              id: v582q6e23t046
+            type: object
+            properties:
+              filter_key:
+                type: string
+                description: search by field
+              operation:
+                type: string
+                enum:
+                  - EQ
+                  - NE
+                  - CNT
+                  - NON_CNT
+                  - BTW
+                  - IN
+                description: operation to perform for the filter
+              value:
+                type: string
+                description: search value
+    SearchCriteriaRQ:
+      title: SearchCriteria
+      x-stoplight:
+        id: t2qqu472qp1n1
+      allOf:
+        - $ref: '#/components/schemas/OffsetRequest'
+        - $ref: '#/components/schemas/SearchCriteria'
+          x-stoplight:
+            id: cviawqeexj19h
+    Link:
+      title: Hypermedia Link
+      x-stoplight:
+        id: 0acnclxpqv8m3
+      type: object
+      description: >-
+        Allows clients to dynamically follow the hypermedia links to quickly
+        navigate to the relevant resources.
+
+
+        Uses for Hypermedia as the Engine of Application State (HATEOAS).
+
+
+        Represents the [JSON:API link
+        object](https://jsonapi.org/format/#auto-id--link-objects) and accepts
+        `Web linking` as the de-facto datamodel.
+      properties:
+        href:
+          type: string
+          x-stoplight:
+            id: ntmqhhrrepqgz
+          format: uri
+          description: The target resource URI reference.
+        rel:
+          type: string
+          x-stoplight:
+            id: wp97no7q9ua6m
+          description: >-
+            The link relation type describes how the current context is related
+            to the target resource.
+      required:
+        - href
+    Invitation:
+      title: Invitation
+      x-stoplight:
+        id: sndwfqza5siyf
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: aln8qbo8x7saz
+          description: Invitation ID.
+          format: uuid
+        email:
+          type: string
+          x-stoplight:
+            id: o53tk2foylb19
+          description: User's email.
+        status:
+          type: string
+          x-stoplight:
+            id: zbeykeqxyun04
+          enum:
+            - PENDING
+          description: User invitations status.
+        link:
+          type: string
+          x-stoplight:
+            id: le5luawcsm4hu
+          description: Link to invitation form.
+        created_at:
+          type: string
+          x-stoplight:
+            id: gh5ekuu0r1b3d
+          format: date-time
+          description: Creation date.
+        expires_at:
+          type: string
+          x-stoplight:
+            id: g5hvummebvs8d
+          format: date-time
+          description: Experation date.
+    Invitations:
+      title: InvitationsList
+      x-stoplight:
+        id: k43c1dj2mgfhv
+      type: object
+      properties:
+        items:
+          type: array
+          x-stoplight:
+            id: x6xvvffcs8w8s
+          items:
+            $ref: '#/components/schemas/Invitation'
+    UserOrgInfo:
+      title: User's organization details
+      x-stoplight:
+        id: 86wft5rp6je7f
+      type: object
+      description: Information about user's organization.
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Organization internal identifier.
+        role:
+          type: string
+          x-stoplight:
+            id: 1cvs3j3mv3rdw
+          enum:
+            - MEMBER
+            - MANAGER
+          default: MEMBER
+          description: User role in the organization.
+  parameters:
+    OrganizationId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Organization identifier
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: User identifier
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Project identifier
+    Offset:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 0
+      description: The offset used for this page of results
+    Limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 300
+      description: >-
+        The limit used for this page of results. This will be the same as the
+        limit query parameter unless it exceeded the maximum value allowed for
+        this API endpoint
+    Order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
+        default: ASC
+      description: Indicate sorting direction
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token for authentication

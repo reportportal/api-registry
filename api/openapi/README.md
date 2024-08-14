@@ -1,0 +1,62 @@
+# OpenAPI Specification for ReportPortal API
+
+This directory contains the OpenAPI specification. The specification includes:
+
+- `endpoints` - the directory containing the OpenAPI specifications grouped by logical endpoints.
+  - `organization` - the directory containing the OpenAPI specification for the organization endpoints.
+  - `users` - the directory containing the OpenAPI specification for the users endpoints.
+- `models` - the directory containing the OpenAPI shared models.
+- `parameters` - the directory containing the OpenAPI shared parameters.
+- `security` - the directory containing the OpenAPI security definitions.
+
+All endpoints use shared models, security definitions and parameters.
+However, each endpoint may have its own specific models, security definitions and parameters.
+
+## Lint, join and bundle
+
+This project user Redocly CLI to lint, join and bundle the OpenAPI specification.
+
+You can use make commands to lint, join and bundle the OpenAPI specification.
+
+Lint specification file `file.yaml`.
+By default, the file is `api/openapi/reportportal-api.yaml`.
+```bash
+make lint file=file.yaml
+```
+
+Lint all endpoints.
+```bash
+make lint-all
+```
+
+Bundle specification file `file.yaml` into `build/openapi/file.yaml`.
+By default, the file is `api/openapi/reportportal-api.yaml`.
+```bash
+make bundle file=file.yaml
+```
+
+Bundle all endpoints into directory `build/openapi/`.
+```bash
+make bundle-all
+```
+
+Join all endpoints into one file `api/openapi/reportportal-api.yaml`.
+```bash
+make join
+```
+
+## Use common tags
+
+There are common tags that are used in all endpoints for managing the status of the endpoint:
+
+```yaml
+tags:
+  - name: In progress
+    description: Endpoints that are in designing
+  - name: Ready for implementation
+    description: Endpoints that are ready for development
+  - name: Implemented
+    description: Endpoints that are implemented
+```
+
+You mast use this tags as a secondary tag for each endpoint.

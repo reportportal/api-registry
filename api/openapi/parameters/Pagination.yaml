@@ -1,0 +1,26 @@
+Offset:
+  name: offset
+  in: query
+  required: false
+  schema:
+    type: integer
+    default: 0
+  description: The offset used for this page of results
+Limit:
+  name: limit
+  in: query
+  required: false
+  schema:
+    type: integer
+    default: 300
+  description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint
+Order:
+  name: order
+  in: query
+  schema:
+    type: string
+    enum:
+      - ASC
+      - DESC
+    default: ASC
+  description: Indicate sorting direction
