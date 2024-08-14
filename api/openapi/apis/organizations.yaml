@@ -1826,8 +1826,6 @@ components:
           description: '#TODO'
     OrganizationSearchCriteria:
       title: Organization search criteria
-      x-stoplight:
-        id: drxq3elc1z77d
       allOf:
         - x-stoplight:
             id: 89u53g8og5l72
@@ -1876,8 +1874,6 @@ components:
       type: object
     OrganizationProjectSearchCriteria:
       title: Organization project search criteria
-      x-stoplight:
-        id: q2jdc59cgjt2i
       allOf:
         - x-stoplight:
             id: bo5dkm7fkumbf
