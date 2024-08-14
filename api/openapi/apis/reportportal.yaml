@@ -206,7 +206,7 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Activity'
-  '/v1/project/{project_name}/suggestions':
+  '/v1/project/{project_name}/activities/suggestions':
     get:
       summary: Get project suggestions
       tags:
@@ -225,7 +225,7 @@ paths:
                         type: array
                         x-stoplight:
                           id: j4b0g6yz7qzhk
-                        description: List of suggestions for the project
+                        description: List of activities suggestions for the project by type.
                         items:
                           x-stoplight:
                             id: xw9kqvns5x1uk
@@ -238,11 +238,10 @@ paths:
         - schema:
             type: string
             enum:
-              - activity_subject_name
+              - subject_name
           in: query
           name: type
           description: Type of suggestions
-          required: true
         - schema:
             type: string
           in: query
@@ -251,12 +250,14 @@ paths:
         - schema:
             type: integer
           in: query
-          name: limits
+          name: limit
           description: Maximum number of suggestions
       description: |-
-        Get project suggestions by type for autocomplete.
+        Get project activities suggestions by type for autocomplete.
         Supported types:
-        - activity_subject_name: Get suggestions for activity subject names in the project.
+        - subject_name: Get suggestions for activity subject names in the project.
+
+        If the type isn't provided or provided incorrectly, you get a 404 error. 
     parameters:
       - schema:
           type: string
