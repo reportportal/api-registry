@@ -25,6 +25,14 @@ jobs:
         run: |
           make join
 
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add api/openapi/reportportal-api.yaml
+          git commit -m "Update reportportal-api.yaml"
+          git push
+
       - name: Bundle OpenAPI
         run: |
           make bundle
