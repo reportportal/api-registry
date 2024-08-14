@@ -2,7 +2,7 @@ lint:
 	npx @redocly/cli@latest lint api/openapi/$(file)
 
 lint-all:
-	npx @redocly/cli@latest lint api/openapi/endpoints/*.yaml
+	npx @redocly/cli@latest lint api/openapi/apis/*.yaml
 
 bundle:
 	npx @redocly/cli@latest bundle api/openapi/$(file) \
@@ -10,14 +10,14 @@ bundle:
 		--remove-unused-components
 
 bundle-all:
-	npx @redocly/cli@latest bundle api/openapi/endpoints/*.yaml \
+	npx @redocly/cli@latest bundle api/openapi/apis/*.yaml \
 		-o "build/openapi/" \
 		--dereferenced \
 		--remove-unused-components
 
 join:
 	npx @redocly/cli@latest join \
-		api/openapi/endpoints/organizations.yaml \
-		api/openapi/endpoints/users.yaml \
+		api/openapi/apis/organizations.yaml \
+		api/openapi/apis/users.yaml \
 		-o api/openapi/reportportal-api.yaml \
 		--without-x-tag-groups 

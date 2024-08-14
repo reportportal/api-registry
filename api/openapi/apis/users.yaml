@@ -151,6 +151,12 @@ paths:
       description: Get all invitations
       tags:
         - Invitation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
   '/invitations/{id}':
     parameters:
       - schema:
