@@ -48,30 +48,15 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 .
 ├── api
 │   ├── openapi
-│   │   ├── models
-│   │   │   └── model.yaml
-│   │   └── api-references.yaml
 │   └── proto
-│       ├── buf.md
-│       ├── buf.yaml
-│       └── reportportal
-│           ├── common
-│           │   ├── v1
-│           │   │   └── types.proto
-│           │   └── v2
-│           └── reporting (domain)
-│               ├── v1
-│               │   └── reporting.proto
-│               └── v2
 ├── docs
+├── gradle
 ├── src
-│   └── build
 └── templates
 ```
 
 - [api](/api/) - root catalog for Report Portal Interface Definitions
 - [openapi](/apis/openapi/) - contains OpenAPI Specification for Report Portal APIs
-  - [models](/apis/openapi/models/) - contains shared models for all Report Portal APIs
 - [proto](/apis/proto/) - contains gRPC definitions for Report Portal services and types
   - [common](/apis/proto/reportportal/common/) - contains common types for all Report Portal gRPC services
   - [reporting](/apis/proto/reportportal/reporting/) - contains gRPC definitions for domain specific
