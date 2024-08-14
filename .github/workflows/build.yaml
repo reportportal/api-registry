@@ -1,4 +1,4 @@
-name: build
+name: Generate Protobuf Code
 
 on: workflow_dispatch
 
