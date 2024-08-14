@@ -1,0 +1,52 @@
+openapi: 3.0.3
+
+info:
+  title: ReportPortal API
+  version: 5-Organization
+  description: |
+    ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
+
+    This is the API documentation for ReportPortal. We describe this documentation
+    following our [API Principles](https://github.com/reportportal/reportportal-common-api/blob/main/docs/api-principles.md)
+    and [RESTful API Guidelines](https://opensource.zalando.com/restful-api-guidelines/).
+
+    Because this documentation is created according to the
+    [API design first approach](https://swagger.io/resources/articles/adopting-an-api-first-approach/),
+    it doesn't contain information about all existing endpoints. There are only pre-designed endpoints.
+    If you want to see the full documentation, you can check
+    the [Auto-generated API documentation](https://reportportal.io/docs/category/api/service-api).
+
+    # Introduction
+
+    ReportPortal is a service for continuous testing.
+    It provides a platform for test automation and allows you to analyze
+    the results of tests in various ways. The service is implemented as a web
+    application and is available through a web interface or API.
+
+    # Authentication
+
+    ReportPortal uses the [JWT](https://jwt.io/) authentication protocol for UI client requests and
+    the [API Key](https://reportportal.io/docs/reportportal-configuration/HowToGetAnAccessTokenInReportPortal/#2-authorization-with-users-api-key-for-agents)
+    for agent requests.
+
+    Both approaches use the same security scheme: `Bearer`.
+  contact:
+    name: ReportPortal Team
+    email: support@reportportal.io
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+paths: {}
