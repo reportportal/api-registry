@@ -3,11 +3,11 @@ name: OpenAPI Build
 on:
   push:
     paths:
-      - 'api/openapi/apis/**'
+      - 'api/openapi/**'
+      - '!api/openapi/README.md'
 
 jobs:
   build:
-    name: OpenAPI Build
     runs-on: ubuntu-latest
     container: node:21
     steps:
