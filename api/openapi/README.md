@@ -14,38 +14,43 @@ However, each endpoint may have its own specific models, security definitions an
 
 ## Lint, join and bundle
 
-This project user Redocly CLI to lint, join and bundle the OpenAPI specification.
-
+This project user [Redocly CLI](https://github.com/Redocly/redocly-cli) to lint,
+join and bundle the OpenAPI specification.
 You can use make commands to lint, join and bundle the OpenAPI specification.
+
+Join all endpoints into one file `api/openapi/reportportal-api.yaml`.
+
+```bash
+make join
+```
 
 Lint specification file `file.yaml`.
 By default, the file is `api/openapi/reportportal-api.yaml`.
+
 ```bash
 make lint file=file.yaml
 ```
 
 Lint all endpoints.
+
 ```bash
 make lint-all
 ```
 
 Bundle specification file `file.yaml` into `build/openapi/file.yaml`.
 By default, the file is `api/openapi/reportportal-api.yaml`.
+
 ```bash
 make bundle file=file.yaml
 ```
 
 Bundle all endpoints into directory `build/openapi/`.
+
 ```bash
 make bundle-all
 ```
 
-Join all endpoints into one file `api/openapi/reportportal-api.yaml`.
-```bash
-make join
-```
-
-## Use common tags
+## Common tags for development status
 
 There are common tags that are used in all endpoints for managing the status of the endpoint:
 
