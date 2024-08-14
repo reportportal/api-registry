@@ -3,7 +3,7 @@ name: OpenAPI Build
 on:
   push:
     paths:
-      - api/openapi/apis/
+      - 'api/openapi/apis/**'
 
 jobs:
   build:
