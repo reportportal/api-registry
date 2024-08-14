@@ -1,12 +1,14 @@
+file ?= reportportal-api.yaml
+
 lint:
-	npx @redocly/cli@latest lint api/openapi/$(file)
+	npx @redocly/cli@latest lint --lint-config=error api/openapi/$(file)
 
 lint-all:
 	npx @redocly/cli@latest lint api/openapi/apis/*.yaml
 
 bundle:
 	npx @redocly/cli@latest bundle api/openapi/$(file) \
-		-o "api/openapi/bundles/$(file)" \
+		-o "build/openapi/$(file)" \
 		--remove-unused-components
 
 bundle-all:

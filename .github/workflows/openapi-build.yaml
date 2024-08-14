@@ -3,7 +3,7 @@ name: OpenAPI Build
 on:
   push:
     paths:
-      - api/openapi/*.yaml
+      - api/openapi/apis/
 
 jobs:
   build:
@@ -17,34 +17,20 @@ jobs:
       - name: Configurate Git Safe Directory
         run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
 
-      - name: Create OpenAPI bundles directory
-        run: mkdir -p bundles/
-
-      - name: Determine changed OpenAPI files
-        id: changed_files
-        uses: dorny/paths-filter@v3
-        with:
-          list-files: shell
-          filters: |
-            openapi:
-              - 'api/openapi/*.yaml'
-
       - name: Verify OpenAPI
-        if: steps.changed_files.outputs.openapi == 'true'
         run: |
-          echo "${{ steps.changed_files.outputs.openapi_files }}" | xargs -n 1 | while read FILE; do
-            npx @redocly/cli@latest lint --lint-config=error "$FILE"
-          done
+          make lint-all
+
+      - name: Update main specification
+        run: |
+          make join
 
       - name: Bundle OpenAPI
-        if: steps.changed_files.outputs.openapi == 'true'
         run: |
-          echo "${{ steps.changed_files.outputs.openapi_files }}" | xargs -n 1 | while read FILE; do
-            npx @redocly/cli@latest bundle "$FILE" -d -o bundles/$(basename "$FILE")
-          done
+          make bundle
 
       - name: Upload OpenAPI bundles as artifacts
         uses: actions/upload-artifact@v3
         with:
           name: openapi-bundles
-          path: bundles/
+          path: build/openapi/

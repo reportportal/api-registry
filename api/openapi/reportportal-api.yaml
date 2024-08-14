@@ -1580,6 +1580,12 @@ paths:
       description: Get all invitations
       tags:
         - Invitation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
       security:
         - BearerAuth: []
   /invitations/{id}:
@@ -2214,129 +2220,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/SendEmail'
           description: '#TODO'
-    OrganizationPluginInfo:
-      title: Organization plugin info
-      x-stoplight:
-        id: f0p1ux5joqai3
-      type: object
-      description: '#TODO'
-      properties:
-        id:
-          type: integer
-          format: int64
-          minimum: 0
-          description: '#TODO'
-        name:
-          type: string
-          x-stoplight:
-            id: lxowtpinnxi2i
-          description: '#TODO'
-        description:
-          type: string
-          x-stoplight:
-            id: 5foc3fxle75f8
-          description: '#TODO'
-        version:
-          type: string
-          x-stoplight:
-            id: ewqbneodpbu0p
-          description: '#TODO'
-        groups:
-          type: array
-          x-stoplight:
-            id: 78va080k1m3sb
-          description: '#TODO'
-          items:
-            x-stoplight:
-              id: qtcmmsrnlarmj
-            type: string
-            enum:
-              - BTS
-              - NOTIFICATION
-              - OTHER
-              - AUTH
-        configured:
-          type: boolean
-          x-stoplight:
-            id: 4vy27s8wo5bwc
-          description: '#TODO'
-        configuration_type:
-          type: string
-          x-stoplight:
-            id: 65cxbgcmfxhq5
-          enum:
-            - SINGLE
-            - MULTIPLE
-          description: '#TODO'
-        created_at:
-          type: string
-          x-stoplight:
-            id: 83f3uddm8eenm
-          format: date-time
-          description: '#TODO'
-        assets:
-          type: object
-          x-stoplight:
-            id: i89uf139hm8wf
-          description: '#TODO'
-          properties:
-            icon:
-              type: string
-              x-stoplight:
-                id: cw8lbnlyjahri
-              default: plugin-icon.svg
-            main:
-              type: string
-              x-stoplight:
-                id: acbh0e2bjrti9
-            descriptor:
-              type: string
-              x-stoplight:
-                id: 2cknhgw03bsi3
-              default: metadata.json
-        links:
-          type: object
-          x-stoplight:
-            id: jx9xyfsbbbs9k
-          description: '#TODO'
-          properties:
-            source:
-              $ref: '#/components/schemas/Link'
-            documentation:
-              $ref: '#/components/schemas/Link'
-        commands:
-          type: object
-          x-stoplight:
-            id: 5jh368p3nqpdr
-          description: '#TODO'
-          properties:
-            common:
-              type: array
-              x-stoplight:
-                id: 4fd17ylx0o3vc
-              items:
-                x-stoplight:
-                  id: fpjdzs8czm0sz
-                type: string
-            allowed:
-              type: array
-              x-stoplight:
-                id: 0da3mv1exbd80
-              items:
-                x-stoplight:
-                  id: lndqx1s8gomqe
-                type: string
-        details:
-          type: object
-          x-stoplight:
-            id: carch0mzjh2dl
-          description: '#TODO Legasy'
-          properties:
-            meta:
-              type: object
-              x-stoplight:
-                id: ln7j1pvb10qm5
-              description: '#TODO'
     OrganizationSearchCriteria:
       title: Organization search criteria
       x-stoplight:
@@ -3118,38 +3001,6 @@ components:
         - $ref: '#/components/schemas/SearchCriteria'
           x-stoplight:
             id: cviawqeexj19h
-    Link:
-      title: Hypermedia Link
-      x-stoplight:
-        id: 0acnclxpqv8m3
-      type: object
-      description: >-
-        Allows clients to dynamically follow the hypermedia links to quickly
-        navigate to the relevant resources.
-
-
-        Uses for Hypermedia as the Engine of Application State (HATEOAS).
-
-
-        Represents the [JSON:API link
-        object](https://jsonapi.org/format/#auto-id--link-objects) and accepts
-        `Web linking` as the de-facto datamodel.
-      properties:
-        href:
-          type: string
-          x-stoplight:
-            id: ntmqhhrrepqgz
-          format: uri
-          description: The target resource URI reference.
-        rel:
-          type: string
-          x-stoplight:
-            id: wp97no7q9ua6m
-          description: >-
-            The link relation type describes how the current context is related
-            to the target resource.
-      required:
-        - href
     Invitation:
       title: Invitation
       x-stoplight:
