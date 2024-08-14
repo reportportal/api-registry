@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - master
+    paths:
+        - 'api/proto/**'
     paths-ignore:
       - readme.md
       - README.md
