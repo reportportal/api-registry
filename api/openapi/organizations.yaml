@@ -29,8 +29,8 @@ paths:
     get:
       summary: Get a list of organizations
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Implemented
       responses:
         '200':
           description: OK
@@ -137,14 +137,14 @@ paths:
               $ref: '#/components/schemas/OrganizationDetails'
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Ready for implementation
   '/organizations/{org_id}':
     get:
       summary: Get organization information
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -233,8 +233,8 @@ paths:
               $ref: '#/components/schemas/OrganizationDetails'
         description: Provide organization information for update.
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Ready for implementation
       x-internal: false
     patch:
       summary: Partial organization update
@@ -294,8 +294,8 @@ paths:
               $ref: '#/components/schemas/OrganizationDetails'
         description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Ready for implementation
       x-internal: false
     delete:
       summary: Delete organization
@@ -332,8 +332,8 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Ready for implementation
       x-internal: false
   '/organizations/{org_id}/users':
     parameters:
@@ -341,8 +341,8 @@ paths:
     get:
       summary: Get organization's users
       tags:
-        - Users
-        - Ready
+        - Organization User
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -456,8 +456,8 @@ paths:
                 - $ref: ./models/user/UserProjectsList.yaml
         description: Definition for a user assignment.
       tags:
-        - Users
-        - Ready
+        - Organization User
+        - Ready for implementation
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
@@ -465,8 +465,8 @@ paths:
     get:
       summary: Get organization user profile
       tags:
-        - Users
-        - Ready
+        - Organization User
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -553,8 +553,8 @@ paths:
                 - $ref: ./models/user/UserProjectsList.yaml
         description: Provide organization's user information for update.
       tags:
-        - Users
-        - Ready
+        - Organization User
+        - Ready for implementation
       description: |-
         Update organization user details.
 
@@ -622,8 +622,8 @@ paths:
 
         - `EDITOR`
       tags:
-        - Users
-        - Ready
+        - Organization User
+        - Ready for implementation
       requestBody:
         content:
           application/json-patch+json:
@@ -656,16 +656,16 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
       tags:
-        - Users
-        - Ready
+        - Organization User
+        - Ready for implementation
   '/organizations/{org_id}/projects':
     parameters:
       - $ref: '#/components/parameters/OrganizationId'
     get:
       summary: Get organization projects
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -724,8 +724,8 @@ paths:
     post:
       summary: Create a new project
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -778,8 +778,8 @@ paths:
     get:
       summary: Get project information
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -863,8 +863,8 @@ paths:
 
         - `EDITOR`
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
     patch:
       summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
@@ -914,13 +914,13 @@ paths:
 
         - `EDITOR`
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
     delete:
       summary: Delete project
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -950,7 +950,7 @@ paths:
     get:
       summary: '#TODO'
       tags:
-        - TODO
+        - In progress
       responses:
         '200':
           description: Ok
@@ -992,7 +992,7 @@ paths:
     get:
       summary: '#TODO'
       tags:
-        - TODO
+        - In progress
       responses:
         '200':
           description: OK
@@ -1070,7 +1070,7 @@ paths:
                 - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
       tags:
-        - TODO
+        - In progress
     patch:
       summary: '#TODO'
       operationId: patch-organizations-org_id-settings-setting_name
@@ -1101,7 +1101,7 @@ paths:
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
       description: '#TODO'
       tags:
-        - TODO
+        - In progress
   '/organizations/{org_id}/notification-rules':
     parameters:
       - schema:
@@ -1112,7 +1112,7 @@ paths:
     get:
       summary: Your GET endpoint
       tags:
-        - TODO
+        - In progress
       responses:
         '200':
           description: OK
@@ -1139,7 +1139,7 @@ paths:
               $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
       description: '#TODO'
       tags:
-        - TODO
+        - In progress
   '/organizations/{org_id}/notification-rules/{notify_rule_id}':
     parameters:
       - schema:
@@ -1155,7 +1155,7 @@ paths:
     get:
       summary: '#TODO'
       tags:
-        - TODO
+        - In progress
       responses:
         '200':
           description: OK
@@ -1187,7 +1187,7 @@ paths:
               $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
       description: '#TODO'
       tags:
-        - TODO
+        - In progress
     patch:
       summary: '#TODO'
       operationId: patch-organizations-org_id-notification-rules-notify_rule_id
@@ -1210,7 +1210,7 @@ paths:
             schema:
               $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
       tags:
-        - TODO
+        - In progress
     delete:
       summary: '#TODO'
       operationId: delete-organizations-org_id-notification-rules-notify_rule_id
@@ -1219,7 +1219,7 @@ paths:
           description: No Content
       description: '#TODO'
       tags:
-        - TODO
+        - In progress
   /organizations/searches:
     post:
       summary: Create search request for organizations
@@ -1264,8 +1264,8 @@ paths:
               $ref: ./models/SearchCriteriaRQ.yaml
         description: ''
       tags:
-        - Organizations
-        - Ready
+        - Organization
+        - Ready for implementation
       x-extension-authority:
         - ReportPortal: User
         - ReportPortal: Admin
@@ -1313,8 +1313,8 @@ paths:
             schema:
               $ref: ./models/SearchCriteriaRQ.yaml
       tags:
-        - Projects
-        - Ready
+        - Organization Project
+        - Ready for implementation
 components:
   securitySchemes:
     BearerAuth:
@@ -1985,8 +1985,8 @@ components:
                       - type
                       - created_at
                       - updated_at
-                      - users
-                      - projects
+                      - Organization User
+                      - Organization Project
                       - launches
                       - last_launch_occurred
       description: |-
@@ -2035,7 +2035,7 @@ components:
                       - key
                       - created_at
                       - updated_at
-                      - users
+                      - Organization User
                       - launches
                       - last_launch_occurred
       description: |-
@@ -2102,10 +2102,17 @@ components:
         format: int64
       description: Project identifier
 tags:
-  - name: Organizations
-  - name: Projects
-  - name: Ready
-  - name: Users
-  - name: TODO
+  - name: Organization
+    description: Organizations collection
+  - name: Organization Project
+    description: Organization projects collection
+  - name: Organization User
+    description: Organization users collection
+  - name: In progress
+    description: Endpoints that are in designing
+  - name: Ready for implementation
+    description: Endpoints that are ready for development
+  - name: Implemented
+    description: Endpoints that are implemented
 security:
   - BearerAuth: []
