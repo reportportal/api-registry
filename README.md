@@ -56,8 +56,8 @@ in ReportPortal UI Settings. Little by little, we will provide the specification
 ```
 
 - [api](/api/) - root catalog for Report Portal Interface Definitions
-- [openapi](/apis/openapi/) - contains OpenAPI Specification for Report Portal APIs
-- [proto](/apis/proto/) - contains gRPC definitions for Report Portal services and types
+- [openapi](/api/openapi/) - contains OpenAPI Specification for Report Portal APIs
+- [proto](/api/proto/) - contains gRPC definitions for Report Portal services and types
   - [common](/apis/proto/reportportal/common/) - contains common types for all Report Portal gRPC services
   - [reporting](/apis/proto/reportportal/reporting/) - contains gRPC definitions for domain specific
   - v`N` - catalog for grouping definitions by versions
