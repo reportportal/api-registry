@@ -1,6 +1,4 @@
 openapi: 3.0.3
-x-stoplight:
-  id: jm0s241nlt0t5
 info:
   title: Users API
   version: '0.1'
@@ -30,7 +28,7 @@ servers:
 paths:
   /invitations:
     post:
-      summary: Create user invitation
+      summary: Create user invitation by email
       operationId: post-invitations
       responses:
         '201':
