@@ -1768,8 +1768,8 @@ components:
                       - type
                       - created_at
                       - updated_at
-                      - Organization User
-                      - Organization Project
+                      - users_count
+                      - projects_count
                       - launches
                       - last_launch_occurred
       description: |-
@@ -1780,8 +1780,8 @@ components:
         - `type` - filter by organization type.
         - `created_at` - filter by creation date.
         - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `projects` - filter by the number of projects.
+        - `users_count` - filter by the number of users.
+        - `projects_count` - filter by the number of projects.
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
       type: object
@@ -1811,7 +1811,7 @@ components:
                       - key
                       - created_at
                       - updated_at
-                      - Organization User
+                      - users_count
                       - launches
                       - last_launch_occurred
       description: |-
@@ -1822,7 +1822,7 @@ components:
         - `key` - filter by project key.
         - `created_at` - filter by creation date.
         - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
+        - `users_count` - filter by the number of users.
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
       type: object
