@@ -1,16 +1,6 @@
-name: Buf Build
+name: Protocol Buffers сhecks
 
 on:
-  push:
-    branches:
-      - main
-      - master
-    paths:
-        - 'api/proto/**'
-    paths-ignore:
-      - readme.md
-      - README.md
-      - CHANGELOG.md
   pull_request:
     types: [opened, synchronize, reopened]
 
