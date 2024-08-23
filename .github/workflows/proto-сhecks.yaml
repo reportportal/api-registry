@@ -1,22 +1,6 @@
-<<<<<<<< HEAD:.github/workflows/proto-build.yaml
-name: Proto Build
-
-on:
-  push:
-    branches:
-      - main
-      - master
-    paths:
-        - 'api/proto/**'
-    paths-ignore:
-      - readme.md
-      - README.md
-      - CHANGELOG.md
-========
 name: Protocol Buffers сhecks
 
 on:
->>>>>>>> main:.github/workflows/proto-сhecks.yaml
   pull_request:
     types: [opened, synchronize, reopened]
 
