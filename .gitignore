@@ -9,7 +9,6 @@ build/
 
 # OpenAPI gen
 build/openapi/
-api/openapi/reportportal-api.yaml
 
 # JavaScript
 node_modules
