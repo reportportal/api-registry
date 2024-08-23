@@ -2102,8 +2102,8 @@ components:
                       - type
                       - created_at
                       - updated_at
-                      - Organization User
-                      - Organization Project
+                      - users_count
+                      - projects_count
                       - launches
                       - last_launch_occurred
       description: >-
@@ -2121,9 +2121,9 @@ components:
 
         - `updated_at` - filter by last update date.
 
-        - `users` - filter by the number of users.
+        - `users_count` - filter by the number of users.
 
-        - `projects` - filter by the number of projects.
+        - `projects_count` - filter by the number of projects.
 
         - `launches` - filter by the number of launches.
 
@@ -2150,7 +2150,7 @@ components:
                       - key
                       - created_at
                       - updated_at
-                      - Organization User
+                      - users_count
                       - launches
                       - last_launch_occurred
       description: >-
@@ -2168,7 +2168,7 @@ components:
 
         - `updated_at` - filter by last update date.
 
-        - `users` - filter by the number of users.
+        - `users_count` - filter by the number of users.
 
         - `launches` - filter by the number of launches.
 
