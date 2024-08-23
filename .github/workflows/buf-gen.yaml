@@ -1,4 +1,4 @@
-name: build
+name: Buf generate code
 
 on: workflow_dispatch
 
