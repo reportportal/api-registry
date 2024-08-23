@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: ReportPortal API
-  version: 5-Organization
+  version: 5.X-Organization
   description: |
     ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
 
