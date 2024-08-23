@@ -1,20 +1,17 @@
 title: User's project details
-x-stoplight:
-  id: c6ouurwz290zv
+
 description: Information about user's project.
 type: object
 properties:
   id:
     type: integer
-    x-stoplight:
-      id: f7stmdjdqi95y
+    
     format: int64
     description: Project internal identifier.
     minimum: 0
   role:
     type: string
-    x-stoplight:
-      id: 7d5t0rz75oa6r
+    
     description: User role in the project.
     enum:
       - EDITOR

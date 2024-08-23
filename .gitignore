@@ -7,6 +7,10 @@
 gen/
 build/
 
+# OpenAPI gen
+build/openapi/
+api/openapi/reportportal-api.yaml
+
 # JavaScript
 node_modules
 package-lock.json
@@ -40,5 +44,3 @@ src/build/*
 !src/build/proto
 src/build/proto/*
 !src/build/proto/rust/
-
-tmp/

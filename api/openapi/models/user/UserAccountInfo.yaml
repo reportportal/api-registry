@@ -1,6 +1,5 @@
 title: User account info
-x-stoplight:
-  id: 2a6cm6zrojhcx
+
 allOf:
   - $ref: ./UserDetails.yaml
   - $ref: ./UserMetadata.yaml

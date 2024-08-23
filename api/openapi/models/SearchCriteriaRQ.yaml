@@ -1,8 +1,6 @@
 title: SearchCriteria
-x-stoplight:
-  id: t2qqu472qp1n1
+
 allOf:
   - $ref: ./OffsetRequest.yaml
   - $ref: ./SearchCriteria.yaml
-    x-stoplight:
-      id: cviawqeexj19h
+    

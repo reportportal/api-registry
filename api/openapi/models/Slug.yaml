@@ -1,6 +1,5 @@
 title: URL Slug
-x-stoplight:
-  id: b6ibm3dgtik3q
+
 type: object
 description: |-
   A slug is used to identify a resource.
@@ -9,8 +8,7 @@ description: |-
 properties:
   slug:
     type: string
-    x-stoplight:
-      id: z0ol4urqp54ye
+    
     pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
     description: |-
       A slug is used to identify a resource.

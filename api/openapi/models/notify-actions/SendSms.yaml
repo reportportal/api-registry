@@ -1,26 +1,21 @@
 title: Send SMS
-x-stoplight:
-  id: zwifjkoaw96ho
+
 type: object
 description: This action sends an SMS notification to specified recipients.
 properties:
   send_sms:
     type: object
-    x-stoplight:
-      id: vu0z066jwl7sp
+    
     properties:
       recipients:
         type: array
-        x-stoplight:
-          id: c3tgcwa7mthjh
+        
         items:
-          x-stoplight:
-            id: 46hp57t1rf3km
+          
           type: string
           format: phone-number
           pattern: '^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'
           example: '+16308520397'
       message:
         type: string
-        x-stoplight:
-          id: o45k4aollhj63
+        

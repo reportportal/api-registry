@@ -1,0 +1,11 @@
+title: Organization name
+
+type: object
+properties:
+  name:
+    type: string
+    
+    minLength: 3
+    maxLength: 60
+    pattern: '^[A-Za-z0-9._\- ]+$'
+    description: 'Organization display name. Allows - Latin, numeric characters, symbols: hyphen, underscore, dot. Space is permitted.'

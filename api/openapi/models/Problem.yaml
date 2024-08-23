@@ -1,6 +1,5 @@
 title: Problem
-x-stoplight:
-  id: gyqkvejezmctb
+
 type: object
 description: |-
   Problem Details for HTTP APIs [RFC 9457](https://tools.ietf.org/html/rfc9457).

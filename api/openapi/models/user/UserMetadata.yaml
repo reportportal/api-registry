@@ -1,43 +1,36 @@
 title: User metadata
-x-stoplight:
-  id: wh4m94b2ezx0i
+
 type: object
 properties:
   id:
     type: integer
-    x-stoplight:
-      id: g3b344eju3s69
+    
     format: int64
     description: User internal identifier.
     minimum: 0
   uuid:
     type: string
-    x-stoplight:
-      id: 4fzct3bw5hgq0
+    
     format: uuid
     description: User ID for external systems.
   created_at:
     type: string
-    x-stoplight:
-      id: j6yblknliqi00
+    
     format: date-time
     description: When user's account was created.
   updated_at:
     type: string
-    x-stoplight:
-      id: 88lji1tkyif14
+    
     format: date-time
     description: When user's data was modifed.
   last_login_at:
     type: string
-    x-stoplight:
-      id: 9426kkbzmqjvl
+    
     format: date-time
     description: When user last logged in.
   auth_provider:
     type: string
-    x-stoplight:
-      id: sc109ps2wkpma
+    
     description: |-
       Indicates through which service or
       authentication method the user account

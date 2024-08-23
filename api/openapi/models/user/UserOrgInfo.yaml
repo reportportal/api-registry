@@ -1,6 +1,5 @@
 title: User's organization details
-x-stoplight:
-  id: 86wft5rp6je7f
+
 type: object
 description: Information about user's organization.
 properties:
@@ -11,8 +10,7 @@ properties:
     description: Organization internal identifier.
   role:
     type: string
-    x-stoplight:
-      id: 1cvs3j3mv3rdw
+    
     enum:
       - MEMBER
       - MANAGER

@@ -3,17 +3,14 @@ type: object
 properties:
   op:
     type: string
-    x-stoplight:
-      id: 438vvzs5l3sya
+    
     enum:
       - add
       - replace
       - delete
   path:
     type: string
-    x-stoplight:
-      id: 7qpaq74pqkz5i
+    
   value:
     type: string
-    x-stoplight:
-      id: ri5btf8olbgn0
+    

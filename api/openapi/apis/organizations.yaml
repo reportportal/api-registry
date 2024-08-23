@@ -1,6 +1,5 @@
 openapi: 3.0.3
-x-stoplight:
-  id: hpx2e63mc8gcc
+
 info:
   title: Organizations API
   version: '0.1'
@@ -188,8 +187,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: hiod6ajoz3rrg
+                    
                     default: The organization update was completed successfully.
         '400':
           description: Bad Request
@@ -249,8 +247,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: y1kxomqmeigfg
+                    
                     default: The organization update was completed successfully.
         '400':
           description: Bad Request
@@ -393,8 +390,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: afgrunmf5xc2n
+                    
                     example: The user was added to the organization.
               examples:
                 Assign or create:
@@ -1030,8 +1026,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: 7uyn7ehgi6ovb
+                    
               examples:
                 Retention policy:
                   value:
@@ -1084,8 +1079,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: ic96azfhunvje
+                    
         '400':
           description: Bad Request
         '403':
@@ -1178,8 +1172,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: 925zkivx5dclj
+                    
       requestBody:
         content:
           application/json:
@@ -1201,8 +1194,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: 8maqxc1fpt87t
+                    
       description: '#TODO'
       requestBody:
         content:
@@ -1319,43 +1311,37 @@ components:
   schemas:
     OrganizationProfilesPage:
       title: OrganizationProfilesPage
-      x-stoplight:
-        id: i93u0nrum1v5d
+      
       allOf:
         - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProfilesList'
     OrganizationProfilesList:
       title: List of organization profiles
-      x-stoplight:
-        id: qhues3miswoao
+      
       properties:
         items:
           type: array
-          x-stoplight:
-            id: 7udfw4feoc516
+          
           items:
             $ref: '#/components/schemas/OrganizationProfile'
       type: object
     OrganizationProfile:
       title: Organization profile
-      x-stoplight:
-        id: lzs7p3khz8n9d
+      
       description: A comprehensive set of organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
         - $ref: '#/components/schemas/OrganizationRelation'
     OrganizationInfo:
       title: Organization
-      x-stoplight:
-        id: x7vdhfbeaz5pu
+      
       description: Various information about the organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationDetails'
         - $ref: '#/components/schemas/OrganizationMetadata'
     OrganizationDetails:
       title: Organization definition
-      x-stoplight:
-        id: 2gyt1v3d2gfmm
+      
       description: |
         Basic information provided by the client.
 
@@ -1364,26 +1350,24 @@ components:
       properties:
         name:
           type: string
-          x-stoplight:
-            id: dz5igu0m6iy9o
+          
           description: Organization display name.
           minLength: 3
-          maxLength: 250
+          maxLength: 60
+          pattern: '^[A-Za-z0-9._\- ]+$'
         slug:
           type: string
-          nullable: true
-          x-stoplight:
-            id: z8xex3cdkrzjz
+          
           pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           minLength: 3
-          maxLength: 250
+          maxLength: 60
           description: 'A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.'
+          nullable: true
       required:
         - name
     OrganizationMetadata:
       title: Organization metadata
-      x-stoplight:
-        id: 08jgykhqykh7b
+      
       description: Organization metadata. Represent generated fields.
       type: object
       properties:
@@ -1394,8 +1378,7 @@ components:
           minimum: 0
         type:
           type: string
-          x-stoplight:
-            id: 4nf6lordbrqag
+          
           enum:
             - INTERNAL
             - PERSONAL
@@ -1409,27 +1392,23 @@ components:
             - EXTERNAL: created for external integrations.
         external_id:
           type: string
-          x-stoplight:
-            id: m0wvgkfndhpag
+          
           description: |-
             External organization identifier.
             It is created for integration.
         created_at:
           type: string
-          x-stoplight:
-            id: murxta40l19cz
+          
           format: date-time
           description: Creation date.
         updated_at:
           type: string
-          x-stoplight:
-            id: wy58s9p7s4l81
+          
           format: date-time
           description: Last update date.
     OrganizationRelation:
       title: Organization relations
-      x-stoplight:
-        id: mvjaoy2fofepj
+      
       type: object
       description: |-
         A relationship object contains members that represent a relationship of the organization.
@@ -1438,118 +1417,99 @@ components:
       properties:
         relationships:
           type: object
-          x-stoplight:
-            id: yg04s1g3jh6hv
+          
           properties:
             users:
               type: object
-              x-stoplight:
-                id: cpa37wk30kxvx
+              
               description: General information about the organization users.
               properties:
                 meta:
                   type: object
-                  x-stoplight:
-                    id: 51qv1trnu44je
+                  
                   properties:
                     count:
                       type: integer
-                      x-stoplight:
-                        id: b1ydil6hgddf0
+                      
                       minimum: 0
                       description: Total count of users in the organization.
             projects:
               type: object
-              x-stoplight:
-                id: swhkgx5x0ob26
+              
               description: General information about the organization projects.
               properties:
                 meta:
                   type: object
-                  x-stoplight:
-                    id: mmtw60hm0ykpc
+                  
                   properties:
                     count:
                       type: integer
-                      x-stoplight:
-                        id: itdaw7f7t6cy2
+                      
                       minimum: 0
                       description: Total count of projects in the organization.
             launches:
               type: object
-              x-stoplight:
-                id: yyim9qntk2t0n
+              
               description: General information about the organization launches.
               properties:
                 meta:
                   type: object
-                  x-stoplight:
-                    id: u1po8dndq7c8w
+                  
                   properties:
                     last_occurred_at:
                       type: string
-                      x-stoplight:
-                        id: jfrvcl95jb302
+                      
                       format: date-time
                       description: Last launch occurrence date.
                     count:
                       type: integer
-                      x-stoplight:
-                        id: 2sqo1glg2ksei
+                      
                       minimum: 0
                       description: |-
                         Total count of launches in the organization.
                         Access: Admin, Manager
             billing:
               type: object
-              x-stoplight:
-                id: wboblz9c0y6xl
+              
               description: |-
                 General information about the organization billing.
                 Available only if a Billing plugin is enabled.
               properties:
                 meta:
                   type: object
-                  x-stoplight:
-                    id: gaxjw82c62g8k
+                  
                   properties:
                     plan_name:
                       type: string
-                      x-stoplight:
-                        id: mo6pndjukp2hn
+                      
                       description: Plan name.
                     storage_usage:
                       type: integer
-                      x-stoplight:
-                        id: mmfbygmjnhg7y
+                      
                       minimum: 0
                       description: Storage usage in percents.
                       maximum: 100
     OrganizationUsersPage:
       title: List of organization users
-      x-stoplight:
-        id: 66kg4poe1y1gj
+      
       allOf:
         - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationUsersList'
     OrganizationUsersList:
       title: OrganizationUsersList
-      x-stoplight:
-        id: gb5aqlrw1229a
+      
       type: object
       properties:
         items:
           type: array
-          x-stoplight:
-            id: j8z1d5itvz11g
+          
           items:
             $ref: '#/components/schemas/OrganizationUserInfo'
       required:
         - items
     OrganizationUserInfo:
       title: Organization user profile
-      x-stoplight:
-        id: mtgs7v0icru14
+      
       allOf:
         - $ref: ../models/user/UserAccountInfo.yaml
         - $ref: '#/components/schemas/OrganizationUserAttributes'
@@ -1558,28 +1518,24 @@ components:
       description: A comprehensive set of user information related to a user's organization.
     OrganizationUserDefinition:
       title: Organization user definition
-      x-stoplight:
-        id: 0oor0xhjoj23w
+      
       description: Base information about user in organization.
       type: object
       properties:
         email:
           type: string
-          x-stoplight:
-            id: egt4wyym3bgvt
+          
           format: email
           description: User email. Unique ID in an organization.
     OrganizationUserAttributes:
       title: Organization user details
-      x-stoplight:
-        id: 5nqrewxfku9tn
+      
       type: object
       description: Basic information about a user in the organization.
       properties:
         organization_role:
           type: string
-          x-stoplight:
-            id: 3v2e1cyby216c
+          
           enum:
             - MEMBER
             - MANAGER
@@ -1589,16 +1545,13 @@ components:
         - organization_role
     OrganizationUserMetadata:
       title: Organization user metadata
-      x-stoplight:
-        id: g7a81q7nu3zgo
+      
       allOf:
-        - x-stoplight:
-            id: 3b9125n1gljg0
+        - 
           properties:
             assigned_at:
               type: string
-              x-stoplight:
-                id: a7gp7z7wei0p6
+              
               format: date-time
               description: |-
                 A time when a user was assigned to
@@ -1607,8 +1560,7 @@ components:
       type: object
     OrganizationUserRelation:
       title: Organization user relations
-      x-stoplight:
-        id: 0v55lmrhzuy8t
+      
       type: object
       description: |-
         A relationship object contains members that represent a relationship of the user in the organization.
@@ -1617,113 +1569,95 @@ components:
       properties:
         relationships:
           type: object
-          x-stoplight:
-            id: myt7sbqk6iyz5
+          
           properties:
             projects:
               type: object
-              x-stoplight:
-                id: jijr6kx3dhi4n
+              
               description: User's projects relations.
               properties:
                 meta:
                   type: object
-                  x-stoplight:
-                    id: kh36jlb1u9opz
+                  
                   description: User's projects relation metadata.
                   properties:
                     count:
                       type: integer
-                      x-stoplight:
-                        id: acpl46w380az0
+                      
                       minimum: 0
                       description: |-
                         Total number of user's projects in
                         organization.
     OrganizationProjectsPage:
       title: List of organization projects
-      x-stoplight:
-        id: enov9cs27yo63
+      
       allOf:
         - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProjectsList'
     OrganizationProjectsList:
       title: OrganizationProjectsList
-      x-stoplight:
-        id: tgmoax768epah
+      
       type: object
       properties:
         items:
           type: array
-          x-stoplight:
-            id: gy6rp66c3r4ja
+          
           items:
             $ref: ../models/project/ProjectProfile.yaml
       required:
         - items
     OrganizationProjectInfo:
       title: OrganizationProjectInfo
-      x-stoplight:
-        id: 252q8n6hgyymb
+      
       allOf:
         - $ref: ../models/project/ProjectMetadata.yaml
         - $ref: ../models/project/ProjectDetails.yaml
     OrganizationRetentionPolicy:
       title: Organization retention policy
-      x-stoplight:
-        id: vow5yfxq4xtdk
+      
       type: object
       description: '#TODO'
       properties:
         log_retention_period:
           type: string
-          x-stoplight:
-            id: yhc9oev3lzd3x
+          
           format: duration
           description: '#TODO'
         launch_retention_period:
           type: string
-          x-stoplight:
-            id: hgbjw8baqr7pd
+          
           format: duration
           description: '#TODO'
         attachment_retention_period:
           type: string
-          x-stoplight:
-            id: 64yf88vs0o6pu
+          
           format: duration
           description: '#TODO'
     OrganizationNotificationPolicy:
       title: Organization notification policy
-      x-stoplight:
-        id: 7n3016fxay9mo
+      
       type: object
       properties:
         auto_notification:
           type: boolean
-          x-stoplight:
-            id: zi73b396he1hp
+          
     OrganizationNotifyRulesList:
       title: List of organization notification rules
-      x-stoplight:
-        id: w0439pq86z8fy
+      
       allOf:
         - $ref: ../models/Offset.yaml
         - type: object
-          x-stoplight:
-            id: rj6ft52tz1vis
+          
           properties:
             items:
               type: array
-              x-stoplight:
-                id: 2zs7yqid6u08a
+              
               items:
                 $ref: '#/components/schemas/OrganizationNotifyRule'
       description: ''
     OrganizationNotifyRule:
       title: Organization notification rule
-      x-stoplight:
-        id: l4gmpbqm9o282
+      
       allOf:
         - type: object
           properties:
@@ -1731,76 +1665,62 @@ components:
               type: string
             created_at:
               type: string
-              x-stoplight:
-                id: wfur0bro7bnox
+              
               format: date-time
             updated_at:
               type: string
-              x-stoplight:
-                id: pcaygplw12pnq
+              
               format: date-time
         - $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
       description: '#TODO'
     OrganizationNotifyRuleDefinition:
       title: Notification rule definition
-      x-stoplight:
-        id: wzds6axw03vkv
+      
       type: object
       description: '#TODO'
       properties:
         name:
           type: string
-          x-stoplight:
-            id: pej9yl51jj2rr
+          
           description: '#TODO'
         enabled:
           type: boolean
-          x-stoplight:
-            id: eljifjwy0myo9
+          
           description: '#TODO'
         conditions:
           type: object
-          x-stoplight:
-            id: xiq7u96dbyi7c
+          
           description: '#TODO'
           properties:
             launch:
               type: object
-              x-stoplight:
-                id: prbt6dqyptw5n
+              
               description: '#TODO'
               properties:
                 names:
                   type: array
-                  x-stoplight:
-                    id: oiz4yf9t3fujn
+                  
                   description: '#TODO'
                   items:
-                    x-stoplight:
-                      id: 764t84ztffx3b
+                    
                     type: string
                 attributes:
                   type: array
-                  x-stoplight:
-                    id: 2y9ubm1ighepk
+                  
                   description: '#TODO'
                   items:
-                    x-stoplight:
-                      id: hjehsaosi9oyp
+                    
                     type: object
                     properties:
                       key:
                         type: string
-                        x-stoplight:
-                          id: 0pxjhtsyoibrf
+                        
                       value:
                         type: string
-                        x-stoplight:
-                          id: vd9a65e08xtu1
+                        
                 attributes_operator:
                   type: string
-                  x-stoplight:
-                    id: 0w8fcw4ufcncl
+                  
                   enum:
                     - AND
                     - OR
@@ -1808,8 +1728,7 @@ components:
                   description: '#TODO'
                 result_condition:
                   type: string
-                  x-stoplight:
-                    id: 1icft97s6w96o
+                  
                   enum:
                     - ALWAYS
                     - FAILED
@@ -1819,36 +1738,30 @@ components:
                     - MORE_50
                   description: '#TODO'
         actions:
-          x-stoplight:
-            id: 5kl2r7880cz8x
+          
           allOf:
             - $ref: ../models/notify-actions/SendEmail.yaml
           description: '#TODO'
     OrganizationSearchCriteria:
       title: Organization search criteria
       allOf:
-        - x-stoplight:
-            id: 89u53g8og5l72
+        - 
           properties:
             sort:
               type: string
-              x-stoplight:
-                id: m0fd3k09tsrgh
+              
               description: Field to define the sort field.
               default: name
             search_criteria:
               type: array
-              x-stoplight:
-                id: 6ziu9u87tafut
+              
               items:
-                x-stoplight:
-                  id: suemb9qjah2wy
+                
                 type: object
                 properties:
                   filter_key:
                     type: string
-                    x-stoplight:
-                      id: udhi6v0lp0c8f
+                    
                     enum:
                       - name
                       - slug
@@ -1875,28 +1788,23 @@ components:
     OrganizationProjectSearchCriteria:
       title: Organization project search criteria
       allOf:
-        - x-stoplight:
-            id: bo5dkm7fkumbf
+        - 
           properties:
             sort:
               type: string
-              x-stoplight:
-                id: bmgm4vyy7l1td
+              
               description: Field to define the sort field.
               default: name
             search_criteria:
               type: array
-              x-stoplight:
-                id: 8rznd35ks5bwm
+              
               items:
-                x-stoplight:
-                  id: al43f4acrsopv
+                
                 type: object
                 properties:
                   filter_key:
                     type: string
-                    x-stoplight:
-                      id: dwoc58mjxkmql
+                    
                     enum:
                       - name
                       - slug
@@ -1927,7 +1835,6 @@ components:
         type: integer
         format: int64
       description: Organization identifier
-
     UserId:
       name: user_id
       in: path

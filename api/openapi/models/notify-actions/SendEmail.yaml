@@ -1,29 +1,23 @@
 title: Send email
-x-stoplight:
-  id: xoejj8r69bn6v
+
 type: object
 description: This action sends an email notification to specified recipients.
 properties:
   send_email:
     type: object
-    x-stoplight:
-      id: 4xboe08wgwq4e
+    
     properties:
       recipients:
         type: array
-        x-stoplight:
-          id: 9b466jl0rrifs
+        
         format: email
         items:
-          x-stoplight:
-            id: ktbfxcl3noef5
+          
           type: string
           format: email
       subject:
         type: string
-        x-stoplight:
-          id: epnthaasf0t2f
+        
       body:
         type: string
-        x-stoplight:
-          id: oeg15tp6q5lxr
+        

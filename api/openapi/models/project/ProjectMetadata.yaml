@@ -1,6 +1,5 @@
 title: Project metadata
-x-stoplight:
-  id: ii9cdfjnv5vqk
+
 type: object
 properties:
   id:
@@ -10,8 +9,7 @@ properties:
     minimum: 0
   key:
     type: string
-    x-stoplight:
-      id: 9up0sba6ni0se
+    
     description: |-
       Unique identifying part of a project in
       an instance.
@@ -19,20 +17,17 @@ properties:
       slug and project slug.
   organization_id:
     type: integer
-    x-stoplight:
-      id: yeosbd661wv1h
+    
     format: int64
     description: Organization ID to which the project belongs.
     minimum: 0
   created_at:
     type: string
-    x-stoplight:
-      id: jvvpxawexlff9
+    
     format: date-time
     description: Timestamp when project was created.
   updated_at:
     type: string
-    x-stoplight:
-      id: 16yiiuxiokhiu
+    
     format: date-time
     description: Timestamp when project was last updated.

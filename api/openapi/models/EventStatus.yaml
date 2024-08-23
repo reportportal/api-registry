@@ -1,6 +1,5 @@
 title: Event status
-x-stoplight:
-  id: c0yfyurojnb6b
+
 type: object
 description: |-
   Event status object used to represent the status of a request item in
@@ -9,12 +8,10 @@ properties:
   href:
     type: string
     description: Identifier of a request item.
-    x-stoplight:
-      id: u5ug6x5ctzd7m
+    
   status:
     type: object
-    x-stoplight:
-      id: axzjwb9ccdqd8
+    
     description: |-
       Object indicating the execution status of
       the request item.
@@ -28,8 +25,7 @@ properties:
         maximum: 600
       description:
         type: string
-        x-stoplight:
-          id: a9ble11ota6w5
+        
         description: |-
           Human readable status description and containing additional
                         context information about failures etc.

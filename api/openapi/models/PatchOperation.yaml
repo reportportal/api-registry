@@ -1,6 +1,5 @@
 title: Patch Operation Object
-x-stoplight:
-  id: f5feb86f13676
+
 oneOf:
   - $ref: ./patch-operations/PatchObject.yaml
   - $ref: ./patch-operations/PatchArrayString.yaml

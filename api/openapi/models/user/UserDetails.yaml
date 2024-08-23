@@ -1,6 +1,5 @@
 title: User details
-x-stoplight:
-  id: tmzoufzfy8v9g
+
 description: |-
   Contains details associated with a user account.
 
@@ -12,25 +11,21 @@ type: object
 properties:
   email:
     type: string
-    x-stoplight:
-      id: anq98fsmeahvn
+    
     format: email
     description: User email.
   full_name:
     type: string
-    x-stoplight:
-      id: t3xotuhofwfex
+    
     description: User full name.
   instance_role:
     type: string
-    x-stoplight:
-      id: 7xz0ez36bzmr7
+    
     enum:
       - ADMINISTRATOR
       - USER
     description: Instance account role.
   external_id:
     type: string
-    x-stoplight:
-      id: raenftb30iv9g
+    
     description: User external identifier. Provided by external systems.

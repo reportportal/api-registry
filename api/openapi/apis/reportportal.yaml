@@ -1,6 +1,5 @@
 openapi: 3.0.3
-x-stoplight:
-  id: f0974ebc6d8f7
+
 info:
   title: ReportPortal API
   version: 5.12.0
@@ -223,12 +222,10 @@ paths:
                     properties:
                       suggestions:
                         type: array
-                        x-stoplight:
-                          id: j4b0g6yz7qzhk
+                        
                         description: List of activities suggestions for the project by type.
                         items:
-                          x-stoplight:
-                            id: xw9kqvns5x1uk
+                          
                           type: string
                   - $ref: ../models/Limit.yaml
         '404':
@@ -296,8 +293,7 @@ components:
           format: date-time
           example: '2019-07-30T06:43:40.252Z'
           description: Date time with milliseconds
-      x-stoplight:
-        id: ep6zmzmuheegw
+      
     ApiKey:
       title: API Key
       description: 'Generated API key, granted once after creation.'
@@ -308,8 +304,7 @@ components:
             api_key:
               type: string
               description: Generated API Key
-      x-stoplight:
-        id: aznckvl3cvkw6
+      
     Activity:
       title: Activity
       type: object
@@ -352,8 +347,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/HistoryField'
-      x-stoplight:
-        id: uvi25intw0gbd
+      
     HistoryField:
       title: HistoryField
       type: object
@@ -364,8 +358,7 @@ components:
           type: string
         new_value:
           type: string
-      x-stoplight:
-        id: l6g0q2upf6xsv
+      
     SearchCriteria:
       title: SearchCriteria
       type: object
@@ -389,8 +382,7 @@ components:
       required:
         - filter_key
         - value
-      x-stoplight:
-        id: xm9npjowy3m4v
+      
   parameters:
     UserId:
       name: user_id

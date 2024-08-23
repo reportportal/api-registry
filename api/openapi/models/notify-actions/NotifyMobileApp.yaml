@@ -1,19 +1,15 @@
 title: Notify mobile app
-x-stoplight:
-  id: r8uj1lats149k
+
 type: object
 description: This action sends a push notification to a mobile app.
 properties:
   notify_mobile:
     type: object
-    x-stoplight:
-      id: cj672bj2ovanp
+    
     properties:
       app_id:
         type: string
-        x-stoplight:
-          id: app_id_id
+        
       message:
         type: string
-        x-stoplight:
-          id: app_message_id
+        
