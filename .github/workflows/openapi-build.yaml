@@ -16,6 +16,8 @@ jobs:
 
       - name: Configurate Git Safe Directory
         run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
+      - name: Configurate Git Safe Directory
+        run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
 
       - name: Verify OpenAPI
         run: |
@@ -27,6 +29,19 @@ jobs:
 
       - name: Commit changes
         run: |
+          make lint-all
+
+      - name: Update main specification
+        run: |
+          make join
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add api/openapi/reportportal-api.yaml
+          git commit -m "Update reportportal-api.yaml"
+          git push
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add api/openapi/reportportal-api.yaml

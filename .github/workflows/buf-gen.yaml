@@ -1,4 +1,4 @@
-name: Generate Protobuf Code
+name: Buf generate code
 
 on: workflow_dispatch
 
