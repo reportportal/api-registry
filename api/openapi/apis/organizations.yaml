@@ -442,21 +442,7 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - type: object
-                  properties:
-                    id:
-                      type: integer
-                      format: int64
-                      minimum: 0
-                      description: User's ID
-                    projects:
-                      type: array
-                      items:
-                        $ref: ../models/user/UserProjectInfo.yaml
-                  required:
-                    - id
+              $ref: ../models/user/UserOrgInfoWithProjects.yaml
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -551,14 +537,7 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - type: object
-                  properties:
-                    projects:
-                      type: array
-                      items:
-                        $ref: ../models/user/UserProjectInfo.yaml
+              $ref: ../models/user/UserOrgInfoWithProjects.yaml
         description: Provide organization's user information for update.
       tags:
         - Organization User
