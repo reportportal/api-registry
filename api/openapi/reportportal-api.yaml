@@ -2092,6 +2092,99 @@ components:
           allOf:
             - $ref: '#/components/schemas/SendEmail'
           description: '#TODO'
+    OrganizationSearchCriteria:
+      title: Organization search criteria
+      allOf:
+        - properties:
+            sort:
+              type: string
+              description: Field to define the sort field.
+              default: name
+            search_criteria:
+              type: array
+              items:
+                type: object
+                properties:
+                  filter_key:
+                    type: string
+                    enum:
+                      - name
+                      - slug
+                      - type
+                      - created_at
+                      - updated_at
+                      - users_count
+                      - projects_count
+                      - launches
+                      - last_launch_occurred
+      description: >-
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `name` - filter by organization name.
+
+        - `slug` - filter by organization slug.
+
+        - `type` - filter by organization type.
+
+        - `created_at` - filter by creation date.
+
+        - `updated_at` - filter by last update date.
+
+        - `users_count` - filter by the number of users.
+
+        - `projects_count` - filter by the number of projects.
+
+        - `launches` - filter by the number of launches.
+
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      type: object
+    OrganizationProjectSearchCriteria:
+      title: Organization project search criteria
+      allOf:
+        - properties:
+            sort:
+              type: string
+              description: Field to define the sort field.
+              default: name
+            search_criteria:
+              type: array
+              items:
+                type: object
+                properties:
+                  filter_key:
+                    type: string
+                    enum:
+                      - name
+                      - slug
+                      - key
+                      - created_at
+                      - updated_at
+                      - users_count
+                      - launches
+                      - last_launch_occurred
+      description: >-
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `name` - filter by project name.
+
+        - `slug` - filter by project slug.
+
+        - `key` - filter by project key.
+
+        - `created_at` - filter by creation date.
+
+        - `updated_at` - filter by last update date.
+
+        - `users_count` - filter by the number of users.
+
+        - `launches` - filter by the number of launches.
+
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      type: object
     Offset:
       type: object
       title: Offset-based
