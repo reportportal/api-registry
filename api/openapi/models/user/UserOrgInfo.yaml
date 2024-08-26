@@ -1,5 +1,4 @@
 title: User's organization details
-
 type: object
 description: Information about user's organization.
 properties:
@@ -10,9 +9,10 @@ properties:
     description: Organization internal identifier.
   role:
     type: string
-    
     enum:
       - MEMBER
       - MANAGER
     default: MEMBER
     description: User role in the organization.
+required:
+  - id
