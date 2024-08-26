@@ -445,7 +445,12 @@ paths:
               allOf:
                 - $ref: '#/components/schemas/OrganizationUserDefinition'
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - $ref: ../models/user/UserProjectsList.yaml
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -542,7 +547,12 @@ paths:
             schema:
               allOf:
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - $ref: ../models/user/UserProjectsList.yaml
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
         description: Provide organization's user information for update.
       tags:
         - Organization User
