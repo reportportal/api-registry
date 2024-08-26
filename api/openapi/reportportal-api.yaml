@@ -1915,6 +1915,8 @@ components:
           type: string
           format: email
           description: User email. Unique ID in an organization.
+      required:
+        - email
     OrganizationUserAttributes:
       title: Organization user details
       type: object
