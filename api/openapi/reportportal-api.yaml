@@ -1916,9 +1916,7 @@ components:
             - MEMBER
             - MANAGER
           description: Organization user role.
-      required:
-        - email
-        - organization_role
+          default: MEMBER
     OrganizationUserMetadata:
       title: Organization user metadata
       allOf:
@@ -2360,7 +2358,7 @@ components:
       title: UserProjectsList
       type: object
       properties:
-        items:
+        projects:
           type: array
           items:
             $ref: '#/components/schemas/UserProjectInfo'
