@@ -562,21 +562,7 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - type: object
-                  properties:
-                    id:
-                      type: integer
-                      format: int64
-                      minimum: 0
-                      description: User's ID
-                    projects:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/UserProjectInfo'
-                  required:
-                    - id
+              $ref: '#/components/schemas/UserOrgInfoWithProjects'
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -675,14 +661,7 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - type: object
-                  properties:
-                    projects:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/UserProjectInfo'
+              $ref: '#/components/schemas/UserOrgInfoWithProjects'
         description: Provide organization's user information for update.
       tags:
         - Organization User
@@ -2251,6 +2230,23 @@ components:
       allOf:
         - $ref: '#/components/schemas/UserDetails'
         - $ref: '#/components/schemas/UserMetadata'
+    UserOrgInfo:
+      title: User's organization details
+      type: object
+      description: Information about user's organization.
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Organization internal identifier.
+        role:
+          type: string
+          enum:
+            - MEMBER
+            - MANAGER
+          default: MEMBER
+          description: User role in the organization.
     UserProjectInfo:
       title: User's project details
       description: Information about user's project.
@@ -2268,6 +2264,16 @@ components:
             - EDITOR
             - VIEWER
           default: VIEWER
+    UserOrgInfoWithProjects:
+      title: User's organization details with projects
+      allOf:
+        - $ref: '#/components/schemas/UserOrgInfo'
+        - type: object
+          properties:
+            projects:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserProjectInfo'
     EventStatus:
       title: Event status
       type: object
@@ -2621,33 +2627,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Invitation'
-    UserOrgInfo:
-      title: User's organization details
-      type: object
-      description: Information about user's organization.
-      properties:
-        id:
-          type: integer
-          format: int64
-          minimum: 0
-          description: Organization internal identifier.
-        role:
-          type: string
-          enum:
-            - MEMBER
-            - MANAGER
-          default: MEMBER
-          description: User role in the organization.
-    UserOrgInfoWithProjects:
-      title: User's organization details with projects
-      allOf:
-        - $ref: '#/components/schemas/UserOrgInfo'
-        - type: object
-          properties:
-            projects:
-              type: array
-              items:
-                $ref: '#/components/schemas/UserProjectInfo'
   parameters:
     OrganizationId:
       name: org_id
