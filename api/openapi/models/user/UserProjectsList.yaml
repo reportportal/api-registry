@@ -1,8 +1,7 @@
 title: UserProjectsList
-
 type: object
 properties:
-  items:
+  projects:
     type: array
     items:
       $ref: ./UserProjectInfo.yaml
