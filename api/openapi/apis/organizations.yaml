@@ -1,5 +1,4 @@
 openapi: 3.0.3
-
 info:
   title: Organizations API
   version: '0.1'
@@ -187,7 +186,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
                     default: The organization update was completed successfully.
         '400':
           description: Bad Request
@@ -247,7 +245,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
                     default: The organization update was completed successfully.
         '400':
           description: Bad Request
@@ -390,7 +387,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
                     example: The user was added to the organization.
               examples:
                 Assign or create:
@@ -1026,7 +1022,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
               examples:
                 Retention policy:
                   value:
@@ -1079,7 +1074,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
         '400':
           description: Bad Request
         '403':
@@ -1172,7 +1166,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
       requestBody:
         content:
           application/json:
@@ -1194,7 +1187,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    
       description: '#TODO'
       requestBody:
         content:
@@ -1311,37 +1303,31 @@ components:
   schemas:
     OrganizationProfilesPage:
       title: OrganizationProfilesPage
-      
       allOf:
         - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProfilesList'
     OrganizationProfilesList:
       title: List of organization profiles
-      
       properties:
         items:
           type: array
-          
           items:
             $ref: '#/components/schemas/OrganizationProfile'
       type: object
     OrganizationProfile:
       title: Organization profile
-      
       description: A comprehensive set of organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationInfo'
         - $ref: '#/components/schemas/OrganizationRelation'
     OrganizationInfo:
       title: Organization
-      
       description: Various information about the organization information.
       allOf:
         - $ref: '#/components/schemas/OrganizationDetails'
         - $ref: '#/components/schemas/OrganizationMetadata'
     OrganizationDetails:
       title: Organization definition
-      
       description: |
         Basic information provided by the client.
 
@@ -1350,14 +1336,12 @@ components:
       properties:
         name:
           type: string
-          
           description: Organization display name.
           minLength: 3
           maxLength: 60
           pattern: '^[A-Za-z0-9._\- ]+$'
         slug:
           type: string
-          
           pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           minLength: 3
           maxLength: 60
@@ -1367,7 +1351,6 @@ components:
         - name
     OrganizationMetadata:
       title: Organization metadata
-      
       description: Organization metadata. Represent generated fields.
       type: object
       properties:
@@ -1378,7 +1361,6 @@ components:
           minimum: 0
         type:
           type: string
-          
           enum:
             - INTERNAL
             - PERSONAL
@@ -1392,23 +1374,19 @@ components:
             - EXTERNAL: created for external integrations.
         external_id:
           type: string
-          
           description: |-
             External organization identifier.
             It is created for integration.
         created_at:
           type: string
-          
           format: date-time
           description: Creation date.
         updated_at:
           type: string
-          
           format: date-time
           description: Last update date.
     OrganizationRelation:
       title: Organization relations
-      
       type: object
       description: |-
         A relationship object contains members that represent a relationship of the organization.
@@ -1417,99 +1395,80 @@ components:
       properties:
         relationships:
           type: object
-          
           properties:
             users:
               type: object
-              
               description: General information about the organization users.
               properties:
                 meta:
                   type: object
-                  
                   properties:
                     count:
                       type: integer
-                      
                       minimum: 0
                       description: Total count of users in the organization.
             projects:
               type: object
-              
               description: General information about the organization projects.
               properties:
                 meta:
                   type: object
-                  
                   properties:
                     count:
                       type: integer
-                      
                       minimum: 0
                       description: Total count of projects in the organization.
             launches:
               type: object
-              
               description: General information about the organization launches.
               properties:
                 meta:
                   type: object
-                  
                   properties:
                     last_occurred_at:
                       type: string
-                      
                       format: date-time
                       description: Last launch occurrence date.
                     count:
                       type: integer
-                      
                       minimum: 0
                       description: |-
                         Total count of launches in the organization.
                         Access: Admin, Manager
             billing:
               type: object
-              
               description: |-
                 General information about the organization billing.
                 Available only if a Billing plugin is enabled.
               properties:
                 meta:
                   type: object
-                  
                   properties:
                     plan_name:
                       type: string
-                      
                       description: Plan name.
                     storage_usage:
                       type: integer
-                      
                       minimum: 0
                       description: Storage usage in percents.
                       maximum: 100
     OrganizationUsersPage:
       title: List of organization users
-      
       allOf:
         - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationUsersList'
     OrganizationUsersList:
       title: OrganizationUsersList
-      
       type: object
       properties:
         items:
           type: array
-          
           items:
             $ref: '#/components/schemas/OrganizationUserInfo'
       required:
         - items
     OrganizationUserInfo:
       title: Organization user profile
-      
       allOf:
         - $ref: ../models/user/UserAccountInfo.yaml
         - $ref: '#/components/schemas/OrganizationUserAttributes'
@@ -1518,40 +1477,31 @@ components:
       description: A comprehensive set of user information related to a user's organization.
     OrganizationUserDefinition:
       title: Organization user definition
-      
       description: Base information about user in organization.
       type: object
       properties:
         email:
           type: string
-          
           format: email
           description: User email. Unique ID in an organization.
     OrganizationUserAttributes:
       title: Organization user details
-      
       type: object
       description: Basic information about a user in the organization.
       properties:
         organization_role:
           type: string
-          
           enum:
             - MEMBER
             - MANAGER
           description: Organization user role.
-      required:
-        - email
-        - organization_role
+          default: MEMBER
     OrganizationUserMetadata:
       title: Organization user metadata
-      
       allOf:
-        - 
-          properties:
+        - properties:
             assigned_at:
               type: string
-              
               format: date-time
               description: |-
                 A time when a user was assigned to
@@ -1560,7 +1510,6 @@ components:
       type: object
     OrganizationUserRelation:
       title: Organization user relations
-      
       type: object
       description: |-
         A relationship object contains members that represent a relationship of the user in the organization.
@@ -1569,95 +1518,77 @@ components:
       properties:
         relationships:
           type: object
-          
           properties:
             projects:
               type: object
-              
               description: User's projects relations.
               properties:
                 meta:
                   type: object
-                  
                   description: User's projects relation metadata.
                   properties:
                     count:
                       type: integer
-                      
                       minimum: 0
                       description: |-
                         Total number of user's projects in
                         organization.
     OrganizationProjectsPage:
       title: List of organization projects
-      
       allOf:
         - $ref: ../models/Offset.yaml
         - $ref: '#/components/schemas/OrganizationProjectsList'
     OrganizationProjectsList:
       title: OrganizationProjectsList
-      
       type: object
       properties:
         items:
           type: array
-          
           items:
             $ref: ../models/project/ProjectProfile.yaml
       required:
         - items
     OrganizationProjectInfo:
       title: OrganizationProjectInfo
-      
       allOf:
         - $ref: ../models/project/ProjectMetadata.yaml
         - $ref: ../models/project/ProjectDetails.yaml
     OrganizationRetentionPolicy:
       title: Organization retention policy
-      
       type: object
       description: '#TODO'
       properties:
         log_retention_period:
           type: string
-          
           format: duration
           description: '#TODO'
         launch_retention_period:
           type: string
-          
           format: duration
           description: '#TODO'
         attachment_retention_period:
           type: string
-          
           format: duration
           description: '#TODO'
     OrganizationNotificationPolicy:
       title: Organization notification policy
-      
       type: object
       properties:
         auto_notification:
           type: boolean
-          
     OrganizationNotifyRulesList:
       title: List of organization notification rules
-      
       allOf:
         - $ref: ../models/Offset.yaml
         - type: object
-          
           properties:
             items:
               type: array
-              
               items:
                 $ref: '#/components/schemas/OrganizationNotifyRule'
       description: ''
     OrganizationNotifyRule:
       title: Organization notification rule
-      
       allOf:
         - type: object
           properties:
@@ -1665,62 +1596,48 @@ components:
               type: string
             created_at:
               type: string
-              
               format: date-time
             updated_at:
               type: string
-              
               format: date-time
         - $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
       description: '#TODO'
     OrganizationNotifyRuleDefinition:
       title: Notification rule definition
-      
       type: object
       description: '#TODO'
       properties:
         name:
           type: string
-          
           description: '#TODO'
         enabled:
           type: boolean
-          
           description: '#TODO'
         conditions:
           type: object
-          
           description: '#TODO'
           properties:
             launch:
               type: object
-              
               description: '#TODO'
               properties:
                 names:
                   type: array
-                  
                   description: '#TODO'
                   items:
-                    
                     type: string
                 attributes:
                   type: array
-                  
                   description: '#TODO'
                   items:
-                    
                     type: object
                     properties:
                       key:
                         type: string
-                        
                       value:
                         type: string
-                        
                 attributes_operator:
                   type: string
-                  
                   enum:
                     - AND
                     - OR
@@ -1728,7 +1645,6 @@ components:
                   description: '#TODO'
                 result_condition:
                   type: string
-                  
                   enum:
                     - ALWAYS
                     - FAILED
@@ -1738,30 +1654,24 @@ components:
                     - MORE_50
                   description: '#TODO'
         actions:
-          
           allOf:
             - $ref: ../models/notify-actions/SendEmail.yaml
           description: '#TODO'
     OrganizationSearchCriteria:
       title: Organization search criteria
       allOf:
-        - 
-          properties:
+        - properties:
             sort:
               type: string
-              
               description: Field to define the sort field.
               default: name
             search_criteria:
               type: array
-              
               items:
-                
                 type: object
                 properties:
                   filter_key:
                     type: string
-                    
                     enum:
                       - name
                       - slug
@@ -1788,23 +1698,18 @@ components:
     OrganizationProjectSearchCriteria:
       title: Organization project search criteria
       allOf:
-        - 
-          properties:
+        - properties:
             sort:
               type: string
-              
               description: Field to define the sort field.
               default: name
             search_criteria:
               type: array
-              
               items:
-                
                 type: object
                 properties:
                   filter_key:
                     type: string
-                    
                     enum:
                       - name
                       - slug
