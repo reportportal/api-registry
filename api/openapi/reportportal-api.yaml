@@ -1556,12 +1556,7 @@ paths:
                   type: array
                   description: Organizations to assign a user.
                   items:
-                    $ref: '#/components/schemas/UserOrgInfo'
-                projects:
-                  type: array
-                  description: Projects to assign a user.
-                  items:
-                    $ref: '#/components/schemas/UserProjectInfo'
+                    $ref: '#/components/schemas/UserOrgInfoWithProjects'
               required:
                 - email
         description: ''
@@ -1690,10 +1685,18 @@ paths:
                 full_name:
                   type: string
                   description: User full name.
+                  maxLength: 60
                 password:
                   type: string
                   format: password
-                  description: User password. Will be ignored for `PENDING` status.
+                  description: >-
+                    User password. Will be ignored for `PENDING` status.
+
+                    Minimum eight characters, at least one uppercase letter, one
+                    lowercase letter, one number and one special character.
+                  minLength: 8
+                  maxLength: 256
+                  pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
               required:
                 - password
         description: ''
@@ -2731,6 +2734,16 @@ components:
             - MANAGER
           default: MEMBER
           description: User role in the organization.
+    UserOrgInfoWithProjects:
+      title: User's organization details with projects
+      allOf:
+        - $ref: '#/components/schemas/UserOrgInfo'
+        - type: object
+          properties:
+            projects:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserProjectInfo'
   parameters:
     OrganizationId:
       name: org_id
