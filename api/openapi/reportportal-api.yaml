@@ -565,7 +565,12 @@ paths:
               allOf:
                 - $ref: '#/components/schemas/OrganizationUserDefinition'
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - $ref: '#/components/schemas/UserProjectsList'
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/UserProjectInfo'
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -666,7 +671,12 @@ paths:
             schema:
               allOf:
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
-                - $ref: '#/components/schemas/UserProjectsList'
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/UserProjectInfo'
         description: Provide organization's user information for update.
       tags:
         - Organization User
@@ -2354,14 +2364,6 @@ components:
             - EDITOR
             - VIEWER
           default: VIEWER
-    UserProjectsList:
-      title: UserProjectsList
-      type: object
-      properties:
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserProjectInfo'
     EventStatus:
       title: Event status
       type: object
