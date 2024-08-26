@@ -40,32 +40,26 @@ paths:
                 properties:
                   id:
                     type: string
-                    
                     description: Invitation ID.
                     format: uuid
                   email:
                     type: string
-                    
                     description: User's email.
                   status:
                     type: string
-                    
                     enum:
                       - PENDING
                       - ACTIVATED
                     description: User invitations status.
                   link:
                     type: string
-                    
                     description: Link to invitation form.
                   created_at:
                     type: string
-                    
                     format: date-time
                     description: Creation date.
                   expires_at:
                     type: string
-                    
                     format: date-time
                     description: Experation date.
         '400':
@@ -85,21 +79,13 @@ paths:
               properties:
                 email:
                   type: string
-                  
                   format: email
                   description: Email for invitation.
                 organizations:
                   type: array
-                  
                   description: Organizations to assign a user.
                   items:
-                    $ref: ../models/user/UserOrgInfo.yaml
-                projects:
-                  type: array
-                  
-                  description: Projects to assign a user.
-                  items:
-                    $ref: ../models/user/UserProjectInfo.yaml
+                    $ref: ../models/user/UserOrgInfoWithProjects.yaml
               required:
                 - email
         description: ''
@@ -183,17 +169,14 @@ paths:
                 properties:
                   id:
                     type: string
-                    
                     format: uuid
                     description: Invitation ID.
                   user_id:
                     type: integer
-                    
                     format: int64
                     description: Created user ID.
                   email:
                     type: string
-                    
                     format: email
                     description: User email.
         '400':
@@ -213,7 +196,6 @@ paths:
               properties:
                 status:
                   type: string
-                  
                   enum:
                     - ACTIVATED
                     - PENDING
@@ -221,18 +203,21 @@ paths:
                   default: PENDING
                 email:
                   type: string
-                  
                   description: New email.
                   format: email
                 full_name:
                   type: string
-                  
                   description: User full name.
+                  maxLength: 60
                 password:
                   type: string
-                  
                   format: password
-                  description: User password. Will be ignored for `PENDING` status.
+                  description: |-
+                    User password. Will be ignored for `PENDING` status.
+                    Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+                  minLength: 8
+                  maxLength: 256
+                  pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$'
               required:
                 - password
         description: ''
@@ -242,46 +227,37 @@ components:
   schemas:
     Invitation:
       title: Invitation
-      
       type: object
       properties:
         id:
           type: string
-          
           description: Invitation ID.
           format: uuid
         email:
           type: string
-          
           description: User's email.
         status:
           type: string
-          
           enum:
             - PENDING
           description: User invitations status.
         link:
           type: string
-          
           description: Link to invitation form.
         created_at:
           type: string
-          
           format: date-time
           description: Creation date.
         expires_at:
           type: string
-          
           format: date-time
           description: Experation date.
     Invitations:
       title: InvitationsList
-      
       type: object
       properties:
         items:
           type: array
-          
           items:
             $ref: '#/components/schemas/Invitation'
   securitySchemes:

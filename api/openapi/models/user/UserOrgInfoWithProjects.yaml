@@ -1,0 +1,9 @@
+title: User's organization details with projects
+allOf:
+  - $ref: ./UserOrgInfo.yaml
+  - type: object
+    properties:
+      projects:
+        type: array
+        items:
+          $ref: ./UserProjectInfo.yaml
