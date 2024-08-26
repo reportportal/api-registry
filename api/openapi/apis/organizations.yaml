@@ -417,7 +417,7 @@ paths:
               schema:
                 $ref: ../models/Problem.yaml
       description: |-
-        This is a complex endpoint that provides a flow for assigning a user to the organization.
+        This is a endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
 
         ### Authority:
@@ -443,14 +443,20 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/OrganizationUserDefinition'
                 - $ref: '#/components/schemas/OrganizationUserAttributes'
                 - type: object
                   properties:
+                    id:
+                      type: integer
+                      format: int64
+                      minimum: 0
+                      description: User's ID
                     projects:
                       type: array
                       items:
                         $ref: ../models/user/UserProjectInfo.yaml
+                  required:
+                    - id
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -1485,17 +1491,6 @@ components:
         - $ref: '#/components/schemas/OrganizationUserMetadata'
         - $ref: '#/components/schemas/OrganizationUserRelation'
       description: A comprehensive set of user information related to a user's organization.
-    OrganizationUserDefinition:
-      title: Organization user definition
-      description: Base information about user in organization.
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: User email. Unique ID in an organization.
-      required:
-        - email
     OrganizationUserAttributes:
       title: Organization user details
       type: object
@@ -1669,80 +1664,6 @@ components:
           allOf:
             - $ref: ../models/notify-actions/SendEmail.yaml
           description: '#TODO'
-    OrganizationSearchCriteria:
-      title: Organization search criteria
-      allOf:
-        - properties:
-            sort:
-              type: string
-              description: Field to define the sort field.
-              default: name
-            search_criteria:
-              type: array
-              items:
-                type: object
-                properties:
-                  filter_key:
-                    type: string
-                    enum:
-                      - name
-                      - slug
-                      - type
-                      - created_at
-                      - updated_at
-                      - users_count
-                      - projects_count
-                      - launches
-                      - last_launch_occurred
-      description: |-
-        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-
-        - `name` - filter by organization name.
-        - `slug` - filter by organization slug.
-        - `type` - filter by organization type.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users_count` - filter by the number of users.
-        - `projects_count` - filter by the number of projects.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
-      type: object
-    OrganizationProjectSearchCriteria:
-      title: Organization project search criteria
-      allOf:
-        - properties:
-            sort:
-              type: string
-              description: Field to define the sort field.
-              default: name
-            search_criteria:
-              type: array
-              items:
-                type: object
-                properties:
-                  filter_key:
-                    type: string
-                    enum:
-                      - name
-                      - slug
-                      - key
-                      - created_at
-                      - updated_at
-                      - users_count
-                      - launches
-                      - last_launch_occurred
-      description: |-
-        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-
-        - `name` - filter by project name.
-        - `slug` - filter by project slug.
-        - `key` - filter by project key.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users_count` - filter by the number of users.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
-      type: object
   parameters:
     OrganizationId:
       name: org_id
