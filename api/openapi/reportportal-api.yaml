@@ -1915,6 +1915,8 @@ components:
       description: >-
         A comprehensive set of user information related to a user's
         organization.
+    OrganizationUserBase:
+      $ref: '#/components/schemas/UserOrgRole'
     OrganizationUserMetadata:
       title: Organization user metadata
       allOf:
@@ -2080,8 +2082,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/SendEmail'
           description: '#TODO'
-    OrganizationUserBase:
-      $ref: '#/components/schemas/UserOrgRole'
     Offset:
       type: object
       title: Offset-based
