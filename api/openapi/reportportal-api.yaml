@@ -562,7 +562,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserOrgInfoWithProjects'
+              allOf:
+                - $ref: '#/components/schemas/UserOrgRole'
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      x-stoplight:
+                        id: nvv8139j0n8wp
+                      format: int64
+                      minimum: 0
+                      description: User's internal identifier.
+                    projects:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/UserProjectInfo'
+                  required:
+                    - id
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -584,7 +600,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: '#/components/schemas/OrganizationUserAccount'
         '403':
           description: Forbidden
           content:
@@ -629,7 +645,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: '#/components/schemas/OrganizationUserAccount'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -661,7 +677,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserOrgInfoWithProjects'
+              allOf:
+                - $ref: '#/components/schemas/UserOrgRole'
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/UserProjectInfo'
         description: Provide organization's user information for update.
       tags:
         - Organization User
@@ -691,7 +714,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: '#/components/schemas/OrganizationUserAccount'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -1647,6 +1670,7 @@ paths:
                     type: integer
                     format: int64
                     description: Created user ID.
+                    minimum: 0
                   email:
                     type: string
                     format: email
@@ -1878,31 +1902,19 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/OrganizationUserInfo'
+            $ref: '#/components/schemas/OrganizationUserAccount'
       required:
         - items
-    OrganizationUserInfo:
-      title: Organization user profile
+    OrganizationUserAccount:
+      title: Organization user account
       allOf:
-        - $ref: '#/components/schemas/UserAccountInfo'
-        - $ref: '#/components/schemas/OrganizationUserAttributes'
+        - $ref: '#/components/schemas/UserAccount'
+        - $ref: '#/components/schemas/UserOrgRole'
         - $ref: '#/components/schemas/OrganizationUserMetadata'
         - $ref: '#/components/schemas/OrganizationUserRelation'
       description: >-
         A comprehensive set of user information related to a user's
         organization.
-    OrganizationUserAttributes:
-      title: Organization user details
-      type: object
-      description: Basic information about a user in the organization.
-      properties:
-        organization_role:
-          type: string
-          enum:
-            - MEMBER
-            - MANAGER
-          description: Organization user role.
-          default: MEMBER
     OrganizationUserMetadata:
       title: Organization user metadata
       allOf:
@@ -2068,6 +2080,8 @@ components:
           allOf:
             - $ref: '#/components/schemas/SendEmail'
           description: '#TODO'
+    OrganizationUserBase:
+      $ref: '#/components/schemas/UserOrgRole'
     Offset:
       type: object
       title: Offset-based
@@ -2225,55 +2239,59 @@ components:
             - SAML
             - SCIM
           default: INTERNAL
-    UserAccountInfo:
+    UserAccount:
       title: User account info
+      x-stoplight:
+        id: 496536498d562
       allOf:
         - $ref: '#/components/schemas/UserDetails'
+          x-stoplight:
+            id: vl6ky1g5bi4zo
         - $ref: '#/components/schemas/UserMetadata'
-    UserOrgInfo:
-      title: User's organization details
+          x-stoplight:
+            id: qqrvh896diypz
+    UserOrgRole:
+      title: Organization user details
+      x-stoplight:
+        id: d801f77eb8d0c
       type: object
-      description: Information about user's organization.
+      description: Basic information about a user in the organization.
       properties:
-        id:
-          type: integer
-          format: int64
-          minimum: 0
-          description: Organization internal identifier.
-        role:
+        org_role:
           type: string
           enum:
             - MEMBER
             - MANAGER
+          description: Organization user role.
           default: MEMBER
-          description: User role in the organization.
-    UserProjectInfo:
-      title: User's project details
-      description: Information about user's project.
+          x-stoplight:
+            id: fl1nu6ikxu8jn
+    UserProjectRole:
+      title: User's project role
+      description: Information about user's project role.
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Project internal identifier.
-          minimum: 0
-        role:
+        project_role:
           type: string
           description: User role in the project.
           enum:
             - EDITOR
             - VIEWER
           default: VIEWER
-    UserOrgInfoWithProjects:
-      title: User's organization details with projects
+    UserProjectInfo:
+      title: User's project details
+      description: Information about user's project.
       allOf:
-        - $ref: '#/components/schemas/UserOrgInfo'
         - type: object
           properties:
-            projects:
-              type: array
-              items:
-                $ref: '#/components/schemas/UserProjectInfo'
+            id:
+              type: integer
+              format: int64
+              description: Project's internal identifier.
+              minimum: 0
+        - $ref: '#/components/schemas/UserProjectRole'
+          x-stoplight:
+            id: g9u6ex4s7r65u
     EventStatus:
       title: Event status
       type: object
@@ -2627,6 +2645,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Invitation'
+    UserOrgInfo:
+      title: User's organization details
+      description: Information about user's organization.
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              minimum: 0
+              description: Organization internal identifier.
+        - $ref: '#/components/schemas/UserOrgRole'
+          x-stoplight:
+            id: 1x9aaamx6l94w
+    UserOrgInfoWithProjects:
+      title: User's organization details with projects
+      allOf:
+        - $ref: '#/components/schemas/UserOrgInfo'
+        - type: object
+          properties:
+            projects:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserProjectInfo'
   parameters:
     OrganizationId:
       name: org_id
@@ -2635,7 +2677,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: Organization identifier
+      description: Organization identifier.
     UserId:
       name: user_id
       in: path
@@ -2643,7 +2685,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: User identifier
+      description: User identifier.
     ProjectId:
       name: project_id
       in: path
@@ -2651,7 +2693,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: Project identifier
+      description: Project identifier.
     Offset:
       name: offset
       in: query
