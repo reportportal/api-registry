@@ -442,7 +442,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/user/UserOrgInfoWithProjects.yaml
+              allOf:
+                - $ref: '#/components/schemas/OrganizationUserBase'
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      x-stoplight:
+                        id: nvv8139j0n8wp
+                      format: int64
+                      minimum: 0
+                      description: User's internal identifier.
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
+                  required:
+                    - id
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -462,7 +478,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: '#/components/schemas/OrganizationUserAccount'
         '403':
           description: Forbidden
           content:
@@ -505,7 +521,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: '#/components/schemas/OrganizationUserAccount'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -537,7 +553,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/user/UserOrgInfoWithProjects.yaml
+              allOf:
+                - $ref: '#/components/schemas/OrganizationUserBase'
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
         description: Provide organization's user information for update.
       tags:
         - Organization User
@@ -565,7 +588,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserInfo'
+                $ref: '#/components/schemas/OrganizationUserAccount'
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -1459,29 +1482,17 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/OrganizationUserInfo'
+            $ref: '#/components/schemas/OrganizationUserAccount'
       required:
         - items
-    OrganizationUserInfo:
-      title: Organization user profile
+    OrganizationUserAccount:
+      title: Organization user account
       allOf:
-        - $ref: ../models/user/UserAccountInfo.yaml
-        - $ref: '#/components/schemas/OrganizationUserAttributes'
+        - $ref: ../models/user/UserAccount.yaml
+        - $ref: '#/components/schemas/OrganizationUserBase'
         - $ref: '#/components/schemas/OrganizationUserMetadata'
         - $ref: '#/components/schemas/OrganizationUserRelation'
       description: A comprehensive set of user information related to a user's organization.
-    OrganizationUserAttributes:
-      title: Organization user details
-      type: object
-      description: Basic information about a user in the organization.
-      properties:
-        organization_role:
-          type: string
-          enum:
-            - MEMBER
-            - MANAGER
-          description: Organization user role.
-          default: MEMBER
     OrganizationUserMetadata:
       title: Organization user metadata
       allOf:
@@ -1643,6 +1654,8 @@ components:
           allOf:
             - $ref: ../models/notify-actions/SendEmail.yaml
           description: '#TODO'
+    OrganizationUserBase:
+      $ref: ../models/user/UserOrgRole.yaml
   parameters:
     OrganizationId:
       name: org_id
@@ -1651,7 +1664,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: Organization identifier
+      description: Organization identifier.
     UserId:
       name: user_id
       in: path
@@ -1659,7 +1672,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: User identifier
+      description: User identifier.
     ProjectId:
       name: project_id
       in: path
@@ -1667,7 +1680,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: Project identifier
+      description: Project identifier.
   securitySchemes:
     $ref: ../security/BearerAuth.yaml
 security:

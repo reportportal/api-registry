@@ -1,16 +1,13 @@
 title: User's organization details
-type: object
 description: Information about user's organization.
-properties:
-  id:
-    type: integer
-    format: int64
-    minimum: 0
-    description: Organization internal identifier.
-  role:
-    type: string
-    enum:
-      - MEMBER
-      - MANAGER
-    default: MEMBER
-    description: User role in the organization.
+allOf:
+  - type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        minimum: 0
+        description: Organization internal identifier.
+  - $ref: ./UserOrgRole.yaml
+    x-stoplight:
+      id: 1x9aaamx6l94w

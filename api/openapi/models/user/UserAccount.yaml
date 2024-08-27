@@ -1,0 +1,10 @@
+title: User account info
+x-stoplight:
+  id: 496536498d562
+allOf:
+  - $ref: ./UserDetails.yaml
+    x-stoplight:
+      id: vl6ky1g5bi4zo
+  - $ref: ./UserMetadata.yaml
+    x-stoplight:
+      id: qqrvh896diypz

@@ -175,6 +175,7 @@ paths:
                     type: integer
                     format: int64
                     description: Created user ID.
+                    minimum: 0
                   email:
                     type: string
                     format: email
