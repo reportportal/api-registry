@@ -1493,6 +1493,8 @@ components:
         - $ref: '#/components/schemas/OrganizationUserMetadata'
         - $ref: '#/components/schemas/OrganizationUserRelation'
       description: A comprehensive set of user information related to a user's organization.
+    OrganizationUserBase:
+      $ref: ../models/user/UserOrgRole.yaml
     OrganizationUserMetadata:
       title: Organization user metadata
       allOf:
@@ -1654,8 +1656,6 @@ components:
           allOf:
             - $ref: ../models/notify-actions/SendEmail.yaml
           description: '#TODO'
-    OrganizationUserBase:
-      $ref: ../models/user/UserOrgRole.yaml
   parameters:
     OrganizationId:
       name: org_id
