@@ -283,10 +283,9 @@ paths:
         - `MANAGER`
       requestBody:
         content:
-          application/merge-patch+json:
+          application/json-patch+json:
             schema:
-              $ref: '#/components/schemas/OrganizationDetails'
-        description: 'Use PATCH with JSON Merge Patch standard, a specialized media type application/merge-patch+json for partial resource representation to update parts of resource objects.'
+              $ref: ../models/PatchOperation.yaml
       tags:
         - Organization
         - Ready for implementation
@@ -639,7 +638,6 @@ paths:
           application/json-patch+json:
             schema:
               $ref: ../models/PatchOperation.yaml
-        description: ''
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
