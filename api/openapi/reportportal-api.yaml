@@ -378,13 +378,9 @@ paths:
         - `MANAGER`
       requestBody:
         content:
-          application/merge-patch+json:
+          application/json-patch+json:
             schema:
-              $ref: '#/components/schemas/OrganizationDetails'
-        description: >-
-          Use PATCH with JSON Merge Patch standard, a specialized media type
-          application/merge-patch+json for partial resource representation to
-          update parts of resource objects.
+              $ref: '#/components/schemas/PatchOperation'
       tags:
         - Organization
         - Ready for implementation
@@ -774,7 +770,6 @@ paths:
           application/json-patch+json:
             schema:
               $ref: '#/components/schemas/PatchOperation'
-        description: ''
       security:
         - BearerAuth: []
     delete:
@@ -2173,6 +2168,102 @@ components:
             problem type. May be used to locate the root of this problem in the
             source code.
           example: /some/uri-reference#specific-occurrence-context
+    PatchObject:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: object
+    PatchArrayString:
+      title: Patch Operation Array String
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+    PatchString:
+      title: Patch Operation String
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: string
+    PatchNumber:
+      title: Patch Operation Number
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: number
+    PatchInteger:
+      title: Patch Operation Integer
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: integer
+    PatchBoolean:
+      title: Patch Operation Boolean
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - add
+            - replace
+            - delete
+        path:
+          type: string
+        value:
+          type: boolean
+    PatchOperation:
+      title: Patch Operation Object
+      oneOf:
+        - $ref: '#/components/schemas/PatchObject'
+        - $ref: '#/components/schemas/PatchArrayString'
+        - $ref: '#/components/schemas/PatchString'
+        - $ref: '#/components/schemas/PatchNumber'
+        - $ref: '#/components/schemas/PatchInteger'
+        - $ref: '#/components/schemas/PatchBoolean'
+      description: ''
     UserDetails:
       title: User details
       description: |-
@@ -2334,102 +2425,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/EventStatus'
-    PatchObject:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-            - add
-            - replace
-            - delete
-        path:
-          type: string
-        value:
-          type: object
-    PatchArrayString:
-      title: Patch Operation Array String
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-            - add
-            - replace
-            - delete
-        path:
-          type: string
-        value:
-          type: array
-          items:
-            type: string
-    PatchString:
-      title: Patch Operation String
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-            - add
-            - replace
-            - delete
-        path:
-          type: string
-        value:
-          type: string
-    PatchNumber:
-      title: Patch Operation Number
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-            - add
-            - replace
-            - delete
-        path:
-          type: string
-        value:
-          type: number
-    PatchInteger:
-      title: Patch Operation Integer
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-            - add
-            - replace
-            - delete
-        path:
-          type: string
-        value:
-          type: integer
-    PatchBoolean:
-      title: Patch Operation Boolean
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-            - add
-            - replace
-            - delete
-        path:
-          type: string
-        value:
-          type: boolean
-    PatchOperation:
-      title: Patch Operation Object
-      oneOf:
-        - $ref: '#/components/schemas/PatchObject'
-        - $ref: '#/components/schemas/PatchArrayString'
-        - $ref: '#/components/schemas/PatchString'
-        - $ref: '#/components/schemas/PatchNumber'
-        - $ref: '#/components/schemas/PatchInteger'
-        - $ref: '#/components/schemas/PatchBoolean'
-      description: ''
     ProjectMetadata:
       title: Project metadata
       type: object
