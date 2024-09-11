@@ -478,8 +478,8 @@ paths:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users
       responses:
-        '201':
-          description: Created
+        '200':
+          description: OK
           content:
             application/json:
               schema:
@@ -492,22 +492,28 @@ paths:
                 Assign or create:
                   value:
                     message: The user was added to the organization.
-        '207':
-          description: Multi-Status (WebDAV)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Multistatus'
         '400':
           description: Bad Request
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '403':
           description: Forbidden
           content:
             application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '409':
@@ -641,20 +647,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserAccount'
-        '207':
-          description: |-
-            Multi-Status (WebDAV)
-
-            Response for a user assignment with projects.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Multistatus'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    x-stoplight:
+                      id: ox11n1eldt2f2
+                    default: The user update was completed successfully.
         '400':
           description: Bad Request
           content:
             application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '403':
@@ -710,7 +719,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserAccount'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The user update was completed successfully.
         '207':
           description: |-
             Multi-Status (WebDAV)
@@ -976,7 +989,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProjectInfo'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The project update was completed successfully.
         '400':
           description: Bad Request
           content:
@@ -1028,7 +1045,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProjectInfo'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The project update was completed successfully.
         '400':
           description: Bad Request
           content:
