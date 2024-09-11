@@ -487,11 +487,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: The user was added to the organization.
-              examples:
-                Assign or create:
-                  value:
-                    message: The user was added to the organization.
+                    default: The user was added to the organization.
         '400':
           description: Bad Request
           content:
@@ -651,8 +647,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: ox11n1eldt2f2
                     default: The user update was completed successfully.
         '400':
           description: Bad Request
@@ -724,19 +718,16 @@ paths:
                   message:
                     type: string
                     default: The user update was completed successfully.
-        '207':
-          description: |-
-            Multi-Status (WebDAV)
-
-            Response for a user assignment with projects.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Multistatus'
         '400':
           description: Bad Request
           content:
             application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '403':
@@ -1000,6 +991,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '403':
           description: Forbidden
           content:
@@ -1054,6 +1051,12 @@ paths:
           description: Bad Request
           content:
             application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
         '403':
@@ -2404,48 +2407,6 @@ components:
         - $ref: '#/components/schemas/UserProjectRole'
           x-stoplight:
             id: g9u6ex4s7r65u
-    EventStatus:
-      title: Event status
-      type: object
-      description: |-
-        Event status object used to represent the status of a request item in
-        bulk operations.
-      properties:
-        href:
-          type: string
-          description: Identifier of a request item.
-        status:
-          type: object
-          description: |-
-            Object indicating the execution status of
-            the request item.
-          properties:
-            code:
-              type: integer
-              format: int32
-              description: HTTP status code indicating the resource's status.
-              minimum: 100
-              exclusiveMaximum: true
-              maximum: 600
-            description:
-              type: string
-              description: |-
-                Human readable status description and containing additional
-                              context information about failures etc.
-      required:
-        - href
-        - status
-    Multistatus:
-      title: Multistatus
-      type: object
-      properties:
-        multistatus:
-          type: object
-          properties:
-            responses:
-              type: array
-              items:
-                $ref: '#/components/schemas/EventStatus'
     ProjectMetadata:
       title: Project metadata
       type: object
