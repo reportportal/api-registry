@@ -1,5 +1,4 @@
 title: Patch Operation Array String
-
 type: object
 properties:
   op:
@@ -7,14 +6,10 @@ properties:
     enum:
       - add
       - replace
-      - delete
-    
+      - remove
   path:
     type: string
-    
   value:
     type: array
     items:
-      
       type: string
-    

@@ -3,11 +3,10 @@ type: object
 properties:
   op:
     type: string
-    
     enum:
       - add
       - replace
-      - delete
+      - remove
   path:
     type: string
     

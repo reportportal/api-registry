@@ -6,7 +6,7 @@ properties:
     enum:
       - add
       - replace
-      - delete
+      - remove
   path:
     type: string
   value:
