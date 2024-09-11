@@ -2177,7 +2177,7 @@ components:
           enum:
             - add
             - replace
-            - delete
+            - remove
         path:
           type: string
         value:
@@ -2191,7 +2191,7 @@ components:
           enum:
             - add
             - replace
-            - delete
+            - remove
         path:
           type: string
         value:
@@ -2207,7 +2207,7 @@ components:
           enum:
             - add
             - replace
-            - delete
+            - remove
         path:
           type: string
         value:
@@ -2221,7 +2221,7 @@ components:
           enum:
             - add
             - replace
-            - delete
+            - remove
         path:
           type: string
         value:
@@ -2235,7 +2235,7 @@ components:
           enum:
             - add
             - replace
-            - delete
+            - remove
         path:
           type: string
         value:
@@ -2249,7 +2249,7 @@ components:
           enum:
             - add
             - replace
-            - delete
+            - remove
         path:
           type: string
         value:
