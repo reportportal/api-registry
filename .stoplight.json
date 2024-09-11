@@ -1,5 +1,7 @@
 {
-  "exclude": [],
+  "exclude": [
+    "api/openapi/reportportal-api.yaml"
+  ],
   "formats": {
     "openapi": {
       "rootDir": "api/openapi/apis",

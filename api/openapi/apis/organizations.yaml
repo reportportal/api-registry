@@ -601,19 +601,16 @@ paths:
                   message:
                     type: string
                     default: The user update was completed successfully.
-        '207':
-          description: |-
-            Multi-Status (WebDAV)
-
-            Response for a user assignment with projects.
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Multistatus.yaml
         '400':
           description: Bad Request
           content:
             application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
                 $ref: ../models/Problem.yaml
         '403':
@@ -856,6 +853,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ../models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Problem.yaml
         '403':
           description: Forbidden
           content:
@@ -908,6 +911,12 @@ paths:
           description: Bad Request
           content:
             application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
                 $ref: ../models/Problem.yaml
         '403':
