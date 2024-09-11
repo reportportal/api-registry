@@ -386,11 +386,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: The user was added to the organization.
-              examples:
-                Assign or create:
-                  value:
-                    message: The user was added to the organization.
+                    default: The user was added to the organization.
         '400':
           description: Bad Request
           content:
@@ -530,8 +526,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    x-stoplight:
-                      id: ox11n1eldt2f2
                     default: The user update was completed successfully.
         '400':
           description: Bad Request
