@@ -1544,32 +1544,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    description: Invitation ID.
-                    format: uuid
-                  email:
-                    type: string
-                    description: User's email.
-                  status:
-                    type: string
-                    enum:
-                      - PENDING
-                      - ACTIVATED
-                    description: User invitations status.
-                  link:
-                    type: string
-                    description: Link to invitation form.
-                  created_at:
-                    type: string
-                    format: date-time
-                    description: Creation date.
-                  expires_at:
-                    type: string
-                    format: date-time
-                    description: Experation date.
+                $ref: '#/components/schemas/Invitation'
         '400':
           description: Bad Request
         '401':
@@ -1583,6 +1558,7 @@ paths:
         content:
           application/json:
             schema:
+              title: Create invitation request
               type: object
               properties:
                 email:
@@ -1636,12 +1612,6 @@ paths:
       description: Get all invitations
       tags:
         - Invitation
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
       security:
         - BearerAuth: []
   /invitations/{id}:
@@ -1679,6 +1649,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Activated user info
                 type: object
                 properties:
                   id:
@@ -1707,6 +1678,7 @@ paths:
         content:
           application/json:
             schema:
+              title: Activate invitation request
               type: object
               properties:
                 status:
@@ -2602,6 +2574,7 @@ components:
           type: string
           enum:
             - PENDING
+            - ACTIVATED
           description: User invitations status.
         link:
           type: string
