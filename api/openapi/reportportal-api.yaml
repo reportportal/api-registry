@@ -264,16 +264,7 @@ paths:
       operationId: put-organizations-org_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The organization update was completed successfully.
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
           content:
@@ -326,16 +317,7 @@ paths:
       operationId: patch-organizations-org_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The organization update was completed successfully.
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
           content:
@@ -643,16 +625,7 @@ paths:
       operationId: put-organizations-org_id-users-user_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: User Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The user update was completed successfully.
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
           content:
@@ -715,16 +688,7 @@ paths:
       operationId: patch-organizations-org_id-users-user_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: User Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The user update was completed successfully.
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
           content:
@@ -983,16 +947,7 @@ paths:
       operationId: put-organizations-org_id-projects-project_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Project Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The project update was completed successfully.
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
           content:
@@ -1046,16 +1001,7 @@ paths:
       operationId: patch-organizations-org_id-projects-project_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Project Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The project update was completed successfully.
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
           content:
@@ -1275,15 +1221,7 @@ paths:
       operationId: patch-organizations-org_id-settings-setting_name
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Setting Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
+          $ref: '#/components/responses/SuccessfulUpdate'
         '400':
           description: Bad Request
         '403':
@@ -1377,15 +1315,7 @@ paths:
       operationId: put-organizations-org_id-notification-rules-notify_rule_id
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
+          $ref: '#/components/responses/SuccessfulUpdate'
       requestBody:
         content:
           application/json:
@@ -2686,3 +2616,15 @@ components:
       type: http
       scheme: bearer
       description: Bearer token for authentication
+  responses:
+    SuccessfulUpdate:
+      description: Successful update
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
