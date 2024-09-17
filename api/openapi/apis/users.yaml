@@ -50,20 +50,7 @@ paths:
         content:
           application/json:
             schema:
-              title: Create invitation request
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                  description: Email for invitation.
-                organizations:
-                  type: array
-                  description: Organizations to assign a user.
-                  items:
-                    $ref: ../models/user/UserOrgInfoWithProjects.yaml
-              required:
-                - email
+              $ref: '#/components/schemas/InvitationRequest'
         description: ''
       tags:
         - Invitation
@@ -76,9 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: ../models/Offset.yaml
-                  - $ref: '#/components/schemas/Invitations'
+                $ref: '#/components/schemas/InvitationPage'
         '400':
           description: Bad Request
         '401':
@@ -135,22 +120,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Activated user info
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                    description: Invitation ID.
-                  user_id:
-                    type: integer
-                    format: int64
-                    description: Created user ID.
-                    minimum: 0
-                  email:
-                    type: string
-                    format: email
-                    description: User email.
+                $ref: '#/components/schemas/Invitation'
         '400':
           description: Bad Request
         '401':
@@ -164,35 +134,7 @@ paths:
         content:
           application/json:
             schema:
-              title: Activate invitation request
-              type: object
-              properties:
-                status:
-                  type: string
-                  enum:
-                    - ACTIVATED
-                    - PENDING
-                  description: Change status to ACTIVATED to create a user.
-                  default: PENDING
-                email:
-                  type: string
-                  description: New email.
-                  format: email
-                full_name:
-                  type: string
-                  description: User full name.
-                  maxLength: 60
-                password:
-                  type: string
-                  format: password
-                  description: |-
-                    User password. Will be ignored for `PENDING` status.
-                    Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
-                  minLength: 8
-                  maxLength: 256
-                  pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$'
-              required:
-                - password
+              $ref: '#/components/schemas/InvitationActivation'
         description: ''
       tags:
         - Invitation
@@ -204,8 +146,12 @@ components:
       properties:
         id:
           type: string
-          description: Invitation ID.
+          description: Invitation identifier.
           format: uuid
+        user_id:
+          type: integer
+          format: int64
+          description: User identifier. For activated users only.
         email:
           type: string
           description: User's email.
@@ -227,13 +173,62 @@ components:
           format: date-time
           description: Experation date.
     Invitations:
-      title: InvitationsList
+      title: Invitations list
       type: object
       properties:
         items:
           type: array
           items:
             $ref: '#/components/schemas/Invitation'
+    InvitationPage:
+      title: Invitation page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - $ref: '#/components/schemas/Invitations'
+    InvitationRequest:
+      title: Invitation creation request
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email for invitation.
+        organizations:
+          type: array
+          description: Organizations to assign a user.
+          items:
+            $ref: ../models/user/UserOrgInfoWithProjects.yaml
+      required:
+        - email
+    InvitationActivation:
+      title: Invitation activation request
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVATED
+          description: Change status to ACTIVATED to create a user.
+          default: ACTIVATED
+        email:
+          type: string
+          description: New email.
+          format: email
+        full_name:
+          type: string
+          description: User full name.
+          maxLength: 60
+        password:
+          type: string
+          format: password
+          description: |-
+            User password. Will be ignored for `PENDING` status.
+            Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+          minLength: 8
+          maxLength: 256
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$'
+      required:
+        - password
   securitySchemes:
     $ref: ../security/BearerAuth.yaml
 security:
