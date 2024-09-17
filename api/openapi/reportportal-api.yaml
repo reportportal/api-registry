@@ -1558,20 +1558,7 @@ paths:
         content:
           application/json:
             schema:
-              title: Create invitation request
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                  description: Email for invitation.
-                organizations:
-                  type: array
-                  description: Organizations to assign a user.
-                  items:
-                    $ref: '#/components/schemas/UserOrgInfoWithProjects'
-              required:
-                - email
+              $ref: '#/components/schemas/InvitationRequest'
         description: ''
       tags:
         - Invitation
@@ -1586,9 +1573,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/Offset'
-                  - $ref: '#/components/schemas/Invitations'
+                $ref: '#/components/schemas/InvitationPage'
         '400':
           description: Bad Request
         '401':
@@ -1649,22 +1634,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Activated user info
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                    description: Invitation ID.
-                  user_id:
-                    type: integer
-                    format: int64
-                    description: Created user ID.
-                    minimum: 0
-                  email:
-                    type: string
-                    format: email
-                    description: User email.
+                $ref: '#/components/schemas/Invitation'
         '400':
           description: Bad Request
         '401':
@@ -1678,37 +1648,7 @@ paths:
         content:
           application/json:
             schema:
-              title: Activate invitation request
-              type: object
-              properties:
-                status:
-                  type: string
-                  enum:
-                    - ACTIVATED
-                    - PENDING
-                  description: Change status to ACTIVATED to create a user.
-                  default: PENDING
-                email:
-                  type: string
-                  description: New email.
-                  format: email
-                full_name:
-                  type: string
-                  description: User full name.
-                  maxLength: 60
-                password:
-                  type: string
-                  format: password
-                  description: >-
-                    User password. Will be ignored for `PENDING` status.
-
-                    Minimum eight characters, at least one uppercase letter, one
-                    lowercase letter, one number and one special character.
-                  minLength: 8
-                  maxLength: 256
-                  pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
-              required:
-                - password
+              $ref: '#/components/schemas/InvitationActivation'
         description: ''
       tags:
         - Invitation
@@ -2260,33 +2200,6 @@ components:
         - $ref: '#/components/schemas/PatchInteger'
         - $ref: '#/components/schemas/PatchBoolean'
       description: ''
-    UserDetails:
-      title: User details
-      description: |-
-        Contains details associated with a user account.
-
-        User has a unique email address, full name, and account type.
-
-        Account type can be either `ADMIN` or `USER`.
-        Only `ADMIN` users have access to change account type.
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: User email.
-        full_name:
-          type: string
-          description: User full name.
-        instance_role:
-          type: string
-          enum:
-            - ADMINISTRATOR
-            - USER
-          description: Instance account role.
-        external_id:
-          type: string
-          description: User external identifier. Provided by external systems.
     UserMetadata:
       title: User metadata
       type: object
@@ -2326,17 +2239,40 @@ components:
             - SAML
             - SCIM
           default: INTERNAL
+    UserDetails:
+      title: User details
+      description: |-
+        Contains details associated with a user account.
+
+        User has a unique email address, full name, and account type.
+
+        Account type can be either `ADMIN` or `USER`.
+        Only `ADMIN` users have access to change account type.
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          type: string
+          description: User full name.
+        instance_role:
+          type: string
+          enum:
+            - ADMINISTRATOR
+            - USER
+          description: Instance account role.
+        external_id:
+          type: string
+          description: User external identifier. Provided by external systems.
     UserAccount:
       title: User account info
       x-stoplight:
         id: 496536498d562
       allOf:
-        - $ref: '#/components/schemas/UserDetails'
-          x-stoplight:
-            id: vl6ky1g5bi4zo
         - $ref: '#/components/schemas/UserMetadata'
-          x-stoplight:
-            id: qqrvh896diypz
+        - $ref: '#/components/schemas/UserDetails'
     UserOrgRole:
       title: Organization user details
       x-stoplight:
@@ -2565,8 +2501,12 @@ components:
       properties:
         id:
           type: string
-          description: Invitation ID.
+          description: Invitation identifier.
           format: uuid
+        user_id:
+          type: integer
+          format: int64
+          description: User identifier. For activated users only.
         email:
           type: string
           description: User's email.
@@ -2588,13 +2528,64 @@ components:
           format: date-time
           description: Experation date.
     Invitations:
-      title: InvitationsList
+      title: Invitations list
       type: object
       properties:
         items:
           type: array
           items:
             $ref: '#/components/schemas/Invitation'
+    InvitationPage:
+      title: Invitation page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - $ref: '#/components/schemas/Invitations'
+    InvitationRequest:
+      title: Invitation creation request
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email for invitation.
+        organizations:
+          type: array
+          description: Organizations to assign a user.
+          items:
+            $ref: '#/components/schemas/UserOrgInfoWithProjects'
+      required:
+        - email
+    InvitationActivation:
+      title: Invitation activation request
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVATED
+          description: Change status to ACTIVATED to create a user.
+          default: ACTIVATED
+        email:
+          type: string
+          description: New email.
+          format: email
+        full_name:
+          type: string
+          description: User full name.
+          maxLength: 60
+        password:
+          type: string
+          format: password
+          description: >-
+            User password. Will be ignored for `PENDING` status.
+
+            Minimum eight characters, at least one uppercase letter, one
+            lowercase letter, one number and one special character.
+          minLength: 8
+          maxLength: 256
+          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
+      required:
+        - password
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
