@@ -268,6 +268,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Update Response
                 type: object
                 properties:
                   message:
@@ -329,6 +330,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Update Response
                 type: object
                 properties:
                   message:
@@ -483,6 +485,7 @@ paths:
           content:
             application/json:
               schema:
+                title: User Assignment Response
                 type: object
                 properties:
                   message:
@@ -560,6 +563,7 @@ paths:
         content:
           application/json:
             schema:
+              title: User Assignment Request
               allOf:
                 - $ref: '#/components/schemas/UserOrgRole'
                 - type: object
@@ -643,6 +647,7 @@ paths:
           content:
             application/json:
               schema:
+                title: User Update Response
                 type: object
                 properties:
                   message:
@@ -676,6 +681,7 @@ paths:
         content:
           application/json:
             schema:
+              title: Org User Update Request
               allOf:
                 - $ref: '#/components/schemas/UserOrgRole'
                 - type: object
@@ -713,6 +719,7 @@ paths:
           content:
             application/json:
               schema:
+                title: User Update Response
                 type: object
                 properties:
                   message:
@@ -980,6 +987,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Project Update Response
                 type: object
                 properties:
                   message:
@@ -1042,6 +1050,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Project Update Response
                 type: object
                 properties:
                   message:
@@ -1139,6 +1148,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Settings Response
                 type: object
                 properties:
                   retention_policy:
@@ -1183,6 +1193,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Setting Response
                 oneOf:
                   - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                   - $ref: '#/components/schemas/OrganizationNotificationPolicy'
@@ -1212,6 +1223,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Setting Update Response
                 type: object
                 properties:
                   message:
@@ -1245,6 +1257,7 @@ paths:
         content:
           application/json:
             schema:
+              title: Organization Setting Request
               oneOf:
                 - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
@@ -1266,6 +1279,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Setting Update Response
                 type: object
                 properties:
                   message:
@@ -1280,6 +1294,7 @@ paths:
         content:
           application/json:
             schema:
+              title: Organization Setting Request
               oneOf:
                 - $ref: '#/components/schemas/OrganizationRetentionPolicy'
                 - $ref: '#/components/schemas/OrganizationNotificationPolicy'
@@ -1366,6 +1381,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Update Response
                 type: object
                 properties:
                   message:
@@ -1389,6 +1405,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Organization Update Response
                 type: object
                 properties:
                   message:
