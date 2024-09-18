@@ -115,17 +115,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationProfilesPage'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       operationId: get-organizations
       description: |-
         Get a list of existing organizations.
@@ -235,17 +227,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationProfile'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id
       description: |-
         Provide organization information.
@@ -264,31 +248,15 @@ paths:
       operationId: put-organizations-org_id
       responses:
         '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
+          $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: |-
         > **Enterprise edition feature** 
         >
@@ -317,31 +285,15 @@ paths:
       operationId: patch-organizations-org_id
       responses:
         '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
+          $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: >-
         > **Enterprise edition feature** 
 
@@ -378,23 +330,11 @@ paths:
         '204':
           description: No Content
         '402':
-          description: Payment Required
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: |-
         > **Enterprise edition feature** 
         >
@@ -427,17 +367,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationUsersPage'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-users
       description: |-
         Provides a list of organization's users.
@@ -586,17 +518,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationUserAccount'
         '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-users-user_id
       description: |-
         Get organization user profile.
@@ -625,31 +549,15 @@ paths:
       operationId: put-organizations-org_id-users-user_id
       responses:
         '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
+          $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       requestBody:
         content:
           application/json:
@@ -688,31 +596,15 @@ paths:
       operationId: patch-organizations-org_id-users-user_id
       responses:
         '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
+          $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: >-
         Partial organization user update.
 
@@ -754,17 +646,9 @@ paths:
         '204':
           description: No Content
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -793,17 +677,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationProjectsPage'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-projects
       parameters:
         - $ref: '#/components/parameters/Limit'
@@ -856,29 +732,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationProjectInfo'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: |-
         Create a new project in the organization. 
 
@@ -913,17 +773,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectProfile'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-projects-project_id
       description: |-
         Get project information.
@@ -947,31 +799,15 @@ paths:
       operationId: put-organizations-org_id-projects-project_id
       responses:
         '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
+          $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       requestBody:
         content:
           application/json:
@@ -1001,31 +837,15 @@ paths:
       operationId: patch-organizations-org_id-projects-project_id
       responses:
         '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
+          $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       requestBody:
         content:
           application/json-patch+json:
@@ -1061,17 +881,9 @@ paths:
         '204':
           description: No Content
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: |-
         Delete project.
 
@@ -1079,286 +891,6 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/settings:
-    parameters:
-      - $ref: '#/components/parameters/OrganizationId'
-    get:
-      summary: '#TODO'
-      tags:
-        - In progress
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                title: Organization Settings Response
-                type: object
-                properties:
-                  retention_policy:
-                    $ref: '#/components/schemas/OrganizationRetentionPolicy'
-                  notification_policy:
-                    $ref: '#/components/schemas/OrganizationNotificationPolicy'
-        '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '404':
-          description: 'Not Found: Organization not found.'
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-      operationId: get-organizations-org_id-settings
-      description: '#TODO'
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/settings/{setting_name}:
-    parameters:
-      - $ref: '#/components/parameters/OrganizationId'
-      - schema:
-          type: string
-          enum:
-            - retention-policy
-            - notification-policy
-        name: setting_name
-        in: path
-        required: true
-        description: Specific setting name
-    get:
-      summary: '#TODO'
-      tags:
-        - In progress
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Setting Response
-                oneOf:
-                  - $ref: '#/components/schemas/OrganizationRetentionPolicy'
-                  - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-                description: '#TODO'
-        '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '404':
-          description: 'Not Found: Organization or setting not found.'
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-      operationId: get-organizations-org_id-settings-setting_name
-      description: '#TODO'
-      security:
-        - BearerAuth: []
-    put:
-      summary: '#TODO'
-      operationId: put-organizations-org_id-settings-setting_name
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Setting Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-              examples:
-                Retention policy:
-                  value:
-                    id: retention-policy
-                    status: SUCCESS
-                    description: Retention policy updated successfully.
-        '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-      description: '#TODO'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Organization Setting Request
-              oneOf:
-                - $ref: '#/components/schemas/OrganizationRetentionPolicy'
-                - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-          application/xml:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/OrganizationRetentionPolicy'
-                - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-      tags:
-        - In progress
-      security:
-        - BearerAuth: []
-    patch:
-      summary: '#TODO'
-      operationId: patch-organizations-org_id-settings-setting_name
-      responses:
-        '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
-        '400':
-          description: Bad Request
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Organization Setting Request
-              oneOf:
-                - $ref: '#/components/schemas/OrganizationRetentionPolicy'
-                - $ref: '#/components/schemas/OrganizationNotificationPolicy'
-      description: '#TODO'
-      tags:
-        - In progress
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/notification-rules:
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags:
-        - In progress
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationNotifyRulesList'
-      operationId: get-organizations-org_id-notification-rules
-      description: '#TODO'
-      security:
-        - BearerAuth: []
-    post:
-      summary: '#TODO'
-      operationId: post-organizations-org_id-notification-rules
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationNotifyRule'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
-      description: '#TODO'
-      tags:
-        - In progress
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/notification-rules/{notify_rule_id}:
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: notify_rule_id
-        in: path
-        required: true
-    get:
-      summary: '#TODO'
-      tags:
-        - In progress
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationNotifyRule'
-      operationId: get-organizations-org_id-notifications-rules-rule_id
-      description: '#TODO'
-      security:
-        - BearerAuth: []
-    put:
-      summary: '#TODO'
-      operationId: put-organizations-org_id-notification-rules-notify_rule_id
-      responses:
-        '200':
-          $ref: '#/components/responses/SuccessfulUpdate'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
-      description: '#TODO'
-      tags:
-        - In progress
-      security:
-        - BearerAuth: []
-    patch:
-      summary: '#TODO'
-      operationId: patch-organizations-org_id-notification-rules-notify_rule_id
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: Organization Update Response
-                type: object
-                properties:
-                  message:
-                    type: string
-      description: '#TODO'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
-      tags:
-        - In progress
-      security:
-        - BearerAuth: []
-    delete:
-      summary: '#TODO'
-      operationId: delete-organizations-org_id-notification-rules-notify_rule_id
-      responses:
-        '204':
-          description: No Content
-      description: '#TODO'
-      tags:
-        - In progress
       security:
         - BearerAuth: []
   /organizations/searches:
@@ -1856,110 +1388,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/ProjectMetadata'
         - $ref: '#/components/schemas/ProjectDetails'
-    OrganizationRetentionPolicy:
-      title: Organization retention policy
-      type: object
-      description: '#TODO'
-      properties:
-        log_retention_period:
-          type: string
-          format: duration
-          description: '#TODO'
-        launch_retention_period:
-          type: string
-          format: duration
-          description: '#TODO'
-        attachment_retention_period:
-          type: string
-          format: duration
-          description: '#TODO'
-    OrganizationNotificationPolicy:
-      title: Organization notification policy
-      type: object
-      properties:
-        auto_notification:
-          type: boolean
-    OrganizationNotifyRulesList:
-      title: List of organization notification rules
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/OrganizationNotifyRule'
-      description: ''
-    OrganizationNotifyRule:
-      title: Organization notification rule
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-            created_at:
-              type: string
-              format: date-time
-            updated_at:
-              type: string
-              format: date-time
-        - $ref: '#/components/schemas/OrganizationNotifyRuleDefinition'
-      description: '#TODO'
-    OrganizationNotifyRuleDefinition:
-      title: Notification rule definition
-      type: object
-      description: '#TODO'
-      properties:
-        name:
-          type: string
-          description: '#TODO'
-        enabled:
-          type: boolean
-          description: '#TODO'
-        conditions:
-          type: object
-          description: '#TODO'
-          properties:
-            launch:
-              type: object
-              description: '#TODO'
-              properties:
-                names:
-                  type: array
-                  description: '#TODO'
-                  items:
-                    type: string
-                attributes:
-                  type: array
-                  description: '#TODO'
-                  items:
-                    type: object
-                    properties:
-                      key:
-                        type: string
-                      value:
-                        type: string
-                attributes_operator:
-                  type: string
-                  enum:
-                    - AND
-                    - OR
-                  default: AND
-                  description: '#TODO'
-                result_condition:
-                  type: string
-                  enum:
-                    - ALWAYS
-                    - FAILED
-                    - TO_INVESTIGATE
-                    - MORE_10
-                    - MORE_20
-                    - MORE_50
-                  description: '#TODO'
-        actions:
-          allOf:
-            - $ref: '#/components/schemas/SendEmail'
-          description: '#TODO'
     Offset:
       type: object
       title: Offset-based
@@ -2366,24 +1794,6 @@ components:
         - $ref: '#/components/schemas/ProjectDetails'
         - $ref: '#/components/schemas/ProjectRelationships'
       description: Comprehensive information about a project.
-    SendEmail:
-      title: Send email
-      type: object
-      description: This action sends an email notification to specified recipients.
-      properties:
-        send_email:
-          type: object
-          properties:
-            recipients:
-              type: array
-              format: email
-              items:
-                type: string
-                format: email
-            subject:
-              type: string
-            body:
-              type: string
     OffsetRequest:
       type: object
       title: Offset-based
@@ -2617,8 +2027,8 @@ components:
       scheme: bearer
       description: Bearer token for authentication
   responses:
-    SuccessfulUpdate:
-      description: Successful update
+    Update:
+      description: Successful update response
       content:
         application/json:
           schema:
@@ -2628,3 +2038,9 @@ components:
               message:
                 type: string
                 example: The update was completed successfully.
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
