@@ -10,9 +10,10 @@
       ]
     },
     "json_schema": {
-      "rootDir": "api/openapi/models",
+      "rootDir": "api/openapi",
       "include": [
-        "**"
+        "api/openapi/models/**",
+        "api/openapi/parameters/**"
       ]
     },
     "markdown": {
