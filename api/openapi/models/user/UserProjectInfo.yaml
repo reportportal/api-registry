@@ -9,5 +9,3 @@ allOf:
         description: Project's internal identifier.
         minimum: 0
   - $ref: ./UserProjectRole.yaml
-    x-stoplight:
-      id: g9u6ex4s7r65u

@@ -1,6 +1,4 @@
 title: Organization user details
-x-stoplight:
-  id: d801f77eb8d0c
 type: object
 description: Basic information about a user in the organization.
 properties:

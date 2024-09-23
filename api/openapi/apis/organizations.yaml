@@ -367,8 +367,6 @@ paths:
                   properties:
                     id:
                       type: integer
-                      x-stoplight:
-                        id: nvv8139j0n8wp
                       format: int64
                       minimum: 0
                       description: User's internal identifier.
@@ -1109,7 +1107,7 @@ components:
     Error:
       description: Error response
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: ../models/Problem.yaml
 tags:

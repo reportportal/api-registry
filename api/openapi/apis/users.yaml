@@ -38,13 +38,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invitation'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '503':
-          description: Service Unavailable
+          $ref: '#/components/responses/Error'
       description: Create and send user invitation to email.
       requestBody:
         content:
@@ -65,11 +65,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/InvitationPage'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -106,9 +106,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invitation'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
       operationId: get-invitations-id
       description: Get invitation by ID.
     put:
@@ -122,13 +122,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invitation'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Create user from invitation.
       requestBody:
         content:
@@ -221,31 +221,84 @@ paths:
       tags:
         - ApiKey
         - User
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       operationId: get-users-user_id-api-keys
+      parameters:
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Get a key by name
+      description: Retrieve list of user's Api Keys
     post:
       summary: ''
       operationId: post-users-user_id-api-keys
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyCreateResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyCreateRequest'
+      description: Create an API key for the user
   '/users/{user_id}/api-keys/{key_id}':
     parameters:
       - $ref: '#/components/parameters/userId'
       - schema:
-          type: string
+          type: integer
+          minLength: 0
         name: key_id
         in: path
         required: true
+        description: Key identifier
     delete:
       summary: ''
       operationId: delete-users-user_id-api-keys-key_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       tags:
         - User
         - ApiKey
+      description: Delete the API key by ID
   '/users/{user_id}/password':
     parameters:
       - schema:
@@ -376,6 +429,59 @@ components:
           pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$'
       required:
         - password
+    ApiKey:
+      title: API Key
+      type: object
+      description: Common info of the API Key.
+      properties:
+        id:
+          type: integer
+          description: Internal identifier
+        name:
+          type: string
+          description: API Key unique name
+        user_id:
+          type: integer
+          description: API Key owner
+        created_at:
+          type: string
+          format: date-time
+          description: Date time with milliseconds
+          example: '2019-07-30T06:43:40.252Z'
+        last_used_at:
+          type: string
+          format: date-time
+          example: '2019-07-30T06:43:40.252Z'
+          description: Date time with milliseconds
+    ApiKeyCreateRequest:
+      title: API Key Create Request
+      type: object
+      properties:
+        name:
+          type: string
+          description: Unique name for the new API key
+      required:
+        - name
+    ApiKeyCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiKey'
+        - type: object
+          properties:
+            api_key:
+              type: string
+              description: The generated API key
+          required:
+            - api_key
+    ApiKeyPage:
+      title: API Key Page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ApiKey'
   securitySchemes:
     BearerAuth:
       type: http
@@ -390,6 +496,13 @@ components:
         format: int64
         minimum: 0
       description: User identifier
+  responses:
+    Error:
+      description: Example response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
 tags:
   - name: ApiKey
   - name: Implemented
