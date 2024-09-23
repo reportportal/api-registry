@@ -385,7 +385,7 @@ paths:
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/organizationId'
-      - $ref: '#/components/parameters/userId'
+      - $ref: ./users.yaml#/components/parameters/userId
     get:
       summary: Get organization user profile
       tags:
@@ -1082,14 +1082,6 @@ components:
         type: integer
         format: int64
       description: Organization identifier
-    userId:
-      name: user_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: User identifier
     projectId:
       name: project_id
       in: path

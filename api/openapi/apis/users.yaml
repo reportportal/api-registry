@@ -184,7 +184,7 @@ paths:
       operationId: get-users-me
   '/users/{user_id}':
     parameters:
-      - $ref: ../parameters/UserId.yaml
+      - $ref: '#/components/parameters/userId'
     get:
       summary: Your GET endpoint
       tags: []
