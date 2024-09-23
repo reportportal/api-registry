@@ -1,6 +1,4 @@
 openapi: 3.0.3
-x-stoplight:
-  id: e28c4d274c7f9
 info:
   title: ReportPortal API
   version: Organization
@@ -164,8 +162,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/HistoryField'
-      x-stoplight:
-        id: ens4f64541pan
     HistoryField:
       title: HistoryField
       type: object
@@ -176,8 +172,6 @@ components:
           type: string
         new_value:
           type: string
-      x-stoplight:
-        id: it17s27q1lxbj
     SearchCriteria:
       title: SearchCriteria
       type: object
@@ -201,16 +195,6 @@ components:
       required:
         - filter_key
         - value
-      x-stoplight:
-        id: 8u4vesuhg8gck
-  parameters:
-    UserId:
-      name: user_id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: User's ID
 tags:
   - name: Activities
   - name: Organizations
