@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: Projects API
+  version: Organization
+  description: API Collection for working with projects.
+  contact:
+    name: ReportPortal Team
+    email: support@reportportal.io
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+security:
+  - BearerAuth: []
+paths:
+  /projects/{project_name}/activities/suggestions:
+    get:
+      summary: Get project suggestions
+      tags:
+        - Projects
+        - Suggestions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      suggestions:
+                        type: array
+                        description: List of activities suggestions for the project by type.
+                        items:
+                          type: string
+                  - $ref: ../models/Limit.yaml
+        '404':
+          description: Not Found
+      operationId: get-project-suggestions
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - subject_name
+          in: query
+          name: type
+          description: Type of suggestions
+        - schema:
+            type: string
+          in: query
+          name: filter
+          description: Filter query for suggestions
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: Maximum number of suggestions
+      description: |-
+        Get project activities suggestions by type for autocomplete.
+        Supported types:
+        - subject_name: Get suggestions for activity subject names in the project.
+
+        If the type isn't provided or provided incorrectly, you get a 404 error. 
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiKeyMetadata:
+      title: API Key metadata
+      type: object
+      description: ReportPortal only stores metadata and a hash of the API Key.
+      properties:
+        id:
+          type: integer
+          description: Internal identifier
+        name:
+          type: string
+          description: API Key unique name
+        user_id:
+          type: integer
+          description: API Key owner
+        created_at:
+          type: string
+          format: date-time
+          description: Date time with milliseconds
+          example: '2019-07-30T06:43:40.252Z'
+        last_used_at:
+          type: string
+          format: date-time
+          example: '2019-07-30T06:43:40.252Z'
+          description: Date time with milliseconds
+    ApiKey:
+      title: API Key
+      description: 'Generated API key, granted once after creation.'
+      allOf:
+        - $ref: '#/components/schemas/ApiKeyMetadata'
+        - type: object
+          properties:
+            api_key:
+              type: string
+              description: Generated API Key
+    Activity:
+      title: Activity
+      type: object
+      description: activity details
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+        created_at:
+          type: string
+          format: date-time
+        event_name:
+          type: string
+        object_id:
+          type: integer
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+          format: int64
+          minimum: 1
+        object_name:
+          type: string
+        object_type:
+          type: string
+        project_id:
+          type: integer
+          format: int64
+          exclusiveMinimum: false
+          minimum: 1
+        project_name:
+          type: string
+        subject_name:
+          type: string
+        subject_type:
+          type: string
+        details:
+          type: object
+          properties:
+            history:
+              type: array
+              items:
+                $ref: '#/components/schemas/HistoryField'
+    HistoryField:
+      title: HistoryField
+      type: object
+      properties:
+        field:
+          type: string
+        old_value:
+          type: string
+        new_value:
+          type: string
+    SearchCriteria:
+      title: SearchCriteria
+      type: object
+      properties:
+        filter_key:
+          type: string
+          description: search by field
+        operation:
+          type: string
+          enum:
+            - EQ
+            - NE
+            - CNT
+            - NON_CNT
+            - BTW
+            - IN
+          description: operation to perform for the filter
+        value:
+          type: string
+          description: search value
+      required:
+        - filter_key
+        - value
+  parameters:
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: User's ID
+tags:
+  - name: Activities
+  - name: Organizations
+  - name: Projects
+  - name: Suggestions
+  - name: User API Keys

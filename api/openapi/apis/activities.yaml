@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: ReportPortal API
+  title: Activities API
   version: Organization
   description: API Collection for working with activities.
   license:
