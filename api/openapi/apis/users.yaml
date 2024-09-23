@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Users API
-  version: '0.1'
+  version: Organization
   description: API Collection for working with users.
   license:
     name: Apache 2.0
@@ -71,9 +71,9 @@ paths:
         '403':
           description: Forbidden
       parameters:
-        - $ref: ../parameters/Pagination.yaml#/Offset
-        - $ref: ../parameters/Pagination.yaml#/Limit
-        - $ref: ../parameters/Pagination.yaml#/Order
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
         - schema:
             type: string
             default: email
@@ -138,6 +138,153 @@ paths:
         description: ''
       tags:
         - Invitation
+  /users:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - User
+      responses: {}
+      operationId: get-users
+      description: ''
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+  /users/searches:
+    post:
+      summary: ''
+      operationId: post-users-searches
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+      tags:
+        - User
+  /users/me:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-me
+  '/users/{user_id}':
+    parameters:
+      - $ref: ../parameters/UserId.yaml
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-user_id
+      description: ''
+    put:
+      summary: ''
+      operationId: put-users-user_id
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: ''
+      operationId: patch-users-user_id
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-users-user_id
+      responses:
+        '200':
+          description: OK
+  '/users/{user_id}/api-keys':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - ApiKey
+        - User
+      responses: {}
+      operationId: get-users-user_id-api-keys
+    post:
+      summary: ''
+      operationId: post-users-user_id-api-keys
+      responses:
+        '200':
+          description: OK
+  '/users/{user_id}/api-keys/{key_id}':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+      - schema:
+          type: string
+        name: key_id
+        in: path
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-users-user_id-api-keys-key_id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - User
+        - ApiKey
+  '/users/{user_id}/password':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-users-user_id-password
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Password
+        - User
+      description: ''
+    patch:
+      summary: ''
+      operationId: patch-users-user_id-password
+      responses:
+        '200':
+          description: OK
+  /password-reset-requests:
+    post:
+      summary: Create password reset request
+      operationId: post-password-reset-requests
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      tags:
+        - Password
+        - User
+      description: ''
+    parameters: []
 components:
   schemas:
     Invitation:
@@ -171,7 +318,7 @@ components:
         expires_at:
           type: string
           format: date-time
-          description: Experation date.
+          description: Expiration date.
     Invitations:
       title: Invitations list
       type: object
@@ -230,15 +377,27 @@ components:
       required:
         - password
   securitySchemes:
-    $ref: ../security/BearerAuth.yaml
-security:
-  - BearerAuth: []
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: ''
+  parameters:
+    userId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: User identifier
 tags:
-  - name: In progress
-    description: Endpoints that are in designing
-  - name: Ready for implementation
-    description: Endpoints that are ready for development
+  - name: ApiKey
   - name: Implemented
-    description: Endpoints that are implemented
+  - name: In progress
   - name: Invitation
-    description: User invitations
+  - name: Password
+  - name: Ready for implementation
+  - name: User
+security:
+  - Basic: []

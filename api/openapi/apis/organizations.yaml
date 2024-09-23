@@ -56,9 +56,9 @@ paths:
         - `MANAGER` - limited to viewing only their assigned organizations.
         - `MEMBER` - limited to viewing only their assigned organizations.
       parameters:
-        - $ref: ../parameters/Pagination.yaml#/Offset
-        - $ref: ../parameters/Pagination.yaml#/Limit
-        - $ref: ../parameters/Pagination.yaml#/Order
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
         - schema:
             type: string
           in: query
@@ -280,9 +280,9 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
       parameters:
-        - $ref: ../parameters/Pagination.yaml#/Offset
-        - $ref: ../parameters/Pagination.yaml#/Limit
-        - $ref: ../parameters/Pagination.yaml#/Order
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
         - in: query
           name: sort
           description: Indicate sort by field
@@ -546,9 +546,9 @@ paths:
           $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-projects
       parameters:
-        - $ref: ../parameters/Pagination.yaml#/Limit
-        - $ref: ../parameters/Pagination.yaml#/Offset
-        - $ref: ../parameters/Pagination.yaml#/Order
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
         - schema:
             type: string
           in: query
@@ -1081,7 +1081,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: Organization identifier.
+      description: Organization identifier
     userId:
       name: user_id
       in: path
@@ -1089,7 +1089,7 @@ components:
       schema:
         type: integer
         format: int64
-      description: User identifier.
+      description: User identifier
     projectId:
       name: project_id
       in: path
@@ -1097,9 +1097,11 @@ components:
       schema:
         type: integer
         format: int64
-      description: Project identifier.
+      description: Project identifier
   securitySchemes:
-    $ref: ../security/BearerAuth.yaml
+    BearerAuth:
+      type: http
+      scheme: bearer
   responses:
     Update:
       description: Successful update response
@@ -1118,8 +1120,6 @@ components:
         application/json:
           schema:
             $ref: ../models/Problem.yaml
-security:
-  - BearerAuth: []
 tags:
   - name: Organization
     description: Organizations collection
@@ -1133,3 +1133,5 @@ tags:
     description: Endpoints that are ready for development
   - name: Implemented
     description: Endpoints that are implemented
+security:
+  - BearerAuth: []

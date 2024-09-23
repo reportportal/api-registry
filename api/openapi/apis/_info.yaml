@@ -1,5 +1,4 @@
 openapi: 3.0.3
-
 info:
   title: ReportPortal API
   version: Organization
@@ -50,3 +49,10 @@ servers:
         default: api
         description: Base path of Report Portal API
 paths: {}
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
