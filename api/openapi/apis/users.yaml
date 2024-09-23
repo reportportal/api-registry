@@ -380,7 +380,6 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      description: ''
   parameters:
     userId:
       name: user_id
@@ -400,4 +399,4 @@ tags:
   - name: Ready for implementation
   - name: User
 security:
-  - Basic: []
+  - BearerAuth: []
