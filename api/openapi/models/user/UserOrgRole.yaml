@@ -11,5 +11,3 @@ properties:
       - MANAGER
     description: Organization user role.
     default: MEMBER
-    x-stoplight:
-      id: fl1nu6ikxu8jn

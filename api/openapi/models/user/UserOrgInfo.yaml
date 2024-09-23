@@ -9,5 +9,3 @@ allOf:
         minimum: 0
         description: Organization internal identifier.
   - $ref: ./UserOrgRole.yaml
-    x-stoplight:
-      id: 1x9aaamx6l94w
