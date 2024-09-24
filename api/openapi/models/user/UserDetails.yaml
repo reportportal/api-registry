@@ -29,3 +29,17 @@ properties:
     type: string
     
     description: User external identifier. Provided by external systems.
+  account_type:
+    type: string
+    description: |-
+      Indicates through which service or
+      authentication method the user account
+      was created.
+    enum:
+      - INTERNAL
+      - UPSA
+      - GITHUB
+      - LDAP
+      - SAML
+      - SCIM
+    default: INTERNAL
