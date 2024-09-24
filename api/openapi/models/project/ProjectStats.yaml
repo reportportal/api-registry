@@ -1,18 +1,18 @@
-title: Project metadata
-description: 'Aggregated metadata about the project, including users, launches, and billing.'
+title: Project statistics
+description: 'Aggregated statistics about a project including user, launch, and billing information.'
 type: object
 properties:
-  user_meta:
+  user_stats:
     type: object
-    description: Metadata about users assigned to the project.
+    description: Statistics about users assigned to the project.
     properties:
       count:
         type: integer
         minimum: 0
         description: Total number of users assigned to the project.
-  launch_meta:
+  launch_stats:
     type: object
-    description: Metadata about launches associated with the project.
+    description: Statistics about launches associated with the project.
     properties:
       last_occurred_at:
         type: string
@@ -22,9 +22,9 @@ properties:
         type: integer
         minimum: 0
         description: Total number of launches in the project.
-  billing_meta:
+  billing_stats:
     type: object
-    description: Metadata about the project's billing information. Available only if the billing plugin is enabled.
+    description: Statistics about the project's billing information. Available only if the billing plugin is enabled.
     properties:
       storage_usage:
         type: integer
