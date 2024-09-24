@@ -362,19 +362,16 @@ components:
           type: string
           format: date-time
           description: Expiration date.
-    Invitations:
-      title: Invitations list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invitation'
     InvitationPage:
       title: Invitation page
       allOf:
         - $ref: ../models/Offset.yaml
-        - $ref: '#/components/schemas/Invitations'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Invitation'
     InvitationRequest:
       title: Invitation creation request
       type: object
@@ -479,6 +476,22 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ApiKey'
+    UserPage:
+      title: UserPage
+      x-stoplight:
+        id: ozgepglchl80b
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          x-stoplight:
+            id: t0wcidfyhom8h
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: bqhxehjg0t50a
+              items:
+                $ref: ../models/user/User.yaml
   securitySchemes:
     BearerAuth:
       type: http

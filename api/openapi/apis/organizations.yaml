@@ -7,35 +7,35 @@ info:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
 servers:
-- url: '{protocol}://{authority}/{basePath}'
-  description: ReportPortal server
-  variables:
-    protocol:
-      enum:
-      - http
-      - https
-      default: https
-      description: Protocol
-    authority:
-      default: demo.reportportal.io
-      description: Host name and port (if needed) of Report Portal server
-    basePath:
-      default: api
-      description: Base path of Report Portal API
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
 paths:
   /organizations:
     get:
       summary: Get a list of organizations
       tags:
-      - Organization
-      - Implemented
+        - Organization
+        - Implemented
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfilesPage'
+                $ref: '#/components/schemas/OrganizationWithStatsPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -56,26 +56,26 @@ paths:
         - `MANAGER` - limited to viewing only their assigned organizations.
         - `MEMBER` - limited to viewing only their assigned organizations.
       parameters:
-      - $ref: ../parameters/Offset.yaml
-      - $ref: ../parameters/Limit.yaml
-      - $ref: ../parameters/Order.yaml
-      - schema:
-          type: string
-        in: query
-        name: name
-        description: Filter organizations by name by substring
-      - schema:
-          type: string
-          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-        in: query
-        name: slug
-        description: Filter organizations by slug
-      - schema:
-          type: string
-          default: name
-        in: query
-        name: sort
-        description: Indicate sort by field
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter organizations by name by substring
+        - schema:
+            type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          in: query
+          name: slug
+          description: Filter organizations by slug
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field
     post:
       summary: Create a new organization
       operationId: post-organizations
@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationInfo'
+                $ref: '#/components/schemas/Organization'
         '400':
           description: Bad Request
           content:
@@ -110,29 +110,37 @@ paths:
             application/json:
               schema:
                 $ref: ../models/Problem.yaml
-      description: "> **Enterprise edition feature** \n>\n> Available only if an Organization plugin is enabled.\n        #magic___^_^___line\nCreate a new organization. Provide name and slug.\n        #magic___^_^___line\n### Authority: \n        #magic___^_^___line\n- `ADMINISTRATOR`\n"
+      description: |
+        > **Enterprise edition feature** 
+        >
+
+        Create a new organization. Provide name and slug.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationDetails'
+              $ref: '#/components/schemas/OrganizationBase'
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
-      - Organization
-      - Ready for implementation
+        - Organization
+        - Ready for implementation
   '/organizations/{org_id}':
     get:
       summary: Get organization information
       tags:
-      - Organization
-      - Ready for implementation
+        - Organization
+        - Ready for implementation
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfile'
+                $ref: '#/components/schemas/OrganizationWithStats'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -147,7 +155,7 @@ paths:
         - `MANAGER`
         - `MEMBER`
     parameters:
-    - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/organizationId'
     put:
       summary: Update organization
       operationId: put-organizations-org_id
@@ -162,16 +170,26 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: "> **Enterprise edition feature** \n>\n> Available only if an Organization plugin is enabled.\n        #magic___^_^___line\nUpdate organization information with the provided data.\n        #magic___^_^___line\n### Authority:\n        #magic___^_^___line\n- `ADMINISTRATOR`\n- `MANAGER`"
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Update organization information with the provided data.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationDetails'
+              $ref: '#/components/schemas/OrganizationBase'
         description: Provide organization information for update.
       tags:
-      - Organization
-      - Ready for implementation
+        - Organization
+        - Ready for implementation
       x-internal: false
     patch:
       summary: Partial organization update
@@ -187,15 +205,25 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: "> **Enterprise edition feature** \n>\n> Available only if an Organization plugin is enabled.\n        #magic___^_^___line\nParticular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).\n        #magic___^_^___line\n### Authority:\n        #magic___^_^___line\n- `ADMINISTRATOR`\n- `MANAGER`"
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Particular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content:
           application/json-patch+json:
             schema:
               $ref: ../models/PatchOperation.yaml
       tags:
-      - Organization
-      - Ready for implementation
+        - Organization
+        - Ready for implementation
       x-internal: false
     delete:
       summary: Delete organization
@@ -209,19 +237,28 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: "> **Enterprise edition feature** \n>\n> Available only if an Organization plugin is enabled.\n        #magic___^_^___line\nDelete organization by identifier.\n        #magic___^_^___line\n### Authority:\n        #magic___^_^___line\n- `ADMINISTRATOR`"
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
       tags:
-      - Organization
-      - Ready for implementation
+        - Organization
+        - Ready for implementation
       x-internal: false
   '/organizations/{org_id}/users':
     parameters:
-    - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/organizationId'
     get:
       summary: Get organization's users
       tags:
-      - Organization User
-      - Ready for implementation
+        - Organization User
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -242,15 +279,15 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
       parameters:
-      - $ref: ../parameters/Offset.yaml
-      - $ref: ../parameters/Limit.yaml
-      - $ref: ../parameters/Order.yaml
-      - in: query
-        name: sort
-        description: Indicate sort by field
-        schema:
-          type: string
-          default: name
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - in: query
+          name: sort
+          description: Indicate sort by field
+          schema:
+            type: string
+            default: name
     post:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users
@@ -324,40 +361,40 @@ paths:
             schema:
               title: User Assignment Request
               allOf:
-              - $ref: ../models/user/UserOrgRole.yaml
-              - type: object
-                properties:
-                  id:
-                    type: integer
-                    format: int64
-                    minimum: 0
-                    description: User's internal identifier.
-                  projects:
-                    type: array
-                    items:
-                      $ref: ../models/user/UserProjectInfo.yaml
-                required:
-                - id
+                - $ref: ../models/user/UserOrgRole.yaml
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      minimum: 0
+                      description: User's internal identifier.
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
+                  required:
+                    - id
         description: Definition for a user assignment.
       tags:
-      - Organization User
-      - Ready for implementation
+        - Organization User
+        - Ready for implementation
   '/organizations/{org_id}/users/{user_id}':
     parameters:
-    - $ref: '#/components/parameters/organizationId'
-    - $ref: ../parameters/UserId.yaml
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/UserId.yaml
     get:
       summary: Get organization user profile
       tags:
-      - Organization User
-      - Ready for implementation
+        - Organization User
+        - Ready for implementation
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserAccount'
+                $ref: '#/components/schemas/OrganizationUser'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -403,17 +440,17 @@ paths:
             schema:
               title: Org User Update Request
               allOf:
-              - $ref: ../models/user/UserOrgRole.yaml
-              - type: object
-                properties:
-                  projects:
-                    type: array
-                    items:
-                      $ref: ../models/user/UserProjectInfo.yaml
+                - $ref: ../models/user/UserOrgRole.yaml
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
         description: Provide organization's user information for update.
       tags:
-      - Organization User
-      - Ready for implementation
+        - Organization User
+        - Ready for implementation
       description: |-
         Update organization user details.
 
@@ -458,8 +495,8 @@ paths:
 
         - `EDITOR`
       tags:
-      - Organization User
-      - Ready for implementation
+        - Organization User
+        - Ready for implementation
       requestBody:
         content:
           application/json-patch+json:
@@ -483,16 +520,16 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
       tags:
-      - Organization User
-      - Ready for implementation
+        - Organization User
+        - Ready for implementation
   '/organizations/{org_id}/projects':
     parameters:
-    - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/organizationId'
     get:
       summary: Get organization projects
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -506,26 +543,26 @@ paths:
           $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-projects
       parameters:
-      - $ref: ../parameters/Offset.yaml
-      - $ref: ../parameters/Limit.yaml
-      - $ref: ../parameters/Order.yaml
-      - schema:
-          type: string
-        in: query
-        name: name
-        description: Filter projects by containing name
-      - schema:
-          type: string
-          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-        in: query
-        name: slug
-        description: Filter projects by slug
-      - schema:
-          type: string
-          default: name
-        in: query
-        name: sort
-        description: Indicate sort by field
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter projects by containing name
+        - schema:
+            type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          in: query
+          name: slug
+          description: Filter projects by slug
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field
       description: |-
         Get a list of organization projects.
 
@@ -543,8 +580,8 @@ paths:
     post:
       summary: Create a new project
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -561,7 +598,13 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
-      description: "Create a new project in the organization. \n                #magic___^_^___line\n### Authority:\n                #magic___^_^___line\n- `ADMINISTRATOR`\n- `MANAGER`"
+      description: |-
+        Create a new project in the organization. 
+
+        ### Authority:
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
       requestBody:
         content:
           application/json:
@@ -570,13 +613,13 @@ paths:
         description: 'You can create an project provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
-    - $ref: '#/components/parameters/organizationId'
-    - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/projectId'
     get:
       summary: Get project information
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -638,8 +681,8 @@ paths:
 
         - `EDITOR`
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
     patch:
       summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
@@ -675,13 +718,13 @@ paths:
 
         - `EDITOR`
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
     delete:
       summary: Delete project
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -707,7 +750,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfilesPage'
+                $ref: '#/components/schemas/OrganizationWithStatsPage'
         '400':
           description: Bad Request
           content:
@@ -741,14 +784,14 @@ paths:
               $ref: ../models/SearchCriteriaRQ.yaml
         description: ''
       tags:
-      - Organization
-      - Ready for implementation
+        - Organization
+        - Ready for implementation
       x-extension-authority:
-      - ReportPortal: User
-      - ReportPortal: Admin
+        - ReportPortal: User
+        - ReportPortal: Admin
   '/organizations/{org_id}/projects/searches':
     parameters:
-    - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/organizationId'
     post:
       summary: Create search request for organization projects
       operationId: post-organizations-org_id-projects-searches
@@ -790,36 +833,65 @@ paths:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
       tags:
-      - Organization Project
-      - Ready for implementation
+        - Organization Project
+        - Ready for implementation
 components:
   schemas:
-    OrganizationProfilesPage:
-      title: OrganizationProfilesPage
-      allOf:
-      - $ref: ../models/Offset.yaml
-      - $ref: '#/components/schemas/OrganizationProfilesList'
-    OrganizationProfilesList:
-      title: List of organization profiles
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationProfile'
-      type: object
-    OrganizationProfile:
+    OrganizationWithStats:
       title: Organization profile
       description: A comprehensive set of organization information.
       allOf:
-      - $ref: '#/components/schemas/OrganizationInfo'
-      - $ref: '#/components/schemas/OrganizationRelation'
-    OrganizationInfo:
+        - $ref: '#/components/schemas/Organization'
+        - $ref: '#/components/schemas/OrganizationRelation'
+    OrganizationWithStatsPage:
+      title: OrganizationProfilesPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationWithStats'
+    Organization:
       title: Organization
       description: Various information about the organization information.
       allOf:
-      - $ref: '#/components/schemas/OrganizationDetails'
-      - $ref: '#/components/schemas/OrganizationMetadata'
-    OrganizationDetails:
+        - $ref: '#/components/schemas/OrganizationBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: Organization ReportPortal identifier.
+              minimum: 0
+            type:
+              type: string
+              enum:
+                - INTERNAL
+                - PERSONAL
+                - EXTERNAL
+              description: |-
+                Type for automatization purposes.
+
+                There are three types:
+                - INTERNAL: created by API request.
+                - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
+                - EXTERNAL: created for external integrations.
+            external_id:
+              type: string
+              description: |-
+                External organization identifier.
+                It is created for integration.
+            created_at:
+              type: string
+              format: date-time
+              description: Creation date.
+            updated_at:
+              type: string
+              format: date-time
+              description: Last update date.
+    OrganizationBase:
       title: Organization definition
       description: |
         Basic information provided by the client.
@@ -841,43 +913,7 @@ components:
           description: 'A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.'
           nullable: true
       required:
-      - name
-    OrganizationMetadata:
-      title: Organization metadata
-      description: Organization metadata. Represent generated fields.
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Organization ReportPortal identifier.
-          minimum: 0
-        type:
-          type: string
-          enum:
-          - INTERNAL
-          - PERSONAL
-          - EXTERNAL
-          description: |-
-            Type for automatization purposes.
-
-            There are three types:
-            - INTERNAL: created by API request.
-            - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
-            - EXTERNAL: created for external integrations.
-        external_id:
-          type: string
-          description: |-
-            External organization identifier.
-            It is created for integration.
-        created_at:
-          type: string
-          format: date-time
-          description: Creation date.
-        updated_at:
-          type: string
-          format: date-time
-          description: Last update date.
+        - name
     OrganizationRelation:
       title: Organization relations
       type: object
@@ -945,81 +981,53 @@ components:
                       minimum: 0
                       description: Storage usage in percents.
                       maximum: 100
+    OrganizationUser:
+      title: Organization user account
+      description: A comprehensive set of user information related to a user's organization.
+      allOf:
+        - $ref: ../models/user/User.yaml
+        - $ref: ../models/user/UserOrgRole.yaml
+        - type: object
+          properties:
+            assigned_at:
+              type: string
+              format: date-time
+              description: |-
+                A time when a user was assigned to
+                the organization.
+            stats:
+              type: object
+              properties:
+                project_stats:
+                  type: object
+                  description: Statistics related to the user's projects.
+                  properties:
+                    total_count:
+                      type: integer
+                      minimum: 0
+                      description: Total number of user's projects in the organization.
     OrganizationUsersPage:
       title: List of organization users
       allOf:
-      - $ref: ../models/Offset.yaml
-      - $ref: '#/components/schemas/OrganizationUsersList'
-    OrganizationUsersList:
-      title: OrganizationUsersList
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationUserAccount'
-      required:
-      - items
-    OrganizationUserAccount:
-      title: Organization user account
-      allOf:
-      - $ref: ../models/user/User.yaml
-      - $ref: ../models/user/UserOrgRole.yaml
-      - $ref: '#/components/schemas/OrganizationUserMetadata'
-      - $ref: '#/components/schemas/OrganizationUserRelation'
-      description: A comprehensive set of user information related to a user's organization.
-    OrganizationUserMetadata:
-      title: Organization user metadata
-      allOf:
-      - properties:
-          assigned_at:
-            type: string
-            format: date-time
-            description: |-
-              A time when a user was assigned to
-              the organization.
-      description: User's organization metadata. Represent generated fields.
-      type: object
-    OrganizationUserRelation:
-      title: Organization user relations
-      type: object
-      description: |-
-        A relationship object contains members that represent a relationship of the user in the organization.
-
-        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
-      properties:
-        relationships:
-          type: object
+        - $ref: ../models/Offset.yaml
+        - type: object
           properties:
-            projects:
-              type: object
-              description: User's projects relations.
-              properties:
-                meta:
-                  type: object
-                  description: User's projects relation metadata.
-                  properties:
-                    count:
-                      type: integer
-                      minimum: 0
-                      description: |-
-                        Total number of user's projects in
-                        organization.
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationUser'
     OrganizationProjectsPage:
       title: List of organization projects
       allOf:
-      - $ref: ../models/Offset.yaml
-      - $ref: '#/components/schemas/OrganizationProjectsList'
-    OrganizationProjectsList:
-      title: OrganizationProjectsList
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: ../models/project/Project.yaml
-      required:
-      - items
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/project/Project.yaml
+          required:
+            - items
   parameters:
     organizationId:
       name: org_id
@@ -1060,17 +1068,17 @@ components:
           schema:
             $ref: ../models/Problem.yaml
 tags:
-- name: Organization
-  description: Organizations collection
-- name: Organization Project
-  description: Organization projects collection
-- name: Organization User
-  description: Organization users collection
-- name: In progress
-  description: Endpoints that are in designing
-- name: Ready for implementation
-  description: Endpoints that are ready for development
-- name: Implemented
-  description: Endpoints that are implemented
+  - name: Organization
+    description: Organizations collection
+  - name: Organization Project
+    description: Organization projects collection
+  - name: Organization User
+    description: Organization users collection
+  - name: In progress
+    description: Endpoints that are in designing
+  - name: Ready for implementation
+    description: Endpoints that are ready for development
+  - name: Implemented
+    description: Endpoints that are implemented
 security:
-- BearerAuth: []
+  - BearerAuth: []
