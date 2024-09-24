@@ -192,7 +192,7 @@ paths:
         - Ready for implementation
       x-internal: false
     patch:
-      summary: Partial organization update
+      summary: Patch organization
       operationId: patch-organizations-org_id
       responses:
         '200':
@@ -752,17 +752,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationWithStatsPage'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
       description: |-
         Create search request for organizations by provided criteria.
 
@@ -803,17 +795,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationProjectsPage'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
       description: |-
         Create search request for organization projects by provided criteria.
 
@@ -985,7 +969,7 @@ components:
       title: Organization user account
       description: A comprehensive set of user information related to a user's organization.
       allOf:
-        - $ref: ../models/user/User.yaml
+        - $ref: ../models/user/UserGeneral.yaml
         - $ref: ../models/user/UserOrgRole.yaml
         - type: object
           properties:
@@ -1062,7 +1046,7 @@ components:
                 type: string
                 example: The update was completed successfully.
     Error:
-      description: Error response
+      description: ''
       content:
         application/problem+json:
           schema:

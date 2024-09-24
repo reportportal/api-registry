@@ -139,75 +139,219 @@ paths:
         - Invitation
   /users:
     get:
-      summary: Your GET endpoint
+      summary: Get all users
       tags:
         - User
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
       operationId: get-users
       description: ''
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
         - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+            default: id
+          in: query
+          name: sort
+          description: Indicate sort by field
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: email
+          description: Filter users by email
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: uuid
+          description: Filter users by uuid
+        - schema:
+            type: string
+          in: query
+          name: external_id
+          description: Filter users by  external id
+        - schema:
+            type: string
+          in: query
+          name: full_name
+          description: Filter users by full name
+        - schema:
+            type: string
+            enum:
+              - ADMINISTRATOR
+              - USER
+          in: query
+          name: instance_role
+          description: Filter users by role
+        - schema:
+            type: string
+            enum:
+              - INTERNAL
+              - UPSA
+              - GITHUB
+              - LDAP
+              - SAML
+              - SCIM
+          in: query
+          name: account_type
+          description: Filter users by account type
     post:
-      summary: ''
+      summary: Create a new user
       operationId: post-users
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithStats'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUserRequest'
+      description: ''
   /users/searches:
     post:
-      summary: ''
+      summary: Create search request for users
       operationId: post-users-searches
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+        description: ''
+      tags:
+        - User
+      description: ''
+  /users/me:
+    get:
+      summary: Get current user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithStats'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      operationId: get-users-me
+      description: ''
+  '/users/{user_id}':
+    parameters:
+      - $ref: ../parameters/UserId.yaml
+    get:
+      summary: Get user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithStats'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-users-user_id
+      description: ''
+    put:
+      summary: Update user
+      operationId: put-users-user_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/user/UserBase.yaml
+    patch:
+      summary: Patch user
+      operationId: patch-users-user_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
         '400':
           description: Bad Request
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
+        '404':
+          description: Not Found
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
-      tags:
-        - User
-  /users/me:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-users-me
-  '/users/{user_id}':
-    parameters:
-      - $ref: ../parameters/UserId.yaml
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-users-user_id
-      description: ''
-    put:
-      summary: ''
-      operationId: put-users-user_id
-      responses:
-        '200':
-          description: OK
-    patch:
-      summary: ''
-      operationId: patch-users-user_id
-      responses:
-        '200':
-          description: OK
+              $ref: ../models/PatchOperation.yaml
     delete:
-      summary: ''
+      summary: Delete user
       operationId: delete-users-user_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: ''
   '/users/{user_id}/api-keys':
     parameters:
       - $ref: ../parameters/UserId.yaml
@@ -476,22 +620,44 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ApiKey'
+    UserWithStats:
+      title: User
+      allOf:
+        - $ref: ../models/user/User.yaml
+        - type: object
+          properties:
+            stats:
+              $ref: '#/components/schemas/UserStats'
+    UserStats:
+      title: User statistics
+      type: object
+      properties:
+        org_stats:
+          type: object
+          properties:
+            total_count:
+              type: integer
+        project_stats:
+          type: object
+          properties:
+            total_count:
+              type: integer
     UserPage:
       title: UserPage
-      x-stoplight:
-        id: ozgepglchl80b
       allOf:
         - $ref: ../models/Offset.yaml
         - type: object
-          x-stoplight:
-            id: t0wcidfyhom8h
           properties:
             items:
               type: array
-              x-stoplight:
-                id: bqhxehjg0t50a
               items:
-                $ref: ../models/user/User.yaml
+                $ref: '#/components/schemas/UserWithStats'
+    NewUserRequest:
+      title: User Creation Request
+      allOf:
+        - $ref: ../models/user/UserBase.yaml
+        - $ref: ../models/Password.yaml
+      description: New user creation
   securitySchemes:
     BearerAuth:
       type: http
@@ -507,6 +673,17 @@ components:
         minimum: 0
       description: User identifier.
   responses:
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
     Error:
       description: Example response
       content:

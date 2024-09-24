@@ -1,0 +1,44 @@
+title: User Base
+description: |-
+  User's base information.
+
+  User has a unique email address, full name, and account type.
+
+  Instance account role can be either `ADMIN` or `USER`.
+  Only `ADMIN` users have access to change account type.
+type: object
+properties:
+  email:
+    type: string
+    format: email
+    description: User email.
+  full_name:
+    type: string
+    description: User full name.
+    maxLength: 60
+  instance_role:
+    type: string
+    enum:
+      - ADMINISTRATOR
+      - USER
+    description: Instance account role.
+    default: USER
+  account_type:
+    type: string
+    description: |-
+      Indicates through which service or
+      authentication method the user account
+      was created.
+    enum:
+      - INTERNAL
+      - UPSA
+      - GITHUB
+      - LDAP
+      - SAML
+      - SCIM
+    default: INTERNAL
+  external_id:
+    type: string
+    description: User external identifier. Provided by external systems.
+required:
+  - email
