@@ -51,7 +51,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InvitationRequest'
-        description: ''
       tags:
         - Invitation
     get:
@@ -184,7 +183,7 @@ paths:
       operationId: get-users-me
   '/users/{user_id}':
     parameters:
-      - $ref: '#/components/parameters/userId'
+      - $ref: ../parameters/UserId.yaml
     get:
       summary: Your GET endpoint
       tags: []
@@ -211,11 +210,7 @@ paths:
           description: OK
   '/users/{user_id}/api-keys':
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: ../parameters/UserId.yaml
     get:
       summary: Your GET endpoint
       tags:
@@ -273,7 +268,7 @@ paths:
       description: Create an API key for the user
   '/users/{user_id}/api-keys/{key_id}':
     parameters:
-      - $ref: '#/components/parameters/userId'
+      - $ref: ../parameters/UserId.yaml
       - schema:
           type: integer
           minLength: 0
@@ -301,11 +296,7 @@ paths:
       description: Delete the API key by ID
   '/users/{user_id}/password':
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: ../parameters/UserId.yaml
     put:
       summary: ''
       operationId: put-users-user_id-password
@@ -337,7 +328,6 @@ paths:
         - Password
         - User
       description: ''
-    parameters: []
 components:
   schemas:
     Invitation:
@@ -397,7 +387,14 @@ components:
           type: array
           description: Organizations to assign a user.
           items:
-            $ref: ../models/user/UserOrgInfoWithProjects.yaml
+            allOf:
+              - $ref: ../models/user/UserOrgInfo.yaml
+              - type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: ../models/user/UserProjectInfo.yaml
       required:
         - email
     InvitationActivation:
@@ -495,7 +492,7 @@ components:
         type: integer
         format: int64
         minimum: 0
-      description: User identifier
+      description: User identifier.
   responses:
     Error:
       description: Example response

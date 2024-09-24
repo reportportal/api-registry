@@ -1,4 +1,0 @@
-title: User account info
-allOf:
-  - $ref: ./UserMetadata.yaml
-  - $ref: ./UserDetails.yaml
