@@ -134,7 +134,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InvitationActivation'
-        description: 'Details for user activation.'
+        description: Details for user activation.
       tags:
         - Invitation
   /users:
@@ -156,7 +156,7 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
       operationId: get-users
-      description: 'Get all users'
+      description: Get all users
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -230,7 +230,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/NewUserRequest'
-      description: 'Create a new user'
+      description: Create a new user
+      tags:
+        - User
   /users/searches:
     post:
       summary: Create search request for users
@@ -253,10 +255,10 @@ paths:
           application/json:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
-        description: 'Create search request for user collection.'
+        description: Create search request for user collection.
       tags:
         - User
-      description: 'Search users by criteria.'
+      description: Search users by criteria.
   /users/me:
     get:
       summary: Get current user
@@ -274,7 +276,9 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
       operationId: get-users-me
-      description: 'Get current user information.'
+      description: Get current user information.
+      tags:
+        - User
   '/users/{user_id}':
     parameters:
       - $ref: ../parameters/UserId.yaml
@@ -296,9 +300,12 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       operationId: get-users-user_id
-      description: 'Get user by ID.'
+      description: Get user by ID.
+      tags:
+        - User
     put:
       summary: Update user
+      description: Update user base information.
       operationId: put-users-user_id
       responses:
         '200':
@@ -316,8 +323,11 @@ paths:
           application/json:
             schema:
               $ref: ../models/user/UserBase.yaml
+      tags:
+        - User
     patch:
       summary: Patch user
+      description: Partially update user information.
       operationId: patch-users-user_id
       responses:
         '200':
@@ -332,6 +342,8 @@ paths:
           description: Not Found
       requestBody:
         $ref: '#/components/requestBodies/JsonPatch'
+      tags:
+        - User
     delete:
       summary: Delete user
       operationId: delete-users-user_id
@@ -346,7 +358,9 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: 'Delete user by ID.'
+      description: Delete user by ID.
+      tags:
+        - User
   '/users/{user_id}/api-keys':
     parameters:
       - $ref: ../parameters/UserId.yaml
@@ -382,7 +396,7 @@ paths:
           description: Get a key by name
       description: Retrieve list of user's Api Keys
     post:
-      summary: 'Create an API key'
+      summary: Create an API key
       operationId: post-users-user_id-api-keys
       responses:
         '201':
@@ -405,6 +419,9 @@ paths:
             schema:
               $ref: '#/components/schemas/ApiKeyCreateRequest'
       description: Create an API key for the user
+      tags:
+        - ApiKey
+        - User
   '/users/{user_id}/api-keys/{key_id}':
     parameters:
       - $ref: ../parameters/UserId.yaml
@@ -416,7 +433,7 @@ paths:
         required: true
         description: Key identifier
     delete:
-      summary: 'Delete the API Key'
+      summary: Delete the API Key
       operationId: delete-users-user_id-api-keys-key_id
       responses:
         '204':
@@ -437,7 +454,7 @@ paths:
     parameters:
       - $ref: ../parameters/UserId.yaml
     put:
-      summary: 'Update User password'
+      summary: Update User password
       operationId: put-users-user_id-password
       responses:
         '200':
@@ -445,7 +462,7 @@ paths:
       tags:
         - Password
         - User
-      description: 'Update user password.'
+      description: Update user password.
   /password-reset-requests:
     post:
       summary: Create password reset request
@@ -460,7 +477,7 @@ paths:
       tags:
         - Password
         - User
-      description: 'Create password reset request. Send email with reset link.'
+      description: Create password reset request. Send email with reset link.
 components:
   schemas:
     Invitation:
