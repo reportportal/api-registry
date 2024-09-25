@@ -2,16 +2,8 @@ title: Project details
 type: object
 properties:
   name:
-    type: string
-    description: Display project name.
-    minLength: 3
-    maxLength: 60
-    pattern: '^[A-Za-z0-9._\- ]+$'
+    $ref: ../../types/name.yaml
   slug:
-    type: string
-    pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-    minLength: 3
-    maxLength: 60
-    nullable: true
+    $ref: ../../types/slug.yaml
 required:
   - name
