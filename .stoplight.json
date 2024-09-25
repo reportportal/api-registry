@@ -13,7 +13,8 @@
       "rootDir": "api/openapi",
       "include": [
         "api/openapi/models/**",
-        "api/openapi/parameters/**"
+        "api/openapi/parameters/**",
+        "api/openapi/types/**"
       ]
     },
     "markdown": {

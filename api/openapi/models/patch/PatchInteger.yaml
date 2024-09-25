@@ -1,0 +1,21 @@
+title: Patch Operation Integer
+x-stoplight:
+  id: f67d018c0784a
+type: object
+properties:
+  op:
+    type: string
+    enum:
+      - add
+      - replace
+      - remove
+    x-stoplight:
+      id: os0nm546kca7b
+  path:
+    type: string
+    x-stoplight:
+      id: dzzxuzefyw4w5
+  value:
+    type: integer
+    x-stoplight:
+      id: 5g5y53tarp1jv

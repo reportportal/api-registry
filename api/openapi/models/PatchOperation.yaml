@@ -1,10 +1,8 @@
 title: Patch Operation Object
-
 oneOf:
-  - $ref: ./patch-operations/PatchObject.yaml
-  - $ref: ./patch-operations/PatchArrayString.yaml
-  - $ref: ./patch-operations/PatchString.yaml
-  - $ref: ./patch-operations/PatchNumber.yaml
-  - $ref: ./patch-operations/PatchInteger.yaml
-  - $ref: ./patch-operations/PatchBoolean.yaml
-description: ''
+  - $ref: ./patch/PatchObject.yaml
+  - $ref: ./patch/PatchArrayString.yaml
+  - $ref: ./patch/PatchString.yaml
+  - $ref: ./patch/PatchNumber.yaml
+  - $ref: ./patch/PatchInteger.yaml
+  - $ref: ./patch/PatchBoolean.yaml

@@ -1,0 +1,4 @@
+title: id
+type: integer
+format: int64
+minimum: 0

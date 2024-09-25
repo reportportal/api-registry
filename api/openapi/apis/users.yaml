@@ -602,7 +602,7 @@ components:
           description: User full name.
           maxLength: 60
         password:
-          $ref: ../models/password-type.yaml
+          $ref: ../types/password.yaml
       required:
         - password
     ApiKey:
@@ -663,7 +663,10 @@ components:
       title: User creation request
       allOf:
         - $ref: ../models/user/UserBase.yaml
-        - $ref: ../models/Password.yaml
+        - type: object
+          properties:
+            password:
+              $ref: ../types/password.yaml
       description: New user creation
     InstanceUser:
       title: Instance User
@@ -688,7 +691,8 @@ components:
           properties:
             total_count:
               type: integer
-              description: ''''''
+              description: |- 
+                Total number of user's projects.
     InstanceUserPage:
       title: Instance User page
       allOf:
@@ -708,7 +712,7 @@ components:
           format: password
           description: Old user password.
         new_password:
-          $ref: ../models/password-type.yaml
+          $ref: ../types/password.yaml
       required:
         - old_password
         - new_password
@@ -722,7 +726,7 @@ components:
           format: uuid
           description: Token for password recovery. It's provided in email.
         new_password:
-          $ref: ../models/password-type.yaml
+          $ref: ../types/password.yaml
       required:
         - token
         - new_password

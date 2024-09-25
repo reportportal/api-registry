@@ -1,4 +1,6 @@
 title: Patch Operation String
+x-stoplight:
+  id: 51ad78e4e2bf9
 type: object
 properties:
   op:
@@ -7,9 +9,13 @@ properties:
       - add
       - replace
       - remove
+    x-stoplight:
+      id: jnms149hfqwm6
   path:
     type: string
-    
+    x-stoplight:
+      id: he3cznpfya8o6
   value:
     type: string
-    
+    x-stoplight:
+      id: 3xbup1nvm4bbm
