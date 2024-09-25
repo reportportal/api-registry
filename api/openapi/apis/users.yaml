@@ -757,7 +757,7 @@ components:
                 type: string
                 example: The update was completed successfully.
     Error:
-      description: ''
+      description: Error problem response
       content:
         application/problem+json:
           schema:

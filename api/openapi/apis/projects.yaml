@@ -85,7 +85,6 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
 tags:
   - name: Activities
   - name: Organizations
