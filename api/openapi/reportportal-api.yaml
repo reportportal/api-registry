@@ -1802,6 +1802,8 @@ components:
           example: /some/uri-reference#specific-occurrence-context
     PatchObject:
       title: Patch Operation Object
+      x-stoplight:
+        id: d7d96fec1011d
       type: object
       properties:
         op:
@@ -1810,12 +1812,20 @@ components:
             - add
             - replace
             - remove
+          x-stoplight:
+            id: 205fxfuhbskbm
         path:
           type: string
+          x-stoplight:
+            id: 8kv9w50iz2hyq
         value:
           type: object
+          x-stoplight:
+            id: ni3c8jcqv3qj2
     PatchArrayString:
       title: Patch Operation Array String
+      x-stoplight:
+        id: 0dc48174cf5a3
       type: object
       properties:
         op:
@@ -1824,14 +1834,24 @@ components:
             - add
             - replace
             - remove
+          x-stoplight:
+            id: 5arjr4kfsf3la
         path:
           type: string
+          x-stoplight:
+            id: 8unenjntbclp7
         value:
           type: array
           items:
             type: string
+            x-stoplight:
+              id: 6fgsgy43sg8s9
+          x-stoplight:
+            id: 6cwxlsb4w0pax
     PatchString:
       title: Patch Operation String
+      x-stoplight:
+        id: 51ad78e4e2bf9
       type: object
       properties:
         op:
@@ -1840,12 +1860,20 @@ components:
             - add
             - replace
             - remove
+          x-stoplight:
+            id: jnms149hfqwm6
         path:
           type: string
+          x-stoplight:
+            id: he3cznpfya8o6
         value:
           type: string
+          x-stoplight:
+            id: 3xbup1nvm4bbm
     PatchNumber:
       title: Patch Operation Number
+      x-stoplight:
+        id: 384a090672106
       type: object
       properties:
         op:
@@ -1854,12 +1882,20 @@ components:
             - add
             - replace
             - remove
+          x-stoplight:
+            id: ey5aj7lg8zp2f
         path:
           type: string
+          x-stoplight:
+            id: xr1jdnx2cac79
         value:
           type: number
+          x-stoplight:
+            id: cuhcy0d1202ae
     PatchInteger:
       title: Patch Operation Integer
+      x-stoplight:
+        id: f67d018c0784a
       type: object
       properties:
         op:
@@ -1868,12 +1904,20 @@ components:
             - add
             - replace
             - remove
+          x-stoplight:
+            id: os0nm546kca7b
         path:
           type: string
+          x-stoplight:
+            id: dzzxuzefyw4w5
         value:
           type: integer
+          x-stoplight:
+            id: 5g5y53tarp1jv
     PatchBoolean:
       title: Patch Operation Boolean
+      x-stoplight:
+        id: 059b470084eeb
       type: object
       properties:
         op:
@@ -1882,10 +1926,16 @@ components:
             - add
             - replace
             - remove
+          x-stoplight:
+            id: tfpfjbjlzlz1r
         path:
           type: string
+          x-stoplight:
+            id: bha825n67umn0
         value:
           type: boolean
+          x-stoplight:
+            id: 5sxepqwaj7ol2
     PatchOperation:
       title: Patch Operation Object
       oneOf:
@@ -1895,7 +1945,6 @@ components:
         - $ref: '#/components/schemas/PatchNumber'
         - $ref: '#/components/schemas/PatchInteger'
         - $ref: '#/components/schemas/PatchBoolean'
-      description: ''
     PatchOperationList:
       title: Patch Operation List
       x-stoplight:
@@ -2254,7 +2303,7 @@ components:
           description: User full name.
           maxLength: 60
         password:
-          $ref: '#/components/schemas/password-type'
+          $ref: '#/components/schemas/password'
       required:
         - password
     ApiKey:
@@ -2315,7 +2364,10 @@ components:
       title: User creation request
       allOf:
         - $ref: '#/components/schemas/UserBase'
-        - $ref: '#/components/schemas/Password'
+        - type: object
+          properties:
+            password:
+              $ref: '#/components/schemas/password'
       description: New user creation
     InstanceUser:
       title: Instance User
@@ -2340,7 +2392,7 @@ components:
           properties:
             total_count:
               type: integer
-              description: ''''''
+              description: Total number of user's projects.
     InstanceUserPage:
       title: Instance User page
       allOf:
@@ -2360,7 +2412,7 @@ components:
           format: password
           description: Old user password.
         new_password:
-          $ref: '#/components/schemas/password-type'
+          $ref: '#/components/schemas/password'
       required:
         - old_password
         - new_password
@@ -2374,7 +2426,7 @@ components:
           format: uuid
           description: Token for password recovery. It's provided in email.
         new_password:
-          $ref: '#/components/schemas/password-type'
+          $ref: '#/components/schemas/password'
       required:
         - token
         - new_password
@@ -2400,23 +2452,15 @@ components:
               minimum: 0
               description: Organization internal identifier.
         - $ref: '#/components/schemas/UserOrgRole'
-    password-type:
+    password:
+      title: password
       type: string
       pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
       minLength: 8
       maxLength: 256
-    Password:
-      title: Password
-      type: object
       description: |-
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
-      properties:
-        password:
-          type: string
-          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
-          minLength: 8
-          maxLength: 256
   parameters:
     organizationId:
       name: org_id
