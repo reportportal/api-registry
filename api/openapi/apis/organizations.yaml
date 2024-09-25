@@ -190,7 +190,6 @@ paths:
       tags:
         - Organization
         - Ready for implementation
-      x-internal: false
     patch:
       summary: Patch organization
       operationId: patch-organizations-org_id
@@ -217,14 +216,10 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: ../models/PatchOperation.yaml
+        $ref: '#/components/requestBodies/JsonPatch'
       tags:
         - Organization
         - Ready for implementation
-      x-internal: false
     delete:
       summary: Delete organization
       operationId: delete-organizations-org_id
@@ -250,7 +245,6 @@ paths:
       tags:
         - Organization
         - Ready for implementation
-      x-internal: false
   '/organizations/{org_id}/users':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -498,10 +492,7 @@ paths:
         - Organization User
         - Ready for implementation
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: ../models/PatchOperation.yaml
+        $ref: '#/components/requestBodies/JsonPatch'
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
@@ -698,25 +689,8 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: ../models/PatchOperation.yaml
-        description: ''
-      description: |-
-        Partial project update.
-
-        ### Authority:
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can update only his project.
-
-        ### Member authority:
-
-        - `EDITOR`
+        $ref: '#/components/requestBodies/JsonPatch'
+      description: ' '
       tags:
         - Organization Project
         - Ready for implementation
@@ -969,7 +943,7 @@ components:
       title: Organization user account
       description: A comprehensive set of user information related to a user's organization.
       allOf:
-        - $ref: ../models/user/UserGeneral.yaml
+        - $ref: ../models/user/User.yaml
         - $ref: ../models/user/UserOrgRole.yaml
         - type: object
           properties:
@@ -1051,6 +1025,13 @@ components:
         application/problem+json:
           schema:
             $ref: ../models/Problem.yaml
+  requestBodies:
+    JsonPatch:
+      content:
+        application/json-patch+json:
+          schema:
+            $ref: ../models/PatchOperationList.yaml
+      description: JSON Patch operations
 tags:
   - name: Organization
     description: Organizations collection

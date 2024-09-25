@@ -86,11 +86,11 @@ paths:
       description: Get all invitations
       tags:
         - Invitation
-  '/invitations/{id}':
+  '/invitations/{invitation_id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: invitation_id
         in: path
         required: true
     get:
@@ -148,7 +148,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPage'
+                $ref: '#/components/schemas/InstanceUserPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -218,7 +218,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithStats'
+                $ref: '#/components/schemas/InstanceUser'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -241,7 +241,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPage'
+                $ref: '#/components/schemas/InstanceUserPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -267,7 +267,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithStats'
+                $ref: '#/components/schemas/InstanceUser'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -281,14 +281,13 @@ paths:
       - $ref: ../parameters/UserId.yaml
     get:
       summary: Get user
-      tags: []
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserWithStats'
+                $ref: '#/components/schemas/InstanceUser'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -333,10 +332,7 @@ paths:
         '404':
           description: Not Found
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/PatchOperation.yaml
+        $ref: '#/components/requestBodies/JsonPatch'
     delete:
       summary: Delete user
       operationId: delete-users-user_id
@@ -451,12 +447,6 @@ paths:
         - Password
         - User
       description: ''
-    patch:
-      summary: ''
-      operationId: patch-users-user_id-password
-      responses:
-        '200':
-          description: OK
   /password-reset-requests:
     post:
       summary: Create password reset request
@@ -592,7 +582,7 @@ components:
           example: '2019-07-30T06:43:40.252Z'
           description: Date time with milliseconds
     ApiKeyCreateRequest:
-      title: API Key Create Request
+      title: API Key creation request
       type: object
       properties:
         name:
@@ -610,8 +600,9 @@ components:
               description: The generated API key
           required:
             - api_key
+      title: API Key creation response
     ApiKeyPage:
-      title: API Key Page
+      title: API Key page
       allOf:
         - $ref: ../models/Offset.yaml
         - type: object
@@ -620,16 +611,22 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ApiKey'
-    UserWithStats:
-      title: User
+    NewUserRequest:
+      title: User creation request
+      allOf:
+        - $ref: ../models/user/UserBase.yaml
+        - $ref: ../models/Password.yaml
+      description: New user creation
+    InstanceUser:
+      title: Instance User
       allOf:
         - $ref: ../models/user/User.yaml
         - type: object
           properties:
             stats:
-              $ref: '#/components/schemas/UserStats'
-    UserStats:
-      title: User statistics
+              $ref: '#/components/schemas/InstanceUserStats'
+    InstanceUserStats:
+      title: Instance User statistics
       type: object
       properties:
         org_stats:
@@ -642,8 +639,8 @@ components:
           properties:
             total_count:
               type: integer
-    UserPage:
-      title: UserPage
+    InstanceUserPage:
+      title: Instance User page
       allOf:
         - $ref: ../models/Offset.yaml
         - type: object
@@ -651,27 +648,11 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/UserWithStats'
-    NewUserRequest:
-      title: User Creation Request
-      allOf:
-        - $ref: ../models/user/UserBase.yaml
-        - $ref: ../models/Password.yaml
-      description: New user creation
+                $ref: '#/components/schemas/InstanceUser'
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-  parameters:
-    userId:
-      name: user_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-        minimum: 0
-      description: User identifier.
   responses:
     Update:
       description: Successful update response
@@ -690,6 +671,13 @@ components:
         application/problem+json:
           schema:
             $ref: ../models/Problem.yaml
+  requestBodies:
+    JsonPatch:
+      content:
+        application/json-patch+json:
+          schema:
+            $ref: ../models/PatchOperationList.yaml
+      description: JSON Patch operations
 tags:
   - name: ApiKey
   - name: Implemented

@@ -1,0 +1,8 @@
+title: Patch Operation List
+x-stoplight:
+  id: tlcy6qo6uv5cq
+type: array
+items:
+  $ref: ./PatchOperation.yaml
+  x-stoplight:
+    id: poji4quyqvizm
