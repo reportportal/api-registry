@@ -671,7 +671,7 @@ components:
     InstanceUser:
       title: Instance User
       allOf:
-        - $ref: ../models/user/User.yaml
+        - $ref: ../models/user/UserInfo.yaml
         - type: object
           properties:
             stats:
