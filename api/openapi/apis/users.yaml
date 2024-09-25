@@ -605,6 +605,7 @@ components:
           minLength: 8
           maxLength: 256
           pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$'
+          format: password
       required:
         - password
     ApiKey:
