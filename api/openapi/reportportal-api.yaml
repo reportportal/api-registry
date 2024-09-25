@@ -2254,7 +2254,7 @@ components:
           description: User full name.
           maxLength: 60
         password:
-          $ref: '#/components/schemas/password'
+          $ref: '#/components/schemas/password-type'
       required:
         - password
     ApiKey:
@@ -2360,7 +2360,7 @@ components:
           format: password
           description: Old user password.
         new_password:
-          $ref: '#/components/schemas/password'
+          $ref: '#/components/schemas/password-type'
       required:
         - old_password
         - new_password
@@ -2374,7 +2374,7 @@ components:
           format: uuid
           description: Token for password recovery. It's provided in email.
         new_password:
-          $ref: '#/components/schemas/password'
+          $ref: '#/components/schemas/password-type'
       required:
         - token
         - new_password
@@ -2400,7 +2400,7 @@ components:
               minimum: 0
               description: Organization internal identifier.
         - $ref: '#/components/schemas/UserOrgRole'
-    password:
+    password-type:
       type: string
       pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
       minLength: 8
