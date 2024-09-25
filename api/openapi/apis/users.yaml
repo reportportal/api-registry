@@ -458,26 +458,65 @@ paths:
       operationId: put-users-user_id-password
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       tags:
         - Password
         - User
       description: Update user password.
-  /password-reset-requests:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUserPassword'
     post:
-      summary: Create password reset request
+      summary: Recover User Password
+      operationId: post-users-user_id-password
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+      description: Recover User Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestoreUserPassword'
+      security: []
+      tags:
+        - User
+        - Password
+  /password-recover-requests:
+    post:
+      summary: Create password recover request
       operationId: post-password-reset-requests
       responses:
         '204':
           description: No Content
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
       tags:
         - Password
         - User
-      description: Create password reset request. Send email with reset link.
+      description: Create password recover request. Send email with recover token and user ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestorePasswordRequest'
+    parameters: []
 components:
   schemas:
     Invitation:
@@ -650,11 +689,13 @@ components:
           properties:
             total_count:
               type: integer
+              description: Total number of user's organisations
         project_stats:
           type: object
           properties:
             total_count:
               type: integer
+              description: ''''''
     InstanceUserPage:
       title: Instance User page
       allOf:
@@ -665,6 +706,43 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/InstanceUser'
+    NewUserPassword:
+      title: New User password
+      type: object
+      properties:
+        old_password:
+          type: string
+          format: password
+          description: Old user password.
+        new_password:
+          $ref: ../models/Password.yaml#/properties/password
+      required:
+        - old_password
+        - new_password
+      description: Change user password.
+    RestoreUserPassword:
+      title: Restore User password
+      type: object
+      properties:
+        token:
+          type: string
+          format: uuid
+          description: Token for password recovery. It's provided in email.
+        new_password:
+          $ref: ../models/Password.yaml#/properties/password
+      required:
+        - token
+        - new_password
+    RestorePasswordRequest:
+      title: Restore password request
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email for password recovery.
+      required:
+        - email
   securitySchemes:
     BearerAuth:
       type: http
@@ -682,7 +760,7 @@ components:
                 type: string
                 example: The update was completed successfully.
     Error:
-      description: Example response
+      description: ''
       content:
         application/problem+json:
           schema:
