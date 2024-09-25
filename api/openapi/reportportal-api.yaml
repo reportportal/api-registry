@@ -1495,7 +1495,6 @@ paths:
               $ref: '#/components/schemas/RestorePasswordRequest'
       security:
         - BearerAuth: []
-    parameters: []
 components:
   securitySchemes:
     BearerAuth:
