@@ -583,7 +583,7 @@ components:
       title: Invitation activation request
       type: object
       description: |-
-        User password. Will be ignored for `PENDING` status.
+        Password will be ignored for `PENDING` status.
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
       properties:
