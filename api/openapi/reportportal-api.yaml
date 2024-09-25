@@ -2234,6 +2234,10 @@ components:
     InvitationActivation:
       title: Invitation activation request
       type: object
+      description: |-
+        User password. Will be ignored for `PENDING` status.
+        Minimum eight characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character.
       properties:
         status:
           type: string
@@ -2250,16 +2254,7 @@ components:
           description: User full name.
           maxLength: 60
         password:
-          type: string
-          description: >-
-            User password. Will be ignored for `PENDING` status.
-
-            Minimum eight characters, at least one uppercase letter, one
-            lowercase letter, one number and one special character.
-          minLength: 8
-          maxLength: 256
-          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
-          format: password
+          $ref: '#/components/schemas/password'
       required:
         - password
     ApiKey:
@@ -2405,6 +2400,12 @@ components:
               minimum: 0
               description: Organization internal identifier.
         - $ref: '#/components/schemas/UserOrgRole'
+    password:
+      type: string
+      format: password
+      pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
+      minLength: 8
+      maxLength: 256
     Password:
       title: Password
       type: object
@@ -2421,12 +2422,6 @@ components:
           pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
           minLength: 8
           maxLength: 256
-    password:
-      type: string
-      format: password
-      pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
-      minLength: 8
-      maxLength: 256
   parameters:
     organizationId:
       name: org_id
