@@ -1482,10 +1482,6 @@ paths:
           description: No Content
         '400':
           $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
       tags:
         - Password
         - User
@@ -2412,6 +2408,12 @@ components:
     Password:
       title: Password
       type: object
+      description: >-
+        Minimum eight characters, at least one uppercase letter, one lowercase
+        letter, one number and one special character.
+
+
+        Regexp: `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$`
       properties:
         password:
           type: string
@@ -2419,12 +2421,6 @@ components:
           pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
           minLength: 8
           maxLength: 256
-      description: >-
-        Minimum eight characters, at least one uppercase letter, one lowercase
-        letter, one number and one special character.
-
-
-        Regexp: `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$`
     password:
       type: string
       format: password
