@@ -512,7 +512,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RestorePasswordRequest'
-    parameters: []
 components:
   schemas:
     Invitation:
