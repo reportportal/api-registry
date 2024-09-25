@@ -2105,22 +2105,32 @@ components:
               minimum: 0
               maximum: 100
               description: The percentage of storage used by the project.
+    name:
+      title: name
+      type: string
+      description: Display name.
+      minLength: 3
+      maxLength: 60
+      pattern: ^[A-Za-z0-9._\- ]+$
+    slug:
+      title: slug
+      type: string
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      description: >-
+        A slug is used to identify a resource.
+
+        It should be unique and contain only lowercase letters, numbers, and
+        hyphens.
+
+        It should not start or end with a hyphen.
     ProjectBase:
       title: Project details
       type: object
       properties:
         name:
-          type: string
-          description: Display project name.
-          minLength: 3
-          maxLength: 60
-          pattern: ^[A-Za-z0-9._\- ]+$
+          $ref: '#/components/schemas/name'
         slug:
-          type: string
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          minLength: 3
-          maxLength: 60
-          nullable: true
+          $ref: '#/components/schemas/slug'
       required:
         - name
     Project:
