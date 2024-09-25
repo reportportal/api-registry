@@ -503,10 +503,6 @@ paths:
           description: No Content
         '400':
           $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
       tags:
         - Password
         - User
