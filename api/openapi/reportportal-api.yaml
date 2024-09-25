@@ -97,9 +97,14 @@ tags:
   - name: Implemented
     description: Endpoints that are implemented
     x-displayName: Implemented
+  - name: ApiKey
+    x-displayName: ApiKey
   - name: Invitation
-    description: User invitations
     x-displayName: Invitation
+  - name: Password
+    x-displayName: Password
+  - name: User
+    x-displayName: User
 paths:
   /organizations:
     get:
@@ -113,7 +118,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfilesPage'
+                $ref: '#/components/schemas/OrganizationWithStatsPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -165,7 +170,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationInfo'
+                $ref: '#/components/schemas/Organization'
         '400':
           description: Bad Request
           content:
@@ -193,18 +198,17 @@ paths:
       description: |
         > **Enterprise edition feature** 
         >
-        > Available only if an Organization plugin is enabled.
 
         Create a new organization. Provide name and slug.
 
-        ### Authority: 
+        ### Authority:
 
         - `ADMINISTRATOR`
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationDetails'
+              $ref: '#/components/schemas/OrganizationBase'
         description: >-
           You can create an organization provide name and slug. If the `slug` is
           not provided, it will be generated from the `name`.
@@ -225,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfile'
+                $ref: '#/components/schemas/OrganizationWithStats'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -242,7 +246,7 @@ paths:
       security:
         - BearerAuth: []
     parameters:
-      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/organizationId'
     put:
       summary: Update organization
       operationId: put-organizations-org_id
@@ -272,16 +276,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationDetails'
+              $ref: '#/components/schemas/OrganizationBase'
         description: Provide organization information for update.
       tags:
         - Organization
         - Ready for implementation
-      x-internal: false
       security:
         - BearerAuth: []
     patch:
-      summary: Partial organization update
+      summary: Patch organization
       operationId: patch-organizations-org_id
       responses:
         '200':
@@ -313,14 +316,10 @@ paths:
 
         - `MANAGER`
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/PatchOperation'
+        $ref: '#/components/requestBodies/JsonPatch'
       tags:
         - Organization
         - Ready for implementation
-      x-internal: false
       security:
         - BearerAuth: []
     delete:
@@ -348,12 +347,11 @@ paths:
       tags:
         - Organization
         - Ready for implementation
-      x-internal: false
       security:
         - BearerAuth: []
   /organizations/{org_id}/users:
     parameters:
-      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/organizationId'
     get:
       summary: Get organization's users
       tags:
@@ -484,8 +482,6 @@ paths:
                   properties:
                     id:
                       type: integer
-                      x-stoplight:
-                        id: nvv8139j0n8wp
                       format: int64
                       minimum: 0
                       description: User's internal identifier.
@@ -503,7 +499,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}:
     parameters:
-      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/organizationId'
       - $ref: '#/components/parameters/UserId'
     get:
       summary: Get organization user profile
@@ -516,7 +512,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationUserAccount'
+                $ref: '#/components/schemas/OrganizationUser'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -633,10 +629,7 @@ paths:
         - Organization User
         - Ready for implementation
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/PatchOperation'
+        $ref: '#/components/requestBodies/JsonPatch'
       security:
         - BearerAuth: []
     delete:
@@ -663,7 +656,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/projects:
     parameters:
-      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/organizationId'
     get:
       summary: Get organization projects
       tags:
@@ -682,8 +675,8 @@ paths:
           $ref: '#/components/responses/Error'
       operationId: get-organizations-org_id-projects
       parameters:
-        - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Order'
         - schema:
             type: string
@@ -730,7 +723,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProjectInfo'
+                $ref: '#/components/schemas/Project'
         '400':
           $ref: '#/components/responses/Error'
         '403':
@@ -750,7 +743,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectDetails'
+              $ref: '#/components/schemas/ProjectBase'
         description: >-
           You can create an project provide name and slug. If the `slug` is not
           provided, it will be generated from the `name`.
@@ -758,8 +751,8 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/projects/{project_id}:
     parameters:
-      - $ref: '#/components/parameters/OrganizationId'
-      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/projectId'
     get:
       summary: Get project information
       tags:
@@ -771,7 +764,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectProfile'
+                $ref: '#/components/schemas/Project'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -812,7 +805,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectDetails'
+              $ref: '#/components/schemas/Project'
       description: |-
         Update project information.
 
@@ -847,25 +840,8 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/PatchOperation'
-        description: ''
-      description: |-
-        Partial project update.
-
-        ### Authority:
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can update only his project.
-
-        ### Member authority:
-
-        - `EDITOR`
+        $ref: '#/components/requestBodies/JsonPatch'
+      description: ' '
       tags:
         - Organization Project
         - Ready for implementation
@@ -903,19 +879,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationProfilesPage'
+                $ref: '#/components/schemas/OrganizationWithStatsPage'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: >-
         Create search request for organizations by provided criteria.
 
@@ -957,7 +925,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/projects/searches:
     parameters:
-      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/organizationId'
     post:
       summary: Create search request for organization projects
       operationId: post-organizations-org_id-projects-searches
@@ -969,17 +937,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationProjectsPage'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       description: >-
         Create search request for organization projects by provided criteria.
 
@@ -1025,20 +985,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invitation'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '503':
-          description: Service Unavailable
+          $ref: '#/components/responses/Error'
       description: Create and send user invitation to email.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/InvitationRequest'
-        description: ''
       tags:
         - Invitation
       security:
@@ -1054,11 +1013,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/InvitationPage'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -1078,11 +1037,11 @@ paths:
         - Invitation
       security:
         - BearerAuth: []
-  /invitations/{id}:
+  /invitations/{invitation_id}:
     parameters:
       - schema:
           type: string
-        name: id
+        name: invitation_id
         in: path
         required: true
     get:
@@ -1097,9 +1056,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invitation'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
       operationId: get-invitations-id
       description: Get invitation by ID.
       security:
@@ -1115,6 +1074,232 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invitation'
         '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: Create user from invitation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationActivation'
+        description: Details for user activation.
+      tags:
+        - Invitation
+      security:
+        - BearerAuth: []
+  /users:
+    get:
+      summary: Get all users
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceUserPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      operationId: get-users
+      description: Get all users
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: id
+          in: query
+          name: sort
+          description: Indicate sort by field
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: email
+          description: Filter users by email
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: uuid
+          description: Filter users by uuid
+        - schema:
+            type: string
+          in: query
+          name: external_id
+          description: Filter users by  external id
+        - schema:
+            type: string
+          in: query
+          name: full_name
+          description: Filter users by full name
+        - schema:
+            type: string
+            enum:
+              - ADMINISTRATOR
+              - USER
+          in: query
+          name: instance_role
+          description: Filter users by role
+        - schema:
+            type: string
+            enum:
+              - INTERNAL
+              - UPSA
+              - GITHUB
+              - LDAP
+              - SAML
+              - SCIM
+          in: query
+          name: account_type
+          description: Filter users by account type
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a new user
+      operationId: post-users
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceUser'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUserRequest'
+      description: Create a new user
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+  /users/searches:
+    post:
+      summary: Create search request for users
+      operationId: post-users-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceUserPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaRQ'
+        description: Create search request for user collection.
+      tags:
+        - User
+      description: Search users by criteria.
+      security:
+        - BearerAuth: []
+  /users/me:
+    get:
+      summary: Get current user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceUser'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      operationId: get-users-me
+      description: Get current user information.
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+  /users/{user_id}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Get user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceUser'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-users-user_id
+      description: Get user by ID.
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update user
+      description: Update user base information.
+      operationId: put-users-user_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBase'
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+    patch:
+      summary: Patch user
+      description: Partially update user information.
+      operationId: patch-users-user_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
           description: Bad Request
         '401':
           description: Unauthorized
@@ -1122,45 +1307,265 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      description: Create user from invitation.
+      requestBody:
+        $ref: '#/components/requestBodies/JsonPatch'
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete user
+      operationId: delete-users-user_id
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: Delete user by ID.
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+  /users/{user_id}/api-keys:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Get user's API keys
+      tags:
+        - ApiKey
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-users-user_id-api-keys
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Get a key by name
+      description: Retrieve list of user's Api Keys
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create an API key
+      operationId: post-users-user_id-api-keys
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyCreateResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InvitationActivation'
-        description: ''
+              $ref: '#/components/schemas/ApiKeyCreateRequest'
+      description: Create an API key for the user
       tags:
-        - Invitation
+        - ApiKey
+        - User
       security:
         - BearerAuth: []
+  /users/{user_id}/api-keys/{key_id}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+      - schema:
+          type: integer
+          minLength: 0
+        name: key_id
+        in: path
+        required: true
+        description: Key identifier
+    delete:
+      summary: Delete the API Key
+      operationId: delete-users-user_id-api-keys-key_id
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      tags:
+        - User
+        - ApiKey
+      description: Delete the API key by ID
+      security:
+        - BearerAuth: []
+  /users/{user_id}/password:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    put:
+      summary: Update User password
+      operationId: put-users-user_id-password
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      tags:
+        - Password
+        - User
+      description: Update user password.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUserPassword'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Recover User Password
+      operationId: post-users-user_id-password
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+      description: Recover User Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestoreUserPassword'
+      security: []
+      tags:
+        - User
+        - Password
+  /password-recover-requests:
+    post:
+      summary: Create password recover request
+      operationId: post-password-reset-requests
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      tags:
+        - Password
+        - User
+      description: >-
+        Create password recover request. Send email with recover token and user
+        ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestorePasswordRequest'
+      security:
+        - BearerAuth: []
+    parameters: []
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
   schemas:
-    OrganizationProfilesPage:
-      title: OrganizationProfilesPage
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - $ref: '#/components/schemas/OrganizationProfilesList'
-    OrganizationProfilesList:
-      title: List of organization profiles
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationProfile'
-      type: object
-    OrganizationProfile:
+    OrganizationWithStats:
       title: Organization profile
       description: A comprehensive set of organization information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationInfo'
+        - $ref: '#/components/schemas/Organization'
         - $ref: '#/components/schemas/OrganizationRelation'
-    OrganizationInfo:
+    OrganizationWithStatsPage:
+      title: OrganizationProfilesPage
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationWithStats'
+    Organization:
       title: Organization
       description: Various information about the organization information.
       allOf:
-        - $ref: '#/components/schemas/OrganizationDetails'
-        - $ref: '#/components/schemas/OrganizationMetadata'
-    OrganizationDetails:
+        - $ref: '#/components/schemas/OrganizationBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: Organization ReportPortal identifier.
+              minimum: 0
+            type:
+              type: string
+              enum:
+                - INTERNAL
+                - PERSONAL
+                - EXTERNAL
+              description: >-
+                Type for automatization purposes.
+
+
+                There are three types:
+
+                - INTERNAL: created by API request.
+
+                - PERSONAL: created for a user after the user creating. Only
+                Enterprise edition feature.
+
+                - EXTERNAL: created for external integrations.
+            external_id:
+              type: string
+              description: |-
+                External organization identifier.
+                It is created for integration.
+            created_at:
+              type: string
+              format: date-time
+              description: Creation date.
+            updated_at:
+              type: string
+              format: date-time
+              description: Last update date.
+    OrganizationBase:
       title: Organization definition
       description: >
         Basic information provided by the client.
@@ -1188,47 +1593,6 @@ components:
           nullable: true
       required:
         - name
-    OrganizationMetadata:
-      title: Organization metadata
-      description: Organization metadata. Represent generated fields.
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Organization ReportPortal identifier.
-          minimum: 0
-        type:
-          type: string
-          enum:
-            - INTERNAL
-            - PERSONAL
-            - EXTERNAL
-          description: >-
-            Type for automatization purposes.
-
-
-            There are three types:
-
-            - INTERNAL: created by API request.
-
-            - PERSONAL: created for a user after the user creating. Only
-            Enterprise edition feature.
-
-            - EXTERNAL: created for external integrations.
-        external_id:
-          type: string
-          description: |-
-            External organization identifier.
-            It is created for integration.
-        created_at:
-          type: string
-          format: date-time
-          description: Creation date.
-        updated_at:
-          type: string
-          format: date-time
-          description: Last update date.
     OrganizationRelation:
       title: Organization relations
       type: object
@@ -1300,94 +1664,55 @@ components:
                       minimum: 0
                       description: Storage usage in percents.
                       maximum: 100
-    OrganizationUsersPage:
-      title: List of organization users
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - $ref: '#/components/schemas/OrganizationUsersList'
-    OrganizationUsersList:
-      title: OrganizationUsersList
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationUserAccount'
-      required:
-        - items
-    OrganizationUserAccount:
+    OrganizationUser:
       title: Organization user account
-      allOf:
-        - $ref: '#/components/schemas/UserAccount'
-        - $ref: '#/components/schemas/UserOrgRole'
-        - $ref: '#/components/schemas/OrganizationUserMetadata'
-        - $ref: '#/components/schemas/OrganizationUserRelation'
       description: >-
         A comprehensive set of user information related to a user's
         organization.
-    OrganizationUserBase:
-      $ref: '#/components/schemas/UserOrgRole'
-    OrganizationUserMetadata:
-      title: Organization user metadata
       allOf:
-        - properties:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/UserOrgRole'
+        - type: object
+          properties:
             assigned_at:
               type: string
               format: date-time
               description: |-
                 A time when a user was assigned to
                 the organization.
-      description: User's organization metadata. Represent generated fields.
-      type: object
-    OrganizationUserRelation:
-      title: Organization user relations
-      type: object
-      description: >-
-        A relationship object contains members that represent a relationship of
-        the user in the organization.
-
-
-        Represents [JSON:API relationships
-        object](https://jsonapi.org/format/#document-resource-object-relationships).
-        We use only `links` and `meta` objects.
-      properties:
-        relationships:
-          type: object
-          properties:
-            projects:
+            stats:
               type: object
-              description: User's projects relations.
               properties:
-                meta:
+                project_stats:
                   type: object
-                  description: User's projects relation metadata.
+                  description: Statistics related to the user's projects.
                   properties:
-                    count:
+                    total_count:
                       type: integer
                       minimum: 0
-                      description: |-
-                        Total number of user's projects in
-                        organization.
+                      description: Total number of user's projects in the organization.
+    OrganizationUsersPage:
+      title: List of organization users
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationUser'
     OrganizationProjectsPage:
       title: List of organization projects
       allOf:
         - $ref: '#/components/schemas/Offset'
-        - $ref: '#/components/schemas/OrganizationProjectsList'
-    OrganizationProjectsList:
-      title: OrganizationProjectsList
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectProfile'
-      required:
-        - items
-    OrganizationProjectInfo:
-      title: OrganizationProjectInfo
-      allOf:
-        - $ref: '#/components/schemas/ProjectMetadata'
-        - $ref: '#/components/schemas/ProjectDetails'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Project'
+          required:
+            - items
     Offset:
       type: object
       title: Offset-based
@@ -1575,32 +1900,42 @@ components:
         - $ref: '#/components/schemas/PatchInteger'
         - $ref: '#/components/schemas/PatchBoolean'
       description: ''
-    UserMetadata:
-      title: User metadata
+    PatchOperationList:
+      title: Patch Operation List
+      x-stoplight:
+        id: tlcy6qo6uv5cq
+      type: array
+      items:
+        $ref: '#/components/schemas/PatchOperation'
+        x-stoplight:
+          id: poji4quyqvizm
+    UserBase:
+      title: User Base
+      description: |-
+        User's base information.
+
+        User has a unique email address, full name, and account type.
+
+        Instance account role can be either `ADMIN` or `USER`.
+        Only `ADMIN` users have access to change account type.
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: User internal identifier.
-          minimum: 0
-        uuid:
+        email:
           type: string
-          format: uuid
-          description: User ID for external systems.
-        created_at:
+          format: email
+          description: User email.
+        full_name:
           type: string
-          format: date-time
-          description: When user's account was created.
-        updated_at:
+          description: User full name.
+          maxLength: 60
+        instance_role:
           type: string
-          format: date-time
-          description: When user's data was modifed.
-        last_login_at:
-          type: string
-          format: date-time
-          description: When user last logged in.
-        auth_provider:
+          enum:
+            - ADMINISTRATOR
+            - USER
+          description: Instance account role.
+          default: USER
+        account_type:
           type: string
           description: |-
             Indicates through which service or
@@ -1614,44 +1949,41 @@ components:
             - SAML
             - SCIM
           default: INTERNAL
-    UserDetails:
-      title: User details
-      description: |-
-        Contains details associated with a user account.
-
-        User has a unique email address, full name, and account type.
-
-        Account type can be either `ADMIN` or `USER`.
-        Only `ADMIN` users have access to change account type.
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: User email.
-        full_name:
-          type: string
-          description: User full name.
-        instance_role:
-          type: string
-          enum:
-            - ADMINISTRATOR
-            - USER
-          description: Instance account role.
         external_id:
           type: string
           description: User external identifier. Provided by external systems.
-    UserAccount:
-      title: User account info
-      x-stoplight:
-        id: 496536498d562
+      required:
+        - email
+    User:
+      title: User general information
+      description: Contains general information associated with a user account.
       allOf:
-        - $ref: '#/components/schemas/UserMetadata'
-        - $ref: '#/components/schemas/UserDetails'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: User internal identifier.
+              minimum: 0
+            uuid:
+              type: string
+              format: uuid
+              description: User ID for external systems.
+            created_at:
+              type: string
+              format: date-time
+              description: When user's account was created.
+            updated_at:
+              type: string
+              format: date-time
+              description: When user's data was modified.
+            last_login_at:
+              type: string
+              format: date-time
+              description: When user last logged in.
+        - $ref: '#/components/schemas/UserBase'
     UserOrgRole:
       title: Organization user details
-      x-stoplight:
-        id: d801f77eb8d0c
       type: object
       description: Basic information about a user in the organization.
       properties:
@@ -1662,8 +1994,6 @@ components:
             - MANAGER
           description: Organization user role.
           default: MEMBER
-          x-stoplight:
-            id: fl1nu6ikxu8jn
     UserProjectRole:
       title: User's project role
       description: Information about user's project role.
@@ -1688,38 +2018,49 @@ components:
               description: Project's internal identifier.
               minimum: 0
         - $ref: '#/components/schemas/UserProjectRole'
-          x-stoplight:
-            id: g9u6ex4s7r65u
-    ProjectMetadata:
-      title: Project metadata
+    ProjectStats:
+      title: Project statistics
+      description: >-
+        Aggregated statistics about a project including user, launch, and
+        billing information.
       type: object
       properties:
-        id:
-          type: integer
-          description: Project internal identifier.
-          format: int64
-          minimum: 0
-        key:
-          type: string
-          description: |-
-            Unique identifying part of a project in
-            an instance.
-            Generated from an organization
-            slug and project slug.
-        organization_id:
-          type: integer
-          format: int64
-          description: Organization ID to which the project belongs.
-          minimum: 0
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when project was created.
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when project was last updated.
-    ProjectDetails:
+        user_stats:
+          type: object
+          description: Statistics about users assigned to the project.
+          properties:
+            total_count:
+              type: integer
+              minimum: 0
+              description: Total number of users assigned to the project.
+              x-stoplight:
+                id: ixu4oz7nwmelw
+        launch_stats:
+          type: object
+          description: Statistics about launches associated with the project.
+          properties:
+            last_occurred_at:
+              type: string
+              format: date-time
+              description: The date and time of the last launch occurred in the project.
+            total_count:
+              type: integer
+              minimum: 0
+              description: Total number of launches in the project.
+              x-stoplight:
+                id: 1jz223lx4v1te
+        billing_stats:
+          type: object
+          description: >-
+            Statistics about the project's billing information. Available only
+            if the billing plugin is enabled.
+          properties:
+            storage_usage:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: The percentage of storage used by the project.
+    ProjectBase:
       title: Project details
       type: object
       properties:
@@ -1737,63 +2078,40 @@ components:
           nullable: true
       required:
         - name
-    ProjectRelationships:
-      title: Project relationships
-      type: object
-      properties:
-        relationships:
-          type: object
-          properties:
-            users:
-              type: object
-              description: Users assigned to the project.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    count:
-                      type: integer
-                      minimum: 0
-                      description: Total number of users assigned to the project.
-            launches:
-              type: object
-              description: Launches associated with the project.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    last_occurred_at:
-                      type: string
-                      description: >-
-                        The date and time of the last launch occurred in the
-                        project.
-                      format: date-time
-                    count:
-                      type: integer
-                      minimum: 0
-                      description: Total number of launches in the project.
-            billing:
-              type: object
-              description: >-
-                Billing information of the project. Available only if the
-                billing plugin is enabled.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    storage_usage:
-                      type: integer
-                      minimum: 0
-                      maximum: 100
-                      description: The percentage of storage used by the project.
-      description: Information about the relationships of a project.
-    ProjectProfile:
-      title: Project profile
+    Project:
+      title: Project
+      description: General information about a project.
       allOf:
-        - $ref: '#/components/schemas/ProjectMetadata'
-        - $ref: '#/components/schemas/ProjectDetails'
-        - $ref: '#/components/schemas/ProjectRelationships'
-      description: Comprehensive information about a project.
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Project internal identifier.
+              format: int64
+              minimum: 0
+            key:
+              type: string
+              description: |-
+                Unique identifying part of a project in
+                an instance.
+                Generated from an organization
+                slug and project slug.
+            organization_id:
+              type: integer
+              format: int64
+              description: Organization ID to which the project belongs.
+              minimum: 0
+            created_at:
+              type: string
+              format: date-time
+              description: Timestamp when project was created.
+            updated_at:
+              type: string
+              format: date-time
+              description: Timestamp when project was last updated.
+            stats:
+              $ref: '#/components/schemas/ProjectStats'
+        - $ref: '#/components/schemas/ProjectBase'
     OffsetRequest:
       type: object
       title: Offset-based
@@ -1884,20 +2202,17 @@ components:
         expires_at:
           type: string
           format: date-time
-          description: Experation date.
-    Invitations:
-      title: Invitations list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invitation'
+          description: Expiration date.
     InvitationPage:
       title: Invitation page
       allOf:
         - $ref: '#/components/schemas/Offset'
-        - $ref: '#/components/schemas/Invitations'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Invitation'
     InvitationRequest:
       title: Invitation creation request
       type: object
@@ -1910,7 +2225,14 @@ components:
           type: array
           description: Organizations to assign a user.
           items:
-            $ref: '#/components/schemas/UserOrgInfoWithProjects'
+            allOf:
+              - $ref: '#/components/schemas/UserOrgInfo'
+              - type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserProjectInfo'
       required:
         - email
     InvitationActivation:
@@ -1944,6 +2266,137 @@ components:
           pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
       required:
         - password
+    ApiKey:
+      title: API Key
+      type: object
+      description: Common info of the API Key.
+      properties:
+        id:
+          type: integer
+          description: Internal identifier
+        name:
+          type: string
+          description: API Key unique name
+        user_id:
+          type: integer
+          description: API Key owner
+        created_at:
+          type: string
+          format: date-time
+          description: Date time with milliseconds
+          example: '2019-07-30T06:43:40.252Z'
+        last_used_at:
+          type: string
+          format: date-time
+          example: '2019-07-30T06:43:40.252Z'
+          description: Date time with milliseconds
+    ApiKeyCreateRequest:
+      title: API Key creation request
+      type: object
+      properties:
+        name:
+          type: string
+          description: Unique name for the new API key
+      required:
+        - name
+    ApiKeyCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiKey'
+        - type: object
+          properties:
+            api_key:
+              type: string
+              description: The generated API key
+          required:
+            - api_key
+      title: API Key creation response
+    ApiKeyPage:
+      title: API Key page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ApiKey'
+    NewUserRequest:
+      title: User creation request
+      allOf:
+        - $ref: '#/components/schemas/UserBase'
+        - $ref: '#/components/schemas/Password'
+      description: New user creation
+    InstanceUser:
+      title: Instance User
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            stats:
+              $ref: '#/components/schemas/InstanceUserStats'
+    InstanceUserStats:
+      title: Instance User statistics
+      type: object
+      properties:
+        org_stats:
+          type: object
+          properties:
+            total_count:
+              type: integer
+              description: Total number of user's organisations
+        project_stats:
+          type: object
+          properties:
+            total_count:
+              type: integer
+              description: ''''''
+    InstanceUserPage:
+      title: Instance User page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/InstanceUser'
+    NewUserPassword:
+      title: New User password
+      type: object
+      properties:
+        old_password:
+          type: string
+          format: password
+          description: Old user password.
+        new_password:
+          $ref: '#/components/schemas/password'
+      required:
+        - old_password
+        - new_password
+      description: Change user password.
+    RestoreUserPassword:
+      title: Restore User password
+      type: object
+      properties:
+        token:
+          type: string
+          format: uuid
+          description: Token for password recovery. It's provided in email.
+        new_password:
+          $ref: '#/components/schemas/password'
+      required:
+        - token
+        - new_password
+    RestorePasswordRequest:
+      title: Restore password request
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email for password recovery.
+      required:
+        - email
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
@@ -1956,20 +2409,30 @@ components:
               minimum: 0
               description: Organization internal identifier.
         - $ref: '#/components/schemas/UserOrgRole'
-          x-stoplight:
-            id: 1x9aaamx6l94w
-    UserOrgInfoWithProjects:
-      title: User's organization details with projects
-      allOf:
-        - $ref: '#/components/schemas/UserOrgInfo'
-        - type: object
-          properties:
-            projects:
-              type: array
-              items:
-                $ref: '#/components/schemas/UserProjectInfo'
+    Password:
+      title: Password
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
+          minLength: 8
+          maxLength: 256
+      description: >-
+        Minimum eight characters, at least one uppercase letter, one lowercase
+        letter, one number and one special character.
+
+
+        Regexp: `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$`
+    password:
+      type: string
+      format: password
+      pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
+      minLength: 8
+      maxLength: 256
   parameters:
-    OrganizationId:
+    organizationId:
       name: org_id
       in: path
       required: true
@@ -1977,15 +2440,7 @@ components:
         type: integer
         format: int64
       description: Organization identifier.
-    UserId:
-      name: user_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: User identifier.
-    ProjectId:
+    projectId:
       name: project_id
       in: path
       required: true
@@ -2024,11 +2479,15 @@ components:
           - DESC
         default: ASC
       description: Indicate sorting direction
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: Bearer token for authentication
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: User identifier.
   responses:
     Update:
       description: Successful update response
@@ -2042,8 +2501,15 @@ components:
                 type: string
                 example: The update was completed successfully.
     Error:
-      description: Error response
+      description: ''
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+  requestBodies:
+    JsonPatch:
+      content:
+        application/json-patch+json:
+          schema:
+            $ref: '#/components/schemas/PatchOperationList'
+      description: JSON Patch operations
