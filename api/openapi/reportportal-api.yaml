@@ -1495,6 +1495,7 @@ paths:
               $ref: '#/components/schemas/RestorePasswordRequest'
       security:
         - BearerAuth: []
+    parameters: []
 components:
   securitySchemes:
     BearerAuth:
@@ -2250,7 +2251,6 @@ components:
           maxLength: 60
         password:
           type: string
-          format: password
           description: >-
             User password. Will be ignored for `PENDING` status.
 
