@@ -582,6 +582,10 @@ components:
     InvitationActivation:
       title: Invitation activation request
       type: object
+      description: |-
+        User password. Will be ignored for `PENDING` status.
+        Minimum eight characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character.
       properties:
         status:
           type: string
@@ -598,14 +602,7 @@ components:
           description: User full name.
           maxLength: 60
         password:
-          type: string
-          description: |-
-            User password. Will be ignored for `PENDING` status.
-            Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
-          minLength: 8
-          maxLength: 256
-          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$'
-          format: password
+          $ref: ../models/Password.yaml#/properties/password
       required:
         - password
     ApiKey:
