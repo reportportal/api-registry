@@ -1,6 +1,4 @@
 title: Patch Operation Number
-x-stoplight:
-  id: 384a090672106
 type: object
 properties:
   op:
@@ -9,13 +7,7 @@ properties:
       - add
       - replace
       - remove
-    x-stoplight:
-      id: ey5aj7lg8zp2f
   path:
     type: string
-    x-stoplight:
-      id: xr1jdnx2cac79
   value:
     type: number
-    x-stoplight:
-      id: cuhcy0d1202ae

@@ -10,8 +10,6 @@ properties:
         type: integer
         minimum: 0
         description: Total number of users assigned to the project.
-        x-stoplight:
-          id: ixu4oz7nwmelw
   launch_stats:
     type: object
     description: Statistics about launches associated with the project.
@@ -24,8 +22,6 @@ properties:
         type: integer
         minimum: 0
         description: Total number of launches in the project.
-        x-stoplight:
-          id: 1jz223lx4v1te
   billing_stats:
     type: object
     description: Statistics about the project's billing information. Available only if the billing plugin is enabled.

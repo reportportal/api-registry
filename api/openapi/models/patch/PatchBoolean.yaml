@@ -1,6 +1,4 @@
 title: Patch Operation Boolean
-x-stoplight:
-  id: 059b470084eeb
 type: object
 properties:
   op:
@@ -9,13 +7,7 @@ properties:
       - add
       - replace
       - remove
-    x-stoplight:
-      id: tfpfjbjlzlz1r
   path:
     type: string
-    x-stoplight:
-      id: bha825n67umn0
   value:
     type: boolean
-    x-stoplight:
-      id: 5sxepqwaj7ol2

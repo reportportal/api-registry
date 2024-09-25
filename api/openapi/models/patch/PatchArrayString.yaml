@@ -1,6 +1,4 @@
 title: Patch Operation Array String
-x-stoplight:
-  id: 0dc48174cf5a3
 type: object
 properties:
   op:
@@ -9,17 +7,9 @@ properties:
       - add
       - replace
       - remove
-    x-stoplight:
-      id: 5arjr4kfsf3la
   path:
     type: string
-    x-stoplight:
-      id: 8unenjntbclp7
   value:
     type: array
     items:
       type: string
-      x-stoplight:
-        id: 6fgsgy43sg8s9
-    x-stoplight:
-      id: 6cwxlsb4w0pax

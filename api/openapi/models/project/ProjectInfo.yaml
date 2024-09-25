@@ -1,4 +1,4 @@
-title: Project
+title: Project information
 description: General information about a project.
 allOf:
   - type: object

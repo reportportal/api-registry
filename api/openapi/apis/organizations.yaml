@@ -35,7 +35,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationWithStatsPage'
+                $ref: '#/components/schemas/OrganizationPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
           content:
@@ -140,7 +140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationWithStats'
+                $ref: '#/components/schemas/OrganizationInfo'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -580,7 +580,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/project/Project.yaml
+                $ref: ../models/project/ProjectInfo.yaml
         '400':
           $ref: '#/components/responses/Error'
         '403':
@@ -617,7 +617,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/project/Project.yaml
+                $ref: ../models/project/ProjectInfo.yaml
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -656,7 +656,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/project/Project.yaml
+              $ref: ../models/project/ProjectInfo.yaml
       description: |-
         Update project information.
 
@@ -724,7 +724,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationWithStatsPage'
+                $ref: '#/components/schemas/OrganizationPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -795,25 +795,9 @@ paths:
         - Ready for implementation
 components:
   schemas:
-    OrganizationWithStats:
-      title: Organization profile
-      description: A comprehensive set of organization information.
-      allOf:
-        - $ref: '#/components/schemas/Organization'
-        - $ref: '#/components/schemas/OrganizationRelation'
-    OrganizationWithStatsPage:
-      title: OrganizationProfilesPage
-      allOf:
-        - $ref: ../models/Offset.yaml
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/OrganizationWithStats'
-    Organization:
-      title: Organization
-      description: Various information about the organization information.
+    OrganizationInfo:
+      title: Organization information
+      description: Various information about an organization.
       allOf:
         - $ref: '#/components/schemas/OrganizationBase'
         - type: object
@@ -849,6 +833,7 @@ components:
               type: string
               format: date-time
               description: Last update date.
+        - $ref: '#/components/schemas/OrganizationStats'
     OrganizationBase:
       title: Organization definition
       description: |
@@ -872,13 +857,10 @@ components:
           nullable: true
       required:
         - name
-    OrganizationRelation:
-      title: Organization relations
+    OrganizationStats:
+      title: Organization statistics
       type: object
-      description: |-
-        A relationship object contains members that represent a relationship of the organization.
-
-        Represents [JSON:API relationships object](https://jsonapi.org/format/#document-resource-object-relationships). We use only `links` and `meta` objects.
+      description: ''
       properties:
         relationships:
           type: object
@@ -939,11 +921,21 @@ components:
                       minimum: 0
                       description: Storage usage in percents.
                       maximum: 100
+    OrganizationPage:
+      title: OrganizationProfilesPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationInfo'
     OrganizationUser:
       title: Organization user account
       description: A comprehensive set of user information related to a user's organization.
       allOf:
-        - $ref: ../models/user/User.yaml
+        - $ref: ../models/user/UserInfo.yaml
         - $ref: ../models/user/UserOrgRole.yaml
         - type: object
           properties:
@@ -983,7 +975,7 @@ components:
             items:
               type: array
               items:
-                $ref: ../models/project/Project.yaml
+                $ref: ../models/project/ProjectInfo.yaml
           required:
             - items
   parameters:
@@ -1020,7 +1012,7 @@ components:
                 type: string
                 example: The update was completed successfully.
     Error:
-      description: ''
+      description: Error problem response
       content:
         application/problem+json:
           schema:
