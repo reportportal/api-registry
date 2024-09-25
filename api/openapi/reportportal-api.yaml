@@ -2235,7 +2235,7 @@ components:
       title: Invitation activation request
       type: object
       description: |-
-        User password. Will be ignored for `PENDING` status.
+        Password will be ignored for `PENDING` status.
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
       properties:
@@ -2402,23 +2402,18 @@ components:
         - $ref: '#/components/schemas/UserOrgRole'
     password:
       type: string
-      format: password
       pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
       minLength: 8
       maxLength: 256
     Password:
       title: Password
       type: object
-      description: >-
-        Minimum eight characters, at least one uppercase letter, one lowercase
-        letter, one number and one special character.
-
-
-        Regexp: `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$`
+      description: |-
+        Minimum eight characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character.
       properties:
         password:
           type: string
-          format: password
           pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$
           minLength: 8
           maxLength: 256
