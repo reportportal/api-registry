@@ -512,6 +512,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RestorePasswordRequest'
+    parameters: []
 components:
   schemas:
     Invitation:
@@ -598,7 +599,6 @@ components:
           maxLength: 60
         password:
           type: string
-          format: password
           description: |-
             User password. Will be ignored for `PENDING` status.
             Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
