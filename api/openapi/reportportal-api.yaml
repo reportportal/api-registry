@@ -105,6 +105,16 @@ tags:
     x-displayName: Password
   - name: User
     x-displayName: User
+  - name: Activities
+    x-displayName: Activities
+  - name: Organizations
+    x-displayName: Organizations
+  - name: Projects
+    x-displayName: Projects
+  - name: Suggestions
+    x-displayName: Suggestions
+  - name: User API Keys
+    x-displayName: User API Keys
 paths:
   /organizations:
     get:
@@ -118,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationWithStatsPage'
+                $ref: '#/components/schemas/OrganizationPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -170,7 +180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationInfo'
         '400':
           description: Bad Request
           content:
@@ -229,7 +239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationWithStats'
+                $ref: '#/components/schemas/OrganizationInfo'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -723,7 +733,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/ProjectInfo'
         '400':
           $ref: '#/components/responses/Error'
         '403':
@@ -764,7 +774,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/ProjectInfo'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -805,7 +815,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/ProjectInfo'
       description: |-
         Update project information.
 
@@ -879,7 +889,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationWithStatsPage'
+                $ref: '#/components/schemas/OrganizationPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -1496,31 +1506,79 @@ paths:
       security:
         - BearerAuth: []
     parameters: []
+  /projects/{project_name}/activities/suggestions:
+    get:
+      summary: Get project suggestions
+      tags:
+        - Projects
+        - Suggestions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      suggestions:
+                        type: array
+                        description: >-
+                          List of activities suggestions for the project by
+                          type.
+                        items:
+                          type: string
+                  - $ref: '#/components/schemas/Limit'
+        '404':
+          description: Not Found
+      operationId: get-project-suggestions
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - subject_name
+          in: query
+          name: type
+          description: Type of suggestions
+        - schema:
+            type: string
+          in: query
+          name: filter
+          description: Filter query for suggestions
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: Maximum number of suggestions
+      description: >-
+        Get project activities suggestions by type for autocomplete.
+
+        Supported types:
+
+        - subject_name: Get suggestions for activity subject names in the
+        project.
+
+
+        If the type isn't provided or provided incorrectly, you get a 404
+        error. 
+      security:
+        - BearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
   schemas:
-    OrganizationWithStats:
-      title: Organization profile
-      description: A comprehensive set of organization information.
-      allOf:
-        - $ref: '#/components/schemas/Organization'
-        - $ref: '#/components/schemas/OrganizationRelation'
-    OrganizationWithStatsPage:
-      title: OrganizationProfilesPage
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/OrganizationWithStats'
-    Organization:
-      title: Organization
-      description: Various information about the organization information.
+    OrganizationInfo:
+      title: Organization information
+      description: Various information about an organization.
       allOf:
         - $ref: '#/components/schemas/OrganizationBase'
         - type: object
@@ -1561,6 +1619,7 @@ components:
               type: string
               format: date-time
               description: Last update date.
+        - $ref: '#/components/schemas/OrganizationStats'
     OrganizationBase:
       title: Organization definition
       description: >
@@ -1589,17 +1648,10 @@ components:
           nullable: true
       required:
         - name
-    OrganizationRelation:
-      title: Organization relations
+    OrganizationStats:
+      title: Organization statistics
       type: object
-      description: >-
-        A relationship object contains members that represent a relationship of
-        the organization.
-
-
-        Represents [JSON:API relationships
-        object](https://jsonapi.org/format/#document-resource-object-relationships).
-        We use only `links` and `meta` objects.
+      description: ''
       properties:
         relationships:
           type: object
@@ -1660,13 +1712,23 @@ components:
                       minimum: 0
                       description: Storage usage in percents.
                       maximum: 100
+    OrganizationPage:
+      title: OrganizationProfilesPage
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationInfo'
     OrganizationUser:
       title: Organization user account
       description: >-
         A comprehensive set of user information related to a user's
         organization.
       allOf:
-        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/UserInfo'
         - $ref: '#/components/schemas/UserOrgRole'
         - type: object
           properties:
@@ -1706,7 +1768,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/ProjectInfo'
           required:
             - items
     Offset:
@@ -1802,8 +1864,6 @@ components:
           example: /some/uri-reference#specific-occurrence-context
     PatchObject:
       title: Patch Operation Object
-      x-stoplight:
-        id: d7d96fec1011d
       type: object
       properties:
         op:
@@ -1812,20 +1872,12 @@ components:
             - add
             - replace
             - remove
-          x-stoplight:
-            id: 205fxfuhbskbm
         path:
           type: string
-          x-stoplight:
-            id: 8kv9w50iz2hyq
         value:
           type: object
-          x-stoplight:
-            id: ni3c8jcqv3qj2
     PatchArrayString:
       title: Patch Operation Array String
-      x-stoplight:
-        id: 0dc48174cf5a3
       type: object
       properties:
         op:
@@ -1834,24 +1886,14 @@ components:
             - add
             - replace
             - remove
-          x-stoplight:
-            id: 5arjr4kfsf3la
         path:
           type: string
-          x-stoplight:
-            id: 8unenjntbclp7
         value:
           type: array
           items:
             type: string
-            x-stoplight:
-              id: 6fgsgy43sg8s9
-          x-stoplight:
-            id: 6cwxlsb4w0pax
     PatchString:
       title: Patch Operation String
-      x-stoplight:
-        id: 51ad78e4e2bf9
       type: object
       properties:
         op:
@@ -1860,20 +1902,12 @@ components:
             - add
             - replace
             - remove
-          x-stoplight:
-            id: jnms149hfqwm6
         path:
           type: string
-          x-stoplight:
-            id: he3cznpfya8o6
         value:
           type: string
-          x-stoplight:
-            id: 3xbup1nvm4bbm
     PatchNumber:
       title: Patch Operation Number
-      x-stoplight:
-        id: 384a090672106
       type: object
       properties:
         op:
@@ -1882,20 +1916,12 @@ components:
             - add
             - replace
             - remove
-          x-stoplight:
-            id: ey5aj7lg8zp2f
         path:
           type: string
-          x-stoplight:
-            id: xr1jdnx2cac79
         value:
           type: number
-          x-stoplight:
-            id: cuhcy0d1202ae
     PatchInteger:
       title: Patch Operation Integer
-      x-stoplight:
-        id: f67d018c0784a
       type: object
       properties:
         op:
@@ -1904,20 +1930,12 @@ components:
             - add
             - replace
             - remove
-          x-stoplight:
-            id: os0nm546kca7b
         path:
           type: string
-          x-stoplight:
-            id: dzzxuzefyw4w5
         value:
           type: integer
-          x-stoplight:
-            id: 5g5y53tarp1jv
     PatchBoolean:
       title: Patch Operation Boolean
-      x-stoplight:
-        id: 059b470084eeb
       type: object
       properties:
         op:
@@ -1926,16 +1944,10 @@ components:
             - add
             - replace
             - remove
-          x-stoplight:
-            id: tfpfjbjlzlz1r
         path:
           type: string
-          x-stoplight:
-            id: bha825n67umn0
         value:
           type: boolean
-          x-stoplight:
-            id: 5sxepqwaj7ol2
     PatchOperation:
       title: Patch Operation Object
       oneOf:
@@ -1947,13 +1959,9 @@ components:
         - $ref: '#/components/schemas/PatchBoolean'
     PatchOperationList:
       title: Patch Operation List
-      x-stoplight:
-        id: tlcy6qo6uv5cq
       type: array
       items:
         $ref: '#/components/schemas/PatchOperation'
-        x-stoplight:
-          id: poji4quyqvizm
     UserBase:
       title: User Base
       description: |-
@@ -1999,7 +2007,7 @@ components:
           description: User external identifier. Provided by external systems.
       required:
         - email
-    User:
+    UserInfo:
       title: User general information
       description: Contains general information associated with a user account.
       allOf:
@@ -2078,8 +2086,6 @@ components:
               type: integer
               minimum: 0
               description: Total number of users assigned to the project.
-              x-stoplight:
-                id: ixu4oz7nwmelw
         launch_stats:
           type: object
           description: Statistics about launches associated with the project.
@@ -2092,8 +2098,6 @@ components:
               type: integer
               minimum: 0
               description: Total number of launches in the project.
-              x-stoplight:
-                id: 1jz223lx4v1te
         billing_stats:
           type: object
           description: >-
@@ -2133,8 +2137,8 @@ components:
           $ref: '#/components/schemas/slug'
       required:
         - name
-    Project:
-      title: Project
+    ProjectInfo:
+      title: Project information
       description: General information about a project.
       allOf:
         - type: object
@@ -2382,7 +2386,7 @@ components:
     InstanceUser:
       title: Instance User
       allOf:
-        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/UserInfo'
         - type: object
           properties:
             stats:
@@ -2471,6 +2475,22 @@ components:
       description: |-
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
+    Limit:
+      title: Limit
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: >-
+            The limit used for this page of results. This will be the same as
+            the limit query parameter unless it exceeded the maximum value
+            allowed for this API endpoint.
+          minimum: 0
+        count:
+          type: integer
+          description: The number of results returned in this page of results.
+          minimum: 0
+      description: ''
   parameters:
     organizationId:
       name: org_id
@@ -2541,7 +2561,7 @@ components:
                 type: string
                 example: The update was completed successfully.
     Error:
-      description: ''
+      description: Error problem response
       content:
         application/problem+json:
           schema:
