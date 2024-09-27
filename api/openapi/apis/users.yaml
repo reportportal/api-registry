@@ -45,7 +45,13 @@ paths:
           $ref: '#/components/responses/Error'
         '503':
           $ref: '#/components/responses/Error'
-      description: Create and send user invitation to email.
+      description: |-
+        Create and send user invitation to email.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
       requestBody:
         content:
           application/json:
@@ -83,7 +89,12 @@ paths:
             format: email
           in: query
           name: email
-      description: Get all invitations
+      description: |-
+        Get all invitations
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Invitation
   '/invitations/{invitation_id}':
@@ -109,10 +120,17 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
       operationId: get-invitations-id
-      description: Get invitation by ID.
+      description: |-
+        Get invitation by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
     put:
       summary: Activate invitation
       operationId: put-invitations-id
+      security: []
       responses:
         '200':
           description: OK
@@ -128,7 +146,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Create user from invitation.
+      description: |-
+        Create user from invitation.
+
+        ### Authority
+
+        - `PUBLIC`
       requestBody:
         content:
           application/json:
@@ -156,7 +179,12 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
       operationId: get-users
-      description: Get all users
+      description: |-
+        Get all users
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -196,6 +224,14 @@ paths:
               - USER
           in: query
           name: instance_role
+          description: Exclude users by role
+        - schema:
+            type: string
+            enum:
+              - ADMINISTRATOR
+              - USER
+          in: query
+          name: instance_role_not
           description: Filter users by role
         - schema:
             type: string
@@ -209,6 +245,18 @@ paths:
           in: query
           name: account_type
           description: Filter users by account type
+        - schema:
+            type: string
+            enum:
+              - INTERNAL
+              - UPSA
+              - GITHUB
+              - LDAP
+              - SAML
+              - SCIM
+          in: query
+          name: account_type_not
+          description: Exclude users by account type
     post:
       summary: Create a new user
       operationId: post-users
@@ -230,7 +278,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/NewUserRequest'
-      description: Create a new user
+      description: |-
+        Create a new user
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - User
   /users/searches:
@@ -258,7 +311,12 @@ paths:
         description: Create search request for user collection.
       tags:
         - User
-      description: Search users by criteria.
+      description: |-
+        Search users by criteria.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
   /users/me:
     get:
       summary: Get current user
@@ -276,7 +334,17 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
       operationId: get-users-me
-      description: Get current user information.
+      description: |-
+        Get current user information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Current user
       tags:
         - User
   '/users/{user_id}':
@@ -300,12 +368,34 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       operationId: get-users-user_id
-      description: Get user by ID.
+      description: |-
+        Get user by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       tags:
         - User
     put:
       summary: Update user
-      description: Update user base information.
+      description: |-
+        Update user base information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       operationId: put-users-user_id
       responses:
         '200':
@@ -327,7 +417,18 @@ paths:
         - User
     patch:
       summary: Patch user
-      description: Partially update user information.
+      description: |-
+        Partially update user information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       operationId: patch-users-user_id
       responses:
         '200':
@@ -358,7 +459,18 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Delete user by ID.
+      description: |-
+        Delete user by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       tags:
         - User
   '/users/{user_id}/api-keys':
@@ -394,7 +506,18 @@ paths:
           in: query
           name: name
           description: Get a key by name
-      description: Retrieve list of user's Api Keys
+      description: |-
+        Retrieve list of user's Api Keys
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user api keys
+        - User has access only to his api keys
     post:
       summary: Create an API key
       operationId: post-users-user_id-api-keys
@@ -418,7 +541,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ApiKeyCreateRequest'
-      description: Create an API key for the user
+      description: |-
+        Create an API key for the user
+
+        ### Access level
+
+        - Administrator has access to any user api keys
+        - User has access only to his api keys
       tags:
         - ApiKey
         - User
@@ -449,7 +578,18 @@ paths:
       tags:
         - User
         - ApiKey
-      description: Delete the API key by ID
+      description: |-
+        Delete the API key by ID
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user api keys
+        - User has access only to his api keys
   '/users/{user_id}/password':
     parameters:
       - $ref: ../parameters/UserId.yaml
@@ -457,16 +597,8 @@ paths:
       summary: Update User password
       operationId: put-users-user_id-password
       responses:
-        '200':
+        '501':
           $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
       tags:
         - Password
         - User
@@ -477,14 +609,17 @@ paths:
             schema:
               $ref: '#/components/schemas/NewUserPassword'
     post:
-      summary: Recover User Password
+      summary: Recover User password
       operationId: post-users-user_id-password
       responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
-      description: Recover User Password
+        '501':
+          description: Not Implemented
+      description: |-
+        Recover User password
+
+        ### Authority
+
+        - `PUBLIC`
       requestBody:
         content:
           application/json:
@@ -498,15 +633,19 @@ paths:
     post:
       summary: Create password recover request
       operationId: post-password-reset-requests
+      security: []
       responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
+        '501':
+          description: Not Implemented
       tags:
         - Password
         - User
-      description: Create password recover request. Send email with recover token and user ID.
+      description: |-
+        Create password recover request. Send email with recover token and user ID.
+
+        ### Authority
+
+        - `PUBLIC`
       requestBody:
         content:
           application/json:
@@ -604,6 +743,7 @@ components:
         password:
           $ref: ../types/password.yaml
       required:
+        - full_name
         - password
     ApiKey:
       title: API Key
@@ -691,8 +831,7 @@ components:
           properties:
             total_count:
               type: integer
-              description: |- 
-                Total number of user's projects.
+              description: Total number of user's projects.
     InstanceUserPage:
       title: Instance User page
       allOf:
