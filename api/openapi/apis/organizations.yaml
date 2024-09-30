@@ -748,7 +748,7 @@ paths:
           application/json:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
-        description: ''
+        description: 'Provide search criteria for organizations.'
       tags:
         - Organization
         - Ready for implementation
@@ -843,24 +843,15 @@ components:
       type: object
       properties:
         name:
-          type: string
-          description: Organization display name.
-          minLength: 3
-          maxLength: 60
-          pattern: '^[A-Za-z0-9._\- ]+$'
+          $ref: ../types/name.yaml
         slug:
-          type: string
-          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-          minLength: 3
-          maxLength: 60
-          description: 'A slug is used to identify a resource. It should be unique and contain only lowercase letters, numbers, and hyphens. It should not start or end with a hyphen.'
-          nullable: true
+          $ref: ../types/slug.yaml
       required:
         - name
     OrganizationStats:
       title: Organization statistics
       type: object
-      description: ''
+      description: 'General information about the organization.'
       properties:
         relationships:
           type: object
