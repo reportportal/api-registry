@@ -1151,6 +1151,7 @@ paths:
 
         - `ADMINISTRATOR`
       parameters:
+        - $ref: '#/components/parameters/ExcludeFields'
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Order'
@@ -1318,6 +1319,8 @@ paths:
         - Current user
       tags:
         - User
+      parameters:
+        - $ref: '#/components/parameters/ExcludeFields'
       security:
         - BearerAuth: []
   /users/{user_id}:
@@ -1355,6 +1358,8 @@ paths:
         - User has access only to his profile
       tags:
         - User
+      parameters:
+        - $ref: '#/components/parameters/ExcludeFields'
       security:
         - BearerAuth: []
     put:
@@ -2687,6 +2692,17 @@ components:
         format: int64
         minimum: 0
       description: User identifier.
+    ExcludeFields:
+      name: exclude_fields
+      in: query
+      required: false
+      schema:
+        type: string
+        description: |-
+          A comma-separated list of fields to exclude from the response.
+          This can be used to reduce the size of the response payload.
+          For example, `exclude_fields=field1,field2`.
+        example: field1,field2
   responses:
     Update:
       description: Successful update response
