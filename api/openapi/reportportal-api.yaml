@@ -97,14 +97,14 @@ tags:
   - name: Implemented
     description: Endpoints that are implemented
     x-displayName: Implemented
-  - name: ApiKey
-    x-displayName: ApiKey
   - name: Invitation
     x-displayName: Invitation
-  - name: Password
-    x-displayName: Password
   - name: User
     x-displayName: User
+  - name: ApiKey
+    x-displayName: ApiKey
+  - name: Password
+    x-displayName: Password
   - name: Activities
     x-displayName: Activities
   - name: Organizations
@@ -1460,7 +1460,6 @@ paths:
     get:
       summary: Get user's API keys
       tags:
-        - ApiKey
         - User
       responses:
         '200':
@@ -1562,7 +1561,6 @@ paths:
           $ref: '#/components/responses/Error'
       tags:
         - User
-        - ApiKey
       description: |-
         Delete the API key by ID
 
@@ -1617,7 +1615,6 @@ paths:
       security: []
       tags:
         - User
-        - Password
   /password-recover-requests:
     post:
       summary: Create password recover request
@@ -1627,7 +1624,6 @@ paths:
         '501':
           description: Not Implemented
       tags:
-        - Password
         - User
       description: >-
         Create password recover request. Send email with recover token and user
@@ -2529,6 +2525,10 @@ components:
           properties:
             stats:
               $ref: '#/components/schemas/InstanceUserStats'
+            organizations:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserOrgInfo'
     InstanceUserStats:
       title: Instance User statistics
       type: object
