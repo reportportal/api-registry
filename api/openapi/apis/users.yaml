@@ -84,13 +84,13 @@ paths:
             default: email
           in: query
           name: sort
-          description: Indicate sort by field.
+          description: Test
         - schema:
             type: string
             format: email
           in: query
           name: email
-          description: Filter invitations by email.
+          description: Test
       description: |-
         Get all invitations
 
@@ -229,7 +229,7 @@ paths:
               - USER
           in: query
           name: instance_role
-          description: Filter users by role.
+          description: Exclude users by role
         - schema:
             type: string
             enum:
@@ -237,7 +237,7 @@ paths:
               - USER
           in: query
           name: instance_role_not
-          description: Exclude users by role.
+          description: Filter users by role
         - schema:
             type: string
             enum:
@@ -712,8 +712,6 @@ components:
           type: string
           format: email
           description: Email for invitation.
-        full_name:
-          $ref: ../types/name.yaml
         organizations:
           type: array
           description: Organizations to assign a user.
