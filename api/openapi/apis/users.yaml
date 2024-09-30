@@ -481,7 +481,6 @@ paths:
     get:
       summary: Get user's API keys
       tags:
-        - ApiKey
         - User
       responses:
         '200':
@@ -579,7 +578,6 @@ paths:
           $ref: '#/components/responses/Error'
       tags:
         - User
-        - ApiKey
       description: |-
         Delete the API key by ID
 
@@ -630,7 +628,6 @@ paths:
       security: []
       tags:
         - User
-        - Password
   /password-recover-requests:
     post:
       summary: Create password recover request
@@ -640,7 +637,6 @@ paths:
         '501':
           description: Not Implemented
       tags:
-        - Password
         - User
       description: |-
         Create password recover request. Send email with recover token and user ID.
@@ -817,6 +813,10 @@ components:
           properties:
             stats:
               $ref: '#/components/schemas/InstanceUserStats'
+            organizations:
+              type: array
+              items:
+                $ref: ../models/user/UserOrgInfo.yaml
     InstanceUserStats:
       title: Instance User statistics
       type: object
@@ -904,11 +904,9 @@ components:
             $ref: ../models/PatchOperationList.yaml
       description: JSON Patch operations
 tags:
-  - name: ApiKey
   - name: Implemented
   - name: In progress
   - name: Invitation
-  - name: Password
   - name: Ready for implementation
   - name: User
 security:
