@@ -42,8 +42,6 @@ properties:
     description: User external identifier. Provided by external systems.
   active:
     type: boolean
-    x-stoplight:
-      id: ypj4mwjcheoku
     description: Soft delete user attribute.
     default: true
 required:

@@ -666,6 +666,9 @@ components:
           type: integer
           format: int64
           description: User identifier. For activated users only.
+        full_name:
+          type: string
+          description: User display name.
         email:
           type: string
           description: User's email.
@@ -704,6 +707,8 @@ components:
           type: string
           format: email
           description: Email for invitation.
+        full_name:
+          type: string
         organizations:
           type: array
           description: Organizations to assign a user.
@@ -730,8 +735,9 @@ components:
           type: string
           enum:
             - ACTIVATED
+            - PENDING
           description: Change status to ACTIVATED to create a user.
-          default: ACTIVATED
+          default: PENDING
         email:
           type: string
           description: New email.
