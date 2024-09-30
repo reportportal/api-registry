@@ -924,7 +924,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SearchCriteriaRQ'
-        description: ''
+        description: Provide search criteria for organizations.
       tags:
         - Organization
         - Ready for implementation
@@ -1765,27 +1765,15 @@ components:
       type: object
       properties:
         name:
-          type: string
-          description: Organization display name.
-          minLength: 3
-          maxLength: 60
-          pattern: ^[A-Za-z0-9._\- ]+$
+          $ref: '#/components/schemas/name'
         slug:
-          type: string
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          minLength: 3
-          maxLength: 60
-          description: >-
-            A slug is used to identify a resource. It should be unique and
-            contain only lowercase letters, numbers, and hyphens. It should not
-            start or end with a hyphen.
-          nullable: true
+          $ref: '#/components/schemas/slug'
       required:
         - name
     OrganizationStats:
       title: Organization statistics
       type: object
-      description: ''
+      description: General information about the organization.
       properties:
         relationships:
           type: object
@@ -1939,6 +1927,26 @@ components:
           enum:
             - ASC
             - DESC
+    name:
+      title: name
+      type: string
+      description: Display name.
+      minLength: 3
+      maxLength: 60
+      pattern: ^[A-Za-z0-9._\- ]+$
+    slug:
+      title: slug
+      type: string
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      description: >-
+        A slug is used to identify a resource.
+
+        It should be unique and contain only lowercase letters, numbers, and
+        hyphens.
+
+        It should not start or end with a hyphen.
+      minLength: 3
+      maxLength: 60
     Problem:
       title: Problem
       type: object
@@ -2093,13 +2101,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PatchOperation'
-    name:
-      title: name
-      type: string
-      description: Display name.
-      minLength: 3
-      maxLength: 60
-      pattern: ^[A-Za-z0-9._\- ]+$
     UserBase:
       title: User Base
       description: |-
@@ -2250,17 +2251,6 @@ components:
               minimum: 0
               maximum: 100
               description: The percentage of storage used by the project.
-    slug:
-      title: slug
-      type: string
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      description: >-
-        A slug is used to identify a resource.
-
-        It should be unique and contain only lowercase letters, numbers, and
-        hyphens.
-
-        It should not start or end with a hyphen.
     ProjectBase:
       title: Project details
       type: object
@@ -2528,7 +2518,7 @@ components:
             organizations:
               type: array
               items:
-                $ref: '#/components/schemas/UserOrgInfo'
+                $ref: '#/components/schemas/InstanceUserOrgDetails'
     InstanceUserStats:
       title: Instance User statistics
       type: object
@@ -2539,6 +2529,15 @@ components:
             total_count:
               type: integer
               description: Total number of user's organisations
+    InstanceUserOrgDetails:
+      title: Instance User organization details
+      description: User's organization details.
+      allOf:
+        - type: object
+          properties:
+            name:
+              $ref: '#/components/schemas/name'
+        - $ref: '#/components/schemas/UserOrgInfo'
     InstanceUserPage:
       title: Instance User page
       allOf:
