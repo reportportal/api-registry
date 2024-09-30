@@ -218,7 +218,7 @@ paths:
             type: string
           in: query
           name: full_name
-          description: Filter users by full name
+          description: Filter users by full name containing (case insensitive)
         - schema:
             type: string
             enum:
