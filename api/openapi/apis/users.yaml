@@ -670,8 +670,7 @@ components:
           format: int64
           description: User identifier. For activated users only.
         full_name:
-          type: string
-          description: User display name.
+          $ref: ../types/name.yaml
         email:
           type: string
           description: User's email.
@@ -711,7 +710,7 @@ components:
           format: email
           description: Email for invitation.
         full_name:
-          type: string
+          $ref: ../types/name.yaml
         organizations:
           type: array
           description: Organizations to assign a user.
@@ -746,9 +745,7 @@ components:
           description: New email.
           format: email
         full_name:
-          type: string
-          description: User full name.
-          maxLength: 60
+          $ref: ../types/name.yaml
         password:
           $ref: ../types/password.yaml
       required:
