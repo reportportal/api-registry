@@ -562,7 +562,7 @@ paths:
         name: key_id
         in: path
         required: true
-        description: Key identifier
+        description: Key identifier.
     delete:
       summary: Delete the API Key
       operationId: delete-users-user_id-api-keys-key_id

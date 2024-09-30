@@ -63,19 +63,19 @@ paths:
             type: string
           in: query
           name: name
-          description: Filter organizations by name by substring
+          description: Filter organizations by name by substring.
         - schema:
             type: string
             pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           in: query
           name: slug
-          description: Filter organizations by slug
+          description: Filter organizations by slug.
         - schema:
             type: string
             default: name
           in: query
           name: sort
-          description: Indicate sort by field
+          description: Indicate sort by field.
     post:
       summary: Create a new organization
       operationId: post-organizations
@@ -278,7 +278,7 @@ paths:
         - $ref: ../parameters/Order.yaml
         - in: query
           name: sort
-          description: Indicate sort by field
+          description: Indicate sort by field.
           schema:
             type: string
             default: full_name
@@ -541,19 +541,19 @@ paths:
             type: string
           in: query
           name: name
-          description: Filter projects by containing name
+          description: Filter projects by containing name.
         - schema:
             type: string
             pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           in: query
           name: slug
-          description: Filter projects by slug
+          description: Filter projects by slug.
         - schema:
             type: string
             default: name
           in: query
           name: sort
-          description: Indicate sort by field
+          description: Indicate sort by field.
       description: |-
         Get a list of organization projects.
 
