@@ -5,3 +5,5 @@ description: |-
   A slug is used to identify a resource.
   It should be unique and contain only lowercase letters, numbers, and hyphens.
   It should not start or end with a hyphen.
+minLength: 3
+maxLength: 60
