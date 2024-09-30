@@ -128,8 +128,17 @@ paths:
         - `ADMINISTRATOR`
         - `USER`
     put:
-      summary: Activate invitation
+      summary: Update invitation
       operationId: put-invitations-id
+      description: |-
+        Update user invitation.
+        
+        If provide ACTIVATED status, user will be created.
+        Password will be ignored for `PENDING` status.
+
+        ### Authority
+
+        - `PUBLIC`
       security: []
       responses:
         '200':
@@ -146,12 +155,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Create user from invitation.
-
-        ### Authority
-
-        - `PUBLIC`
       requestBody:
         content:
           application/json:
