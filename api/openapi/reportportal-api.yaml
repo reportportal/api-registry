@@ -1189,7 +1189,7 @@ paths:
               - USER
           in: query
           name: instance_role
-          description: Exclude users by role.
+          description: Filter users by role.
         - schema:
             type: string
             enum:
@@ -1197,7 +1197,7 @@ paths:
               - USER
           in: query
           name: instance_role_not
-          description: Filter users by role.
+          description: Exclude users by role.
         - schema:
             type: string
             enum:
