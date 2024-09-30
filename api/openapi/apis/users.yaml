@@ -827,12 +827,6 @@ components:
             total_count:
               type: integer
               description: Total number of user's organisations
-        project_stats:
-          type: object
-          properties:
-            total_count:
-              type: integer
-              description: Total number of user's projects.
     InstanceUserPage:
       title: Instance User page
       allOf:
