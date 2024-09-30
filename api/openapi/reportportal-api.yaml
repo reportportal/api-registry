@@ -1002,7 +1002,13 @@ paths:
           $ref: '#/components/responses/Error'
         '503':
           $ref: '#/components/responses/Error'
-      description: Create and send user invitation to email.
+      description: |-
+        Create and send user invitation to email.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
       requestBody:
         content:
           application/json:
@@ -1037,12 +1043,19 @@ paths:
             default: email
           in: query
           name: sort
+          description: Test
         - schema:
             type: string
             format: email
           in: query
           name: email
-      description: Get all invitations
+          description: Test
+      description: |-
+        Get all invitations
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Invitation
       security:
@@ -1070,12 +1083,25 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
       operationId: get-invitations-id
-      description: Get invitation by ID.
+      description: |-
+        Get invitation by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
       security:
         - BearerAuth: []
     put:
       summary: Activate invitation
       operationId: put-invitations-id
+      description: |-
+        Activate user invitation.
+
+        ### Authority
+
+        - `PUBLIC`
+      security: []
       responses:
         '200':
           description: OK
@@ -1091,7 +1117,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Create user from invitation.
       requestBody:
         content:
           application/json:
@@ -1100,8 +1125,6 @@ paths:
         description: Details for user activation.
       tags:
         - Invitation
-      security:
-        - BearerAuth: []
   /users:
     get:
       summary: Get all users
@@ -1121,7 +1144,12 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
       operationId: get-users
-      description: Get all users
+      description: |-
+        Get all users
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -1153,7 +1181,7 @@ paths:
             type: string
           in: query
           name: full_name
-          description: Filter users by full name
+          description: Filter users by full name containing (case insensitive)
         - schema:
             type: string
             enum:
@@ -1161,6 +1189,14 @@ paths:
               - USER
           in: query
           name: instance_role
+          description: Exclude users by role
+        - schema:
+            type: string
+            enum:
+              - ADMINISTRATOR
+              - USER
+          in: query
+          name: instance_role_not
           description: Filter users by role
         - schema:
             type: string
@@ -1174,6 +1210,18 @@ paths:
           in: query
           name: account_type
           description: Filter users by account type
+        - schema:
+            type: string
+            enum:
+              - INTERNAL
+              - UPSA
+              - GITHUB
+              - LDAP
+              - SAML
+              - SCIM
+          in: query
+          name: account_type_not
+          description: Exclude users by account type
       security:
         - BearerAuth: []
     post:
@@ -1197,7 +1245,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/NewUserRequest'
-      description: Create a new user
+      description: |-
+        Create a new user
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - User
       security:
@@ -1227,7 +1280,12 @@ paths:
         description: Create search request for user collection.
       tags:
         - User
-      description: Search users by criteria.
+      description: |-
+        Search users by criteria.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       security:
         - BearerAuth: []
   /users/me:
@@ -1247,7 +1305,17 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
       operationId: get-users-me
-      description: Get current user information.
+      description: |-
+        Get current user information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Current user
       tags:
         - User
       security:
@@ -1273,14 +1341,36 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       operationId: get-users-user_id
-      description: Get user by ID.
+      description: |-
+        Get user by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       tags:
         - User
       security:
         - BearerAuth: []
     put:
       summary: Update user
-      description: Update user base information.
+      description: |-
+        Update user base information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       operationId: put-users-user_id
       responses:
         '200':
@@ -1304,7 +1394,18 @@ paths:
         - BearerAuth: []
     patch:
       summary: Patch user
-      description: Partially update user information.
+      description: |-
+        Partially update user information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       operationId: patch-users-user_id
       responses:
         '200':
@@ -1337,7 +1438,18 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Delete user by ID.
+      description: |-
+        Delete user by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
       tags:
         - User
       security:
@@ -1375,7 +1487,18 @@ paths:
           in: query
           name: name
           description: Get a key by name
-      description: Retrieve list of user's Api Keys
+      description: |-
+        Retrieve list of user's Api Keys
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user api keys
+        - User has access only to his api keys
       security:
         - BearerAuth: []
     post:
@@ -1401,7 +1524,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ApiKeyCreateRequest'
-      description: Create an API key for the user
+      description: |-
+        Create an API key for the user
+
+        ### Access level
+
+        - Administrator has access to any user api keys
+        - User has access only to his api keys
       tags:
         - ApiKey
         - User
@@ -1434,7 +1563,18 @@ paths:
       tags:
         - User
         - ApiKey
-      description: Delete the API key by ID
+      description: |-
+        Delete the API key by ID
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user api keys
+        - User has access only to his api keys
       security:
         - BearerAuth: []
   /users/{user_id}/password:
@@ -1444,16 +1584,8 @@ paths:
       summary: Update User password
       operationId: put-users-user_id-password
       responses:
-        '200':
+        '501':
           $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
       tags:
         - Password
         - User
@@ -1466,14 +1598,17 @@ paths:
       security:
         - BearerAuth: []
     post:
-      summary: Recover User Password
+      summary: Recover User password
       operationId: post-users-user_id-password
       responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
-      description: Recover User Password
+        '501':
+          description: Not Implemented
+      description: |-
+        Recover User password
+
+        ### Authority
+
+        - `PUBLIC`
       requestBody:
         content:
           application/json:
@@ -1487,24 +1622,27 @@ paths:
     post:
       summary: Create password recover request
       operationId: post-password-reset-requests
+      security: []
       responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
+        '501':
+          description: Not Implemented
       tags:
         - Password
         - User
       description: >-
         Create password recover request. Send email with recover token and user
         ID.
+
+
+        ### Authority
+
+
+        - `PUBLIC`
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RestorePasswordRequest'
-      security:
-        - BearerAuth: []
     parameters: []
   /projects/{project_name}/activities/suggestions:
     get:
@@ -1805,9 +1943,6 @@ components:
           enum:
             - ASC
             - DESC
-      required:
-        - offset
-        - limit
     Problem:
       title: Problem
       type: object
@@ -1962,6 +2097,13 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PatchOperation'
+    name:
+      title: name
+      type: string
+      description: Display name.
+      minLength: 3
+      maxLength: 60
+      pattern: ^[A-Za-z0-9._\- ]+$
     UserBase:
       title: User Base
       description: |-
@@ -1978,9 +2120,7 @@ components:
           format: email
           description: User email.
         full_name:
-          type: string
-          description: User full name.
-          maxLength: 60
+          $ref: '#/components/schemas/name'
         instance_role:
           type: string
           enum:
@@ -2005,8 +2145,13 @@ components:
         external_id:
           type: string
           description: User external identifier. Provided by external systems.
+        active:
+          type: boolean
+          description: Soft delete user attribute.
+          default: true
       required:
         - email
+        - full_name
     UserInfo:
       title: User general information
       description: Contains general information associated with a user account.
@@ -2109,13 +2254,6 @@ components:
               minimum: 0
               maximum: 100
               description: The percentage of storage used by the project.
-    name:
-      title: name
-      type: string
-      description: Display name.
-      minLength: 3
-      maxLength: 60
-      pattern: ^[A-Za-z0-9._\- ]+$
     slug:
       title: slug
       type: string
@@ -2239,12 +2377,13 @@ components:
           description: Invitation identifier.
           format: uuid
         user_id:
-          type: integer
-          format: int64
-          description: User identifier. For activated users only.
+          $ref: '#/components/schemas/userId'
+        full_name:
+          $ref: '#/components/schemas/name'
         email:
           type: string
           description: User's email.
+          format: email
         status:
           type: string
           enum:
@@ -2254,6 +2393,7 @@ components:
         link:
           type: string
           description: Link to invitation form.
+          format: uri
         created_at:
           type: string
           format: date-time
@@ -2262,6 +2402,10 @@ components:
           type: string
           format: date-time
           description: Expiration date.
+      description: |-
+        Invitation information.
+
+        Invitation status can be `PENDING` or `ACTIVATED`.
     InvitationPage:
       title: Invitation page
       allOf:
@@ -2298,7 +2442,6 @@ components:
       title: Invitation activation request
       type: object
       description: |-
-        Password will be ignored for `PENDING` status.
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
       properties:
@@ -2307,18 +2450,13 @@ components:
           enum:
             - ACTIVATED
           description: Change status to ACTIVATED to create a user.
-          default: ACTIVATED
-        email:
-          type: string
-          description: New email.
-          format: email
         full_name:
-          type: string
-          description: User full name.
-          maxLength: 60
+          $ref: '#/components/schemas/name'
         password:
           $ref: '#/components/schemas/password'
       required:
+        - status
+        - full_name
         - password
     ApiKey:
       title: API Key
@@ -2454,6 +2592,14 @@ components:
           description: User email for password recovery.
       required:
         - email
+    userId:
+      title: User ID
+      x-stoplight:
+        id: 5a0f430220b3a
+      type: integer
+      format: int64
+      minimum: 0
+      description: User identifier.
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
