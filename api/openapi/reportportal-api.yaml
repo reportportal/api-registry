@@ -395,7 +395,7 @@ paths:
           description: Indicate sort by field
           schema:
             type: string
-            default: name
+            default: full_name
       security:
         - BearerAuth: []
     post:
@@ -1043,13 +1043,13 @@ paths:
             default: email
           in: query
           name: sort
-          description: Test
+          description: Indicate sort by field.
         - schema:
             type: string
             format: email
           in: query
           name: email
-          description: Test
+          description: Filter invitations by email.
       description: |-
         Get all invitations
 
@@ -1145,7 +1145,7 @@ paths:
           $ref: '#/components/responses/Error'
       operationId: get-users
       description: |-
-        Get all users
+        Get all users.
 
         ### Authority
 
@@ -1156,32 +1156,32 @@ paths:
         - $ref: '#/components/parameters/Order'
         - schema:
             type: string
-            default: id
+            default: full_name
           in: query
           name: sort
-          description: Indicate sort by field
+          description: Indicate sort by field.
         - schema:
             type: string
             format: email
           in: query
           name: email
-          description: Filter users by email
+          description: Filter users by email.
         - schema:
             type: string
             format: uuid
           in: query
           name: uuid
-          description: Filter users by uuid
+          description: Filter users by uuid.
         - schema:
             type: string
           in: query
           name: external_id
-          description: Filter users by  external id
+          description: Filter users by  external id.
         - schema:
             type: string
           in: query
           name: full_name
-          description: Filter users by full name containing (case insensitive)
+          description: Filter users by full name containing (case insensitive).
         - schema:
             type: string
             enum:
@@ -1189,7 +1189,7 @@ paths:
               - USER
           in: query
           name: instance_role
-          description: Exclude users by role
+          description: Exclude users by role.
         - schema:
             type: string
             enum:
@@ -1197,7 +1197,7 @@ paths:
               - USER
           in: query
           name: instance_role_not
-          description: Filter users by role
+          description: Filter users by role.
         - schema:
             type: string
             enum:
@@ -1209,7 +1209,7 @@ paths:
               - SCIM
           in: query
           name: account_type
-          description: Filter users by account type
+          description: Filter users by account type.
         - schema:
             type: string
             enum:
@@ -1221,7 +1221,7 @@ paths:
               - SCIM
           in: query
           name: account_type_not
-          description: Exclude users by account type
+          description: Exclude users by account type.
       security:
         - BearerAuth: []
     post:
@@ -2661,7 +2661,7 @@ components:
       schema:
         type: integer
         default: 0
-      description: The offset used for this page of results
+      description: The offset used for this page of results.
     Limit:
       name: limit
       in: query
@@ -2674,7 +2674,7 @@ components:
       description: >-
         The limit used for this page of results. This will be the same as the
         limit query parameter unless it exceeded the maximum value allowed for
-        this API endpoint
+        this API endpoint.
     Order:
       name: order
       in: query
@@ -2684,7 +2684,7 @@ components:
           - ASC
           - DESC
         default: ASC
-      description: Indicate sorting direction
+      description: Indicate sorting direction.
     UserId:
       name: user_id
       in: path
