@@ -132,7 +132,7 @@ paths:
       operationId: put-invitations-id
       description: |-
         Update user invitation.
-        
+
         If provide ACTIVATED status, user will be created.
         Password will be ignored for `PENDING` status.
 
@@ -666,14 +666,13 @@ components:
           description: Invitation identifier.
           format: uuid
         user_id:
-          type: integer
-          format: int64
-          description: User identifier. For activated users only.
+          $ref: ../types/userId.yaml
         full_name:
           $ref: ../types/name.yaml
         email:
           type: string
           description: User's email.
+          format: email
         status:
           type: string
           enum:
@@ -683,6 +682,7 @@ components:
         link:
           type: string
           description: Link to invitation form.
+          format: uri
         created_at:
           type: string
           format: date-time
@@ -691,6 +691,12 @@ components:
           type: string
           format: date-time
           description: Expiration date.
+      description: |-
+        Invitation information.
+
+        Invitation status can be `PENDING` or `ACTIVATED`.
+
+        `user_id` is null for `PENDING` status.
     InvitationPage:
       title: Invitation page
       allOf:

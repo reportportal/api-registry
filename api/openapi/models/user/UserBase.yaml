@@ -13,9 +13,7 @@ properties:
     format: email
     description: User email.
   full_name:
-    type: string
-    description: User full name.
-    maxLength: 60
+    $ref: ../../types/name.yaml
   instance_role:
     type: string
     enum:

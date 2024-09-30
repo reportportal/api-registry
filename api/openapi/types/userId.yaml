@@ -1,0 +1,7 @@
+title: User ID
+x-stoplight:
+  id: 5a0f430220b3a
+type: integer
+format: int64
+minimum: 0
+description: User identifier.
