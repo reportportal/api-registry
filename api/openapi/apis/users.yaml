@@ -690,7 +690,10 @@ components:
           type: string
           format: date-time
           description: Expiration date.
-      description: ''
+      description: |-
+        Invitation information.
+
+        Invitation status can be `PENDING` or `ACTIVATED`.
     InvitationPage:
       title: Invitation page
       allOf:

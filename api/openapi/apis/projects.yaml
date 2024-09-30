@@ -80,49 +80,6 @@ paths:
         in: path
         required: true
         description: Project name
-  '/projects/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-projects-id-users
-    put:
-      summary: ''
-      operationId: put-projects-id-users
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    x-stoplight:
-                      id: rmi2oixr5pgve
-                  name:
-                    type: string
-                    x-stoplight:
-                      id: 0sy0zyhra0ieo
-                  users:
-                    type: array
-                    x-stoplight:
-                      id: 220ljgpayx8mn
-                    items:
-                      $ref: ../models/user/UserProjectInfo.yaml
-    patch:
-      summary: ''
-      operationId: patch-projects-id
-      responses:
-        '200':
-          description: OK
 components:
   securitySchemes:
     BearerAuth:
