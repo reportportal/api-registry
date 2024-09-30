@@ -130,13 +130,10 @@ paths:
         - `ADMINISTRATOR`
         - `USER`
     put:
-      summary: Update invitation
+      summary: Activate invitation
       operationId: put-invitations-id
       description: |-
-        Update user invitation.
-
-        If provide ACTIVATED status, user will be created.
-        Password will be ignored for `PENDING` status.
+        Activate user invitation.
 
         ### Authority
 
@@ -730,7 +727,6 @@ components:
       title: Invitation activation request
       type: object
       description: |-
-        Password will be ignored for `PENDING` status.
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
       properties:
@@ -738,18 +734,13 @@ components:
           type: string
           enum:
             - ACTIVATED
-            - PENDING
           description: Change status to ACTIVATED to create a user.
-          default: PENDING
-        email:
-          type: string
-          description: New email.
-          format: email
         full_name:
           $ref: ../types/name.yaml
         password:
           $ref: ../types/password.yaml
       required:
+        - status
         - full_name
         - password
     ApiKey:
