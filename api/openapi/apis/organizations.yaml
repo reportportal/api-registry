@@ -281,7 +281,7 @@ paths:
           description: Indicate sort by field
           schema:
             type: string
-            default: name
+            default: full_name
     post:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users

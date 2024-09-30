@@ -6,4 +6,4 @@ schema:
     - ASC
     - DESC
   default: ASC
-description: Indicate sorting direction
+description: Indicate sorting direction.

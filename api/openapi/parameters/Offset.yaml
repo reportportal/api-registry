@@ -4,4 +4,4 @@ required: false
 schema:
   type: integer
   default: 0
-description: The offset used for this page of results
+description: The offset used for this page of results.
