@@ -184,6 +184,10 @@ paths:
       description: |-
         Get all users.
 
+        ### Export users
+
+        You can export users as a CSV list to provide `Accept: text/csv`.
+
         ### Authority
 
         - `ADMINISTRATOR`
@@ -260,6 +264,14 @@ paths:
           in: query
           name: account_type_not
           description: Exclude users by account type.
+        - schema:
+            type: string
+            enum:
+              - application/json
+              - text/csv
+            default: application/json
+          in: header
+          name: Accept
     post:
       summary: Create a new user
       operationId: post-users

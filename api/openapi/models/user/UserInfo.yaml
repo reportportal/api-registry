@@ -25,3 +25,4 @@ allOf:
         format: date-time
         description: When user last logged in.
   - $ref: ./UserBase.yaml
+  - $ref: ../Links.yaml

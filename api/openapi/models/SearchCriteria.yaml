@@ -1,12 +1,9 @@
 title: Search criteria
-
 type: object
 properties:
   search_criteria:
     type: array
-    
     items:
-      
       type: object
       properties:
         filter_key:

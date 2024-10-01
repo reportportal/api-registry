@@ -1,0 +1,44 @@
+title: Links
+type: object
+description: 'A collection of links to related resources.'
+properties:
+  _links:
+    type: array
+    description: List of related resource links.
+    items:
+      type: object
+      properties:
+        rel:
+          type: string
+          description: Relationship type (e.g., "avatar", "avatar_thumbnail").
+        href:
+          type: string
+          format: uri
+          description: The actual URL of the related resource.
+        type:
+          type: string
+          description: The media type of the linked resource (e.g., "image/png").
+        title:
+          type: string
+          description: Optional title describing the link.
+        method:
+          type: string
+          description: The HTTP method that can be used with the link
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+examples:
+  - _links:
+      - rel: avatar
+        href: 'http://example.com/api/files/345367834'
+        type: image/png
+        title: User's avatar
+        method: GET
+      - rel: avatar_thumbnail
+        href: 'http://example.com/api/files/46754378'
+        type: image/png
+        title: User's avatar thumbnail
+        method: GET
