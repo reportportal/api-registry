@@ -1,0 +1,12 @@
+title: UserLinks
+type: object
+properties:
+  _links:
+    type: object
+    properties:
+      self:
+        $ref: ../Link.yaml
+      avatar:
+        $ref: ../Link.yaml
+      avatar_thumbnail:
+        $ref: ../Link.yaml

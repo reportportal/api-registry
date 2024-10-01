@@ -670,6 +670,10 @@ components:
     Invitation:
       title: Invitation
       type: object
+      description: |-
+        Invitation information.
+
+        Invitation status can be `PENDING` or `ACTIVATED`.
       properties:
         id:
           type: string
@@ -701,10 +705,10 @@ components:
           type: string
           format: date-time
           description: Expiration date.
-      description: |-
-        Invitation information.
-
-        Invitation status can be `PENDING` or `ACTIVATED`.
+      required:
+        - id
+        - email
+        - status
     InvitationPage:
       title: Invitation page
       allOf:

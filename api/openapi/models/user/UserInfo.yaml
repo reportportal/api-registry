@@ -1,6 +1,7 @@
 title: User general information
 description: Contains general information associated with a user account.
 allOf:
+  - $ref: ./UserBase.yaml
   - type: object
     properties:
       id:
@@ -24,5 +25,3 @@ allOf:
         type: string
         format: date-time
         description: When user last logged in.
-  - $ref: ./UserBase.yaml
-  - $ref: ../Links.yaml
