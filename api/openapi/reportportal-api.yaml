@@ -1158,6 +1158,15 @@ paths:
         - $ref: '#/components/parameters/Order'
         - schema:
             type: string
+            enum:
+              - application/json
+              - text/csv
+            default: application/json
+          in: header
+          name: Accept
+          description: Indicate response format. Use `text/csv` to export users.
+        - schema:
+            type: string
             default: full_name
           in: query
           name: sort
@@ -1195,14 +1204,6 @@ paths:
         - schema:
             type: string
             enum:
-              - ADMINISTRATOR
-              - USER
-          in: query
-          name: instance_role_not
-          description: Exclude users by role.
-        - schema:
-            type: string
-            enum:
               - INTERNAL
               - UPSA
               - GITHUB
@@ -1212,26 +1213,6 @@ paths:
           in: query
           name: account_type
           description: Filter users by account type.
-        - schema:
-            type: string
-            enum:
-              - INTERNAL
-              - UPSA
-              - GITHUB
-              - LDAP
-              - SAML
-              - SCIM
-          in: query
-          name: account_type_not
-          description: Exclude users by account type.
-        - schema:
-            type: string
-            enum:
-              - application/json
-              - text/csv
-            default: application/json
-          in: header
-          name: Accept
       security:
         - BearerAuth: []
     post:
