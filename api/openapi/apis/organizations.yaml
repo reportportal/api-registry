@@ -123,7 +123,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationBase'
+              $ref: ../models/org/OrganizationBase.yaml
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
         - Organization
@@ -185,7 +185,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrganizationBase'
+              $ref: ../models/org/OrganizationBase.yaml
         description: Provide organization information for update.
       tags:
         - Organization
@@ -799,7 +799,7 @@ components:
       title: Organization information
       description: Various information about an organization.
       allOf:
-        - $ref: '#/components/schemas/OrganizationBase'
+        - $ref: ../models/org/OrganizationBase.yaml
         - type: object
           properties:
             id:
@@ -834,20 +834,6 @@ components:
               format: date-time
               description: Last update date.
         - $ref: '#/components/schemas/OrganizationStats'
-    OrganizationBase:
-      title: Organization definition
-      description: |
-        Basic information provided by the client.
-
-        A `slug` is a unique identifying part of an organization. Generated according to the organization name if not specified by the user.
-      type: object
-      properties:
-        name:
-          $ref: ../types/name.yaml
-        slug:
-          $ref: ../types/slug.yaml
-      required:
-        - name
     OrganizationStats:
       title: Organization statistics
       type: object

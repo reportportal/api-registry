@@ -555,7 +555,6 @@ paths:
         - Administrator has access to any user api keys
         - User has access only to his api keys
       tags:
-        - ApiKey
         - User
   '/users/{user_id}/api-keys/{key_id}':
     parameters:
@@ -605,7 +604,6 @@ paths:
         '501':
           $ref: '#/components/responses/Update'
       tags:
-        - Password
         - User
       description: Update user password.
       requestBody:
@@ -836,11 +834,8 @@ components:
       title: Instance User organization details
       description: User's organization details.
       allOf:
-        - type: object
-          properties:
-            name:
-              $ref: ../types/name.yaml
         - $ref: ../models/user/UserOrgInfo.yaml
+        - $ref: ../models/org/OrganizationBase.yaml
     InstanceUserPage:
       title: Instance User page
       allOf:
