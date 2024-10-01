@@ -101,10 +101,6 @@ tags:
     x-displayName: Invitation
   - name: User
     x-displayName: User
-  - name: ApiKey
-    x-displayName: ApiKey
-  - name: Password
-    x-displayName: Password
   - name: Activities
     x-displayName: Activities
   - name: Organizations
@@ -1536,7 +1532,6 @@ paths:
         - Administrator has access to any user api keys
         - User has access only to his api keys
       tags:
-        - ApiKey
         - User
       security:
         - BearerAuth: []
@@ -1590,7 +1585,6 @@ paths:
         '501':
           $ref: '#/components/responses/Update'
       tags:
-        - Password
         - User
       description: Update user password.
       requestBody:
@@ -1759,22 +1753,6 @@ components:
               format: date-time
               description: Last update date.
         - $ref: '#/components/schemas/OrganizationStats'
-    OrganizationBase:
-      title: Organization definition
-      description: >
-        Basic information provided by the client.
-
-
-        A `slug` is a unique identifying part of an organization. Generated
-        according to the organization name if not specified by the user.
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/name'
-        slug:
-          $ref: '#/components/schemas/slug'
-      required:
-        - name
     OrganizationStats:
       title: Organization statistics
       type: object
@@ -1952,6 +1930,22 @@ components:
         It should not start or end with a hyphen.
       minLength: 3
       maxLength: 60
+    OrganizationBase:
+      title: Organization definition
+      description: >
+        Basic information provided by the client.
+
+
+        A `slug` is a unique identifying part of an organization. Generated
+        according to the organization name if not specified by the user.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        slug:
+          $ref: '#/components/schemas/slug'
+      required:
+        - name
     Problem:
       title: Problem
       type: object
@@ -2538,11 +2532,8 @@ components:
       title: Instance User organization details
       description: User's organization details.
       allOf:
-        - type: object
-          properties:
-            name:
-              $ref: '#/components/schemas/name'
         - $ref: '#/components/schemas/UserOrgInfo'
+        - $ref: '#/components/schemas/OrganizationBase'
     InstanceUserPage:
       title: Instance User page
       allOf:
