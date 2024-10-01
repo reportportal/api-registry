@@ -62,6 +62,9 @@ info:
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: '{protocol}://{authority}/{basePath}'
     description: ReportPortal server
@@ -98,19 +101,17 @@ tags:
     description: Endpoints that are implemented
     x-displayName: Implemented
   - name: Invitation
+    description: Invitation API collection
     x-displayName: Invitation
   - name: User
+    description: User API collection
     x-displayName: User
-  - name: Activities
-    x-displayName: Activities
-  - name: Organizations
-    x-displayName: Organizations
   - name: Projects
+    description: Operations with projects
     x-displayName: Projects
   - name: Suggestions
+    description: Operations with suggestions
     x-displayName: Suggestions
-  - name: User API Keys
-    x-displayName: User API Keys
 paths:
   /organizations:
     get:
@@ -2160,11 +2161,57 @@ components:
       required:
         - email
         - full_name
+    Link:
+      title: Link
+      description: JSON Hypertext Application Language (HAL) model for a link.
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          description: The URI of the resource.
+        type:
+          type: string
+          description: >-
+            The media type of the resource (e.g., 'application/json' or
+            'image/png').
+        title:
+          type: string
+          description: A human-readable description of the link.
+      required:
+        - href
+    UserLinks:
+      title: User's links
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user itself.
+            avatar:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user's avatar.
+            avatar_thumbnail:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user's avatar thumbnail.
+      example:
+        _links:
+          self:
+            href: /users/1
+          avatar:
+            href: /files/214213423
+            type: image/png
+            title: User's avatar
+          avatar_thumbnail:
+            href: /files/214213423-mini
+            type: image/png
+            title: User's avatar thumbnail
     UserInfo:
       title: User general information
       description: Contains general information associated with a user account.
       allOf:
-        - $ref: '#/components/schemas/UserBase'
         - type: object
           properties:
             id:
@@ -2188,6 +2235,8 @@ components:
               type: string
               format: date-time
               description: When user last logged in.
+        - $ref: '#/components/schemas/UserBase'
+        - $ref: '#/components/schemas/UserLinks'
     UserOrgRole:
       title: Organization user details
       type: object
