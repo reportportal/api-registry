@@ -1143,6 +1143,10 @@ paths:
       description: |-
         Get all users.
 
+        ### Export users
+
+        You can export users as a CSV list to provide `Accept: text/csv`.
+
         ### Authority
 
         - `ADMINISTRATOR`
@@ -1219,6 +1223,14 @@ paths:
           in: query
           name: account_type_not
           description: Exclude users by account type.
+        - schema:
+            type: string
+            enum:
+              - application/json
+              - text/csv
+            default: application/json
+          in: header
+          name: Accept
       security:
         - BearerAuth: []
     post:
@@ -2152,6 +2164,7 @@ components:
       title: User general information
       description: Contains general information associated with a user account.
       allOf:
+        - $ref: '#/components/schemas/UserBase'
         - type: object
           properties:
             id:
@@ -2175,7 +2188,6 @@ components:
               type: string
               format: date-time
               description: When user last logged in.
-        - $ref: '#/components/schemas/UserBase'
     UserOrgRole:
       title: Organization user details
       type: object
@@ -2356,6 +2368,10 @@ components:
     Invitation:
       title: Invitation
       type: object
+      description: |-
+        Invitation information.
+
+        Invitation status can be `PENDING` or `ACTIVATED`.
       properties:
         id:
           type: string
@@ -2387,10 +2403,10 @@ components:
           type: string
           format: date-time
           description: Expiration date.
-      description: |-
-        Invitation information.
-
-        Invitation status can be `PENDING` or `ACTIVATED`.
+      required:
+        - id
+        - email
+        - status
     InvitationPage:
       title: Invitation page
       allOf:
