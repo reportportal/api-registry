@@ -2190,24 +2190,24 @@ components:
             self:
               $ref: '#/components/schemas/Link'
               description: Link to the user itself.
-            avatar:
+            profile_picture:
               $ref: '#/components/schemas/Link'
-              description: Link to the user's avatar.
-            avatar_thumbnail:
+              description: Link to the user's profile picture.
+            profile_picture_thumbnail:
               $ref: '#/components/schemas/Link'
-              description: Link to the user's avatar thumbnail.
+              description: Link to the user's profile picture thumbnail.
       example:
         _links:
           self:
             href: /users/1
-          avatar:
+          profile_picture:
             href: /files/214213423
             type: image/png
-            title: User's avatar
-          avatar_thumbnail:
+            title: User's profile picture
+          profile_picture_thumbnail:
             href: /files/214213423-mini
             type: image/png
-            title: User's avatar thumbnail
+            title: User's profile picture thumbnail
     UserInfo:
       title: User general information
       description: Contains general information associated with a user account.
