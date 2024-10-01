@@ -113,6 +113,8 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Activity'
+        '400':
+          description: Bad Request
 components:
   securitySchemes:
     BearerAuth:
@@ -197,7 +199,12 @@ components:
         - value
 tags:
   - name: Activities
+    description: API Collection for working with activities.
   - name: Organizations
+    description: API Collection for working with organizations.
   - name: Projects
+    description: API Collection for working with projects.
   - name: Suggestions
+    description: API Collection for working with suggestions.
   - name: User API Keys
+    description: API Collection for working with user API keys.

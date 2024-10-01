@@ -6,6 +6,9 @@ info:
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
   - url: '{protocol}://{authority}/{basePath}'
     description: ReportPortal server
@@ -86,8 +89,7 @@ components:
       type: http
       scheme: bearer
 tags:
-  - name: Activities
-  - name: Organizations
   - name: Projects
+    description: Operations with projects
   - name: Suggestions
-  - name: User API Keys
+    description: Operations with suggestions

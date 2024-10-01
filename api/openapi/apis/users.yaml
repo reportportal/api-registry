@@ -930,9 +930,14 @@ components:
       description: JSON Patch operations
 tags:
   - name: Implemented
+    description: Implemented
   - name: In progress
-  - name: Invitation
+    description: In progress
   - name: Ready for implementation
+    description: Ready for implementation
+  - name: Invitation
+    description: Invitation API collection
   - name: User
+    description: User API collection
 security:
   - BearerAuth: []

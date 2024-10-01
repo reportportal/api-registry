@@ -6,6 +6,9 @@ info:
   contact:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
   - url: '{protocol}://{authority}/{basePath}'
     description: ReportPortal server

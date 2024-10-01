@@ -32,6 +32,9 @@ info:
   contact:
     name: ReportPortal Team
     email: support@reportportal.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: '{protocol}://{authority}/{basePath}'
     description: ReportPortal server
