@@ -1,4 +1,4 @@
-title: UserLinks
+title: User's links
 type: object
 properties:
   _links:
@@ -6,7 +6,22 @@ properties:
     properties:
       self:
         $ref: ../Link.yaml
+        description: Link to the user itself.
       avatar:
         $ref: ../Link.yaml
+        description: Link to the user's avatar.
       avatar_thumbnail:
         $ref: ../Link.yaml
+        description: Link to the user's avatar thumbnail.
+examples:
+  - _links:
+      self:
+        href: /users/1
+      avatar:
+        href: /files/214213423
+        type: image/png
+        title: User's avatar
+      avatar_thumbnail:
+        href: /files/214213423-mini
+        type: image/png
+        title: User's avatar thumbnail
