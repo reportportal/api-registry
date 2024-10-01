@@ -286,6 +286,16 @@ paths:
     post:
       summary: Create search request for users
       operationId: post-users-searches
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/json
+              - text/csv
+            default: application/json
+          in: header
+          name: Accept
+          description: Indicate response format. Use `text/csv` to export users.
       responses:
         '200':
           description: OK
