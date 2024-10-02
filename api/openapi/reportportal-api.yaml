@@ -106,6 +106,8 @@ tags:
   - name: User
     description: User API collection
     x-displayName: User
+  - name: Users
+    x-displayName: Users
   - name: Projects
     description: Operations with projects
     x-displayName: Projects
@@ -1289,6 +1291,78 @@ paths:
         - `ADMINISTRATOR`
       security:
         - BearerAuth: []
+  /users/suggests:
+    get:
+      summary: Get user suggestions by email or full name
+      description: >-
+        Returns a list of user suggestions based on email or full name.
+
+
+        ### Behavior
+
+
+        If Service API has enabled suggestions:
+
+
+        - All users get a list of user suggestions by email or full name
+        containing.
+
+
+        If service API has disabled suggestions:
+
+
+        - If a user has a manager role in context organization we will return
+        users from
+          his organization by email or full name containing.
+        - If a user has a manager role in context organization but he doesn't
+        have suggest users
+          in his organization we will return users by equal email or full name.
+        - If a user doesn't have a manager role in context organization we will
+        return users
+          by equal email or full name.
+
+
+        The `organizations`filed contin only organizations from the query
+        parameter if user exists in this organization.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `USER`
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: A part of the user's email or full name to search for.
+          required: true
+        - in: query
+          name: organization_id
+          schema:
+            type: integer
+          description: The organization ID to check the user's membership.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InstanceUser'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
   /users/me:
     get:
       summary: Get current user
@@ -1599,7 +1673,7 @@ paths:
       security:
         - BearerAuth: []
     post:
-      summary: Recover User password
+      summary: Recover user password
       operationId: post-users-user_id-password
       responses:
         '501':
