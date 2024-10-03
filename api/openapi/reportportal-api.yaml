@@ -1954,6 +1954,12 @@ components:
                 $ref: '#/components/schemas/ProjectInfo'
           required:
             - items
+    OrgUserAssignmentRequest:
+      title: OrgUserAssignmentRequest
+      type: object
+      properties:
+        id:
+          type: string
     order:
       title: order
       type: string
@@ -1991,6 +1997,7 @@ components:
           description: Field to define the sort field.
         order:
           $ref: '#/components/schemas/order'
+          default: ASC
     name:
       title: name
       type: string
