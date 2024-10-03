@@ -484,22 +484,7 @@ paths:
         content:
           application/json:
             schema:
-              title: User Assignment Request
-              allOf:
-                - $ref: '#/components/schemas/UserOrgRole'
-                - type: object
-                  properties:
-                    id:
-                      type: integer
-                      format: int64
-                      minimum: 0
-                      description: User's internal identifier.
-                    projects:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/UserProjectInfo'
-                  required:
-                    - id
+              $ref: '#/components/schemas/OrgUserAssignment'
         description: Definition for a user assignment.
       tags:
         - Organization User
@@ -1954,12 +1939,23 @@ components:
                 $ref: '#/components/schemas/ProjectInfo'
           required:
             - items
-    OrgUserAssignmentRequest:
-      title: OrgUserAssignmentRequest
-      type: object
-      properties:
-        id:
-          type: string
+    OrgUserAssignment:
+      title: User assignment request
+      allOf:
+        - $ref: '#/components/schemas/UserOrgRole'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              minimum: 0
+              description: User's internal identifier.
+            projects:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserProjectInfo'
+          required:
+            - id
     order:
       title: order
       type: string
