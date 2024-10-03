@@ -21,3 +21,4 @@ properties:
     description: Field to define the sort field.
   order:
     $ref: ../types/order.yaml
+    default: ASC

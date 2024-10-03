@@ -751,7 +751,7 @@ paths:
           application/json:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
-        description: 'Provide search criteria for organizations.'
+        description: Provide search criteria for organizations.
       tags:
         - Organization
         - Ready for implementation
@@ -840,7 +840,7 @@ components:
     OrganizationStats:
       title: Organization statistics
       type: object
-      description: 'General information about the organization.'
+      description: General information about the organization.
       properties:
         relationships:
           type: object
@@ -958,6 +958,12 @@ components:
                 $ref: ../models/project/ProjectInfo.yaml
           required:
             - items
+    OrgUserAssignmentRequest:
+      title: OrgUserAssignmentRequest
+      type: object
+      properties:
+        id:
+          type: string
   parameters:
     organizationId:
       name: org_id
