@@ -1954,6 +1954,13 @@ components:
                 $ref: '#/components/schemas/ProjectInfo'
           required:
             - items
+    order:
+      title: order
+      type: string
+      description: To indicate sorting direction. Ascending or Descending.
+      enum:
+        - ASC
+        - DESC
     Offset:
       type: object
       title: Offset-based
@@ -1983,11 +1990,7 @@ components:
           type: string
           description: Field to define the sort field.
         order:
-          type: string
-          description: To indicate sorting direction. Ascending or Descending.
-          enum:
-            - ASC
-            - DESC
+          $ref: '#/components/schemas/order'
     name:
       title: name
       type: string
@@ -2713,8 +2716,6 @@ components:
         - email
     userId:
       title: User ID
-      x-stoplight:
-        id: 5a0f430220b3a
       type: integer
       format: int64
       minimum: 0
