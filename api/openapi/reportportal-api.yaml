@@ -91,12 +91,6 @@ tags:
   - name: Organization User
     description: Organization users collection
     x-displayName: Organization User
-  - name: In progress
-    description: Endpoints that are in designing
-    x-displayName: In progress
-  - name: Ready for implementation
-    description: Endpoints that are ready for development
-    x-displayName: Ready for implementation
   - name: Implemented
     description: Endpoints that are implemented
     x-displayName: Implemented
@@ -106,8 +100,6 @@ tags:
   - name: User
     description: User API collection
     x-displayName: User
-  - name: Users
-    x-displayName: Users
   - name: Projects
     description: Operations with projects
     x-displayName: Projects
@@ -210,7 +202,7 @@ paths:
 
         Create a new organization. Provide name and slug.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
       requestBody:
@@ -223,7 +215,6 @@ paths:
           not provided, it will be generated from the `name`.
       tags:
         - Organization
-        - Ready for implementation
       security:
         - BearerAuth: []
   /organizations/{org_id}:
@@ -231,7 +222,6 @@ paths:
       summary: Get organization information
       tags:
         - Organization
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -247,7 +237,7 @@ paths:
       description: |-
         Provide organization information.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -277,7 +267,7 @@ paths:
 
         Update organization information with the provided data.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -289,7 +279,6 @@ paths:
         description: Provide organization information for update.
       tags:
         - Organization
-        - Ready for implementation
       security:
         - BearerAuth: []
     patch:
@@ -318,7 +307,7 @@ paths:
         standard](https://datatracker.ietf.org/doc/html/rfc7386).
 
 
-        ### Authority:
+        ### Authority
 
 
         - `ADMINISTRATOR`
@@ -328,7 +317,6 @@ paths:
         $ref: '#/components/requestBodies/JsonPatch'
       tags:
         - Organization
-        - Ready for implementation
       security:
         - BearerAuth: []
     delete:
@@ -350,12 +338,11 @@ paths:
 
         Delete organization by identifier.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
       tags:
         - Organization
-        - Ready for implementation
       security:
         - BearerAuth: []
   /organizations/{org_id}/users:
@@ -365,7 +352,6 @@ paths:
       summary: Get organization's users
       tags:
         - Organization User
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -381,7 +367,7 @@ paths:
       description: |-
         Provides a list of organization's users.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -450,7 +436,7 @@ paths:
         assignment.
 
 
-        ### Authority:
+        ### Authority
 
 
         - `ADMINISTRATOR`
@@ -458,7 +444,7 @@ paths:
         - `MANAGER`
 
 
-        ### Project authority:
+        ### Project authority
 
 
         - `ADMINISTRATOR`
@@ -488,7 +474,6 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Organization User
-        - Ready for implementation
       security:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}:
@@ -499,7 +484,6 @@ paths:
       summary: Get organization user profile
       tags:
         - Organization User
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -515,7 +499,7 @@ paths:
       description: |-
         Get organization user profile.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -523,7 +507,7 @@ paths:
 
         A user with `MEMBER` role can get only his profile.
 
-        ### Member authority:
+        ### Member authority
 
         - `EDITOR`
         - `VIEWER`
@@ -564,19 +548,18 @@ paths:
         description: Provide organization's user information for update.
       tags:
         - Organization User
-        - Ready for implementation
       description: |-
         Update organization user details.
 
         Organization user details for update.
 
-        ### Organization authority:
+        ### Organization authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
         - `MEMBER`
 
-        ### Project authority:
+        ### Project authority
 
         - `EDITOR`
       security:
@@ -605,7 +588,7 @@ paths:
         a user from projects.
 
 
-        ### Organization authority:
+        ### Organization authority
 
 
         - `ADMINISTRATOR`
@@ -615,13 +598,12 @@ paths:
         - `MEMBER`
 
 
-        ### Project authority:
+        ### Project authority
 
 
         - `EDITOR`
       tags:
         - Organization User
-        - Ready for implementation
       requestBody:
         $ref: '#/components/requestBodies/JsonPatch'
       security:
@@ -639,13 +621,12 @@ paths:
       description: |-
         Unassigned user from an organization and all organization projects.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
       tags:
         - Organization User
-        - Ready for implementation
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects:
@@ -655,7 +636,6 @@ paths:
       summary: Get organization projects
       tags:
         - Organization Project
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -692,7 +672,7 @@ paths:
       description: |-
         Get a list of organization projects.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -709,7 +689,6 @@ paths:
       summary: Create a new project
       tags:
         - Organization Project
-        - Ready for implementation
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -729,7 +708,7 @@ paths:
       description: |-
         Create a new project in the organization. 
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -751,7 +730,6 @@ paths:
       summary: Get project information
       tags:
         - Organization Project
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -767,7 +745,7 @@ paths:
       description: |-
         Get project information.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -775,7 +753,7 @@ paths:
 
         A user with the `MEMBER` role can get only his project.
 
-        ### Member authority:
+        ### Member authority
 
         - 'EDITOR'
         - 'VIEWER'
@@ -803,7 +781,7 @@ paths:
       description: |-
         Update project information.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -811,12 +789,11 @@ paths:
 
         A user with the `MEMBER` role can update only his project.
 
-        ### Member authority:
+        ### Member authority
 
         - `EDITOR`
       tags:
         - Organization Project
-        - Ready for implementation
       security:
         - BearerAuth: []
     patch:
@@ -835,17 +812,28 @@ paths:
           $ref: '#/components/responses/Error'
       requestBody:
         $ref: '#/components/requestBodies/JsonPatch'
-      description: ' '
+      description: |-
+        Partial update project information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority
+
+        - `EDITOR`
       tags:
         - Organization Project
-        - Ready for implementation
       security:
         - BearerAuth: []
     delete:
       summary: Delete project
       tags:
         - Organization Project
-        - Ready for implementation
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -857,7 +845,7 @@ paths:
       description: |-
         Delete project.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -878,7 +866,7 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
-      description: >-
+      description: >
         Create search request for organizations by provided criteria.
 
 
@@ -903,6 +891,12 @@ paths:
         - `launches` - filter by the number of launches.
 
         - `last_launch_occurred` - filter by the last launch occurrence.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
       requestBody:
         content:
           application/json:
@@ -911,10 +905,97 @@ paths:
         description: Provide search criteria for organizations.
       tags:
         - Organization
-        - Ready for implementation
-      x-extension-authority:
-        - ReportPortal: User
-        - ReportPortal: Admin
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/users/searches:
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    post:
+      summary: Create search request for organization users
+      operationId: post-organizations-org_id-users-searches
+      tags:
+        - Organization User
+      description: >-
+        Create search request for organization users by provided criteria.
+
+
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `uuid` - filter by user UUID.
+
+        - `external_id` - filter by user external identifier.
+
+        - `email` - filter by user email.
+
+        - `full_name` - filter by user full name.
+
+        - `account_type` - filter by account type.
+
+        - `instance_role` - filter by user role in the instance.
+
+        - `org_role` - filter by user role in the organization.
+
+        - `account_type` - filter by account type.
+
+        - `active` - filter by user activity.
+
+        - `created_at` - date when a user was created.
+
+        - `updated_at` - date when a user was updated.
+
+        - `assigned_at` - date when a user was assigned to the organization.
+
+        - `suggest` - search by `full_name`, `email`.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+        - `MEMBER`
+
+
+        ### Access level
+
+
+        #### `ADMINISTRATOR` and `MANAGER`
+
+
+        - Filter by all attributes.
+
+        - Use all operations.
+
+
+        #### `MEMBER`
+
+        - Filter by `full_name`, `email`, `suggest`.
+
+        - Use only the `EQ` operation.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUsersPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaRQ'
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects/searches:
@@ -964,7 +1045,6 @@ paths:
               $ref: '#/components/schemas/SearchCriteriaRQ'
       tags:
         - Organization Project
-        - Ready for implementation
       security:
         - BearerAuth: []
   /invitations:
@@ -1237,6 +1317,68 @@ paths:
     post:
       summary: Create search request for users
       operationId: post-users-searches
+      tags:
+        - User
+      description: >-
+        Search users by criteria.
+
+
+        You can use the following attributes as a
+        `search_criteria[*].filter_key`:
+
+
+        - `uuid` - filter by user UUID.
+
+        - `external_id` - filter by user external identifier.
+
+        - `email` - filter by user email.
+
+        - `full_name` - filter by user full name.
+
+        - `account_type` - filter by account type.
+
+        - `instance_role` - filter by user role in the instance.
+
+        - `account_type` - filter by account type.
+
+        - `active` - filter by user activity.
+
+        - `created_at` - date when a user was created.
+
+        - `updated_at` - date when a user was updated.
+
+        - `suggest` - search by `full_name`, `email`.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `USER`
+
+
+        ### Access level
+
+
+        #### `ADMINISTRATOR`
+
+
+        - Filter by all attributes.
+
+        - Use all operations.
+
+        - Get a full user profile.
+
+
+        #### `USER`
+
+
+        - Filter by `email`, `full_name`, `suggest`.
+
+        - Use only the `EQ` operation.
+
+        - Get a base user profile.
       parameters:
         - schema:
             type: string
@@ -1264,88 +1406,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SearchCriteriaRQ'
+              $ref: '#/components/schemas/InstanceUserPage'
         description: Create search request for user collection.
-      tags:
-        - User
-      description: |-
-        Search users by criteria.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      security:
-        - BearerAuth: []
-  /users/suggests:
-    get:
-      summary: Get user suggestions by email or full name
-      description: >-
-        Returns a list of user suggestions based on email or full name.
-
-
-        ### Behavior
-
-
-        If Service API has enabled suggestions:
-
-
-        - All users get a list of user suggestions by email or full name
-        containing.
-
-
-        If service API has disabled suggestions:
-
-
-        - If a user has a manager role in context organization we will return
-        users from
-          his organization by email or full name containing.
-        - If a user has a manager role in context organization but he doesn't
-        have suggest users
-          in his organization we will return users by equal email or full name.
-        - If a user doesn't have a manager role in context organization we will
-        return users
-          by equal email or full name.
-
-
-        The `organizations`filed contin only organizations from the query
-        parameter if user exists in this organization.
-
-
-        ### Authority
-
-
-        - `ADMINISTRATOR`
-
-        - `USER`
-      tags:
-        - Users
-      parameters:
-        - in: query
-          name: query
-          schema:
-            type: string
-          description: A part of the user's email or full name to search for.
-          required: true
-        - in: query
-          name: organization_id
-          schema:
-            type: integer
-          description: The organization ID to check the user's membership.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InstanceUser'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /users/me:
@@ -1603,7 +1665,7 @@ paths:
       - $ref: '#/components/parameters/UserId'
       - schema:
           type: integer
-          minLength: 0
+          minimum: 0
         name: key_id
         in: path
         required: true
@@ -2652,6 +2714,8 @@ components:
               $ref: '#/components/schemas/InstanceUserStats'
             organizations:
               type: array
+              maxItems: 100
+              uniqueItems: true
               items:
                 $ref: '#/components/schemas/InstanceUserOrgDetails'
     InstanceUserStats:
@@ -2680,6 +2744,18 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/InstanceUser'
+      description: Page with full user information. Only for current user or administrator.
+    UserInfoPage:
+      title: User info page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserInfo'
+      description: Page with general user information. For all users.
     NewUserPassword:
       title: New User password
       type: object
