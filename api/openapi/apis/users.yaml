@@ -286,6 +286,43 @@ paths:
     post:
       summary: Create search request for users
       operationId: post-users-searches
+      tags:
+        - User
+      description: |-
+        Search users by criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key`:
+
+        - `uuid` - filter by user UUID.
+        - `external_id` - filter by user external identifier.
+        - `email` - filter by user email.
+        - `full_name` - filter by user full name.
+        - `account_type` - filter by account type.
+        - `instance_role` - filter by user role in the instance.
+        - `account_type` - filter by account type.
+        - `active` - filter by user activity.
+        - `created_at` - date when a user was created.
+        - `updated_at` - date when a user was updated.
+        - `suggest` - search by `full_name`, `email`.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        #### `ADMINISTRATOR`
+
+        - Filter by all attributes.
+        - Use all operations.
+        - Get a full user profile.
+
+        #### `USER`
+
+        - Filter by `email`, `full_name`, `suggest`.
+        - Use only the `EQ` operation.
+        - Get a base user profile.
       parameters:
         - schema:
             type: string
@@ -313,73 +350,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
+              $ref: '#/components/schemas/InstanceUserPage'
         description: Create search request for user collection.
-      tags:
-        - User
-      description: |-
-        Search users by criteria.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-  /users/suggests:
-    get:
-      summary: Get user suggestions by email or full name
-      description: |-
-        Returns a list of user suggestions based on email or full name.
-
-        ### Behavior
-
-        If Service API has enabled suggestions:
-        
-        - All users get a list of user suggestions by email or full name containing.
-
-        If service API has disabled suggestions:
-
-        - If a user has a manager role in context organization we will return users from
-          his organization by email or full name containing.
-        - If a user has a manager role in context organization but he doesn't have suggest users
-          in his organization we will return users by equal email or full name.
-        - If a user doesn't have a manager role in context organization we will return users
-          by equal email or full name.
-
-
-        The `organizations`filed contin only organizations from the query parameter if user exists in this organization.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-      tags:
-        - Users
-      parameters:
-        - in: query
-          name: query
-          schema:
-            type: string
-          description: A part of the user's email or full name to search for.
-          required: true
-        - in: query
-          name: organization_id
-          schema:
-            type: integer
-          description: The organization ID to check the user's membership.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InstanceUser'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
   /users/me:
     get:
       summary: Get current user
@@ -621,7 +593,7 @@ paths:
       - $ref: ../parameters/UserId.yaml
       - schema:
           type: integer
-          minLength: 0
+          minimum: 0
         name: key_id
         in: path
         required: true
@@ -882,6 +854,8 @@ components:
               $ref: '#/components/schemas/InstanceUserStats'
             organizations:
               type: array
+              maxItems: 100
+              uniqueItems: true
               items:
                 $ref: '#/components/schemas/InstanceUserOrgDetails'
     InstanceUserStats:
@@ -910,6 +884,18 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/InstanceUser'
+      description: Page with full user information. Only for current user or administrator.
+    UserInfoPage:
+      title: User info page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/user/UserInfo.yaml
+      description: Page with general user information. For all users.
     NewUserPassword:
       title: New User password
       type: object
@@ -979,10 +965,6 @@ components:
 tags:
   - name: Implemented
     description: Implemented
-  - name: In progress
-    description: In progress
-  - name: Ready for implementation
-    description: Ready for implementation
   - name: Invitation
     description: Invitation API collection
   - name: User

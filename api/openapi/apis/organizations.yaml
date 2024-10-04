@@ -119,7 +119,7 @@ paths:
 
         Create a new organization. Provide name and slug.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
       requestBody:
@@ -130,13 +130,11 @@ paths:
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
         - Organization
-        - Ready for implementation
   '/organizations/{org_id}':
     get:
       summary: Get organization information
       tags:
         - Organization
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -152,7 +150,7 @@ paths:
       description: |-
         Provide organization information.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -180,7 +178,7 @@ paths:
 
         Update organization information with the provided data.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -192,7 +190,6 @@ paths:
         description: Provide organization information for update.
       tags:
         - Organization
-        - Ready for implementation
     patch:
       summary: Patch organization
       operationId: patch-organizations-org_id
@@ -214,7 +211,7 @@ paths:
 
         Particular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -222,7 +219,6 @@ paths:
         $ref: '#/components/requestBodies/JsonPatch'
       tags:
         - Organization
-        - Ready for implementation
     delete:
       summary: Delete organization
       operationId: delete-organizations-org_id
@@ -242,12 +238,11 @@ paths:
 
         Delete organization by identifier.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
       tags:
         - Organization
-        - Ready for implementation
   '/organizations/{org_id}/users':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -255,7 +250,6 @@ paths:
       summary: Get organization's users
       tags:
         - Organization User
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -271,7 +265,7 @@ paths:
       description: |-
         Provides a list of organization's users.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -334,12 +328,12 @@ paths:
         This is a endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
 
-        ### Project authority:
+        ### Project authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -360,7 +354,6 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Organization User
-        - Ready for implementation
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -369,7 +362,6 @@ paths:
       summary: Get organization user profile
       tags:
         - Organization User
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -385,7 +377,7 @@ paths:
       description: |-
         Get organization user profile.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -393,7 +385,7 @@ paths:
 
         A user with `MEMBER` role can get only his profile.
 
-        ### Member authority:
+        ### Member authority
 
         - `EDITOR`
         - `VIEWER`
@@ -432,19 +424,18 @@ paths:
         description: Provide organization's user information for update.
       tags:
         - Organization User
-        - Ready for implementation
       description: |-
         Update organization user details.
 
         Organization user details for update.
 
-        ### Organization authority:
+        ### Organization authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
         - `MEMBER`
 
-        ### Project authority:
+        ### Project authority
 
         - `EDITOR`
     patch:
@@ -467,18 +458,17 @@ paths:
         You can provide a project list as an additional option for assigning or unassigned
         a user from projects.
 
-        ### Organization authority:
+        ### Organization authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
         - `MEMBER`
 
-        ### Project authority:
+        ### Project authority
 
         - `EDITOR`
       tags:
         - Organization User
-        - Ready for implementation
       requestBody:
         $ref: '#/components/requestBodies/JsonPatch'
     delete:
@@ -494,13 +484,12 @@ paths:
       description: |-
         Unassigned user from an organization and all organization projects.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
       tags:
         - Organization User
-        - Ready for implementation
   '/organizations/{org_id}/projects':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -508,7 +497,6 @@ paths:
       summary: Get organization projects
       tags:
         - Organization Project
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -545,7 +533,7 @@ paths:
       description: |-
         Get a list of organization projects.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -560,7 +548,6 @@ paths:
       summary: Create a new project
       tags:
         - Organization Project
-        - Ready for implementation
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -580,7 +567,7 @@ paths:
       description: |-
         Create a new project in the organization. 
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -598,7 +585,6 @@ paths:
       summary: Get project information
       tags:
         - Organization Project
-        - Ready for implementation
       responses:
         '200':
           description: OK
@@ -614,7 +600,7 @@ paths:
       description: |-
         Get project information.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -622,7 +608,7 @@ paths:
 
         A user with the `MEMBER` role can get only his project.
 
-        ### Member authority:
+        ### Member authority
 
         - 'EDITOR'
         - 'VIEWER'
@@ -648,7 +634,7 @@ paths:
       description: |-
         Update project information.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -656,12 +642,11 @@ paths:
 
         A user with the `MEMBER` role can update only his project.
 
-        ### Member authority:
+        ### Member authority
 
         - `EDITOR`
       tags:
         - Organization Project
-        - Ready for implementation
     patch:
       summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
@@ -678,15 +663,26 @@ paths:
           $ref: '#/components/responses/Error'
       requestBody:
         $ref: '#/components/requestBodies/JsonPatch'
-      description: ' '
+      description: |-
+        Partial update project information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority
+
+        - `EDITOR`
       tags:
         - Organization Project
-        - Ready for implementation
     delete:
       summary: Delete project
       tags:
         - Organization Project
-        - Ready for implementation
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -698,7 +694,7 @@ paths:
       description: |-
         Delete project.
 
-        ### Authority:
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
@@ -717,7 +713,7 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
-      description: |-
+      description: |
         Create search request for organizations by provided criteria.
 
         You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
@@ -731,6 +727,10 @@ paths:
         - `projects` - filter by the number of projects.
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       requestBody:
         content:
           application/json:
@@ -739,10 +739,69 @@ paths:
         description: Provide search criteria for organizations.
       tags:
         - Organization
-        - Ready for implementation
-      x-extension-authority:
-        - ReportPortal: User
-        - ReportPortal: Admin
+  '/organizations/{org_id}/users/searches':
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    post:
+      summary: Create search request for organization users
+      operationId: post-organizations-org_id-users-searches
+      tags:
+        - Organization User
+      description: |-
+        Create search request for organization users by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `uuid` - filter by user UUID.
+        - `external_id` - filter by user external identifier.
+        - `email` - filter by user email.
+        - `full_name` - filter by user full name.
+        - `account_type` - filter by account type.
+        - `instance_role` - filter by user role in the instance.
+        - `org_role` - filter by user role in the organization.
+        - `account_type` - filter by account type.
+        - `active` - filter by user activity.
+        - `created_at` - date when a user was created.
+        - `updated_at` - date when a user was updated.
+        - `assigned_at` - date when a user was assigned to the organization.
+        - `suggest` - search by `full_name`, `email`.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        #### `ADMINISTRATOR` and `MANAGER`
+
+        - Filter by all attributes.
+        - Use all operations.
+
+        #### `MEMBER`
+        - Filter by `full_name`, `email`, `suggest`.
+        - Use only the `EQ` operation.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUsersPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
   '/organizations/{org_id}/projects/searches':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -780,7 +839,6 @@ paths:
               $ref: ../models/SearchCriteriaRQ.yaml
       tags:
         - Organization Project
-        - Ready for implementation
 components:
   schemas:
     OrganizationInfo:
@@ -1013,10 +1071,6 @@ tags:
     description: Organization projects collection
   - name: Organization User
     description: Organization users collection
-  - name: In progress
-    description: Endpoints that are in designing
-  - name: Ready for implementation
-    description: Endpoints that are ready for development
   - name: Implemented
     description: Endpoints that are implemented
 security:
