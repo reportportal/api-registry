@@ -130,6 +130,47 @@ paths:
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       tags:
         - Organization
+  /organizations/searches:
+    post:
+      summary: Create search request for organizations
+      operationId: post-organizations-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: |
+        Create search request for organizations by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `name` - filter by organization name.
+        - `slug` - filter by organization slug.
+        - `type` - filter by organization type.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `projects` - filter by the number of projects.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+        description: Provide search criteria for organizations.
+      tags:
+        - Organization
   '/organizations/{org_id}':
     get:
       summary: Get organization information
@@ -354,6 +395,69 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Organization User
+  '/organizations/{org_id}/users/searches':
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    post:
+      summary: Create search request for organization users
+      operationId: post-organizations-org_id-users-searches
+      tags:
+        - Organization User
+      description: |-
+        Create search request for organization users by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `uuid` - filter by user UUID.
+        - `external_id` - filter by user external identifier.
+        - `email` - filter by user email.
+        - `full_name` - filter by user full name.
+        - `account_type` - filter by account type.
+        - `instance_role` - filter by user role in the instance.
+        - `org_role` - filter by user role in the organization.
+        - `account_type` - filter by account type.
+        - `active` - filter by user activity.
+        - `created_at` - date when a user was created.
+        - `updated_at` - date when a user was updated.
+        - `assigned_at` - date when a user was assigned to the organization.
+        - `suggest` - search by `full_name`, `email`.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        #### `ADMINISTRATOR` and `MANAGER`
+
+        - Filter by all attributes.
+        - Use all operations.
+
+        #### `MEMBER`
+        - Filter by `full_name`, `email`, `suggest`.
+        - Use only the `EQ` operation.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUsersPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -577,6 +681,43 @@ paths:
             schema:
               $ref: ../models/project/ProjectBase.yaml
         description: 'You can create an project provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
+  '/organizations/{org_id}/projects/searches':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    post:
+      summary: Create search request for organization projects
+      operationId: post-organizations-org_id-projects-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectsPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Create search request for organization projects by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `name` - filter by project name.
+        - `slug` - filter by project slug.
+        - `key` - filter by project key.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+      tags:
+        - Organization Project
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -698,147 +839,6 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
-  /organizations/searches:
-    post:
-      summary: Create search request for organizations
-      operationId: post-organizations-searches
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-      description: |
-        Create search request for organizations by provided criteria.
-
-        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-
-        - `name` - filter by organization name.
-        - `slug` - filter by organization slug.
-        - `type` - filter by organization type.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `projects` - filter by the number of projects.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
-        description: Provide search criteria for organizations.
-      tags:
-        - Organization
-  '/organizations/{org_id}/users/searches':
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-    post:
-      summary: Create search request for organization users
-      operationId: post-organizations-org_id-users-searches
-      tags:
-        - Organization User
-      description: |-
-        Create search request for organization users by provided criteria.
-
-        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-
-        - `uuid` - filter by user UUID.
-        - `external_id` - filter by user external identifier.
-        - `email` - filter by user email.
-        - `full_name` - filter by user full name.
-        - `account_type` - filter by account type.
-        - `instance_role` - filter by user role in the instance.
-        - `org_role` - filter by user role in the organization.
-        - `account_type` - filter by account type.
-        - `active` - filter by user activity.
-        - `created_at` - date when a user was created.
-        - `updated_at` - date when a user was updated.
-        - `assigned_at` - date when a user was assigned to the organization.
-        - `suggest` - search by `full_name`, `email`.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Access level
-
-        #### `ADMINISTRATOR` and `MANAGER`
-
-        - Filter by all attributes.
-        - Use all operations.
-
-        #### `MEMBER`
-        - Filter by `full_name`, `email`, `suggest`.
-        - Use only the `EQ` operation.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationUsersPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
-  '/organizations/{org_id}/projects/searches':
-    parameters:
-      - $ref: '#/components/parameters/organizationId'
-    post:
-      summary: Create search request for organization projects
-      operationId: post-organizations-org_id-projects-searches
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationProjectsPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-      description: |-
-        Create search request for organization projects by provided criteria.
-
-        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-
-        - `name` - filter by project name.
-        - `slug` - filter by project slug.
-        - `key` - filter by project key.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
-      tags:
-        - Organization Project
 components:
   schemas:
     OrganizationInfo:

@@ -350,7 +350,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InstanceUserPage'
+              oneOf:
+                - $ref: '#/components/schemas/InstanceUserPage'
+                - $ref: '#/components/schemas/UserInfoPage'
         description: Create search request for user collection.
   /users/me:
     get:
