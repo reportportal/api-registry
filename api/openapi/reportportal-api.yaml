@@ -1395,7 +1395,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InstanceUserPage'
+                oneOf:
+                  - $ref: '#/components/schemas/InstanceUserPage'
+                  - $ref: '#/components/schemas/UserInfoPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -1406,9 +1408,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/InstanceUserPage'
-                - $ref: '#/components/schemas/UserInfoPage'
+              $ref: '#/components/schemas/SearchCriteriaRQ'
         description: Create search request for user collection.
       security:
         - BearerAuth: []
