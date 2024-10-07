@@ -973,7 +973,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectInfo'
+              $ref: '#/components/schemas/ProjectBase'
       description: |-
         Update project information.
 
