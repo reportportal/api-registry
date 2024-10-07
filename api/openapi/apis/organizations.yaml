@@ -771,7 +771,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/project/ProjectInfo.yaml
+              $ref: ../models/project/ProjectBase.yaml
       description: |-
         Update project information.
 
