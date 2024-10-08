@@ -592,6 +592,13 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - restricted to unassigning only themselves.
       tags:
         - Organization User
   '/organizations/{org_id}/projects':
