@@ -580,8 +580,7 @@ paths:
 
 
         ### Authority
-
-
+         
         - `ADMINISTRATOR`
 
         - `MANAGER`
@@ -602,9 +601,21 @@ paths:
 
         #### `MEMBER`
 
-        - Filter by `full_name`, `email`, `suggest`.
+
+        ##### Suggests are disable
+
+
+        - Filter by `suggest`.
 
         - Use only the `EQ` operation.
+
+
+        ##### Suggests are enabled
+
+
+        - Filter by `suggest`.
+
+        - Use only the `EQ` or `CNT` operation.
       responses:
         '200':
           description: OK
@@ -1356,13 +1367,15 @@ paths:
 
         - `suggest` - search by `full_name`, `email`.
 
+        - `org_id` - search by organization id.
+
 
         ### Authority
 
 
         - `ADMINISTRATOR`
 
-        - `USER`
+        - `USER` - when suggests are enabled.
 
 
         ### Access level
@@ -1381,9 +1394,12 @@ paths:
         #### `USER`
 
 
-        - Filter by `email`, `full_name`, `suggest`.
+        ##### When suggests are enabled
 
-        - Use only the `EQ` operation.
+        - Filter by `suggest` with the `CNT` operation.
+
+        - Filter by `suggest` with the `CNT` operation and by `org_id` with the
+        `NE`operation. 
 
         - Get a base user profile.
       parameters:
