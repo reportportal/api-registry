@@ -1873,7 +1873,6 @@ components:
               minimum: 0
             type:
               $ref: '#/components/schemas/orgType'
-              default: INTERNAL
             external_id:
               type: string
               description: |-
@@ -2171,8 +2170,8 @@ components:
             source code.
           example: /some/uri-reference#specific-occurrence-context
     OffsetRequest:
-      type: object
       title: Offset-based
+      type: object
       description: Offset-based pagination
       properties:
         offset:
