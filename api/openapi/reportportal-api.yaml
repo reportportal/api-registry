@@ -1289,22 +1289,12 @@ paths:
           name: full_name
           description: Filter users by full name containing (case insensitive).
         - schema:
-            type: string
-            enum:
-              - ADMINISTRATOR
-              - USER
+            $ref: '#/components/schemas/instanceRole'
           in: query
           name: instance_role
           description: Filter users by role.
         - schema:
-            type: string
-            enum:
-              - INTERNAL
-              - UPSA
-              - GITHUB
-              - LDAP
-              - SAML
-              - SCIM
+            $ref: '#/components/schemas/accountType'
           in: query
           name: account_type
           description: Filter users by account type.
@@ -1882,23 +1872,8 @@ components:
               description: Organization ReportPortal identifier.
               minimum: 0
             type:
-              type: string
-              enum:
-                - INTERNAL
-                - PERSONAL
-                - EXTERNAL
-              description: >-
-                Type for automatization purposes.
-
-
-                There are three types:
-
-                - INTERNAL: created by API request.
-
-                - PERSONAL: created for a user after the user creating. Only
-                Enterprise edition feature.
-
-                - EXTERNAL: created for external integrations.
+              $ref: '#/components/schemas/orgType'
+              default: INTERNAL
             external_id:
               type: string
               description: |-
@@ -2054,12 +2029,12 @@ components:
           required:
             - id
     order:
-      title: order
+      title: Order
       type: string
-      description: To indicate sorting direction. Ascending or Descending.
       enum:
         - ASC
         - DESC
+      description: To indicate sorting direction. Ascending or Descending.
     Offset:
       type: object
       title: Offset-based
@@ -2127,6 +2102,20 @@ components:
           $ref: '#/components/schemas/slug'
       required:
         - name
+    orgType:
+      title: Organization type
+      type: string
+      enum:
+        - INTERNAL
+        - PERSONAL
+        - EXTERNAL
+      description: >-
+        - INTERNAL: created by the system for internal use.
+
+        - PERSONAL: created for a user after the user creating. Only Enterprise
+        edition feature.
+
+        - EXTERNAL: created for external integrations.
     Problem:
       title: Problem
       type: object
@@ -2204,12 +2193,19 @@ components:
           type: string
           description: Field to define the sort field.
         order:
-          type: string
-          description: To indicate sorting direction. Ascending or Descending.
-          enum:
-            - ASC
-            - DESC
+          $ref: '#/components/schemas/order'
           default: ASC
+    filterOperation:
+      title: Filter operation
+      type: string
+      enum:
+        - EQ
+        - NE
+        - CNT
+        - NON_CNT
+        - BTW
+        - IN
+      description: operation to perform for the filter
     SearchCriteria:
       title: Search criteria
       type: object
@@ -2223,15 +2219,7 @@ components:
                 type: string
                 description: search by field
               operation:
-                type: string
-                enum:
-                  - EQ
-                  - NE
-                  - CNT
-                  - NON_CNT
-                  - BTW
-                  - IN
-                description: operation to perform for the filter
+                $ref: '#/components/schemas/filterOperation'
               value:
                 type: string
                 description: search value
@@ -2240,30 +2228,30 @@ components:
       allOf:
         - $ref: '#/components/schemas/OffsetRequest'
         - $ref: '#/components/schemas/SearchCriteria'
+    patchOperation:
+      title: Patch Operation
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
     PatchObject:
       title: Patch Operation Object
       type: object
       properties:
         op:
-          type: string
-          enum:
-            - add
-            - replace
-            - remove
+          $ref: '#/components/schemas/patchOperation'
         path:
           type: string
         value:
           type: object
     PatchArrayString:
-      title: Patch Operation Array String
+      title: Patch operation array string
       type: object
       properties:
         op:
-          type: string
-          enum:
-            - add
-            - replace
-            - remove
+          $ref: '#/components/schemas/patchOperation'
         path:
           type: string
         value:
@@ -2275,11 +2263,7 @@ components:
       type: object
       properties:
         op:
-          type: string
-          enum:
-            - add
-            - replace
-            - remove
+          $ref: '#/components/schemas/patchOperation'
         path:
           type: string
         value:
@@ -2289,11 +2273,7 @@ components:
       type: object
       properties:
         op:
-          type: string
-          enum:
-            - add
-            - replace
-            - remove
+          $ref: '#/components/schemas/patchOperation'
         path:
           type: string
         value:
@@ -2303,11 +2283,7 @@ components:
       type: object
       properties:
         op:
-          type: string
-          enum:
-            - add
-            - replace
-            - remove
+          $ref: '#/components/schemas/patchOperation'
         path:
           type: string
         value:
@@ -2317,11 +2293,7 @@ components:
       type: object
       properties:
         op:
-          type: string
-          enum:
-            - add
-            - replace
-            - remove
+          $ref: '#/components/schemas/patchOperation'
         path:
           type: string
         value:
@@ -2340,6 +2312,34 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PatchOperation'
+    instanceRole:
+      title: Instance role
+      type: string
+      enum:
+        - ADMINISTRATOR
+        - USER
+      description: Instance account role.
+    accountType:
+      title: Account type
+      type: string
+      enum:
+        - INTERNAL
+        - UPSA
+        - GITHUB
+        - LDAP
+        - SAML
+        - SCIM
+      description: |-
+        Indicates through which service or
+        authentication method the user account
+        was created.
+
+        - INTERNAL: created by the system for internal use.
+        - UPSA: created for external integrations.
+        - GITHUB: created for external integrations.
+        - LDAP: created for external integrations.
+        - SAML: created for external integrations.
+        - SCIM: created for external integrations.
     UserBase:
       title: User Base
       description: |-
@@ -2358,25 +2358,10 @@ components:
         full_name:
           $ref: '#/components/schemas/name'
         instance_role:
-          type: string
-          enum:
-            - ADMINISTRATOR
-            - USER
-          description: Instance account role.
+          $ref: '#/components/schemas/instanceRole'
           default: USER
         account_type:
-          type: string
-          description: |-
-            Indicates through which service or
-            authentication method the user account
-            was created.
-          enum:
-            - INTERNAL
-            - UPSA
-            - GITHUB
-            - LDAP
-            - SAML
-            - SCIM
+          $ref: '#/components/schemas/accountType'
           default: INTERNAL
         external_id:
           type: string
@@ -2464,29 +2449,35 @@ components:
               description: When user last logged in.
         - $ref: '#/components/schemas/UserBase'
         - $ref: '#/components/schemas/UserLinks'
+    orgRole:
+      title: Organization role
+      type: string
+      enum:
+        - MEMBER
+        - MANAGER
+      description: Organization user role.
     UserOrgRole:
       title: Organization user details
       type: object
       description: Basic information about a user in the organization.
       properties:
         org_role:
-          type: string
-          enum:
-            - MEMBER
-            - MANAGER
-          description: Organization user role.
+          $ref: '#/components/schemas/orgRole'
           default: MEMBER
+    projectRole:
+      title: Project role
+      type: string
+      description: User role in the project.
+      enum:
+        - EDITOR
+        - VIEWER
     UserProjectRole:
       title: User's project role
       description: Information about user's project role.
       type: object
       properties:
         project_role:
-          type: string
-          description: User role in the project.
-          enum:
-            - EDITOR
-            - VIEWER
+          $ref: '#/components/schemas/projectRole'
           default: VIEWER
     UserProjectInfo:
       title: User's project details
@@ -2603,11 +2594,7 @@ components:
           description: User's email.
           format: email
         status:
-          type: string
-          enum:
-            - PENDING
-            - ACTIVATED
-          description: User invitations status.
+          $ref: '#/components/schemas/invitationStatus'
         link:
           type: string
           description: Link to invitation form.
@@ -2834,6 +2821,13 @@ components:
       format: int64
       minimum: 0
       description: User identifier.
+    invitationStatus:
+      title: Invitation status
+      type: string
+      enum:
+        - PENDING
+        - ACTIVATED
+      description: User invitations status.
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
