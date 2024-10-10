@@ -427,7 +427,7 @@ paths:
         - `suggest` - search by `full_name`, `email`.
 
         ### Authority
-
+         
         - `ADMINISTRATOR`
         - `MANAGER`
         - `MEMBER`
@@ -440,8 +440,16 @@ paths:
         - Use all operations.
 
         #### `MEMBER`
-        - Filter by `full_name`, `email`, `suggest`.
+
+        ##### Suggests are disable
+
+        - Filter by `suggest`.
         - Use only the `EQ` operation.
+
+        ##### Suggests are enabled
+
+        - Filter by `suggest`.
+        - Use only the `EQ` or `CNT` operation.
       responses:
         '200':
           description: OK

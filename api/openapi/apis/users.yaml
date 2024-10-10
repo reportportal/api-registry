@@ -304,11 +304,12 @@ paths:
         - `created_at` - date when a user was created.
         - `updated_at` - date when a user was updated.
         - `suggest` - search by `full_name`, `email`.
+        - `org_id` - search by organization id.
 
         ### Authority
 
         - `ADMINISTRATOR`
-        - `USER`
+        - `USER` - when suggests are enabled.
 
         ### Access level
 
@@ -320,8 +321,9 @@ paths:
 
         #### `USER`
 
-        - Filter by `email`, `full_name`, `suggest`.
-        - Use only the `EQ` operation.
+        ##### When suggests are enabled
+        - Filter by `suggest` with the `CNT` operation.
+        - Filter by `suggest` with the `CNT` operation and by `org_id` with the `NE`operation. 
         - Get a base user profile.
       parameters:
         - schema:
