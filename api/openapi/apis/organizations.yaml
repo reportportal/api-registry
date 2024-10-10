@@ -434,12 +434,12 @@ paths:
 
         ### Access level
 
-        #### `ADMINISTRATOR` and `MANAGER`
+        #### ADMINISTRATOR and MANAGER
 
         - Filter by all attributes.
         - Use all operations.
 
-        #### `MEMBER`
+        #### MEMBER
 
         ##### Suggests are disable
 
