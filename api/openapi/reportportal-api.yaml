@@ -2913,10 +2913,7 @@ components:
       name: order
       in: query
       schema:
-        type: string
-        enum:
-          - ASC
-          - DESC
+        $ref: '#/components/schemas/order'
         default: ASC
       description: Indicate sorting direction.
     UserId:
