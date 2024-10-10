@@ -20,5 +20,5 @@ properties:
     type: string
     description: Field to define the sort field.
   order:
-    $ref: ../types/order.yaml
+    $ref: ../enums/order.yaml
     default: ASC
