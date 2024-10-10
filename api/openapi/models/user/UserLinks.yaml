@@ -16,12 +16,12 @@ properties:
 example:
   _links:
     self:
-      href: /users/1
+      href: https://api.example.com/users/123
     profile_picture:
-      href: /files/214213423
+      href: https://api.example.com/files/214213423.png
       type: image/png
       title: User's profile picture
     profile_picture_thumbnail:
-      href: /files/214213423-mini
+      href: https://api.example.com/files/214213423-mini.png
       type: image/png
       title: User's profile picture thumbnail
