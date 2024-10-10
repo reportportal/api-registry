@@ -591,7 +591,7 @@ paths:
         ### Access level
 
 
-        #### `ADMINISTRATOR` and `MANAGER`
+        #### ADMINISTRATOR and MANAGER
 
 
         - Filter by all attributes.
@@ -599,7 +599,7 @@ paths:
         - Use all operations.
 
 
-        #### `MEMBER`
+        #### MEMBER
 
 
         ##### Suggests are disable
@@ -1381,7 +1381,7 @@ paths:
         ### Access level
 
 
-        #### `ADMINISTRATOR`
+        #### ADMINISTRATOR
 
 
         - Filter by all attributes.
@@ -1391,7 +1391,7 @@ paths:
         - Get a full user profile.
 
 
-        #### `USER`
+        #### USER
 
 
         ##### When suggests are enabled
