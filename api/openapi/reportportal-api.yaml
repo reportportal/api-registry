@@ -1084,12 +1084,22 @@ paths:
           $ref: '#/components/responses/Error'
         '503':
           $ref: '#/components/responses/Error'
-      description: |-
+      description: >-
         Create and send user invitation to email.
+
+
+        We can create invitations for new users or for existing users.
+
+
+        We don't update existing users, only assign them to new organizations
+        and projects.
+
 
         ### Authority
 
+
         - `ADMINISTRATOR`
+
         - `USER`
       requestBody:
         content:
