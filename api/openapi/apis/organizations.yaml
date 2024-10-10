@@ -870,7 +870,6 @@ components:
               minimum: 0
             type:
               $ref: ../enums/orgType.yaml
-              default: 'INTERNAL'
             external_id:
               type: string
               description: |-
