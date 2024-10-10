@@ -1,12 +1,8 @@
-title: Patch Operation Array String
+title: Patch operation array string
 type: object
 properties:
   op:
-    type: string
-    enum:
-      - add
-      - replace
-      - remove
+    $ref: ../../enums/patchOperation.yaml
   path:
     type: string
   value:

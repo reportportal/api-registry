@@ -14,7 +14,8 @@
       "include": [
         "api/openapi/models/**",
         "api/openapi/parameters/**",
-        "api/openapi/types/**"
+        "api/openapi/types/**",
+        "api/openapi/enums/**"
       ]
     },
     "markdown": {

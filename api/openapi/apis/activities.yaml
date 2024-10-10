@@ -53,10 +53,7 @@ paths:
           name: sort
           description: Indicate sort by field
         - schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
+            $ref: ../enums/order.yaml
           in: query
           name: order
           description: Indicate sorting direction

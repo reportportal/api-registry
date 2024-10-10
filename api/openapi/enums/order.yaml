@@ -1,6 +1,6 @@
-title: order
+title: Order
 type: string
-description: To indicate sorting direction. Ascending or Descending.
 enum:
   - ASC
   - DESC
+description: To indicate sorting direction. Ascending or Descending.

@@ -10,15 +10,7 @@ properties:
           type: string
           description: search by field
         operation:
-          type: string
-          enum:
-            - EQ
-            - NE
-            - CNT
-            - NON_CNT
-            - BTW
-            - IN
-          description: operation to perform for the filter
+          $ref: '../enums/filterOperation.yaml'
         value:
           type: string
           description: search value

@@ -1,0 +1,6 @@
+title: Instance role
+type: string
+enum:
+  - ADMINISTRATOR
+  - USER
+description: Instance account role.

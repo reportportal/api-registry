@@ -3,9 +3,5 @@ description: Information about user's project role.
 type: object
 properties:
   project_role:
-    type: string
-    description: User role in the project.
-    enum:
-      - EDITOR
-      - VIEWER
+    $ref: ../../enums/projectRole.yaml
     default: VIEWER

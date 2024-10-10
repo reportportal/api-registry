@@ -1,0 +1,6 @@
+title: Organization role
+type: string
+enum:
+  - MEMBER
+  - MANAGER
+description: Organization user role.

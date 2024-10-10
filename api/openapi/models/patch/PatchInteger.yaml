@@ -2,11 +2,7 @@ title: Patch Operation Integer
 type: object
 properties:
   op:
-    type: string
-    enum:
-      - add
-      - replace
-      - remove
+    $ref: ../../enums/patchOperation.yaml
   path:
     type: string
   value:

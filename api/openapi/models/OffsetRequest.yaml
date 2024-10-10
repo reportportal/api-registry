@@ -17,9 +17,5 @@ properties:
     type: string
     description: Field to define the sort field.
   order:
-    type: string
-    description: To indicate sorting direction. Ascending or Descending.
-    enum:
-      - ASC
-      - DESC
+    $ref: ../enums/order.yaml
     default: ASC

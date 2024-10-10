@@ -238,22 +238,12 @@ paths:
           name: full_name
           description: Filter users by full name containing (case insensitive).
         - schema:
-            type: string
-            enum:
-              - ADMINISTRATOR
-              - USER
+            $ref: ../enums/instanceRole.yaml
           in: query
           name: instance_role
           description: Filter users by role.
         - schema:
-            type: string
-            enum:
-              - INTERNAL
-              - UPSA
-              - GITHUB
-              - LDAP
-              - SAML
-              - SCIM
+            $ref: ../enums/accountType.yaml
           in: query
           name: account_type
           description: Filter users by account type.
@@ -716,11 +706,7 @@ components:
           description: User's email.
           format: email
         status:
-          type: string
-          enum:
-            - PENDING
-            - ACTIVATED
-          description: User invitations status.
+          $ref: ../enums/invitationStatus.yaml
         link:
           type: string
           description: Link to invitation form.

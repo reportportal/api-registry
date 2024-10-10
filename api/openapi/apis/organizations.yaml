@@ -869,18 +869,8 @@ components:
               description: Organization ReportPortal identifier.
               minimum: 0
             type:
-              type: string
-              enum:
-                - INTERNAL
-                - PERSONAL
-                - EXTERNAL
-              description: |-
-                Type for automatization purposes.
-
-                There are three types:
-                - INTERNAL: created by API request.
-                - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
-                - EXTERNAL: created for external integrations.
+              $ref: ../enums/orgType.yaml
+              default: 'INTERNAL'
             external_id:
               type: string
               description: |-

@@ -15,25 +15,10 @@ properties:
   full_name:
     $ref: ../../types/name.yaml
   instance_role:
-    type: string
-    enum:
-      - ADMINISTRATOR
-      - USER
-    description: Instance account role.
+    $ref: ../../enums/instanceRole.yaml
     default: USER
   account_type:
-    type: string
-    description: |-
-      Indicates through which service or
-      authentication method the user account
-      was created.
-    enum:
-      - INTERNAL
-      - UPSA
-      - GITHUB
-      - LDAP
-      - SAML
-      - SCIM
+    $ref: ../../enums/accountType.yaml
     default: INTERNAL
   external_id:
     type: string

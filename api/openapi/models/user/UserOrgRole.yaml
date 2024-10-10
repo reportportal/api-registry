@@ -3,9 +3,5 @@ type: object
 description: Basic information about a user in the organization.
 properties:
   org_role:
-    type: string
-    enum:
-      - MEMBER
-      - MANAGER
-    description: Organization user role.
+    $ref: ../../enums/orgRole.yaml
     default: MEMBER
