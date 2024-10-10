@@ -2410,13 +2410,13 @@ components:
       example:
         _links:
           self:
-            href: /users/1
+            href: https://api.example.com/users/123
           profile_picture:
-            href: /files/214213423
+            href: https://api.example.com/files/214213423.png
             type: image/png
             title: User's profile picture
           profile_picture_thumbnail:
-            href: /files/214213423-mini
+            href: https://api.example.com/files/214213423-mini.png
             type: image/png
             title: User's profile picture thumbnail
     UserInfo:
@@ -2680,11 +2680,9 @@ components:
           type: string
           format: date-time
           description: Date time with milliseconds
-          example: '2019-07-30T06:43:40.252Z'
         last_used_at:
           type: string
           format: date-time
-          example: '2019-07-30T06:43:40.252Z'
           description: Date time with milliseconds
     ApiKeyCreateRequest:
       title: API Key creation request
