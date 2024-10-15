@@ -6,6 +6,7 @@
 # Protoc gen
 gen/
 build/
+tmp/
 
 # OpenAPI gen
 build/openapi/
