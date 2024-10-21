@@ -501,11 +501,6 @@ paths:
 
         - `EDITOR`
         - `VIEWER`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/PatchOperation.yaml
     put:
       summary: Update organization user details
       operationId: put-organizations-org_id-users-user_id
