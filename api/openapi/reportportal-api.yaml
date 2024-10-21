@@ -2028,7 +2028,6 @@ components:
       enum:
         - ASC
         - DESC
-      default: ASC
       description: To indicate sorting direction. Ascending or Descending.
     Offset:
       type: object
