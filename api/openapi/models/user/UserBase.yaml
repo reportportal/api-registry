@@ -16,10 +16,8 @@ properties:
     $ref: ../../types/name.yaml
   instance_role:
     $ref: ../../enums/instanceRole.yaml
-    default: USER
   account_type:
     $ref: ../../enums/accountType.yaml
-    default: INTERNAL
   external_id:
     type: string
     description: User external identifier. Provided by external systems.

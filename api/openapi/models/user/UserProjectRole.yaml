@@ -4,4 +4,3 @@ type: object
 properties:
   project_role:
     $ref: ../../enums/projectRole.yaml
-    default: VIEWER

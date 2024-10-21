@@ -18,4 +18,3 @@ properties:
     description: Field to define the sort field.
   order:
     $ref: ../enums/order.yaml
-    default: ASC

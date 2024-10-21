@@ -7,6 +7,7 @@ enum:
   - LDAP
   - SAML
   - SCIM
+default: INTERNAL
 description: |-
   Indicates through which service or
   authentication method the user account

@@ -3,4 +3,5 @@ type: string
 enum:
   - ADMINISTRATOR
   - USER
+default: USER
 description: Instance account role.
