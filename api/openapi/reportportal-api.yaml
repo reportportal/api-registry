@@ -669,11 +669,6 @@ paths:
 
         - `EDITOR`
         - `VIEWER`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchOperation'
       security:
         - BearerAuth: []
     put:
@@ -2033,6 +2028,7 @@ components:
       enum:
         - ASC
         - DESC
+      default: ASC
       description: To indicate sorting direction. Ascending or Descending.
     Offset:
       type: object
@@ -2064,7 +2060,6 @@ components:
           description: Field to define the sort field.
         order:
           $ref: '#/components/schemas/order'
-          default: ASC
     name:
       title: name
       type: string
@@ -2193,7 +2188,6 @@ components:
           description: Field to define the sort field.
         order:
           $ref: '#/components/schemas/order'
-          default: ASC
     filterOperation:
       title: Filter operation
       type: string
@@ -2317,6 +2311,7 @@ components:
       enum:
         - ADMINISTRATOR
         - USER
+      default: USER
       description: Instance account role.
     accountType:
       title: Account type
@@ -2328,6 +2323,7 @@ components:
         - LDAP
         - SAML
         - SCIM
+      default: INTERNAL
       description: |-
         Indicates through which service or
         authentication method the user account
@@ -2358,10 +2354,8 @@ components:
           $ref: '#/components/schemas/name'
         instance_role:
           $ref: '#/components/schemas/instanceRole'
-          default: USER
         account_type:
           $ref: '#/components/schemas/accountType'
-          default: INTERNAL
         external_id:
           type: string
           description: User external identifier. Provided by external systems.
@@ -2454,6 +2448,7 @@ components:
       enum:
         - MEMBER
         - MANAGER
+      default: MEMBER
       description: Organization user role.
     UserOrgRole:
       title: Organization user details
@@ -2462,7 +2457,6 @@ components:
       properties:
         org_role:
           $ref: '#/components/schemas/orgRole'
-          default: MEMBER
     projectRole:
       title: Project role
       type: string
@@ -2470,6 +2464,7 @@ components:
       enum:
         - EDITOR
         - VIEWER
+      default: VIEWER
     UserProjectRole:
       title: User's project role
       description: Information about user's project role.
@@ -2477,7 +2472,6 @@ components:
       properties:
         project_role:
           $ref: '#/components/schemas/projectRole'
-          default: VIEWER
     UserProjectInfo:
       title: User's project details
       description: Information about user's project.
