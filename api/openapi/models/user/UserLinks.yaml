@@ -7,21 +7,16 @@ properties:
       self:
         $ref: ../Link.yaml
         description: Link to the user itself.
-      profile_picture:
+      avatar:
         $ref: ../Link.yaml
         description: Link to the user's profile picture.
-      profile_picture_thumbnail:
-        $ref: ../Link.yaml
-        description: Link to the user's profile picture thumbnail.
+  _embedded:
+    type: object
 example:
   _links:
     self:
-      href: https://api.example.com/users/123
-    profile_picture:
-      href: https://api.example.com/files/214213423.png
+      href: 'https://api.example.com/users/123'
+    avatar:
+      href: 'https://api.example.com/users/123/avatar'
       type: image/png
       title: User's profile picture
-    profile_picture_thumbnail:
-      href: https://api.example.com/files/214213423-mini.png
-      type: image/png
-      title: User's profile picture thumbnail
