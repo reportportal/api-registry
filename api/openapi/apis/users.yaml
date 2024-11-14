@@ -626,6 +626,102 @@ paths:
 
         - Administrator has access to any user api keys
         - User has access only to his api keys
+  '/users/{user_id}/avatar':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    get:
+      summary: Get user avatar
+      operationId: get-users-user_id-avatar
+      description: Get user avatar
+      tags:
+        - User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - schema:
+            type: boolean
+          in: query
+          name: thumbnail
+          description: Get a thumbnail image
+      responses:
+        '200':
+          description: Avatar retrieved successfully
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    post:
+      summary: Upload user avatar
+      operationId: post-users-user_id-avatar
+      description: Upload user avatar
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Avatar uploaded successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      summary: Delete user avatar
+      operationId: delete-users-user_id-avatar
+      description: Delete user avatar
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Avatar deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Avatar not found
   '/users/{user_id}/password':
     parameters:
       - $ref: ../parameters/UserId.yaml
