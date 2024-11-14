@@ -675,7 +675,7 @@ paths:
       tags:
         - User
       parameters:
-        - name: userId
+        - name: user_id
           in: path
           required: true
           schema:
@@ -708,7 +708,7 @@ paths:
       tags:
         - User
       parameters:
-        - name: userId
+        - name: user_id
           in: path
           required: true
           schema:
@@ -728,21 +728,28 @@ paths:
     put:
       summary: Update User password
       operationId: put-users-user_id-password
-      responses:
-        '501':
-          $ref: '#/components/responses/Update'
+      description: Update user password.
       tags:
         - User
-      description: Update user password.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewUserPassword'
+      responses:
+        # '200':
+        #   $ref: '#/components/responses/Update'
+        '501':
+          description: Not Implemented
     post:
       summary: Recover user password
       operationId: post-users-user_id-password
+      security: []
+      tags:
+        - User
       responses:
+        # '200':
+        #   description: OK
         '501':
           description: Not Implemented
       description: |-
@@ -756,15 +763,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RestoreUserPassword'
-      security: []
-      tags:
-        - User
   /password-recover-requests:
     post:
       summary: Create password recover request
       operationId: post-password-reset-requests
       security: []
       responses:
+        # '200':
+        #   description: OK
         '501':
           description: Not Implemented
       tags:
