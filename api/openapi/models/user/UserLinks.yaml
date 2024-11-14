@@ -10,8 +10,6 @@ properties:
       avatar:
         $ref: ../Link.yaml
         description: Link to the user's profile picture.
-  _embedded:
-    type: object
 example:
   _links:
     self:
