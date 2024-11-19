@@ -437,6 +437,11 @@ paths:
           schema:
             type: string
             default: full_name
+        - schema:
+            type: string
+          in: query
+          name: full_name
+          description: Filter users by full name containing (case insensitive).
       security:
         - BearerAuth: []
     post:
@@ -1724,11 +1729,7 @@ paths:
         - BearerAuth: []
   /users/{user_id}/avatar:
     parameters:
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/UserId'
     get:
       summary: Get user avatar
       operationId: get-users-user_id-avatar
@@ -1769,6 +1770,8 @@ paths:
               schema:
                 type: string
                 format: binary
+        '400':
+          $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
         '403':
@@ -1849,6 +1852,8 @@ paths:
       responses:
         '204':
           description: Avatar deleted successfully
+        '400':
+          $ref: '#/components/responses/Error'
         '401':
           description: Unauthorized
         '403':
@@ -2334,7 +2339,23 @@ components:
         - NON_CNT
         - BTW
         - IN
-      description: operation to perform for the filter
+        - GTE
+        - GE
+        - LTE
+        - LE
+      description: |
+        Operation to perform for the filter:
+
+        - EQ - Equal
+        - NE - Not equal
+        - CNT - Contains
+        - NON_CNT - Not contains
+        - BTW - Between
+        - IN - In
+        - GTE - Greater than or equal
+        - GE - Greater than
+        - LTE - Less than or equal
+        - LE - Less than
     SearchCriteria:
       title: Search criteria
       type: object
