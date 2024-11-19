@@ -320,6 +320,11 @@ paths:
           schema:
             type: string
             default: full_name
+        - schema:
+            type: string
+          in: query
+          name: full_name
+          description: Filter users by full name containing (case insensitive).
     post:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users

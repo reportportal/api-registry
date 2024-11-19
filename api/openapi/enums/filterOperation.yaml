@@ -7,4 +7,20 @@ enum:
   - NON_CNT
   - BTW
   - IN
-description: operation to perform for the filter
+  - GTE
+  - GE
+  - LTE
+  - LE
+description: |
+  Operation to perform for the filter:
+  
+  - EQ - Equal
+  - NE - Not equal
+  - CNT - Contains
+  - NON_CNT - Not contains
+  - BTW - Between
+  - IN - In
+  - GTE - Greater than or equal
+  - GE - Greater than
+  - LTE - Less than or equal
+  - LE - Less than
