@@ -1732,7 +1732,18 @@ paths:
     get:
       summary: Get user avatar
       operationId: get-users-user_id-avatar
-      description: Get user avatar
+      description: |-
+        Get user avatar
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator get access to any user avatar
+        - User get access to any user avatar
       tags:
         - User
       parameters:
@@ -1769,7 +1780,18 @@ paths:
     post:
       summary: Upload user avatar
       operationId: post-users-user_id-avatar
-      description: Upload user avatar
+      description: |-
+        Upload user avatar
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator get access to any user avatar
+        - User get access only to their avatar
       tags:
         - User
       parameters:
@@ -1804,7 +1826,18 @@ paths:
     delete:
       summary: Delete user avatar
       operationId: delete-users-user_id-avatar
-      description: Delete user avatar
+      description: |-
+        Delete user avatar
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator get access to any user avatar
+        - User get access only to their avatar
       tags:
         - User
       parameters:
@@ -1830,25 +1863,22 @@ paths:
     put:
       summary: Update User password
       operationId: put-users-user_id-password
-      description: Update user password.
+      responses:
+        '501':
+          $ref: '#/components/responses/Update'
       tags:
         - User
+      description: Update user password.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewUserPassword'
-      responses:
-        '501':
-          description: Not Implemented
       security:
         - BearerAuth: []
     post:
       summary: Recover user password
       operationId: post-users-user_id-password
-      security: []
-      tags:
-        - User
       responses:
         '501':
           description: Not Implemented
@@ -1863,6 +1893,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RestoreUserPassword'
+      security: []
+      tags:
+        - User
   /password-recover-requests:
     post:
       summary: Create password recover request
