@@ -654,6 +654,7 @@ paths:
             type: string
         - schema:
             type: boolean
+            default: 'false'
           in: query
           name: thumbnail
           description: Get a thumbnail image
