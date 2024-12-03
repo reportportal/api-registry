@@ -271,6 +271,7 @@ paths:
         description: Provide search criteria for organizations.
       tags:
         - Organization
+        - Implemented
       security:
         - BearerAuth: []
   /organizations/{org_id}:
@@ -934,6 +935,7 @@ paths:
               $ref: '#/components/schemas/SearchCriteriaRQ'
       tags:
         - Organization Project
+        - Implemented
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects/{project_id}:
