@@ -171,6 +171,7 @@ paths:
         description: Provide search criteria for organizations.
       tags:
         - Organization
+        - Implemented
   '/organizations/{org_id}':
     get:
       summary: Get organization information
@@ -733,6 +734,7 @@ paths:
               $ref: ../models/SearchCriteriaRQ.yaml
       tags:
         - Organization Project
+        - Implemented
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
       - $ref: '#/components/parameters/organizationId'
