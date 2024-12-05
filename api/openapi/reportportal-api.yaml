@@ -971,8 +971,8 @@ paths:
 
         ### Member authority
 
-        - 'EDITOR'
-        - 'VIEWER'
+        - `EDITOR`
+        - `VIEWER`
       security:
         - BearerAuth: []
     put:
@@ -993,7 +993,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectBase'
+              $ref: '#/components/schemas/ProjectUpdate'
+        description: ''
       description: |-
         Update project information.
 
@@ -1030,6 +1031,14 @@ paths:
         $ref: '#/components/requestBodies/JsonPatch'
       description: |-
         Partial update project information.
+        Model relates with a PUT Project update model.
+
+        Paths and operations:
+
+        - `name` | `replace`
+        - `slug` | `replace`
+        - `users` | `add`, `replace`, `remove`
+        - `users/{user_id}` | `replace`, `remove`
 
         ### Authority
 
@@ -1042,6 +1051,11 @@ paths:
         ### Member authority
 
         - `EDITOR`
+        - `VIEWER`
+
+        ### Access level
+
+        `VIEWER` can only user path `users/{user_id}` with `remove` operation.
       tags:
         - Organization Project
       security:
@@ -2719,6 +2733,27 @@ components:
             stats:
               $ref: '#/components/schemas/ProjectStats'
         - $ref: '#/components/schemas/ProjectBase'
+    userId:
+      title: User ID
+      type: integer
+      format: int64
+      minimum: 0
+      description: User identifier.
+    ProjectUpdate:
+      title: ProjectUpdate
+      allOf:
+        - $ref: '#/components/schemas/ProjectBase'
+        - type: object
+          properties:
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/userId'
+                  project_role:
+                    $ref: '#/components/schemas/projectRole'
     Invitation:
       title: Invitation
       type: object
@@ -2959,12 +2994,6 @@ components:
           description: User email for password recovery.
       required:
         - email
-    userId:
-      title: User ID
-      type: integer
-      format: int64
-      minimum: 0
-      description: User identifier.
     invitationStatus:
       title: Invitation status
       type: string
