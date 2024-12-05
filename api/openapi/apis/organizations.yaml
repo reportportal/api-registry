@@ -768,8 +768,8 @@ paths:
 
         ### Member authority
 
-        - 'EDITOR'
-        - 'VIEWER'
+        - `EDITOR`
+        - `VIEWER`
     put:
       summary: Update project
       operationId: put-organizations-org_id-projects-project_id
@@ -788,7 +788,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/project/ProjectBase.yaml
+              $ref: ../models/project/ProjectUpdate.yaml
+        description: ''
       description: |-
         Update project information.
 
@@ -823,6 +824,14 @@ paths:
         $ref: '#/components/requestBodies/JsonPatch'
       description: |-
         Partial update project information.
+        Model relates with a PUT Project update model.
+
+        Paths and operations:
+
+        - `name` | `replace`
+        - `slug` | `replace`
+        - `users` | `add`, `replace`, `remove`
+        - `users/{user_id}` | `replace`, `remove`
 
         ### Authority
 
@@ -835,6 +844,11 @@ paths:
         ### Member authority
 
         - `EDITOR`
+        - `VIEWER`
+
+        ### Access level
+
+        `VIEWER` can only user path `users/{user_id}` with `remove` operation.
       tags:
         - Organization Project
     delete:

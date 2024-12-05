@@ -1,0 +1,14 @@
+title: ProjectUpdate
+allOf:
+  - $ref: ./ProjectBase.yaml
+  - type: object
+    properties:
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              $ref: ../../types/userId.yaml
+            project_role:
+              $ref: ../../enums/projectRole.yaml
