@@ -27,62 +27,7 @@ servers:
         description: Base path of Report Portal API
 security:
   - BearerAuth: []
-paths:
-  '/projects/{project_name}/activities/suggestions':
-    get:
-      summary: Get project suggestions
-      tags:
-        - Projects
-        - Suggestions
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - type: object
-                    properties:
-                      suggestions:
-                        type: array
-                        description: List of activities suggestions for the project by type.
-                        items:
-                          type: string
-                  - $ref: ../models/Limit.yaml
-        '404':
-          description: Not Found
-      operationId: get-project-suggestions
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - subject_name
-          in: query
-          name: type
-          description: Type of suggestions
-        - schema:
-            type: string
-          in: query
-          name: filter
-          description: Filter query for suggestions
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: Maximum number of suggestions
-      description: |-
-        Get project activities suggestions by type for autocomplete.
-        Supported types:
-        - subject_name: Get suggestions for activity subject names in the project.
-
-        If the type isn't provided or provided incorrectly, you get a 404 error. 
-    parameters:
-      - schema:
-          type: string
-        name: project_name
-        in: path
-        required: true
-        description: Project name
+paths: {}
 components:
   securitySchemes:
     BearerAuth:

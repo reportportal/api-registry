@@ -79,57 +79,6 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
-    post:
-      summary: Create a new organization
-      operationId: post-organizations
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationInfo'
-        '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
-        '402':
-          description: Payment Required
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
-        '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
-      description: |
-        > **Enterprise edition feature** 
-        >
-
-        Create a new organization. Provide name and slug.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/org/OrganizationBase.yaml
-        description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
-      tags:
-        - Organization
   /organizations/searches:
     post:
       summary: Create search request for organizations
@@ -177,6 +126,7 @@ paths:
       summary: Get organization information
       tags:
         - Organization
+        - Implemented
       responses:
         '200':
           description: OK
@@ -199,92 +149,6 @@ paths:
         - `MEMBER`
     parameters:
       - $ref: '#/components/parameters/organizationId'
-    put:
-      summary: Update organization
-      operationId: put-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Update organization information with the provided data.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/org/OrganizationBase.yaml
-        description: Provide organization information for update.
-      tags:
-        - Organization
-    patch:
-      summary: Patch organization
-      operationId: patch-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Particular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      tags:
-        - Organization
-    delete:
-      summary: Delete organization
-      operationId: delete-organizations-org_id
-      responses:
-        '204':
-          description: No Content
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Delete organization by identifier.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Organization
   '/organizations/{org_id}/users':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -292,6 +156,7 @@ paths:
       summary: Get organization's users
       tags:
         - Organization User
+        - Implemented
       responses:
         '200':
           description: OK
@@ -401,215 +266,7 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Organization User
-  '/organizations/{org_id}/users/searches':
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-    post:
-      summary: Create search request for organization users
-      operationId: post-organizations-org_id-users-searches
-      tags:
-        - Organization User
-      description: |-
-        Create search request for organization users by provided criteria.
-
-        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-
-        - `uuid` - filter by user UUID.
-        - `external_id` - filter by user external identifier.
-        - `email` - filter by user email.
-        - `full_name` - filter by user full name.
-        - `account_type` - filter by account type.
-        - `instance_role` - filter by user role in the instance.
-        - `org_role` - filter by user role in the organization.
-        - `account_type` - filter by account type.
-        - `active` - filter by user activity.
-        - `created_at` - date when a user was created.
-        - `updated_at` - date when a user was updated.
-        - `assigned_at` - date when a user was assigned to the organization.
-        - `suggest` - search by `full_name`, `email`.
-
-        ### Authority
-         
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Access level
-
-        #### ADMINISTRATOR and MANAGER
-
-        - Filter by all attributes.
-        - Use all operations.
-
-        #### MEMBER
-
-        ##### Suggests are disable
-
-        - Filter by `suggest`.
-        - Use only the `EQ` operation.
-
-        ##### Suggests are enabled
-
-        - Filter by `suggest`.
-        - Use only the `EQ` or `CNT` operation.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationUsersPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
-  '/organizations/{org_id}/users/{user_id}':
-    parameters:
-      - $ref: '#/components/parameters/organizationId'
-      - $ref: ../parameters/UserId.yaml
-    get:
-      summary: Get organization user profile
-      tags:
-        - Organization User
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationUser'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      operationId: get-organizations-org_id-users-user_id
-      description: |-
-        Get organization user profile.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with `MEMBER` role can get only his profile.
-
-        ### Member authority
-
-        - `EDITOR`
-        - `VIEWER`
-    put:
-      summary: Update organization user details
-      operationId: put-organizations-org_id-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Org User Update Request
-              allOf:
-                - $ref: ../models/user/UserOrgRole.yaml
-                - type: object
-                  properties:
-                    projects:
-                      type: array
-                      items:
-                        $ref: ../models/user/UserProjectInfo.yaml
-        description: Provide organization's user information for update.
-      tags:
-        - Organization User
-      description: |-
-        Update organization user details.
-
-        Organization user details for update.
-
-        ### Organization authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Project authority
-
-        - `EDITOR`
-    patch:
-      summary: Partial organization user update
-      operationId: patch-organizations-org_id-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        Partial organization user update.
-
-        You can provide a project list as an additional option for assigning or unassigned
-        a user from projects.
-
-        ### Organization authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Project authority
-
-        - `EDITOR`
-      tags:
-        - Organization User
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-    delete:
-      summary: Unassigned organization user
-      operationId: delete-organizations-org_id-users-user_id
-      responses:
-        '204':
-          description: No Content
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        Unassigned user from an organization and all organization projects.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Access level
-
-        - `ADMINISTRATOR` - no restrictions.
-        - `MANAGER` - no restrictions.
-        - `MEMBER` - restricted to unassigning only themselves.
-      tags:
-        - Organization User
+        - Implemented
   '/organizations/{org_id}/projects':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -617,6 +274,7 @@ paths:
       summary: Get organization projects
       tags:
         - Organization Project
+        - Implemented
       responses:
         '200':
           description: OK
@@ -668,6 +326,7 @@ paths:
       summary: Create a new project
       tags:
         - Organization Project
+        - Implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -739,122 +398,11 @@ paths:
     parameters:
       - $ref: '#/components/parameters/organizationId'
       - $ref: '#/components/parameters/projectId'
-    get:
-      summary: Get project information
-      tags:
-        - Organization Project
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: ../models/project/ProjectInfo.yaml
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      operationId: get-organizations-org_id-projects-project_id
-      description: |-
-        Get project information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can get only his project.
-
-        ### Member authority
-
-        - `EDITOR`
-        - `VIEWER`
-    put:
-      summary: Update project
-      operationId: put-organizations-org_id-projects-project_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/project/ProjectUpdate.yaml
-        description: ''
-      description: |-
-        Update project information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can update only his project.
-
-        ### Member authority
-
-        - `EDITOR`
-      tags:
-        - Organization Project
-    patch:
-      summary: Partial project update
-      operationId: patch-organizations-org_id-projects-project_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      description: |-
-        Partial update project information.
-        Model relates with a PUT Project update model.
-
-        Paths and operations:
-
-        - `name` | `replace`
-        - `slug` | `replace`
-        - `users` | `add`, `replace`, `remove`
-        - `users/{user_id}` | `replace`, `remove`
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can update only his project.
-
-        ### Member authority
-
-        - `EDITOR`
-        - `VIEWER`
-
-        ### Access level
-
-        `VIEWER` can only user path `users/{user_id}` with `remove` operation.
-      tags:
-        - Organization Project
     delete:
       summary: Delete project
       tags:
         - Organization Project
+        - Implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
