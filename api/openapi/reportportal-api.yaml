@@ -4,8 +4,8 @@
 # Please make changes to the source files and regenerate this file.
 openapi: 3.0.3
 info:
-  title: ReportPortal API
-  version: Organization
+  title: ReportPortal Reference API
+  version: Reference
   description: >
     ![reportportal-logo](https://reportportal.io/docs/img/logo.svg)
 
