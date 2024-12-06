@@ -1594,58 +1594,6 @@ components:
         - status
         - full_name
         - password
-    ApiKey:
-      title: API Key
-      type: object
-      description: Common info of the API Key.
-      properties:
-        id:
-          type: integer
-          description: Internal identifier
-        name:
-          type: string
-          description: API Key unique name
-        user_id:
-          type: integer
-          description: API Key owner
-        created_at:
-          type: string
-          format: date-time
-          description: Date time with milliseconds
-        last_used_at:
-          type: string
-          format: date-time
-          description: Date time with milliseconds
-    ApiKeyCreateRequest:
-      title: API Key creation request
-      type: object
-      properties:
-        name:
-          type: string
-          description: Unique name for the new API key
-      required:
-        - name
-    ApiKeyCreateResponse:
-      allOf:
-        - $ref: '#/components/schemas/ApiKey'
-        - type: object
-          properties:
-            api_key:
-              type: string
-              description: The generated API key
-          required:
-            - api_key
-      title: API Key creation response
-    ApiKeyPage:
-      title: API Key page
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/ApiKey'
     NewUserRequest:
       title: User creation request
       allOf:
@@ -1707,43 +1655,6 @@ components:
               items:
                 $ref: '#/components/schemas/UserInfo'
       description: Page with general user information. For all users.
-    NewUserPassword:
-      title: New User password
-      type: object
-      properties:
-        old_password:
-          type: string
-          format: password
-          description: Old user password.
-        new_password:
-          $ref: '#/components/schemas/password'
-      required:
-        - old_password
-        - new_password
-      description: Change user password.
-    RestoreUserPassword:
-      title: Restore User password
-      type: object
-      properties:
-        token:
-          type: string
-          format: uuid
-          description: Token for password recovery. It's provided in email.
-        new_password:
-          $ref: '#/components/schemas/password'
-      required:
-        - token
-        - new_password
-    RestorePasswordRequest:
-      title: Restore password request
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: User email for password recovery.
-      required:
-        - email
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
