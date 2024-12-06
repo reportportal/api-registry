@@ -162,61 +162,6 @@ paths:
           description: Indicate sort by field.
       security:
         - BearerAuth: []
-    post:
-      summary: Create a new organization
-      operationId: post-organizations
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationInfo'
-        '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '402':
-          description: Payment Required
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-      description: |
-        > **Enterprise edition feature** 
-        >
-
-        Create a new organization. Provide name and slug.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationBase'
-        description: >-
-          You can create an organization provide name and slug. If the `slug` is
-          not provided, it will be generated from the `name`.
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
   /organizations/searches:
     post:
       summary: Create search request for organizations
@@ -279,6 +224,7 @@ paths:
       summary: Get organization information
       tags:
         - Organization
+        - Implemented
       responses:
         '200':
           description: OK
@@ -303,105 +249,6 @@ paths:
         - BearerAuth: []
     parameters:
       - $ref: '#/components/parameters/organizationId'
-    put:
-      summary: Update organization
-      operationId: put-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Update organization information with the provided data.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationBase'
-        description: Provide organization information for update.
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
-    patch:
-      summary: Patch organization
-      operationId: patch-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: >-
-        > **Enterprise edition feature** 
-
-        >
-
-        > Available only if an Organization plugin is enabled.
-
-
-        Particular organization fields update via the [JSON Merge Patch
-        standard](https://datatracker.ietf.org/doc/html/rfc7386).
-
-
-        ### Authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
-    delete:
-      summary: Delete organization
-      operationId: delete-organizations-org_id
-      responses:
-        '204':
-          description: No Content
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Delete organization by identifier.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
   /organizations/{org_id}/users:
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -409,6 +256,7 @@ paths:
       summary: Get organization's users
       tags:
         - Organization User
+        - Implemented
       responses:
         '200':
           description: OK
@@ -536,263 +384,7 @@ paths:
         description: Definition for a user assignment.
       tags:
         - Organization User
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/users/searches:
-    parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
-    post:
-      summary: Create search request for organization users
-      operationId: post-organizations-org_id-users-searches
-      tags:
-        - Organization User
-      description: >-
-        Create search request for organization users by provided criteria.
-
-
-        You can use the following attributes as a
-        `search_criteria[*].filter_key` for filtering:
-
-
-        - `uuid` - filter by user UUID.
-
-        - `external_id` - filter by user external identifier.
-
-        - `email` - filter by user email.
-
-        - `full_name` - filter by user full name.
-
-        - `account_type` - filter by account type.
-
-        - `instance_role` - filter by user role in the instance.
-
-        - `org_role` - filter by user role in the organization.
-
-        - `account_type` - filter by account type.
-
-        - `active` - filter by user activity.
-
-        - `created_at` - date when a user was created.
-
-        - `updated_at` - date when a user was updated.
-
-        - `assigned_at` - date when a user was assigned to the organization.
-
-        - `suggest` - search by `full_name`, `email`.
-
-
-        ### Authority
-         
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-
-        - `MEMBER`
-
-
-        ### Access level
-
-
-        #### ADMINISTRATOR and MANAGER
-
-
-        - Filter by all attributes.
-
-        - Use all operations.
-
-
-        #### MEMBER
-
-
-        ##### Suggests are disable
-
-
-        - Filter by `suggest`.
-
-        - Use only the `EQ` operation.
-
-
-        ##### Suggests are enabled
-
-
-        - Filter by `suggest`.
-
-        - Use only the `EQ` or `CNT` operation.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationUsersPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchCriteriaRQ'
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/users/{user_id}:
-    parameters:
-      - $ref: '#/components/parameters/organizationId'
-      - $ref: '#/components/parameters/UserId'
-    get:
-      summary: Get organization user profile
-      tags:
-        - Organization User
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationUser'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      operationId: get-organizations-org_id-users-user_id
-      description: |-
-        Get organization user profile.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with `MEMBER` role can get only his profile.
-
-        ### Member authority
-
-        - `EDITOR`
-        - `VIEWER`
-      security:
-        - BearerAuth: []
-    put:
-      summary: Update organization user details
-      operationId: put-organizations-org_id-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Org User Update Request
-              allOf:
-                - $ref: '#/components/schemas/UserOrgRole'
-                - type: object
-                  properties:
-                    projects:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/UserProjectInfo'
-        description: Provide organization's user information for update.
-      tags:
-        - Organization User
-      description: |-
-        Update organization user details.
-
-        Organization user details for update.
-
-        ### Organization authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Project authority
-
-        - `EDITOR`
-      security:
-        - BearerAuth: []
-    patch:
-      summary: Partial organization user update
-      operationId: patch-organizations-org_id-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: >-
-        Partial organization user update.
-
-
-        You can provide a project list as an additional option for assigning or
-        unassigned
-
-        a user from projects.
-
-
-        ### Organization authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-
-        - `MEMBER`
-
-
-        ### Project authority
-
-
-        - `EDITOR`
-      tags:
-        - Organization User
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      security:
-        - BearerAuth: []
-    delete:
-      summary: Unassigned organization user
-      operationId: delete-organizations-org_id-users-user_id
-      responses:
-        '204':
-          description: No Content
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        Unassigned user from an organization and all organization projects.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Access level
-
-        - `ADMINISTRATOR` - no restrictions.
-        - `MANAGER` - no restrictions.
-        - `MEMBER` - restricted to unassigning only themselves.
-      tags:
-        - Organization User
+        - Implemented
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects:
@@ -802,6 +394,7 @@ paths:
       summary: Get organization projects
       tags:
         - Organization Project
+        - Implemented
       responses:
         '200':
           description: OK
@@ -855,6 +448,7 @@ paths:
       summary: Create a new project
       tags:
         - Organization Project
+        - Implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -942,128 +536,11 @@ paths:
     parameters:
       - $ref: '#/components/parameters/organizationId'
       - $ref: '#/components/parameters/projectId'
-    get:
-      summary: Get project information
-      tags:
-        - Organization Project
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProjectInfo'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      operationId: get-organizations-org_id-projects-project_id
-      description: |-
-        Get project information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can get only his project.
-
-        ### Member authority
-
-        - `EDITOR`
-        - `VIEWER`
-      security:
-        - BearerAuth: []
-    put:
-      summary: Update project
-      operationId: put-organizations-org_id-projects-project_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProjectUpdate'
-        description: ''
-      description: |-
-        Update project information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can update only his project.
-
-        ### Member authority
-
-        - `EDITOR`
-      tags:
-        - Organization Project
-      security:
-        - BearerAuth: []
-    patch:
-      summary: Partial project update
-      operationId: patch-organizations-org_id-projects-project_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      description: |-
-        Partial update project information.
-        Model relates with a PUT Project update model.
-
-        Paths and operations:
-
-        - `name` | `replace`
-        - `slug` | `replace`
-        - `users` | `add`, `replace`, `remove`
-        - `users/{user_id}` | `replace`, `remove`
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        A user with the `MEMBER` role can update only his project.
-
-        ### Member authority
-
-        - `EDITOR`
-        - `VIEWER`
-
-        ### Access level
-
-        `VIEWER` can only user path `users/{user_id}` with `remove` operation.
-      tags:
-        - Organization Project
-      security:
-        - BearerAuth: []
     delete:
       summary: Delete project
       tags:
         - Organization Project
+        - Implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -1124,120 +601,15 @@ paths:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
         - Invitation
+        - Implemented
       security:
         - BearerAuth: []
-    get:
-      summary: Get invitations
-      operationId: get-invitations
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvitationPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-      parameters:
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Order'
-        - schema:
-            type: string
-            default: email
-          in: query
-          name: sort
-          description: Indicate sort by field.
-        - schema:
-            type: string
-            format: email
-          in: query
-          name: email
-          description: Filter invitations by email.
-      description: |-
-        Get all invitations
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Invitation
-      security:
-        - BearerAuth: []
-  /invitations/{invitation_id}:
-    parameters:
-      - schema:
-          type: string
-        name: invitation_id
-        in: path
-        required: true
-    get:
-      summary: Get invitation
-      tags:
-        - Invitation
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Invitation'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-      operationId: get-invitations-id
-      description: |-
-        Get invitation by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-      security:
-        - BearerAuth: []
-    put:
-      summary: Activate invitation
-      operationId: put-invitations-id
-      description: |-
-        Activate user invitation.
-
-        ### Authority
-
-        - `PUBLIC`
-      security: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Invitation'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InvitationActivation'
-        description: Details for user activation.
-      tags:
-        - Invitation
   /users:
     get:
       summary: Get all users
       tags:
         - User
+        - Implemented
       responses:
         '200':
           description: OK
@@ -1316,143 +688,6 @@ paths:
           description: Filter users by account type.
       security:
         - BearerAuth: []
-    post:
-      summary: Create a new user
-      operationId: post-users
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InstanceUser'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewUserRequest'
-      description: |-
-        Create a new user
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - User
-      security:
-        - BearerAuth: []
-  /users/searches:
-    post:
-      summary: Create search request for users
-      operationId: post-users-searches
-      tags:
-        - User
-      description: >-
-        Search users by criteria.
-
-
-        You can use the following attributes as a
-        `search_criteria[*].filter_key`:
-
-
-        - `uuid` - filter by user UUID.
-
-        - `external_id` - filter by user external identifier.
-
-        - `email` - filter by user email.
-
-        - `full_name` - filter by user full name.
-
-        - `account_type` - filter by account type.
-
-        - `instance_role` - filter by user role in the instance.
-
-        - `account_type` - filter by account type.
-
-        - `active` - filter by user activity.
-
-        - `created_at` - date when a user was created.
-
-        - `updated_at` - date when a user was updated.
-
-        - `suggest` - search by `full_name`, `email`.
-
-        - `org_id` - search by organization id.
-
-
-        ### Authority
-
-
-        - `ADMINISTRATOR`
-
-        - `USER` - when suggests are enabled.
-
-
-        ### Access level
-
-
-        #### ADMINISTRATOR
-
-
-        - Filter by all attributes.
-
-        - Use all operations.
-
-        - Get a full user profile.
-
-
-        #### USER
-
-
-        ##### When suggests are enabled
-
-        - Filter by `suggest` with the `CNT` operation.
-
-        - Filter by `suggest` with the `CNT` operation and by `org_id` with the
-        `NE`operation. 
-
-        - Get a base user profile.
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - application/json
-              - text/csv
-            default: application/json
-          in: header
-          name: Accept
-          description: Indicate response format. Use `text/csv` to export users.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/InstanceUserPage'
-                  - $ref: '#/components/schemas/UserInfoPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchCriteriaRQ'
-        description: Create search request for user collection.
-      security:
-        - BearerAuth: []
   /users/me:
     get:
       summary: Get current user
@@ -1483,264 +718,9 @@ paths:
         - Current user
       tags:
         - User
+        - Implemented
       parameters:
         - $ref: '#/components/parameters/ExcludeFields'
-      security:
-        - BearerAuth: []
-  /users/{user_id}:
-    parameters:
-      - $ref: '#/components/parameters/UserId'
-    get:
-      summary: Get user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InstanceUser'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      operationId: get-users-user_id
-      description: |-
-        Get user by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user profile
-        - User has access only to his profile
-      tags:
-        - User
-      parameters:
-        - $ref: '#/components/parameters/ExcludeFields'
-      security:
-        - BearerAuth: []
-    put:
-      summary: Update user
-      description: |-
-        Update user base information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user profile
-        - User has access only to his profile
-      operationId: put-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserBase'
-      tags:
-        - User
-      security:
-        - BearerAuth: []
-    patch:
-      summary: Patch user
-      description: |-
-        Partially update user information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user profile
-        - User has access only to his profile
-      operationId: patch-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      tags:
-        - User
-      security:
-        - BearerAuth: []
-    delete:
-      summary: Delete user
-      operationId: delete-users-user_id
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        Delete user by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user profile
-        - User has access only to his profile
-      tags:
-        - User
-      security:
-        - BearerAuth: []
-  /users/{user_id}/api-keys:
-    parameters:
-      - $ref: '#/components/parameters/UserId'
-    get:
-      summary: Get user's API keys
-      tags:
-        - User
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiKeyPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      operationId: get-users-user_id-api-keys
-      parameters:
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Order'
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Get a key by name
-      description: |-
-        Retrieve list of user's Api Keys
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user api keys
-        - User has access only to his api keys
-      security:
-        - BearerAuth: []
-    post:
-      summary: Create an API key
-      operationId: post-users-user_id-api-keys
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiKeyCreateResponse'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApiKeyCreateRequest'
-      description: |-
-        Create an API key for the user
-
-        ### Access level
-
-        - Administrator has access to any user api keys
-        - User has access only to his api keys
-      tags:
-        - User
-      security:
-        - BearerAuth: []
-  /users/{user_id}/api-keys/{key_id}:
-    parameters:
-      - $ref: '#/components/parameters/UserId'
-      - schema:
-          type: integer
-          minimum: 0
-        name: key_id
-        in: path
-        required: true
-        description: Key identifier.
-    delete:
-      summary: Delete the API Key
-      operationId: delete-users-user_id-api-keys-key_id
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      tags:
-        - User
-      description: |-
-        Delete the API key by ID
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user api keys
-        - User has access only to his api keys
       security:
         - BearerAuth: []
   /users/{user_id}/avatar:
@@ -1763,6 +743,7 @@ paths:
         - User get access to any user avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -1797,216 +778,6 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
-    post:
-      summary: Upload user avatar
-      operationId: post-users-user_id-avatar
-      description: |-
-        Upload user avatar
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator get access to any user avatar
-        - User get access only to their avatar
-      tags:
-        - User
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-      responses:
-        '201':
-          description: Avatar uploaded successfully
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      security:
-        - BearerAuth: []
-    delete:
-      summary: Delete user avatar
-      operationId: delete-users-user_id-avatar
-      description: |-
-        Delete user avatar
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator get access to any user avatar
-        - User get access only to their avatar
-      tags:
-        - User
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Avatar deleted successfully
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Avatar not found
-      security:
-        - BearerAuth: []
-  /users/{user_id}/password:
-    parameters:
-      - $ref: '#/components/parameters/UserId'
-    put:
-      summary: Update User password
-      operationId: put-users-user_id-password
-      responses:
-        '501':
-          $ref: '#/components/responses/Update'
-      tags:
-        - User
-      description: Update user password.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewUserPassword'
-      security:
-        - BearerAuth: []
-    post:
-      summary: Recover user password
-      operationId: post-users-user_id-password
-      responses:
-        '501':
-          description: Not Implemented
-      description: |-
-        Recover User password
-
-        ### Authority
-
-        - `PUBLIC`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RestoreUserPassword'
-      security: []
-      tags:
-        - User
-  /password-recover-requests:
-    post:
-      summary: Create password recover request
-      operationId: post-password-reset-requests
-      security: []
-      responses:
-        '501':
-          description: Not Implemented
-      tags:
-        - User
-      description: >-
-        Create password recover request. Send email with recover token and user
-        ID.
-
-
-        ### Authority
-
-
-        - `PUBLIC`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RestorePasswordRequest'
-    parameters: []
-  /projects/{project_name}/activities/suggestions:
-    get:
-      summary: Get project suggestions
-      tags:
-        - Projects
-        - Suggestions
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - type: object
-                    properties:
-                      suggestions:
-                        type: array
-                        description: >-
-                          List of activities suggestions for the project by
-                          type.
-                        items:
-                          type: string
-                  - $ref: '#/components/schemas/Limit'
-        '404':
-          description: Not Found
-      operationId: get-project-suggestions
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - subject_name
-          in: query
-          name: type
-          description: Type of suggestions
-        - schema:
-            type: string
-          in: query
-          name: filter
-          description: Filter query for suggestions
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: Maximum number of suggestions
-      description: >-
-        Get project activities suggestions by type for autocomplete.
-
-        Supported types:
-
-        - subject_name: Get suggestions for activity subject names in the
-        project.
-
-
-        If the type isn't provided or provided incorrectly, you get a 404
-        error. 
-      security:
-        - BearerAuth: []
-    parameters:
-      - schema:
-          type: string
-        name: project_name
-        in: path
-        required: true
-        description: Project name
 components:
   securitySchemes:
     BearerAuth:
@@ -2395,90 +1166,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/OffsetRequest'
         - $ref: '#/components/schemas/SearchCriteria'
-    patchOperation:
-      title: Patch Operation
-      type: string
-      enum:
-        - add
-        - replace
-        - remove
-      description: Patch operation type.
-    PatchObject:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/patchOperation'
-        path:
-          type: string
-        value:
-          type: object
-    PatchArrayString:
-      title: Patch operation array string
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/patchOperation'
-        path:
-          type: string
-        value:
-          type: array
-          items:
-            type: string
-    PatchString:
-      title: Patch Operation String
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/patchOperation'
-        path:
-          type: string
-        value:
-          type: string
-    PatchNumber:
-      title: Patch Operation Number
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/patchOperation'
-        path:
-          type: string
-        value:
-          type: number
-    PatchInteger:
-      title: Patch Operation Integer
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/patchOperation'
-        path:
-          type: string
-        value:
-          type: integer
-    PatchBoolean:
-      title: Patch Operation Boolean
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/patchOperation'
-        path:
-          type: string
-        value:
-          type: boolean
-    PatchOperation:
-      title: Patch Operation Object
-      oneOf:
-        - $ref: '#/components/schemas/PatchObject'
-        - $ref: '#/components/schemas/PatchArrayString'
-        - $ref: '#/components/schemas/PatchString'
-        - $ref: '#/components/schemas/PatchNumber'
-        - $ref: '#/components/schemas/PatchInteger'
-        - $ref: '#/components/schemas/PatchBoolean'
-    PatchOperationList:
-      title: Patch Operation List
-      type: array
-      items:
-        $ref: '#/components/schemas/PatchOperation'
     instanceRole:
       title: Instance role
       type: string
@@ -2733,27 +1420,90 @@ components:
             stats:
               $ref: '#/components/schemas/ProjectStats'
         - $ref: '#/components/schemas/ProjectBase'
-    userId:
-      title: User ID
-      type: integer
-      format: int64
-      minimum: 0
-      description: User identifier.
-    ProjectUpdate:
-      title: ProjectUpdate
-      allOf:
-        - $ref: '#/components/schemas/ProjectBase'
-        - type: object
-          properties:
-            users:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    $ref: '#/components/schemas/userId'
-                  project_role:
-                    $ref: '#/components/schemas/projectRole'
+    patchOperation:
+      title: Patch Operation
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
+    PatchObject:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/patchOperation'
+        path:
+          type: string
+        value:
+          type: object
+    PatchArrayString:
+      title: Patch operation array string
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/patchOperation'
+        path:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+    PatchString:
+      title: Patch Operation String
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/patchOperation'
+        path:
+          type: string
+        value:
+          type: string
+    PatchNumber:
+      title: Patch Operation Number
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/patchOperation'
+        path:
+          type: string
+        value:
+          type: number
+    PatchInteger:
+      title: Patch Operation Integer
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/patchOperation'
+        path:
+          type: string
+        value:
+          type: integer
+    PatchBoolean:
+      title: Patch Operation Boolean
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/patchOperation'
+        path:
+          type: string
+        value:
+          type: boolean
+    PatchOperation:
+      title: Patch Operation Object
+      oneOf:
+        - $ref: '#/components/schemas/PatchObject'
+        - $ref: '#/components/schemas/PatchArrayString'
+        - $ref: '#/components/schemas/PatchString'
+        - $ref: '#/components/schemas/PatchNumber'
+        - $ref: '#/components/schemas/PatchInteger'
+        - $ref: '#/components/schemas/PatchBoolean'
+    PatchOperationList:
+      title: Patch Operation List
+      type: array
+      items:
+        $ref: '#/components/schemas/PatchOperation'
     Invitation:
       title: Invitation
       type: object
@@ -2994,13 +1744,6 @@ components:
           description: User email for password recovery.
       required:
         - email
-    invitationStatus:
-      title: Invitation status
-      type: string
-      enum:
-        - PENDING
-        - ACTIVATED
-      description: User invitations status.
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
@@ -3013,6 +1756,19 @@ components:
               minimum: 0
               description: Organization internal identifier.
         - $ref: '#/components/schemas/UserOrgRole'
+    userId:
+      title: User ID
+      type: integer
+      format: int64
+      minimum: 0
+      description: User identifier.
+    invitationStatus:
+      title: Invitation status
+      type: string
+      enum:
+        - PENDING
+        - ACTIVATED
+      description: User invitations status.
     password:
       title: password
       type: string
@@ -3022,22 +1778,6 @@ components:
       description: |-
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
-    Limit:
-      title: Limit
-      type: object
-      properties:
-        limit:
-          type: integer
-          description: >-
-            The limit used for this page of results. This will be the same as
-            the limit query parameter unless it exceeded the maximum value
-            allowed for this API endpoint.
-          minimum: 0
-        count:
-          type: integer
-          description: The number of results returned in this page of results.
-          minimum: 0
-      description: ''
   parameters:
     organizationId:
       name: org_id
@@ -3083,15 +1823,6 @@ components:
         $ref: '#/components/schemas/order'
         default: ASC
       description: Indicate sorting direction.
-    UserId:
-      name: user_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-        minimum: 0
-      description: User identifier.
     ExcludeFields:
       name: exclude_fields
       in: query
@@ -3103,6 +1834,15 @@ components:
           This can be used to reduce the size of the response payload.
           For example, `exclude_fields=field1,field2`.
         example: field1,field2
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: User identifier.
   responses:
     Update:
       description: Successful update response
