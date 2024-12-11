@@ -1128,9 +1128,9 @@ components:
         - BTW
         - IN
         - GTE
-        - GE
+        - GT
         - LTE
-        - LE
+        - LT
       description: |
         Operation to perform for the filter:
 
@@ -1141,9 +1141,9 @@ components:
         - BTW - Between
         - IN - In
         - GTE - Greater than or equal
-        - GE - Greater than
+        - GT - Greater than
         - LTE - Less than or equal
-        - LE - Less than
+        - LT - Less than
     SearchCriteria:
       title: Search criteria
       type: object
