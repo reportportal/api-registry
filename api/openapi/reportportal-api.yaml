@@ -550,7 +550,7 @@ paths:
       operationId: post-organizations-org_id-users-searches
       tags:
         - Organization User
-      description: >-
+      description: >
         Create search request for organization users by provided criteria.
 
 
@@ -608,20 +608,9 @@ paths:
         #### MEMBER
 
 
-        ##### Suggests are disable
-
-
         - Filter by `suggest`.
 
         - Use only the `EQ` operation.
-
-
-        ##### Suggests are enabled
-
-
-        - Filter by `suggest`.
-
-        - Use only the `EQ` or `CNT` operation.
       responses:
         '200':
           description: OK
