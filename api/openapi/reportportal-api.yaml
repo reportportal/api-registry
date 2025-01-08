@@ -559,6 +559,48 @@ paths:
       security:
         - BearerAuth: []
   /invitations:
+    get:
+      summary: Get invitations
+      operationId: get-invitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: email
+          in: query
+          name: sort
+          description: Indicate sort by field.
+        - schema:
+            type: string
+            format: email
+          in: query
+          name: email
+          description: Filter invitations by email.
+      description: |-
+        Get all invitations
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      tags:
+        - Invitation
+      security:
+        - BearerAuth: []
     post:
       summary: Create user invitation
       operationId: post-invitations
@@ -1655,18 +1697,6 @@ components:
               items:
                 $ref: '#/components/schemas/UserInfo'
       description: Page with general user information. For all users.
-    UserOrgInfo:
-      title: User's organization details
-      description: Information about user's organization.
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              minimum: 0
-              description: Organization internal identifier.
-        - $ref: '#/components/schemas/UserOrgRole'
     userId:
       title: User ID
       type: integer
@@ -1680,6 +1710,18 @@ components:
         - PENDING
         - ACTIVATED
       description: User invitations status.
+    UserOrgInfo:
+      title: User's organization details
+      description: Information about user's organization.
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              minimum: 0
+              description: Organization internal identifier.
+        - $ref: '#/components/schemas/UserOrgRole'
     password:
       title: password
       type: string
