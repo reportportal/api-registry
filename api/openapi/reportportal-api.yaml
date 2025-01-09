@@ -1406,9 +1406,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/InstanceUserPage'
-                  - $ref: '#/components/schemas/UserInfoPage'
+                $ref: '#/components/schemas/InstanceUserPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
