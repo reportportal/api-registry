@@ -1120,7 +1120,7 @@ components:
       description: Display name.
       minLength: 3
       maxLength: 60
-      pattern: ^[A-Za-z0-9._\- ]+$
+      pattern: ^[A-Za-z0-9.'_\- ]+$
     slug:
       title: slug
       type: string
