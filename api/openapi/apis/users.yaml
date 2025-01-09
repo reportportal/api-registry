@@ -186,6 +186,70 @@ paths:
           in: query
           name: account_type
           description: Filter users by account type.
+  /users/searches:
+    post:
+      summary: Create search request for users
+      operationId: post-users-searches
+      tags:
+        - User
+      description: |-
+        Search users by criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key`:
+
+        - `uuid` - filter by user UUID.
+        - `external_id` - filter by user external identifier.
+        - `email` - filter by user email.
+        - `full_name` - filter by user full name.
+        - `account_type` - filter by account type.
+        - `instance_role` - filter by user role in the instance.
+        - `active` - filter by user activity.
+        - `created_at` - date when a user was created.
+        - `updated_at` - date when a user was updated.
+        - `org_id` - search by organization id.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+
+        ### Access level
+
+        #### ADMINISTRATOR
+
+        - Filter by all attributes.
+        - Use all operations.
+        - Get a full user profile.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - application/json
+              - text/csv
+            default: application/json
+          in: header
+          name: Accept
+          description: Indicate response format. Use `text/csv` to export users.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/InstanceUserPage'
+                  - $ref: '#/components/schemas/UserInfoPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+        description: Create search request for user collection.
   /users/me:
     get:
       summary: Get current user
