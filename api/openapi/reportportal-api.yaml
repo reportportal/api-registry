@@ -1364,15 +1364,11 @@ paths:
 
         - `instance_role` - filter by user role in the instance.
 
-        - `account_type` - filter by account type.
-
         - `active` - filter by user activity.
 
         - `created_at` - date when a user was created.
 
         - `updated_at` - date when a user was updated.
-
-        - `suggest` - search by `full_name`, `email`.
 
         - `org_id` - search by organization id.
 
@@ -1381,8 +1377,6 @@ paths:
 
 
         - `ADMINISTRATOR`
-
-        - `USER` - when suggests are enabled.
 
 
         ### Access level
@@ -1396,19 +1390,6 @@ paths:
         - Use all operations.
 
         - Get a full user profile.
-
-
-        #### USER
-
-
-        ##### When suggests are enabled
-
-        - Filter by `suggest` with the `CNT` operation.
-
-        - Filter by `suggest` with the `CNT` operation and by `org_id` with the
-        `NE`operation. 
-
-        - Get a base user profile.
       parameters:
         - schema:
             type: string
