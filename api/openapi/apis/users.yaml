@@ -27,46 +27,6 @@ servers:
         description: Base path of Report Portal API
 paths:
   /invitations:
-    get:
-      summary: Get invitations
-      operationId: get-invitations
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvitationPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-      parameters:
-        - $ref: ../parameters/Offset.yaml
-        - $ref: ../parameters/Limit.yaml
-        - $ref: ../parameters/Order.yaml
-        - schema:
-            type: string
-            default: email
-          in: query
-          name: sort
-          description: Indicate sort by field.
-        - schema:
-            type: string
-            format: email
-          in: query
-          name: email
-          description: Filter invitations by email.
-      description: |-
-        Get all invitations
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Invitation
     post:
       summary: Create user invitation
       operationId: post-invitations
@@ -104,6 +64,36 @@ paths:
       tags:
         - Invitation
         - Implemented
+  '/invitations/{invitation_id}':
+    parameters:
+      - schema:
+          type: string
+        name: invitation_id
+        in: path
+        required: true
+    get:
+      summary: Get invitation
+      tags:
+        - Invitation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      operationId: get-invitations-id
+      description: |-
+        Get invitation by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
   /users:
     get:
       summary: Get all users
