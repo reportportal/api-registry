@@ -858,7 +858,6 @@ paths:
         - User get access to any user avatar
       tags:
         - User
-        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -891,6 +890,88 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Upload user avatar
+      operationId: post-users-user_id-avatar
+      description: |-
+        Upload user avatar
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator get access to any user avatar
+        - User get access only to their avatar
+      tags:
+        - User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Avatar uploaded successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete user avatar
+      operationId: delete-users-user_id-avatar
+      description: |-
+        Delete user avatar
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator get access to any user avatar
+        - User get access only to their avatar
+      tags:
+        - User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Avatar deleted successfully
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Avatar not found
       security:
         - BearerAuth: []
 components:
