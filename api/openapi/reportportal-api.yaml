@@ -1798,6 +1798,8 @@ paths:
                 file:
                   type: string
                   format: binary
+              required:
+                - file
       responses:
         '201':
           description: Avatar uploaded successfully
