@@ -1075,7 +1075,10 @@ components:
       content:
         application/json-patch+json:
           schema:
-            $ref: ../models/PatchOperationList.yaml
+            allOf:
+              - $ref: ../models/patch/PatchArrayString.yaml
+              - $ref: ../models/patch/PatchString.yaml
+              - $ref: ../models/patch/PatchInteger.yaml
       description: JSON Patch operations
 tags:
   - name: Organization

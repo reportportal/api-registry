@@ -6,4 +6,5 @@ properties:
   path:
     type: string
   value:
-    type: object
+    type:
+      - object
