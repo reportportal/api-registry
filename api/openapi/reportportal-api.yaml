@@ -1024,9 +1024,9 @@ paths:
 
         Paths and operations:
 
-        - `name` | `replace`
-        - `slug` | `replace`
-        - `users` | `add`, `replace`, `remove`
+        - `name` | `replace` | `string`
+        - `slug` | `replace`| `string`
+        - `users` | `add`, `replace`, `remove` | `array<object>`
         - `users/{user_id}` | `replace`, `remove`
 
         ### Authority
@@ -2384,9 +2384,7 @@ components:
         path:
           type: string
         value:
-          oneOf:
-            - type: string
-            - type: integer
+          type: object
     PatchOperationList:
       title: Patch Operation List
       type: array
