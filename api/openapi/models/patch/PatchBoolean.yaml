@@ -2,7 +2,7 @@ title: Patch Operation Boolean
 type: object
 properties:
   op:
-    $ref: ../../enums/patchOperation.yaml
+    $ref: ../../enums/operationType.yaml
   path:
     type: string
   value:

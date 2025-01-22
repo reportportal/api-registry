@@ -1,7 +1,0 @@
-title: Patch Operation
-type: string
-enum:
-  - add
-  - replace
-  - remove
-description: Patch operation type.
