@@ -821,9 +821,9 @@ paths:
 
         Paths and operations:
 
-        - `name` | `replace`
-        - `slug` | `replace`
-        - `users` | `add`, `replace`, `remove`
+        - `name` | `replace` | `string`
+        - `slug` | `replace`| `string`
+        - `users` | `add`, `replace`, `remove` | `array<object>`
         - `users/{user_id}` | `replace`, `remove`
 
         ### Authority

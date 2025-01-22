@@ -6,6 +6,4 @@ properties:
   path:
     type: string
   value:
-    oneOf:
-      - type: string
-      - type: integer
+    type: object
