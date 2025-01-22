@@ -2365,8 +2365,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/OffsetRequest'
         - $ref: '#/components/schemas/SearchCriteria'
-    patchOperation:
-      title: Patch Operation
+    operationType:
+      title: Operation Type
+      x-stoplight:
+        id: 168ae66eaef0a
       type: string
       enum:
         - add
@@ -2378,7 +2380,7 @@ components:
       type: object
       properties:
         op:
-          $ref: '#/components/schemas/patchOperation'
+          $ref: '#/components/schemas/operationType'
         path:
           type: string
         value:
@@ -2388,7 +2390,7 @@ components:
       type: object
       properties:
         op:
-          $ref: '#/components/schemas/patchOperation'
+          $ref: '#/components/schemas/operationType'
         path:
           type: string
         value:
@@ -2400,7 +2402,7 @@ components:
       type: object
       properties:
         op:
-          $ref: '#/components/schemas/patchOperation'
+          $ref: '#/components/schemas/operationType'
         path:
           type: string
         value:
@@ -2410,7 +2412,7 @@ components:
       type: object
       properties:
         op:
-          $ref: '#/components/schemas/patchOperation'
+          $ref: '#/components/schemas/operationType'
         path:
           type: string
         value:
@@ -2420,7 +2422,7 @@ components:
       type: object
       properties:
         op:
-          $ref: '#/components/schemas/patchOperation'
+          $ref: '#/components/schemas/operationType'
         path:
           type: string
         value:
@@ -2430,7 +2432,7 @@ components:
       type: object
       properties:
         op:
-          $ref: '#/components/schemas/patchOperation'
+          $ref: '#/components/schemas/operationType'
         path:
           type: string
         value:
