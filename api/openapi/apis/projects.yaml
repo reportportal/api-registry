@@ -110,7 +110,7 @@ paths:
                 project_role:
                   $ref: ../enums/projectRole.yaml
     delete:
-      summary: ''
+      summary: 'Unassign user from project'
       operationId: delete-projects-project_id-users-user_id
       responses:
         '200':
@@ -123,7 +123,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: 'Assign user to project'
       operationId: post-projects-project_id-users
       responses:
         '200':

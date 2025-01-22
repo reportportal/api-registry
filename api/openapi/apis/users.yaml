@@ -442,36 +442,6 @@ paths:
               $ref: ../models/user/UserBase.yaml
       tags:
         - User
-    patch:
-      summary: Patch user
-      description: |-
-        Partially update user information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user profile
-        - User has access only to his profile
-      operationId: patch-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      tags:
-        - User
     delete:
       summary: Delete user
       operationId: delete-users-user_id
@@ -1069,13 +1039,6 @@ components:
         application/problem+json:
           schema:
             $ref: ../models/Problem.yaml
-  requestBodies:
-    JsonPatch:
-      content:
-        application/json-patch+json:
-          schema:
-            $ref: ../models/PatchOperationList.yaml
-      description: JSON Patch operations
 tags:
   - name: Implemented
     description: Implemented
