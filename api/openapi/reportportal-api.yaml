@@ -2375,77 +2375,18 @@ components:
         - replace
         - remove
       description: Patch operation type.
-    PatchObject:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: object
-    PatchArrayString:
-      title: Patch operation array string
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: array
-          items:
-            type: string
-    PatchString:
-      title: Patch Operation String
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: string
-    PatchNumber:
-      title: Patch Operation Number
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: number
-    PatchInteger:
-      title: Patch Operation Integer
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: integer
-    PatchBoolean:
-      title: Patch Operation Boolean
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: boolean
     PatchOperation:
       title: Patch Operation Object
-      oneOf:
-        - $ref: '#/components/schemas/PatchObject'
-        - $ref: '#/components/schemas/PatchArrayString'
-        - $ref: '#/components/schemas/PatchString'
-        - $ref: '#/components/schemas/PatchNumber'
-        - $ref: '#/components/schemas/PatchInteger'
-        - $ref: '#/components/schemas/PatchBoolean'
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/operationType'
+        path:
+          type: string
+        value:
+          oneOf:
+            - type: string
+            - type: integer
     PatchOperationList:
       title: Patch Operation List
       type: array
