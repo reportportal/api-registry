@@ -1,8 +1,11 @@
 title: Patch Operation Object
-oneOf:
-  - $ref: ./patch/PatchObject.yaml
-  - $ref: ./patch/PatchArrayString.yaml
-  - $ref: ./patch/PatchString.yaml
-  - $ref: ./patch/PatchNumber.yaml
-  - $ref: ./patch/PatchInteger.yaml
-  - $ref: ./patch/PatchBoolean.yaml
+type: object
+properties:
+  op:
+    $ref: ../enums/operationType.yaml
+  path:
+    type: string
+  value:
+    oneOf:
+      - type: string
+      - type: integer
