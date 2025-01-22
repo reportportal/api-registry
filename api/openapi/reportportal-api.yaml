@@ -106,6 +106,8 @@ tags:
   - name: Suggestions
     description: Operations with suggestions
     x-displayName: Suggestions
+  - name: projects_other
+    x-displayName: other
 paths:
   /organizations:
     get:
@@ -334,44 +336,6 @@ paths:
             schema:
               $ref: '#/components/schemas/OrganizationBase'
         description: Provide organization information for update.
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
-    patch:
-      summary: Patch organization
-      operationId: patch-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: >-
-        > **Enterprise edition feature** 
-
-        >
-
-        > Available only if an Organization plugin is enabled.
-
-
-        Particular organization fields update via the [JSON Merge Patch
-        standard](https://datatracker.ietf.org/doc/html/rfc7386).
-
-
-        ### Authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
       tags:
         - Organization
       security:
@@ -712,50 +676,6 @@ paths:
         - `EDITOR`
       security:
         - BearerAuth: []
-    patch:
-      summary: Partial organization user update
-      operationId: patch-organizations-org_id-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: >-
-        Partial organization user update.
-
-
-        You can provide a project list as an additional option for assigning or
-        unassigned
-
-        a user from projects.
-
-
-        ### Organization authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-
-        - `MEMBER`
-
-
-        ### Project authority
-
-
-        - `EDITOR`
-      tags:
-        - Organization User
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      security:
-        - BearerAuth: []
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
@@ -1016,37 +936,55 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      description: |-
+      description: >-
         Partial update project information.
+
         Model relates with a PUT Project update model.
 
-        Paths and operations:
 
-        - `name` | `replace` | `string`
-        - `slug` | `replace`| `string`
-        - `users` | `add`, `replace`, `remove` | `array<object>`
-        - `users/{user_id}` | `replace`, `remove`
+        | Path       | Operation | Value
+
+        |-           |-          |-
+
+        | `/name`    | `replace` | `string`
+
+        | `/slug`    | `replace` | `string`
+
+        | `/users/-` | `add`     | `object{id:int,project_role:string}`
+
+        | `/users`   | `replace` | `array<object{id:int,project_role:string}>`,
+        `array<null>`
+
+        | `/users`   | `remove`  | `array<object{id:int,project_role:string}>`,
+        `null`
+
 
         ### Authority
 
+
         - `ADMINISTRATOR`
+
         - `MANAGER`
+
         - `MEMBER`
+
 
         A user with the `MEMBER` role can update only his project.
 
+
         ### Member authority
 
+
         - `EDITOR`
-        - `VIEWER`
-
-        ### Access level
-
-        `VIEWER` can only user path `users/{user_id}` with `remove` operation.
       tags:
         - Organization Project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
       security:
         - BearerAuth: []
     delete:
@@ -1529,38 +1467,6 @@ paths:
         - User
       security:
         - BearerAuth: []
-    patch:
-      summary: Patch user
-      description: |-
-        Partially update user information.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `USER`
-
-        ### Access level
-
-        - Administrator has access to any user profile
-        - User has access only to his profile
-      operationId: patch-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      tags:
-        - User
-      security:
-        - BearerAuth: []
     delete:
       summary: Delete user
       operationId: delete-users-user_id
@@ -1977,6 +1883,69 @@ paths:
         in: path
         required: true
         description: Project name
+  /projects/{project_id}/users/{user_id}:
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    put:
+      summary: Update project user
+      operationId: put-projects-project_id-users-user_id
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_role:
+                  $ref: '#/components/schemas/projectRole'
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Unassign user from project
+      operationId: delete-projects-project_id-users-user_id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
+  /projects/{project_id}/users:
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    post:
+      summary: Assign user to project
+      operationId: post-projects-project_id-users
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUser'
+        description: ''
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
 components:
   securitySchemes:
     BearerAuth:
@@ -2365,31 +2334,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/OffsetRequest'
         - $ref: '#/components/schemas/SearchCriteria'
-    operationType:
-      title: Operation Type
-      x-stoplight:
-        id: 168ae66eaef0a
-      type: string
-      enum:
-        - add
-        - replace
-        - remove
-      description: Patch operation type.
-    PatchOperation:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          type: object
-    PatchOperationList:
-      title: Patch Operation List
-      type: array
-      items:
-        $ref: '#/components/schemas/PatchOperation'
     instanceRole:
       title: Instance role
       type: string
@@ -2651,7 +2595,7 @@ components:
       minimum: 0
       description: User identifier.
     ProjectUpdate:
-      title: ProjectUpdate
+      title: Project update
       allOf:
         - $ref: '#/components/schemas/ProjectBase'
         - type: object
@@ -2665,6 +2609,27 @@ components:
                     $ref: '#/components/schemas/userId'
                   project_role:
                     $ref: '#/components/schemas/projectRole'
+      description: ''
+    operationType:
+      title: Operation Type
+      x-stoplight:
+        id: 168ae66eaef0a
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
+    PatchOperation:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/operationType'
+        path:
+          type: string
+        value:
+          description: The value to add, replace or remove.
     Invitation:
       title: Invitation
       type: object
@@ -2933,6 +2898,14 @@ components:
       description: |-
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
+    ProjectUser:
+      title: ProjectUser
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/userId'
+        project_role:
+          $ref: '#/components/schemas/projectRole'
     Limit:
       title: Limit
       type: object
@@ -3032,10 +3005,3 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-  requestBodies:
-    JsonPatch:
-      content:
-        application/json-patch+json:
-          schema:
-            $ref: '#/components/schemas/PatchOperationList'
-      description: JSON Patch operations
