@@ -6,5 +6,4 @@ properties:
   path:
     type: string
   value:
-    type:
-      - object
+    description: 'The value to add, replace or remove.'

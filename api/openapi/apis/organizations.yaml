@@ -232,35 +232,6 @@ paths:
         description: Provide organization information for update.
       tags:
         - Organization
-    patch:
-      summary: Patch organization
-      operationId: patch-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Particular organization fields update via the [JSON Merge Patch standard](https://datatracker.ietf.org/doc/html/rfc7386).
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
-      tags:
-        - Organization
     delete:
       summary: Delete organization
       operationId: delete-organizations-org_id
@@ -544,39 +515,6 @@ paths:
         ### Project authority
 
         - `EDITOR`
-    patch:
-      summary: Partial organization user update
-      operationId: patch-organizations-org_id-users-user_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      description: |-
-        Partial organization user update.
-
-        You can provide a project list as an additional option for assigning or unassigned
-        a user from projects.
-
-        ### Organization authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
-
-        ### Project authority
-
-        - `EDITOR`
-      tags:
-        - Organization User
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
@@ -813,18 +751,17 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      requestBody:
-        $ref: '#/components/requestBodies/JsonPatch'
       description: |-
         Partial update project information.
         Model relates with a PUT Project update model.
 
-        Paths and operations:
-
-        - `name` | `replace` | `string`
-        - `slug` | `replace`| `string`
-        - `users` | `add`, `replace`, `remove` | `array<object>`
-        - `users/{user_id}` | `replace`, `remove`
+        | Path       | Operation | Value
+        |-           |-          |-
+        | `/name`    | `replace` | `string`
+        | `/slug`    | `replace` | `string`
+        | `/users/-` | `add`     | `object{id:int,project_role:string}`
+        | `/users`   | `replace` | `array<object{id:int,project_role:string}>`, `array<null>`
+        | `/users`   | `remove`  | `array<object{id:int,project_role:string}>`, `null`
 
         ### Authority
 
@@ -837,13 +774,15 @@ paths:
         ### Member authority
 
         - `EDITOR`
-        - `VIEWER`
-
-        ### Access level
-
-        `VIEWER` can only user path `users/{user_id}` with `remove` operation.
       tags:
         - Organization Project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: ../models/PatchOperation.yaml
     delete:
       summary: Delete project
       tags:
@@ -1070,16 +1009,6 @@ components:
         application/problem+json:
           schema:
             $ref: ../models/Problem.yaml
-  requestBodies:
-    JsonPatch:
-      content:
-        application/json-patch+json:
-          schema:
-            allOf:
-              - $ref: ../models/patch/PatchArrayString.yaml
-              - $ref: ../models/patch/PatchString.yaml
-              - $ref: ../models/patch/PatchInteger.yaml
-      description: JSON Patch operations
 tags:
   - name: Organization
     description: Organizations collection
