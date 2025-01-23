@@ -1073,69 +1073,28 @@ paths:
         - `MANAGER`
       security:
         - BearerAuth: []
-  /projects/{project_name}/activities/suggestions:
-    get:
-      summary: Get project suggestions
-      tags:
-        - Projects
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - type: object
-                    properties:
-                      suggestions:
-                        type: array
-                        description: >-
-                          List of activities suggestions for the project by
-                          type.
-                        items:
-                          type: string
-                  - $ref: '#/components/schemas/Limit'
-        '404':
-          description: Not Found
-      operationId: get-project-suggestions
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - subject_name
-          in: query
-          name: type
-          description: Type of suggestions
-        - schema:
-            type: string
-          in: query
-          name: filter
-          description: Filter query for suggestions
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: Maximum number of suggestions
-      description: >-
-        Get project activities suggestions by type for autocomplete.
-
-        Supported types:
-
-        - subject_name: Get suggestions for activity subject names in the
-        project.
-
-
-        If the type isn't provided or provided incorrectly, you get a 404
-        error. 
-      security:
-        - BearerAuth: []
+  /projects/{project_id}/users:
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_id
         in: path
         required: true
-        description: Project name
+    post:
+      summary: Assign user to project
+      operationId: post-projects-project_id-users
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUser'
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
   /projects/{project_id}/users/{user_id}:
     parameters:
       - schema:
@@ -1172,29 +1131,6 @@ paths:
       responses:
         '200':
           description: OK
-      tags:
-        - projects_other
-      security:
-        - BearerAuth: []
-  /projects/{project_id}/users:
-    parameters:
-      - schema:
-          type: string
-        name: project_id
-        in: path
-        required: true
-    post:
-      summary: Assign user to project
-      operationId: post-projects-project_id-users
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProjectUser'
-        description: ''
       tags:
         - projects_other
       security:
@@ -2754,22 +2690,6 @@ components:
           $ref: '#/components/schemas/userId'
         project_role:
           $ref: '#/components/schemas/projectRole'
-    Limit:
-      title: Limit
-      type: object
-      properties:
-        limit:
-          type: integer
-          description: >-
-            The limit used for this page of results. This will be the same as
-            the limit query parameter unless it exceeded the maximum value
-            allowed for this API endpoint.
-          minimum: 0
-        count:
-          type: integer
-          description: The number of results returned in this page of results.
-          minimum: 0
-      description: ''
     Invitation:
       title: Invitation
       type: object
