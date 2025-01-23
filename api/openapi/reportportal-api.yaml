@@ -82,6 +82,9 @@ servers:
         default: api
         description: Base path of Report Portal API
 tags:
+  - name: Activities
+    description: API Collection for working with activities.
+    x-displayName: Activities
   - name: Organization
     description: Organizations collection
     x-displayName: Organization
@@ -94,21 +97,83 @@ tags:
   - name: Implemented
     description: Endpoints that are implemented
     x-displayName: Implemented
+  - name: Projects
+    description: Operations with projects
+    x-displayName: Projects
+  - name: projects_other
+    x-displayName: other
   - name: Invitation
     description: Invitation API collection
     x-displayName: Invitation
   - name: User
     description: User API collection
     x-displayName: User
-  - name: Projects
-    description: Operations with projects
-    x-displayName: Projects
-  - name: Suggestions
-    description: Operations with suggestions
-    x-displayName: Suggestions
-  - name: projects_other
-    x-displayName: other
 paths:
+  /activities/searches:
+    parameters: []
+    post:
+      summary: Search activities by complex criteria
+      operationId: activities-search
+      description: >-
+        Create search request by activities.
+
+
+        You can use the following attributes as a
+        `search_criteria[*].filter_key` for filtering:
+
+
+        - `eventName`
+
+        - `objectType`
+
+        - `objectName`
+
+        - `organizationName`
+
+        - `projectName`
+
+        - `subjectType`
+
+        - `subjectName`
+
+        - `createdAt`
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+      tags:
+        - Activities
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaRQ'
+        description: >-
+          This is a [GET with body
+          payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body)
+          that doesn''t create resources. It returns all activities matching the
+          query passed as the request input payload.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Offset'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Activity'
+        '400':
+          description: Bad Request
+      security:
+        - BearerAuth: []
   /organizations:
     get:
       summary: Get a list of organizations
@@ -1008,6 +1073,132 @@ paths:
         - `MANAGER`
       security:
         - BearerAuth: []
+  /projects/{project_name}/activities/suggestions:
+    get:
+      summary: Get project suggestions
+      tags:
+        - Projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      suggestions:
+                        type: array
+                        description: >-
+                          List of activities suggestions for the project by
+                          type.
+                        items:
+                          type: string
+                  - $ref: '#/components/schemas/Limit'
+        '404':
+          description: Not Found
+      operationId: get-project-suggestions
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - subject_name
+          in: query
+          name: type
+          description: Type of suggestions
+        - schema:
+            type: string
+          in: query
+          name: filter
+          description: Filter query for suggestions
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: Maximum number of suggestions
+      description: >-
+        Get project activities suggestions by type for autocomplete.
+
+        Supported types:
+
+        - subject_name: Get suggestions for activity subject names in the
+        project.
+
+
+        If the type isn't provided or provided incorrectly, you get a 404
+        error. 
+      security:
+        - BearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name
+  /projects/{project_id}/users/{user_id}:
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    put:
+      summary: Update project user
+      operationId: put-projects-project_id-users-user_id
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_role:
+                  $ref: '#/components/schemas/projectRole'
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Unassign user from project
+      operationId: delete-projects-project_id-users-user_id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
+  /projects/{project_id}/users:
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    post:
+      summary: Assign user to project
+      operationId: post-projects-project_id-users
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUser'
+        description: ''
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
   /invitations:
     post:
       summary: Create user invitation
@@ -1819,139 +2010,174 @@ paths:
             schema:
               $ref: '#/components/schemas/RestorePasswordRequest'
     parameters: []
-  /projects/{project_name}/activities/suggestions:
-    get:
-      summary: Get project suggestions
-      tags:
-        - Projects
-        - Suggestions
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - type: object
-                    properties:
-                      suggestions:
-                        type: array
-                        description: >-
-                          List of activities suggestions for the project by
-                          type.
-                        items:
-                          type: string
-                  - $ref: '#/components/schemas/Limit'
-        '404':
-          description: Not Found
-      operationId: get-project-suggestions
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - subject_name
-          in: query
-          name: type
-          description: Type of suggestions
-        - schema:
-            type: string
-          in: query
-          name: filter
-          description: Filter query for suggestions
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: Maximum number of suggestions
-      description: >-
-        Get project activities suggestions by type for autocomplete.
-
-        Supported types:
-
-        - subject_name: Get suggestions for activity subject names in the
-        project.
-
-
-        If the type isn't provided or provided incorrectly, you get a 404
-        error. 
-      security:
-        - BearerAuth: []
-    parameters:
-      - schema:
-          type: string
-        name: project_name
-        in: path
-        required: true
-        description: Project name
-  /projects/{project_id}/users/{user_id}:
-    parameters:
-      - schema:
-          type: string
-        name: project_id
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: user_id
-        in: path
-        required: true
-    put:
-      summary: Update project user
-      operationId: put-projects-project_id-users-user_id
-      responses:
-        '204':
-          description: No Content
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                project_role:
-                  $ref: '#/components/schemas/projectRole'
-      tags:
-        - projects_other
-      security:
-        - BearerAuth: []
-    delete:
-      summary: Unassign user from project
-      operationId: delete-projects-project_id-users-user_id
-      responses:
-        '200':
-          description: OK
-      tags:
-        - projects_other
-      security:
-        - BearerAuth: []
-  /projects/{project_id}/users:
-    parameters:
-      - schema:
-          type: string
-        name: project_id
-        in: path
-        required: true
-    post:
-      summary: Assign user to project
-      operationId: post-projects-project_id-users
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProjectUser'
-        description: ''
-      tags:
-        - projects_other
-      security:
-        - BearerAuth: []
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
   schemas:
+    Activity:
+      title: Activity
+      type: object
+      description: activity details
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+        created_at:
+          type: string
+          format: date-time
+        event_name:
+          type: string
+        object_id:
+          type: integer
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+          format: int64
+          minimum: 1
+        object_name:
+          type: string
+        object_type:
+          type: string
+        project_id:
+          type: integer
+          format: int64
+          exclusiveMinimum: false
+          minimum: 1
+        project_name:
+          type: string
+        subject_name:
+          type: string
+        subject_type:
+          type: string
+        details:
+          type: object
+          properties:
+            history:
+              type: array
+              items:
+                $ref: '#/components/schemas/HistoryField'
+    HistoryField:
+      title: HistoryField
+      type: object
+      properties:
+        field:
+          type: string
+        old_value:
+          type: string
+        new_value:
+          type: string
+    order:
+      title: Order
+      type: string
+      enum:
+        - ASC
+        - DESC
+      description: To indicate sorting direction. Ascending or Descending.
+    OffsetRequest:
+      title: Offset-based
+      type: object
+      description: Offset-based pagination
+      properties:
+        offset:
+          type: integer
+          description: The offset used for this page of results.
+          minimum: 0
+          default: 0
+        limit:
+          type: integer
+          description: >-
+            The limit used for this page of results. This will be the same as
+            the limit query parameter unless it exceeded the maximum value
+            allowed for this API endpoint.
+          minimum: 0
+          default: 300
+          maximum: 1000
+        sort:
+          type: string
+          description: Field to define the sort field.
+        order:
+          $ref: '#/components/schemas/order'
+    filterOperation:
+      title: Filter operation
+      type: string
+      enum:
+        - EQ
+        - NE
+        - CNT
+        - NON_CNT
+        - BTW
+        - IN
+        - GTE
+        - GT
+        - LTE
+        - LT
+      description: |
+        Operation to perform for the filter:
+
+        - EQ - Equal
+        - NE - Not equal
+        - CNT - Contains
+        - NON_CNT - Not contains
+        - BTW - Between
+        - IN - In
+        - GTE - Greater than or equal
+        - GT - Greater than
+        - LTE - Less than or equal
+        - LT - Less than
+    SearchCriteria:
+      title: Search criteria
+      type: object
+      properties:
+        search_criteria:
+          type: array
+          items:
+            type: object
+            properties:
+              filter_key:
+                type: string
+                description: search by field
+              operation:
+                $ref: '#/components/schemas/filterOperation'
+              value:
+                type: string
+                description: search value
+    SearchCriteriaRQ:
+      title: SearchCriteria
+      allOf:
+        - $ref: '#/components/schemas/OffsetRequest'
+        - $ref: '#/components/schemas/SearchCriteria'
+    Offset:
+      type: object
+      title: Offset-based
+      description: Offset-based pagination
+      properties:
+        offset:
+          type: integer
+          description: The offset used for this page of results.
+          minimum: 0
+          default: 0
+        limit:
+          type: integer
+          description: >-
+            The limit used for this page of results. This will be the same as
+            the limit query parameter unless it exceeded the maximum value
+            allowed for this API endpoint.
+          minimum: 0
+          default: 300
+        total_count:
+          type: integer
+          description: >-
+            One greater than the offset of the last item in the entire
+            collection. The total number of items in the collection may be less
+            than total_count.
+          minimum: 0
+        sort:
+          type: string
+          description: Field to define the sort field.
+        order:
+          $ref: '#/components/schemas/order'
     OrganizationInfo:
       title: Organization information
       description: Various information about an organization.
@@ -2120,43 +2346,6 @@ components:
                 $ref: '#/components/schemas/UserProjectInfo'
           required:
             - id
-    order:
-      title: Order
-      type: string
-      enum:
-        - ASC
-        - DESC
-      description: To indicate sorting direction. Ascending or Descending.
-    Offset:
-      type: object
-      title: Offset-based
-      description: Offset-based pagination
-      properties:
-        offset:
-          type: integer
-          description: The offset used for this page of results.
-          minimum: 0
-          default: 0
-        limit:
-          type: integer
-          description: >-
-            The limit used for this page of results. This will be the same as
-            the limit query parameter unless it exceeded the maximum value
-            allowed for this API endpoint.
-          minimum: 0
-          default: 300
-        total_count:
-          type: integer
-          description: >-
-            One greater than the offset of the last item in the entire
-            collection. The total number of items in the collection may be less
-            than total_count.
-          minimum: 0
-        sort:
-          type: string
-          description: Field to define the sort field.
-        order:
-          $ref: '#/components/schemas/order'
     name:
       title: name
       type: string
@@ -2261,79 +2450,6 @@ components:
             problem type. May be used to locate the root of this problem in the
             source code.
           example: /some/uri-reference#specific-occurrence-context
-    OffsetRequest:
-      title: Offset-based
-      type: object
-      description: Offset-based pagination
-      properties:
-        offset:
-          type: integer
-          description: The offset used for this page of results.
-          minimum: 0
-          default: 0
-        limit:
-          type: integer
-          description: >-
-            The limit used for this page of results. This will be the same as
-            the limit query parameter unless it exceeded the maximum value
-            allowed for this API endpoint.
-          minimum: 0
-          default: 300
-          maximum: 1000
-        sort:
-          type: string
-          description: Field to define the sort field.
-        order:
-          $ref: '#/components/schemas/order'
-    filterOperation:
-      title: Filter operation
-      type: string
-      enum:
-        - EQ
-        - NE
-        - CNT
-        - NON_CNT
-        - BTW
-        - IN
-        - GTE
-        - GT
-        - LTE
-        - LT
-      description: |
-        Operation to perform for the filter:
-
-        - EQ - Equal
-        - NE - Not equal
-        - CNT - Contains
-        - NON_CNT - Not contains
-        - BTW - Between
-        - IN - In
-        - GTE - Greater than or equal
-        - GT - Greater than
-        - LTE - Less than or equal
-        - LT - Less than
-    SearchCriteria:
-      title: Search criteria
-      type: object
-      properties:
-        search_criteria:
-          type: array
-          items:
-            type: object
-            properties:
-              filter_key:
-                type: string
-                description: search by field
-              operation:
-                $ref: '#/components/schemas/filterOperation'
-              value:
-                type: string
-                description: search value
-    SearchCriteriaRQ:
-      title: SearchCriteria
-      allOf:
-        - $ref: '#/components/schemas/OffsetRequest'
-        - $ref: '#/components/schemas/SearchCriteria'
     instanceRole:
       title: Instance role
       type: string
@@ -2630,6 +2746,30 @@ components:
           type: string
         value:
           description: The value to add, replace or remove.
+    ProjectUser:
+      title: ProjectUser
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/userId'
+        project_role:
+          $ref: '#/components/schemas/projectRole'
+    Limit:
+      title: Limit
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: >-
+            The limit used for this page of results. This will be the same as
+            the limit query parameter unless it exceeded the maximum value
+            allowed for this API endpoint.
+          minimum: 0
+        count:
+          type: integer
+          description: The number of results returned in this page of results.
+          minimum: 0
+      description: ''
     Invitation:
       title: Invitation
       type: object
@@ -2898,30 +3038,6 @@ components:
       description: |-
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
-    ProjectUser:
-      title: ProjectUser
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/userId'
-        project_role:
-          $ref: '#/components/schemas/projectRole'
-    Limit:
-      title: Limit
-      type: object
-      properties:
-        limit:
-          type: integer
-          description: >-
-            The limit used for this page of results. This will be the same as
-            the limit query parameter unless it exceeded the maximum value
-            allowed for this API endpoint.
-          minimum: 0
-        count:
-          type: integer
-          description: The number of results returned in this page of results.
-          minimum: 0
-      description: ''
   parameters:
     organizationId:
       name: org_id
