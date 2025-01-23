@@ -80,7 +80,6 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
   schemas:
     Activity:
       title: Activity
@@ -137,11 +136,3 @@ components:
 tags:
   - name: Activities
     description: API Collection for working with activities.
-  - name: Organizations
-    description: API Collection for working with organizations.
-  - name: Projects
-    description: API Collection for working with projects.
-  - name: Suggestions
-    description: API Collection for working with suggestions.
-  - name: User API Keys
-    description: API Collection for working with user API keys.
