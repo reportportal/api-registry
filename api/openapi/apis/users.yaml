@@ -443,16 +443,6 @@ components:
         - id
         - email
         - status
-    InvitationPage:
-      title: Invitation page
-      allOf:
-        - $ref: ../models/Offset.yaml
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/Invitation'
     InvitationRequest:
       title: Invitation creation request
       type: object
@@ -475,35 +465,6 @@ components:
                       $ref: ../models/user/UserProjectInfo.yaml
       required:
         - email
-    InvitationActivation:
-      title: Invitation activation request
-      type: object
-      description: |-
-        Minimum eight characters, at least one uppercase letter,
-        one lowercase letter, one number and one special character.
-      properties:
-        status:
-          type: string
-          enum:
-            - ACTIVATED
-          description: Change status to ACTIVATED to create a user.
-        full_name:
-          $ref: ../types/name.yaml
-        password:
-          $ref: ../types/password.yaml
-      required:
-        - status
-        - full_name
-        - password
-    NewUserRequest:
-      title: User creation request
-      allOf:
-        - $ref: ../models/user/UserBase.yaml
-        - type: object
-          properties:
-            password:
-              $ref: ../types/password.yaml
-      description: New user creation
     InstanceUser:
       title: Instance User
       allOf:
@@ -545,33 +506,11 @@ components:
               items:
                 $ref: '#/components/schemas/InstanceUser'
       description: Page with full user information. Only for current user or administrator.
-    UserInfoPage:
-      title: User info page
-      allOf:
-        - $ref: ../models/Offset.yaml
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: ../models/user/UserInfo.yaml
-      description: Page with general user information. For all users.
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
   responses:
-    Update:
-      description: Successful update response
-      content:
-        application/json:
-          schema:
-            title: Successful update
-            type: object
-            properties:
-              message:
-                type: string
-                example: The update was completed successfully.
     Error:
       description: Error problem response
       content:

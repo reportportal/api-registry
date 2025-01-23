@@ -608,17 +608,6 @@ components:
       type: http
       scheme: bearer
   responses:
-    Update:
-      description: Successful update response
-      content:
-        application/json:
-          schema:
-            title: Successful update
-            type: object
-            properties:
-              message:
-                type: string
-                example: The update was completed successfully.
     Error:
       description: Error problem response
       content:
