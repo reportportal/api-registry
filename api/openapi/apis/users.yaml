@@ -578,13 +578,6 @@ components:
         application/problem+json:
           schema:
             $ref: ../models/Problem.yaml
-  requestBodies:
-    JsonPatch:
-      content:
-        application/json-patch+json:
-          schema:
-            $ref: ../models/PatchOperationList.yaml
-      description: JSON Patch operations
 tags:
   - name: Implemented
     description: Implemented
