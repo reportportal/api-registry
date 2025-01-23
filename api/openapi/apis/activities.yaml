@@ -47,7 +47,6 @@ paths:
         - `subjectName`
         - `createdAt`
 
-
         ### Authority
 
         - `ADMINISTRATOR`
