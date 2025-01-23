@@ -1,9 +1,0 @@
-title: Patch Operation Boolean
-type: object
-properties:
-  op:
-    $ref: ../../enums/patchOperation.yaml
-  path:
-    type: string
-  value:
-    type: boolean

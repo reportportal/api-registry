@@ -1,4 +1,0 @@
-title: Patch Operation List
-type: array
-items:
-  $ref: ./PatchOperation.yaml
