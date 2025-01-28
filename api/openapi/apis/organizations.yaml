@@ -769,8 +769,6 @@ paths:
         - `MANAGER`
         - `MEMBER`
 
-        A user with the `MEMBER` role can update only his project.
-
         ### Member authority
 
         - `EDITOR`
