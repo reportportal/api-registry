@@ -1130,6 +1130,17 @@ paths:
       responses:
         '200':
           description: OK
+      description: |-
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Member authority
+
+        - `EDITOR` - can delete any user.
+        - `VIEWER` - can delete themself.
       tags:
         - projects_other
       security:
