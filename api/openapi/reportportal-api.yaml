@@ -1034,9 +1034,6 @@ paths:
         - `MEMBER`
 
 
-        A user with the `MEMBER` role can update only his project.
-
-
         ### Member authority
 
 
@@ -1091,6 +1088,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectUser'
+        description: ''
+      description: ''
       tags:
         - projects_other
       security:
