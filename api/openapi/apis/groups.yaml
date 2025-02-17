@@ -1,0 +1,303 @@
+openapi: 3.0.3
+info:
+  title: Groups API
+  version: 0.0.1
+  description: |
+    This is the Groups API. You can use it to manage groups, users, and projects.
+    The API is based on REST principles and uses standard HTTP methods.
+  contact:
+    name: ReportPortal team
+    email: support@reportportal.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+paths:
+  /groups:
+    get:
+      summary: Get all groups
+      operationId: getGroups
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+    post:
+      summary: Create a group
+      operationId: createGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  '/groups/{groupId}':
+    get:
+      summary: Get a group by ID
+      operationId: getGroupById
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+    put:
+      summary: Update a group
+      operationId: updateGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+    delete:
+      summary: Delete a group
+      operationId: deleteGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+  '/groups/{groupId}/users':
+    get:
+      summary: Get all users of a group
+      operationId: getUsersOfGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Add a user to a group
+      operationId: addUserToGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  format: int64
+                  description: User ID
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  group_id:
+                    type: integer
+                    format: int64
+                    description: Group ID
+                  user_id:
+                    type: integer
+                    format: int64
+                    description: User ID
+    delete:
+      summary: Remove a user from a group
+      operationId: removeUserFromGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: query
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+  '/groups/{groupId}/projects':
+    get:
+      summary: Get all projects of a group
+      operationId: getProjectsOfGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    post:
+      summary: Add a project to a group
+      operationId: addProjectToGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: integer
+                  format: int64
+                  description: Project ID
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  group_id:
+                    type: integer
+                    format: int64
+                    description: Group ID
+                  project_id:
+                    type: integer
+                    format: int64
+                    description: Project ID
+    delete:
+      summary: Remove a project from a group
+      operationId: removeProjectFromGroup
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+        - name: projectId
+          in: query
+          required: true
+          description: Project ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Group ID
+        name:
+          type: string
+          description: Group name
+        description:
+          type: string
+          description: Group description
+        created_by:
+          type: integer
+          format: int64
+          description: User ID who created the group
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time when the group was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Date and time when the group was updated
