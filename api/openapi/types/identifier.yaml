@@ -3,5 +3,5 @@ x-stoplight:
   id: rg213bocuc9sp
 type: integer
 format: int64
-minimum: 0
+minimum: 1
 description: Resource identifier.
