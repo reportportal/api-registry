@@ -85,6 +85,12 @@ tags:
   - name: Activities
     description: API Collection for working with activities.
     x-displayName: Activities
+  - name: Groups
+    x-displayName: Groups
+  - name: Group's users
+    x-displayName: Group's users
+  - name: Group's projects
+    x-displayName: Group's projects
   - name: Organization
     description: Organizations collection
     x-displayName: Organization
@@ -172,6 +178,299 @@ paths:
                           $ref: '#/components/schemas/Activity'
         '400':
           description: Bad Request
+      security:
+        - BearerAuth: []
+  /groups:
+    get:
+      summary: Get all groups
+      operationId: getGroups
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: Get instance groups with optional filtering and sorting.
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter by name.
+        - schema:
+            type: string
+            pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          in: query
+          name: slug
+          description: Filter by slug.
+      tags:
+        - Groups
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a group
+      operationId: createGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      tags:
+        - Groups
+      security:
+        - BearerAuth: []
+  /groups/{group_id}:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      summary: Get a group
+      operationId: getGroupById
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+      description: Get a group by ID.
+      tags:
+        - Groups
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update a group
+      operationId: updateGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+      description: Update a group by ID.
+      tags:
+        - Groups
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a group
+      operationId: deleteGroup
+      responses:
+        '204':
+          description: No Content
+      description: Delete a group by ID.
+      tags:
+        - Groups
+      security:
+        - BearerAuth: []
+  /groups/{group_id}/users:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      summary: Get all users of a group
+      operationId: getUsersOfGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsersPage'
+      description: Get all users of a group.
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+      tags:
+        - Groups
+        - Group's users
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add a user to a group
+      operationId: addUserToGroupById
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUser'
+      description: Add a user to a group.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/identifier'
+      tags:
+        - Groups
+        - Group's users
+      security:
+        - BearerAuth: []
+  /groups/{group_id}/users/{user_id}:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Get a user of a group
+      operationId: getUserOfGroupById
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUser'
+      description: Get all users of a group.
+      tags:
+        - Groups
+        - Group's users
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a group user
+      operationId: deleteUserOfGroupById
+      description: Delete a user from a group.
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Groups
+        - Group's users
+      security:
+        - BearerAuth: []
+  /groups/{group_id}/projects:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      summary: Get all projects of a group
+      operationId: getProjectsOfGroup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupProjectsPage'
+      description: Get all projects of a group.
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+      tags:
+        - Groups
+        - Group's projects
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add a project to a group
+      operationId: addProjectToGroup
+      description: Add a project to a group.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupProject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/identifier'
+                project_role:
+                  $ref: '#/components/schemas/projectRole'
+      tags:
+        - Groups
+        - Group's projects
+      security:
+        - BearerAuth: []
+  /groups/{group_id}/projects/{project_id}:
+    parameters:
+      - $ref: '#/components/parameters/GroupId'
+      - $ref: '#/components/parameters/ProjectId'
+    get:
+      summary: Get a project of a group
+      description: Get a project of a group.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupProject'
+      operationId: getProjectOfGroupById
+      tags:
+        - Groups
+        - Group's projects
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update a group project
+      operationId: updateProjectOfGroupById
+      description: Update a project of a group.
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_role:
+                  $ref: '#/components/schemas/projectRole'
+      tags:
+        - Group's projects
+        - Groups
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete a group project
+      operationId: deleteProjectOfGroupById
+      responses:
+        '204':
+          description: No Content
+      description: Delete a project from a group.
+      tags:
+        - Group's projects
+        - Groups
       security:
         - BearerAuth: []
   /organizations:
@@ -1141,6 +1440,53 @@ paths:
 
         - `EDITOR` - can delete any user.
         - `VIEWER` - can delete themself.
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
+  /projects/{project_id}/groups:
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    get:
+      summary: Get all groups of a project
+      operationId: getGroupsOfProject
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      description: Get all groups of a project.
+      tags:
+        - projects_other
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add a group to a project
+      operationId: addGroupToProject
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  $ref: '#/components/schemas/identifier'
+                project_role:
+                  $ref: '#/components/schemas/projectRole'
       tags:
         - projects_other
       security:
@@ -2124,6 +2470,331 @@ components:
           description: Field to define the sort field.
         order:
           $ref: '#/components/schemas/order'
+    GroupPage:
+      title: Group page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - properties:
+            items:
+              type: array
+              description: List of groups.
+              items:
+                $ref: '#/components/schemas/Group'
+      description: Page of groups.
+      type: object
+    CreateGroupRequest:
+      title: Create group request
+      allOf:
+        - $ref: '#/components/schemas/GroupBase'
+        - type: object
+          properties:
+            org_id:
+              $ref: '#/components/schemas/identifier'
+          required:
+            - org_id
+      description: Create group request.
+    UpdateGroupRequest:
+      title: Update group request
+      allOf:
+        - $ref: '#/components/schemas/GroupBase'
+      description: Update group request.
+    GroupUsersPage:
+      title: Group users page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              description: List of group users.
+              items:
+                $ref: '#/components/schemas/GroupUser'
+      description: Page of group users.
+    GroupProjectsPage:
+      title: Group projects page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              description: List of group projects.
+              items:
+                $ref: '#/components/schemas/GroupProject'
+      description: Page of group projects.
+    GroupUser:
+      title: Group user
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of user adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of user updating in group.
+        user:
+          allOf:
+            - $ref: '#/components/schemas/UserBase'
+            - $ref: '#/components/schemas/UserLinks'
+          description: User details.
+      description: Information about user in group.
+      type: object
+    GroupProject:
+      title: Group project
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        project_role:
+          $ref: '#/components/schemas/projectRole'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of project adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of project updating in group.
+        project:
+          $ref: '#/components/schemas/ProjectBase'
+      description: Information about project in group.
+      type: object
+    identifier:
+      title: Identifier
+      type: integer
+      format: int64
+      minimum: 1
+      description: Resource identifier.
+    name:
+      title: name
+      type: string
+      description: Display name.
+      minLength: 3
+      maxLength: 60
+      pattern: ^[A-Za-z0-9.'_\- ]+$
+    slug:
+      title: slug
+      type: string
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      description: >-
+        A slug is used to identify a resource.
+
+        It should be unique and contain only lowercase letters, numbers, and
+        hyphens.
+
+        It should not start or end with a hyphen.
+      minLength: 3
+      maxLength: 60
+    Group:
+      title: Group information
+      description: Group information.
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        name:
+          $ref: '#/components/schemas/name'
+        slug:
+          $ref: '#/components/schemas/slug'
+        org_id:
+          $ref: '#/components/schemas/identifier'
+        created_by:
+          type: integer
+          format: int64
+          description: User ID of the user who created the group.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when group was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when group was last updated.
+      type: object
+    Problem:
+      title: Problem
+      type: object
+      description: >-
+        Problem Details for HTTP APIs [RFC
+        9457](https://tools.ietf.org/html/rfc9457).
+
+
+        A Problem JSON object uses the media type `application/problem+json`.
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: >
+            A URI reference that uniquely identifies the problem type only in
+            the context of the provided API. Opposed to the specification in
+            RFC-9457, it is neither recommended to be dereferenceable and point
+            to a human-readable documentation nor globally unique for the
+            problem type.
+          default: about:blank
+          example: /problems/user-authorization-failed
+        title:
+          type: string
+          description: >
+            A short summary of the problem type. Written in English and readable
+            for engineers, usually not suited for non technical stakeholders and
+            not localized.
+          example: some title for the error situation
+        status:
+          type: integer
+          format: int32
+          description: >
+            The HTTP status code generated by the origin server for this
+            occurrence of the problem.
+          minimum: 100
+          exclusiveMaximum: true
+          maximum: 600
+        detail:
+          type: string
+          description: >
+            A human readable explanation specific to this occurrence of the
+            problem that is helpful to locate the problem and give advice on how
+            to proceed. Written in English and readable for engineers, usually
+            not suited for non technical stakeholders and not localized.
+          example: some description for the error situation
+        instance:
+          type: string
+          format: uri-reference
+          description: >
+            A URI reference that identifies the specific occurrence of the
+            problem, e.g. by adding a fragment identifier or sub-path to the
+            problem type. May be used to locate the root of this problem in the
+            source code.
+          example: /some/uri-reference#specific-occurrence-context
+    GroupBase:
+      title: Group details
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        slug:
+          $ref: '#/components/schemas/slug'
+      required:
+        - name
+    instanceRole:
+      title: Instance role
+      type: string
+      enum:
+        - ADMINISTRATOR
+        - USER
+      default: USER
+      description: Instance account role.
+    accountType:
+      title: Account type
+      type: string
+      enum:
+        - INTERNAL
+        - UPSA
+        - GITHUB
+        - LDAP
+        - SAML
+        - SCIM
+      default: INTERNAL
+      description: |-
+        Indicates through which service or
+        authentication method the user account
+        was created.
+
+        - INTERNAL: created by the system for internal use.
+        - UPSA: created for external integrations.
+        - GITHUB: created for external integrations.
+        - LDAP: created for external integrations.
+        - SAML: created for external integrations.
+        - SCIM: created for external integrations.
+    UserBase:
+      title: User Base
+      description: |-
+        User's base information.
+
+        User has a unique email address, full name, and account type.
+
+        Instance account role can be either `ADMIN` or `USER`.
+        Only `ADMIN` users have access to change account type.
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          $ref: '#/components/schemas/name'
+        instance_role:
+          $ref: '#/components/schemas/instanceRole'
+        account_type:
+          $ref: '#/components/schemas/accountType'
+        external_id:
+          type: string
+          description: User external identifier. Provided by external systems.
+        active:
+          type: boolean
+          description: Soft delete user attribute.
+          default: true
+      required:
+        - email
+        - full_name
+    Link:
+      title: Link
+      description: JSON Hypertext Application Language (HAL) model for a link.
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          description: The URI of the resource.
+        type:
+          type: string
+          description: >-
+            The media type of the resource (e.g., 'application/json' or
+            'image/png').
+        title:
+          type: string
+          description: A human-readable description of the link.
+      required:
+        - href
+    UserLinks:
+      title: User's links
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user itself.
+            avatar:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user's profile picture.
+      example:
+        _links:
+          self:
+            href: https://api.example.com/users/123
+          avatar:
+            href: https://api.example.com/users/123/avatar
+            type: image/png
+            title: User's profile picture
+    projectRole:
+      title: Project role
+      type: string
+      description: Role in the project.
+      enum:
+        - EDITOR
+        - VIEWER
+      default: VIEWER
+    ProjectBase:
+      title: Project details
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        slug:
+          $ref: '#/components/schemas/slug'
+      required:
+        - name
     OrganizationInfo:
       title: Organization information
       description: Various information about an organization.
@@ -2292,26 +2963,6 @@ components:
                 $ref: '#/components/schemas/UserProjectInfo'
           required:
             - id
-    name:
-      title: name
-      type: string
-      description: Display name.
-      minLength: 3
-      maxLength: 60
-      pattern: ^[A-Za-z0-9.'_\- ]+$
-    slug:
-      title: slug
-      type: string
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      description: >-
-        A slug is used to identify a resource.
-
-        It should be unique and contain only lowercase letters, numbers, and
-        hyphens.
-
-        It should not start or end with a hyphen.
-      minLength: 3
-      maxLength: 60
     OrganizationBase:
       title: Organization definition
       description: >
@@ -2342,161 +2993,6 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
-    Problem:
-      title: Problem
-      type: object
-      description: >-
-        Problem Details for HTTP APIs [RFC
-        9457](https://tools.ietf.org/html/rfc9457).
-
-
-        A Problem JSON object uses the media type `application/problem+json`.
-      properties:
-        type:
-          type: string
-          format: uri-reference
-          description: >
-            A URI reference that uniquely identifies the problem type only in
-            the context of the provided API. Opposed to the specification in
-            RFC-9457, it is neither recommended to be dereferenceable and point
-            to a human-readable documentation nor globally unique for the
-            problem type.
-          default: about:blank
-          example: /problems/user-authorization-failed
-        title:
-          type: string
-          description: >
-            A short summary of the problem type. Written in English and readable
-            for engineers, usually not suited for non technical stakeholders and
-            not localized.
-          example: some title for the error situation
-        status:
-          type: integer
-          format: int32
-          description: >
-            The HTTP status code generated by the origin server for this
-            occurrence of the problem.
-          minimum: 100
-          exclusiveMaximum: true
-          maximum: 600
-        detail:
-          type: string
-          description: >
-            A human readable explanation specific to this occurrence of the
-            problem that is helpful to locate the problem and give advice on how
-            to proceed. Written in English and readable for engineers, usually
-            not suited for non technical stakeholders and not localized.
-          example: some description for the error situation
-        instance:
-          type: string
-          format: uri-reference
-          description: >
-            A URI reference that identifies the specific occurrence of the
-            problem, e.g. by adding a fragment identifier or sub-path to the
-            problem type. May be used to locate the root of this problem in the
-            source code.
-          example: /some/uri-reference#specific-occurrence-context
-    instanceRole:
-      title: Instance role
-      type: string
-      enum:
-        - ADMINISTRATOR
-        - USER
-      default: USER
-      description: Instance account role.
-    accountType:
-      title: Account type
-      type: string
-      enum:
-        - INTERNAL
-        - UPSA
-        - GITHUB
-        - LDAP
-        - SAML
-        - SCIM
-      default: INTERNAL
-      description: |-
-        Indicates through which service or
-        authentication method the user account
-        was created.
-
-        - INTERNAL: created by the system for internal use.
-        - UPSA: created for external integrations.
-        - GITHUB: created for external integrations.
-        - LDAP: created for external integrations.
-        - SAML: created for external integrations.
-        - SCIM: created for external integrations.
-    UserBase:
-      title: User Base
-      description: |-
-        User's base information.
-
-        User has a unique email address, full name, and account type.
-
-        Instance account role can be either `ADMIN` or `USER`.
-        Only `ADMIN` users have access to change account type.
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: User email.
-        full_name:
-          $ref: '#/components/schemas/name'
-        instance_role:
-          $ref: '#/components/schemas/instanceRole'
-        account_type:
-          $ref: '#/components/schemas/accountType'
-        external_id:
-          type: string
-          description: User external identifier. Provided by external systems.
-        active:
-          type: boolean
-          description: Soft delete user attribute.
-          default: true
-      required:
-        - email
-        - full_name
-    Link:
-      title: Link
-      description: JSON Hypertext Application Language (HAL) model for a link.
-      type: object
-      properties:
-        href:
-          type: string
-          format: uri
-          description: The URI of the resource.
-        type:
-          type: string
-          description: >-
-            The media type of the resource (e.g., 'application/json' or
-            'image/png').
-        title:
-          type: string
-          description: A human-readable description of the link.
-      required:
-        - href
-    UserLinks:
-      title: User's links
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '#/components/schemas/Link'
-              description: Link to the user itself.
-            avatar:
-              $ref: '#/components/schemas/Link'
-              description: Link to the user's profile picture.
-      example:
-        _links:
-          self:
-            href: https://api.example.com/users/123
-          avatar:
-            href: https://api.example.com/users/123/avatar
-            type: image/png
-            title: User's profile picture
     UserInfo:
       title: User general information
       description: Contains general information associated with a user account.
@@ -2541,14 +3037,6 @@ components:
       properties:
         org_role:
           $ref: '#/components/schemas/orgRole'
-    projectRole:
-      title: Project role
-      type: string
-      description: User role in the project.
-      enum:
-        - EDITOR
-        - VIEWER
-      default: VIEWER
     UserProjectRole:
       title: User's project role
       description: Information about user's project role.
@@ -2606,20 +3094,11 @@ components:
               minimum: 0
               maximum: 100
               description: The percentage of storage used by the project.
-    ProjectBase:
-      title: Project details
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/name'
-        slug:
-          $ref: '#/components/schemas/slug'
-      required:
-        - name
     ProjectInfo:
       title: Project information
       description: General information about a project.
       allOf:
+        - $ref: '#/components/schemas/ProjectBase'
         - type: object
           properties:
             id:
@@ -2649,7 +3128,6 @@ components:
               description: Timestamp when project was last updated.
             stats:
               $ref: '#/components/schemas/ProjectStats'
-        - $ref: '#/components/schemas/ProjectBase'
     userId:
       title: User ID
       type: integer
@@ -2700,6 +3178,35 @@ components:
           $ref: '#/components/schemas/userId'
         project_role:
           $ref: '#/components/schemas/projectRole'
+    ProjectGroupsPage:
+      title: ProjectGroupsPage
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectGroup'
+    ProjectGroup:
+      title: Project group
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        project_role:
+          $ref: '#/components/schemas/projectRole'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of project adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of project updating in group.
+        group:
+          $ref: '#/components/schemas/GroupBase'
+      description: Information about project group.
+      type: object
     Invitation:
       title: Invitation
       type: object
@@ -2968,23 +3475,25 @@ components:
       description: |-
         Minimum eight characters, at least one uppercase letter,
         one lowercase letter, one number and one special character.
+  responses:
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
   parameters:
-    organizationId:
-      name: org_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: Organization identifier.
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: Project identifier.
     Offset:
       name: offset
       in: query
@@ -3013,6 +3522,15 @@ components:
         $ref: '#/components/schemas/order'
         default: ASC
       description: Indicate sorting direction.
+    GroupId:
+      name: group_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: Group identifier.
     UserId:
       name: user_id
       in: path
@@ -3022,6 +3540,31 @@ components:
         format: int64
         minimum: 0
       description: User identifier.
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: Project identifier.
+    organizationId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Organization identifier.
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Project identifier.
     ExcludeFields:
       name: exclude_fields
       in: query
@@ -3033,21 +3576,3 @@ components:
           This can be used to reduce the size of the response payload.
           For example, `exclude_fields=field1,field2`.
         example: field1,field2
-  responses:
-    Update:
-      description: Successful update response
-      content:
-        application/json:
-          schema:
-            title: Successful update
-            type: object
-            properties:
-              message:
-                type: string
-                example: The update was completed successfully.
-    Error:
-      description: Error problem response
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
