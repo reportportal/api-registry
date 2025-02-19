@@ -1,26 +1,27 @@
 title: Group information
 description: Group information about a project.
-allOf:
-  - type: object
-    properties:
-      id:
-        type: integer
-        description: Group internal identifier.
-        format: int64
-        minimum: 0
-      name:
-        $ref: ../../types/name.yaml
-      slug:
-        $ref: ../../types/slug.yaml
-      created_by:
-        type: integer
-        format: int64
-        description: User ID of the user who created the group.
-      created_at:
-        type: string
-        format: date-time
-        description: Timestamp when group was created.
-      updated_at:
-        type: string
-        format: date-time
-        description: Timestamp when group was last updated.
+properties:
+  id:
+    type: integer
+    description: Group internal identifier.
+    format: int64
+    minimum: 0
+  name:
+    $ref: ../../types/name.yaml
+  slug:
+    $ref: ../../types/slug.yaml
+  org_id:
+    $ref: ../../types/identifier.yaml
+  created_by:
+    type: integer
+    format: int64
+    description: User ID of the user who created the group.
+  created_at:
+    type: string
+    format: date-time
+    description: Timestamp when group was created.
+  updated_at:
+    type: string
+    format: date-time
+    description: Timestamp when group was last updated.
+type: object

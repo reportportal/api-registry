@@ -52,6 +52,12 @@ paths:
         - $ref: ../parameters/Order.yaml
         - schema:
             type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+        - schema:
+            type: string
           in: query
           name: name
           description: Filter by name.
@@ -61,12 +67,6 @@ paths:
           in: query
           name: slug
           description: Filter by slug.
-        - schema:
-            type: string
-            default: name
-          in: query
-          name: sort
-          description: Indicate sort by field.
       tags:
         - Groups
     post:
@@ -77,14 +77,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/group/GroupBase.yaml
+              $ref: '#/components/schemas/CreateGroupRequest'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: ../models/group/Group.yaml
       description: |-
         Create a group.
 
@@ -129,7 +129,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/group/GroupBase.yaml
+              $ref: '#/components/schemas/UpdateGroupRequest'
       responses:
         '200':
           description: OK
@@ -179,41 +179,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ../models/user/UserInfo.yaml
+                $ref: '#/components/schemas/GroupUsersPage'
       description: Get all users of a group.
-    post:
-      summary: Add a user to a group
-      operationId: addUserToGroup
-      parameters:
-        - name: group_id
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                  format: int64
-                  description: User ID
-      responses:
-        '201':
-          description: Created
-      description: |-
-        Add a user to a group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
     parameters:
       - schema:
           type: integer
@@ -239,41 +206,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Project'
+                type: object
+                properties: {}
       description: Get all projects of a group.
-    post:
-      summary: Add a project to a group
-      operationId: addProjectToGroup
-      parameters:
-        - name: group_id
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                project_id:
-                  $ref: ../types/identifier.yaml
-                project_role:
-                  $ref: ../enums/projectRole.yaml
-      responses:
-        '201':
-          description: Created
-      description: |
-        Add a project to a group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
     parameters:
       - schema:
           type: integer
@@ -293,14 +228,60 @@ components:
               items:
                 $ref: ../models/group/Group.yaml
       type: object
-    CreateGroupRQ:
-      title: CreateGroupRQ
+    CreateGroupRequest:
+      title: Create group request
       allOf:
         - $ref: ../models/group/GroupBase.yaml
         - type: object
           properties:
             org_id:
               $ref: ../types/identifier.yaml
+          required:
+            - org_id
+    UpdateGroupRequest:
+      title: Update group request
+      allOf:
+        - $ref: ../models/group/GroupBase.yaml
+        - type: object
+          properties:
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    $ref: ../types/identifier.yaml
+            projects:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    $ref: ../types/identifier.yaml
+                  project_role:
+                    $ref: ../enums/projectRole.yaml
+    GroupUsersPage:
+      title: GroupUsersPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/user/UserInfo.yaml
+    GroupProjectsPage:
+      title: GroupUsersPage
+      x-stoplight:
+        id: g7ndibx2d0f4b
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/project/ProjectInfo.yaml
   responses:
     Update:
       description: Successful update response
