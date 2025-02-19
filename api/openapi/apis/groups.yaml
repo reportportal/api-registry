@@ -1,0 +1,329 @@
+openapi: 3.0.3
+info:
+  title: Groups API
+  version: 0.0.1
+  description: |-
+    The Groups collection API. You can use it to manage groups, users, and projects.
+    The API is based on REST principles and uses standard HTTP methods.
+  contact:
+    name: ReportPortal team
+    email: support@reportportal.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+security:
+  - BearerAuth: []
+paths:
+  /groups:
+    get:
+      summary: Get all groups
+      operationId: getGroups
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: Get instance groups with optional filtering and sorting.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter by name.
+        - schema:
+            type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          in: query
+          name: slug
+          description: Filter by slug.
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+      tags:
+        - Groups
+    post:
+      summary: Create a group
+      operationId: createGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../models/group/GroupBase.yaml
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      tags:
+        - Groups
+  '/groups/{group_id}':
+    get:
+      summary: Get a group by ID
+      operationId: getGroupById
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/group/Group.yaml
+      description: '#TODO disc.'
+    put:
+      summary: Update a group
+      operationId: updateGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../models/group/GroupBase.yaml
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/group/Group.yaml
+      description: '#TODO disc.'
+    delete:
+      summary: Delete a group
+      operationId: deleteGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+      description: '#TODO Disc.'
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+        name: group_id
+        in: path
+        required: true
+        description: Group ID
+  '/groups/{group_id}/users':
+    get:
+      summary: Get all users of a group
+      operationId: getUsersOfGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/user/UserInfo.yaml
+      description: Get all users of a group.
+    post:
+      summary: Add a user to a group
+      operationId: addUserToGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  format: int64
+                  description: User ID
+      responses:
+        '201':
+          description: Created
+      description: |-
+        Add a user to a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+        name: group_id
+        in: path
+        required: true
+  '/groups/{group_id}/projects':
+    get:
+      summary: Get all projects of a group
+      operationId: getProjectsOfGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+      description: Get all projects of a group.
+    post:
+      summary: Add a project to a group
+      operationId: addProjectToGroup
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  $ref: ../types/identifier.yaml
+                project_role:
+                  $ref: ../enums/projectRole.yaml
+      responses:
+        '201':
+          description: Created
+      description: |
+        Add a project to a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+        name: group_id
+        in: path
+        required: true
+components:
+  schemas:
+    GroupPage:
+      title: GroupPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/group/Group.yaml
+      type: object
+    CreateGroupRQ:
+      title: CreateGroupRQ
+      allOf:
+        - $ref: ../models/group/GroupBase.yaml
+        - type: object
+          properties:
+            org_id:
+              $ref: ../types/identifier.yaml
+  responses:
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Groups
+  - name: Group's users
+  - name: Group's projects

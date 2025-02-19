@@ -91,6 +91,36 @@ paths:
 
         - `EDITOR` - can delete any user.
         - `VIEWER` - can delete themself.
+  '/projects/{project_id}/groups':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    get:
+      summary: Get all groups of a project
+      operationId: getGroupsOfProject
+      responses:
+        '200':
+          description: OK
+      description: Get all groups of a project.
+    post:
+      summary: Add a group to a project
+      operationId: addGroupToProject
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  $ref: ../types/groupId.yaml
+                project_role:
+                  $ref: ../enums/projectRole.yaml
 components:
   securitySchemes:
     BearerAuth:
