@@ -106,7 +106,7 @@ paths:
             application/json:
               schema:
                 $ref: ../models/group/Group.yaml
-      description: '#TODO disc.'
+      description: Get a group by ID.
       tags:
         - Groups
     put:
@@ -121,7 +121,7 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Update'
-      description: '#TODO disc.'
+      description: Update a group by ID.
       tags:
         - Groups
     delete:
@@ -130,7 +130,7 @@ paths:
       responses:
         '204':
           description: No Content
-      description: '#TODO Disc.'
+      description: Delete a group by ID.
       tags:
         - Groups
   '/groups/{group_id}/users':
@@ -164,7 +164,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupUser'
-      description: '#TODO'
+      description: Add a user to a group.
       requestBody:
         content:
           application/json:
@@ -197,7 +197,7 @@ paths:
     delete:
       summary: Delete a group user
       operationId: deleteUserOfGroupById
-      description: '#TODO'
+      description: Delete a user from a group.
       responses:
         '204':
           description: No Content
@@ -228,7 +228,7 @@ paths:
     post:
       summary: Add a project to a group
       operationId: addProjectToGroup
-      description: '#TODO'
+      description: Add a project to a group.
       responses:
         '201':
           description: Created
@@ -255,7 +255,7 @@ paths:
       - $ref: ../parameters/ProjectId.yaml
     get:
       summary: Get a project of a group
-      description: '#TODO'
+      description: Get a project of a group.
       responses:
         '200':
           description: OK
@@ -270,7 +270,7 @@ paths:
     put:
       summary: Update a group project
       operationId: updateProjectOfGroupById
-      description: '#TODO'
+      description: Update a project of a group.
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -291,7 +291,7 @@ paths:
       responses:
         '204':
           description: No Content
-      description: '#TODO'
+      description: Delete a project from a group.
       tags:
         - Group's projects
         - Groups
@@ -304,8 +304,10 @@ components:
         - properties:
             items:
               type: array
+              description: List of groups.
               items:
                 $ref: ../models/group/Group.yaml
+      description: Page of groups.
       type: object
     CreateGroupRequest:
       title: Create group request
@@ -317,10 +319,12 @@ components:
               $ref: ../types/identifier.yaml
           required:
             - org_id
+      description: Create group request.
     UpdateGroupRequest:
       title: Update group request
       allOf:
         - $ref: ../models/group/GroupBase.yaml
+      description: Update group request.
     GroupUsersPage:
       title: Group users page
       allOf:
@@ -329,8 +333,10 @@ components:
           properties:
             items:
               type: array
+              description: List of group users.
               items:
                 $ref: '#/components/schemas/GroupUser'
+      description: Page of group users.
     GroupProjectsPage:
       title: Group projects page
       allOf:
@@ -339,39 +345,49 @@ components:
           properties:
             items:
               type: array
+              description: List of group projects.
               items:
                 $ref: '#/components/schemas/GroupProject'
+      description: Page of group projects.
     GroupUser:
       title: Group user
-      allOf:
-        - type: object
-          properties:
-            id:
-              $ref: ../types/identifier.yaml
-            created_at:
-              type: string
-              format: date-time
-            updated_at:
-              type: string
-              format: date-time
-        - $ref: ../models/user/UserBase.yaml
-        - $ref: ../models/user/UserLinks.yaml
+      properties:
+        id:
+          $ref: ../types/identifier.yaml
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of user adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of user updating in group.
+        user:
+          allOf:
+            - $ref: ../models/user/UserBase.yaml
+            - $ref: ../models/user/UserLinks.yaml
+          description: User details.
+      description: Information about user in group.
+      type: object
     GroupProject:
       title: Group project
-      allOf:
-        - type: object
-          properties:
-            id:
-              $ref: ../types/identifier.yaml
-            project_role:
-              $ref: ../enums/projectRole.yaml
-            created_at:
-              type: string
-              format: date-time
-            updated_at:
-              type: string
-              format: date-time
-        - $ref: ../models/project/ProjectBase.yaml
+      properties:
+        id:
+          $ref: ../types/identifier.yaml
+        project_role:
+          $ref: ../enums/projectRole.yaml
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of project adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of project updating in group.
+        project:
+          $ref: ../models/project/ProjectBase.yaml
+      description: Information about project in group.
+      type: object
   responses:
     Error:
       description: Error problem response
@@ -394,7 +410,6 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-  parameters: {}
 tags:
   - name: Groups
   - name: Group's users

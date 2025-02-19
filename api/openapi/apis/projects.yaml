@@ -104,6 +104,11 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
       description: Get all groups of a project.
     post:
       summary: Add a group to a project
@@ -111,6 +116,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/group/Group.yaml
       requestBody:
         content:
           application/json:
@@ -118,7 +127,7 @@ paths:
               type: object
               properties:
                 group_id:
-                  $ref: ../types/groupId.yaml
+                  $ref: ../types/identifier.yaml
                 project_role:
                   $ref: ../enums/projectRole.yaml
 components:
@@ -135,6 +144,35 @@ components:
           $ref: ../types/userId.yaml
         project_role:
           $ref: ../enums/projectRole.yaml
+    ProjectGroupsPage:
+      title: ProjectGroupsPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectGroup'
+    ProjectGroup:
+      title: Project group
+      properties:
+        id:
+          $ref: ../types/identifier.yaml
+        project_role:
+          $ref: ../enums/projectRole.yaml
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of project adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of project updating in group.    
+        group:
+          $ref: ../models/group/GroupBase.yaml
+      description: Information about project group.
+      type: object
 tags:
   - name: Projects
     description: Operations with projects
