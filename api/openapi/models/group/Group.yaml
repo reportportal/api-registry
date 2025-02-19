@@ -1,11 +1,8 @@
 title: Group information
-description: Group information about a project.
+description: Group information.
 properties:
   id:
-    type: integer
-    description: Group internal identifier.
-    format: int64
-    minimum: 0
+    $ref: ../../types/identifier.yaml
   name:
     $ref: ../../types/name.yaml
   slug:

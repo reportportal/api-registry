@@ -1,6 +1,7 @@
 title: Project information
 description: General information about a project.
 allOf:
+  - $ref: ./ProjectBase.yaml
   - type: object
     properties:
       id:
@@ -30,4 +31,3 @@ allOf:
         description: Timestamp when project was last updated.
       stats:
         $ref: ./ProjectStats.yaml
-  - $ref: ./ProjectBase.yaml
