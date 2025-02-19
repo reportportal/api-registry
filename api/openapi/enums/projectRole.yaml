@@ -1,6 +1,6 @@
 title: Project role
 type: string
-description: User role in the project.
+description: Role in the project.
 enum:
   - EDITOR
   - VIEWER
