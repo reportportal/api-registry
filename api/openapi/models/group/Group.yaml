@@ -1,5 +1,6 @@
 title: Group information
 description: Group information.
+type: object
 properties:
   id:
     $ref: ../../types/identifier.yaml
@@ -7,7 +8,7 @@ properties:
     $ref: ../../types/name.yaml
   slug:
     $ref: ../../types/slug.yaml
-  org_id:
+  organization_id:
     $ref: ../../types/identifier.yaml
   created_by:
     type: integer
@@ -21,4 +22,3 @@ properties:
     type: string
     format: date-time
     description: Timestamp when group was last updated.
-type: object

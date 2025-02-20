@@ -315,10 +315,10 @@ components:
         - $ref: ../models/group/GroupBase.yaml
         - type: object
           properties:
-            org_id:
+            organization_id:
               $ref: ../types/identifier.yaml
           required:
-            - org_id
+            - organization_id
       description: Create group request.
     UpdateGroupRequest:
       title: Update group request
@@ -351,32 +351,23 @@ components:
       description: Page of group projects.
     GroupUser:
       title: Group user
+      description: Information about user as a member in group.
+      type: object
       properties:
-        id:
-          $ref: ../types/identifier.yaml
-        created_at:
+        added_at:
           type: string
           format: date-time
           description: Timestamp of user adding to group.
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp of user updating in group.
         user:
-          allOf:
-            - $ref: ../models/user/UserBase.yaml
-            - $ref: ../models/user/UserLinks.yaml
-          description: User details.
-      description: Information about user in group.
-      type: object
+          $ref: ../models/user/UserInfo.yaml
     GroupProject:
       title: Group project
+      description: Information about project as a member in group.
+      type: object
       properties:
-        id:
-          $ref: ../types/identifier.yaml
         project_role:
           $ref: ../enums/projectRole.yaml
-        created_at:
+        added_at:
           type: string
           format: date-time
           description: Timestamp of project adding to group.
@@ -385,9 +376,7 @@ components:
           format: date-time
           description: Timestamp of project updating in group.
         project:
-          $ref: ../models/project/ProjectBase.yaml
-      description: Information about project in group.
-      type: object
+          $ref: ../models/project/ProjectInfo.yaml
   responses:
     Error:
       description: Error problem response
