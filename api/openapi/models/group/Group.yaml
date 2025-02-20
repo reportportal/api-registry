@@ -4,6 +4,7 @@ type: object
 properties:
   id:
     $ref: ../../types/identifier.yaml
+    description: Group identifier.
   uuid:
     type: string
     format: uuid

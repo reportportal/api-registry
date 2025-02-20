@@ -56,22 +56,6 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Filter by name.
-        - schema:
-            type: string
-            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
-          in: query
-          name: slug
-          description: Filter by slug.
-        - schema:
-            type: string
-          in: query
-          name: uuid
-          description: Filter by uuid.
       tags:
         - Groups
     post:
@@ -194,6 +178,9 @@ paths:
         '204':
           $ref: '#/components/responses/Update'
       description: Add user into group.
+      tags:
+        - Groups
+        - Group's users
   '/groups/{group_id}/projects':
     parameters:
       - $ref: ../parameters/GroupId.yaml
