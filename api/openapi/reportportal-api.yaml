@@ -2583,6 +2583,10 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/identifier'
+        uuid:
+          type: string
+          format: uuid
+          description: Global identifier of the group.
         name:
           $ref: '#/components/schemas/name'
         slug:
