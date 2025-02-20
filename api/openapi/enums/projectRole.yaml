@@ -1,0 +1,7 @@
+title: Project role
+type: string
+description: Role in the project.
+enum:
+  - EDITOR
+  - VIEWER
+default: VIEWER

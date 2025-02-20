@@ -1,0 +1,30 @@
+title: User Base
+description: |-
+  User's base information.
+
+  User has a unique email address, full name, and account type.
+
+  Instance account role can be either `ADMIN` or `USER`.
+  Only `ADMIN` users have access to change account type.
+type: object
+properties:
+  email:
+    type: string
+    format: email
+    description: User email.
+  full_name:
+    $ref: ../../types/name.yaml
+  instance_role:
+    $ref: ../../enums/instanceRole.yaml
+  account_type:
+    $ref: ../../enums/accountType.yaml
+  external_id:
+    type: string
+    description: User external identifier. Provided by external systems.
+  active:
+    type: boolean
+    description: Soft delete user attribute.
+    default: true
+required:
+  - email
+  - full_name

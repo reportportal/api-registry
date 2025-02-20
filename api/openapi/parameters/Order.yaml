@@ -1,0 +1,6 @@
+name: order
+in: query
+schema:
+  $ref: ../enums/order.yaml
+  default: ASC
+description: Indicate sorting direction.

@@ -1,0 +1,21 @@
+title: Account type
+type: string
+enum:
+  - INTERNAL
+  - UPSA
+  - GITHUB
+  - LDAP
+  - SAML
+  - SCIM
+default: INTERNAL
+description: |-
+  Indicates through which service or
+  authentication method the user account
+  was created.
+  
+  - INTERNAL: created by the system for internal use.
+  - UPSA: created for external integrations.
+  - GITHUB: created for external integrations.
+  - LDAP: created for external integrations.
+  - SAML: created for external integrations.
+  - SCIM: created for external integrations.

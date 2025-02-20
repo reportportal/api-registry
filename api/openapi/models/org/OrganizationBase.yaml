@@ -1,0 +1,13 @@
+title: Organization definition
+description: |
+  Basic information provided by the client.
+
+  A `slug` is a unique identifying part of an organization. Generated according to the organization name if not specified by the user.
+type: object
+properties:
+  name:
+    $ref: ../../types/name.yaml
+  slug:
+    $ref: ../../types/slug.yaml
+required:
+  - name

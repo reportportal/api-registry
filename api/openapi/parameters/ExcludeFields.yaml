@@ -1,0 +1,10 @@
+name: exclude_fields
+in: query
+required: false
+schema:
+  type: string
+  description: |-
+    A comma-separated list of fields to exclude from the response.
+    This can be used to reduce the size of the response payload.
+    For example, `exclude_fields=field1,field2`.
+  example: field1,field2

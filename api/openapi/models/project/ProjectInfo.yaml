@@ -1,0 +1,33 @@
+title: Project information
+description: General information about a project.
+allOf:
+  - $ref: ./ProjectBase.yaml
+  - type: object
+    properties:
+      id:
+        type: integer
+        description: Project internal identifier.
+        format: int64
+        minimum: 0
+      key:
+        type: string
+        description: |-
+          Unique identifying part of a project in
+          an instance.
+          Generated from an organization
+          slug and project slug.
+      organization_id:
+        type: integer
+        format: int64
+        description: Organization ID to which the project belongs.
+        minimum: 0
+      created_at:
+        type: string
+        format: date-time
+        description: Timestamp when project was created.
+      updated_at:
+        type: string
+        format: date-time
+        description: Timestamp when project was last updated.
+      stats:
+        $ref: ./ProjectStats.yaml

@@ -1,0 +1,6 @@
+title: Invitation status
+type: string
+enum:
+  - PENDING
+  - ACTIVATED
+description: User invitations status.

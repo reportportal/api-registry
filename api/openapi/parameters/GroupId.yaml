@@ -1,0 +1,8 @@
+name: group_id
+in: path
+required: true
+schema:
+  type: integer
+  format: int64
+  minimum: 0
+description: Group identifier.

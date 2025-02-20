@@ -1,0 +1,33 @@
+title: Project statistics
+description: 'Aggregated statistics about a project including user, launch, and billing information.'
+type: object
+properties:
+  user_stats:
+    type: object
+    description: Statistics about users assigned to the project.
+    properties:
+      total_count:
+        type: integer
+        minimum: 0
+        description: Total number of users assigned to the project.
+  launch_stats:
+    type: object
+    description: Statistics about launches associated with the project.
+    properties:
+      last_occurred_at:
+        type: string
+        format: date-time
+        description: The date and time of the last launch occurred in the project.
+      total_count:
+        type: integer
+        minimum: 0
+        description: Total number of launches in the project.
+  billing_stats:
+    type: object
+    description: Statistics about the project's billing information. Available only if the billing plugin is enabled.
+    properties:
+      storage_usage:
+        type: integer
+        minimum: 0
+        maximum: 100
+        description: The percentage of storage used by the project.

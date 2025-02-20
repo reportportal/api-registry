@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: Groups API
   version: 0.0.1
-  description: |
-    This is the Groups API. You can use it to manage groups, users, and projects.
+  description: |-
+    The Groups collection API. You can use it to manage groups, users, and projects.
     The API is based on REST principles and uses standard HTTP methods.
   contact:
     name: ReportPortal team
@@ -27,6 +27,8 @@ servers:
       basePath:
         default: api
         description: Base path of Report Portal API
+security:
+  - BearerAuth: []
 paths:
   /groups:
     get:
@@ -38,9 +40,35 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: Get instance groups with optional filtering and sorting.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter by name.
+        - schema:
+            type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          in: query
+          name: slug
+          description: Filter by slug.
+      tags:
+        - Groups
     post:
       summary: Create a group
       operationId: createGroup
@@ -49,255 +77,329 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Group'
+              $ref: '#/components/schemas/CreateGroupRequest'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
-  '/groups/{groupId}':
+                $ref: ../models/group/Group.yaml
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      tags:
+        - Groups
+  '/groups/{group_id}':
+    parameters:
+      - $ref: ../parameters/GroupId.yaml
     get:
-      summary: Get a group by ID
+      summary: Get a group
       operationId: getGroupById
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: ../models/group/Group.yaml
+      description: Get a group by ID.
+      tags:
+        - Groups
     put:
       summary: Update a group
       operationId: updateGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Group'
+              $ref: '#/components/schemas/UpdateGroupRequest'
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Group'
+          $ref: '#/components/responses/Update'
+      description: Update a group by ID.
+      tags:
+        - Groups
     delete:
       summary: Delete a group
       operationId: deleteGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
       responses:
         '204':
           description: No Content
-  '/groups/{groupId}/users':
+      description: Delete a group by ID.
+      tags:
+        - Groups
+  '/groups/{group_id}/users':
+    parameters:
+      - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get all users of a group
       operationId: getUsersOfGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/GroupUsersPage'
+      description: Get all users of a group.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+      tags:
+        - Groups
+        - Group's users
     post:
       summary: Add a user to a group
-      operationId: addUserToGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                  format: int64
-                  description: User ID
+      operationId: addUserToGroupById
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  group_id:
-                    type: integer
-                    format: int64
-                    description: Group ID
-                  user_id:
-                    type: integer
-                    format: int64
-                    description: User ID
+                $ref: '#/components/schemas/GroupUser'
+      description: Add a user to a group.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: ../types/identifier.yaml
+      tags:
+        - Groups
+        - Group's users
+  '/groups/{group_id}/users/{user_id}':
+    parameters:
+      - $ref: ../parameters/GroupId.yaml
+      - $ref: ../parameters/UserId.yaml
+    get:
+      summary: Get a user of a group
+      operationId: getUserOfGroupById
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUser'
+      description: Get all users of a group.
+      tags:
+        - Groups
+        - Group's users
     delete:
-      summary: Remove a user from a group
-      operationId: removeUserFromGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
-        - name: userId
-          in: query
-          required: true
-          description: User ID
-          schema:
-            type: integer
-            format: int64
+      summary: Delete a group user
+      operationId: deleteUserOfGroupById
+      description: Delete a user from a group.
       responses:
         '204':
           description: No Content
-  '/groups/{groupId}/projects':
+      tags:
+        - Groups
+        - Group's users
+  '/groups/{group_id}/projects':
+    parameters:
+      - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get all projects of a group
       operationId: getProjectsOfGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/GroupProjectsPage'
+      description: Get all projects of a group.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+      tags:
+        - Groups
+        - Group's projects
     post:
       summary: Add a project to a group
       operationId: addProjectToGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                project_id:
-                  type: integer
-                  format: int64
-                  description: Project ID
+      description: Add a project to a group.
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  group_id:
-                    type: integer
-                    format: int64
-                    description: Group ID
-                  project_id:
-                    type: integer
-                    format: int64
-                    description: Project ID
+                $ref: '#/components/schemas/GroupProject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: ../types/identifier.yaml
+                project_role:
+                  $ref: ../enums/projectRole.yaml
+      tags:
+        - Groups
+        - Group's projects
+  '/groups/{group_id}/projects/{project_id}':
+    parameters:
+      - $ref: ../parameters/GroupId.yaml
+      - $ref: ../parameters/ProjectId.yaml
+    get:
+      summary: Get a project of a group
+      description: Get a project of a group.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupProject'
+      operationId: getProjectOfGroupById
+      tags:
+        - Groups
+        - Group's projects
+    put:
+      summary: Update a group project
+      operationId: updateProjectOfGroupById
+      description: Update a project of a group.
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_role:
+                  $ref: ../enums/projectRole.yaml
+      tags:
+        - Group's projects
+        - Groups
     delete:
-      summary: Remove a project from a group
-      operationId: removeProjectFromGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          description: Group ID
-          schema:
-            type: integer
-            format: int64
-        - name: projectId
-          in: query
-          required: true
-          description: Project ID
-          schema:
-            type: integer
-            format: int64
+      summary: Delete a group project
+      operationId: deleteProjectOfGroupById
       responses:
         '204':
           description: No Content
+      description: Delete a project from a group.
+      tags:
+        - Group's projects
+        - Groups
 components:
   schemas:
-    Group:
+    GroupPage:
+      title: Group page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - properties:
+            items:
+              type: array
+              description: List of groups.
+              items:
+                $ref: ../models/group/Group.yaml
+      description: Page of groups.
+      type: object
+    CreateGroupRequest:
+      title: Create group request
+      allOf:
+        - $ref: ../models/group/GroupBase.yaml
+        - type: object
+          properties:
+            organization_id:
+              $ref: ../types/identifier.yaml
+          required:
+            - organization_id
+      description: Create group request.
+    UpdateGroupRequest:
+      title: Update group request
+      allOf:
+        - $ref: ../models/group/GroupBase.yaml
+      description: Update group request.
+    GroupUsersPage:
+      title: Group users page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              description: List of group users.
+              items:
+                $ref: '#/components/schemas/GroupUser'
+      description: Page of group users.
+    GroupProjectsPage:
+      title: Group projects page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              description: List of group projects.
+              items:
+                $ref: '#/components/schemas/GroupProject'
+      description: Page of group projects.
+    GroupUser:
+      title: Group user
+      description: Information about user as a member in group.
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Group ID
-        name:
-          type: string
-          description: Group name
-        description:
-          type: string
-          description: Group description
-        created_by:
-          type: integer
-          format: int64
-          description: User ID who created the group
-        created_at:
+        added_at:
           type: string
           format: date-time
-          description: Date and time when the group was created
+          description: Timestamp of user adding to group.
+        user:
+          $ref: ../models/user/UserInfo.yaml
+    GroupProject:
+      title: Group project
+      description: Information about project as a member in group.
+      type: object
+      properties:
+        project_role:
+          $ref: ../enums/projectRole.yaml
+        added_at:
+          type: string
+          format: date-time
+          description: Timestamp of project adding to group.
         updated_at:
           type: string
           format: date-time
-          description: Date and time when the group was updated
+          description: Timestamp of project updating in group.
+        project:
+          $ref: ../models/project/ProjectInfo.yaml
+  responses:
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Groups
+  - name: Group's users
+  - name: Group's projects

@@ -1,0 +1,1020 @@
+openapi: 3.0.3
+info:
+  title: Organizations API
+  version: Organization
+  description: API Collection for working with organizations.
+  contact:
+    name: Reingold Shekhtel
+    email: reingold_shekhtel@epam.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: '{protocol}://{authority}/{basePath}'
+    description: ReportPortal server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+        description: Protocol
+      authority:
+        default: demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: api
+        description: Base path of Report Portal API
+paths:
+  /organizations:
+    get:
+      summary: Get a list of organizations
+      tags:
+        - Organization
+        - Implemented
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      operationId: get-organizations
+      description: |-
+        Get a list of existing organizations.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - limited to viewing only their assigned organizations.
+        - `MEMBER` - limited to viewing only their assigned organizations.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter organizations by name by substring.
+        - schema:
+            type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          in: query
+          name: slug
+          description: Filter organizations by slug.
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+    post:
+      summary: Create a new organization
+      operationId: post-organizations
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInfo'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '402':
+          description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Problem.yaml
+      description: |
+        > **Enterprise edition feature** 
+        >
+
+        Create a new organization. Provide name and slug.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/org/OrganizationBase.yaml
+        description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
+      tags:
+        - Organization
+  /organizations/searches:
+    post:
+      summary: Create search request for organizations
+      operationId: post-organizations-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: |
+        Create search request for organizations by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `name` - filter by organization name.
+        - `slug` - filter by organization slug.
+        - `type` - filter by organization type.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `projects` - filter by the number of projects.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+        description: Provide search criteria for organizations.
+      tags:
+        - Organization
+        - Implemented
+  '/organizations/{org_id}':
+    get:
+      summary: Get organization information
+      tags:
+        - Organization
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInfo'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-organizations-org_id
+      description: |-
+        Provide organization information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    put:
+      summary: Update organization
+      operationId: put-organizations-org_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Update organization information with the provided data.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/org/OrganizationBase.yaml
+        description: Provide organization information for update.
+      tags:
+        - Organization
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      responses:
+        '204':
+          description: No Content
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      tags:
+        - Organization
+  '/organizations/{org_id}/users':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      summary: Get organization's users
+      tags:
+        - Organization User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUsersPage'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-organizations-org_id-users
+      description: |-
+        Provides a list of organization's users.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - in: query
+          name: sort
+          description: Indicate sort by field.
+          schema:
+            type: string
+            default: full_name
+        - schema:
+            type: string
+          in: query
+          name: full_name
+          description: Filter users by full name containing (case insensitive).
+    post:
+      summary: Assignment user to organization
+      operationId: post-organizations-org_id-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: User Assignment Response
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The user was added to the organization.
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Problem.yaml
+      description: |-
+        This is a endpoint that provides a flow for assigning a user to the organization.
+        It can be used as a bulk endpoint if you provide a list of projects for assignment.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+
+        ### Project authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+
+        #### For assignment user to the organization's projects:
+
+        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to the organization.
+
+        ### Response event statuses
+
+        You will get different statuses for project assignments according to which user you want
+        to assign to the organization.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgUserAssignment'
+        description: Definition for a user assignment.
+      tags:
+        - Organization User
+  '/organizations/{org_id}/users/searches':
+    parameters:
+      - schema:
+          type: string
+        name: org_id
+        in: path
+        required: true
+    post:
+      summary: Create search request for organization users
+      operationId: post-organizations-org_id-users-searches
+      tags:
+        - Organization User
+      description: |
+        Create search request for organization users by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `uuid` - filter by user UUID.
+        - `external_id` - filter by user external identifier.
+        - `email` - filter by user email.
+        - `full_name` - filter by user full name.
+        - `account_type` - filter by account type.
+        - `instance_role` - filter by user role in the instance.
+        - `org_role` - filter by user role in the organization.
+        - `account_type` - filter by account type.
+        - `active` - filter by user activity.
+        - `created_at` - date when a user was created.
+        - `updated_at` - date when a user was updated.
+        - `assigned_at` - date when a user was assigned to the organization.
+        - `suggest` - search by `full_name`, `email`.
+
+        ### Authority
+         
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        #### ADMINISTRATOR and MANAGER
+
+        - Filter by all attributes.
+        - Use all operations.
+
+        #### MEMBER
+
+        - Filter by `suggest`.
+        - Use only the `EQ` operation.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUsersPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+  '/organizations/{org_id}/users/{user_id}':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/UserId.yaml
+    get:
+      summary: Get organization user profile
+      tags:
+        - Organization User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationUser'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-organizations-org_id-users-user_id
+      description: |-
+        Get organization user profile.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with `MEMBER` role can get only his profile.
+
+        ### Member authority
+
+        - `EDITOR`
+        - `VIEWER`
+    put:
+      summary: Update organization user details
+      operationId: put-organizations-org_id-users-user_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Org User Update Request
+              allOf:
+                - $ref: ../models/user/UserOrgRole.yaml
+                - type: object
+                  properties:
+                    projects:
+                      type: array
+                      items:
+                        $ref: ../models/user/UserProjectInfo.yaml
+        description: Provide organization's user information for update.
+      tags:
+        - Organization User
+      description: |-
+        Update organization user details.
+
+        Organization user details for update.
+
+        ### Organization authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Project authority
+
+        - `EDITOR`
+    delete:
+      summary: Unassigned organization user
+      operationId: delete-organizations-org_id-users-user_id
+      responses:
+        '204':
+          description: No Content
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Unassigned user from an organization and all organization projects.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - restricted to unassigning only themselves.
+      tags:
+        - Organization User
+  '/organizations/{org_id}/projects':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      summary: Get organization projects
+      tags:
+        - Organization Project
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectsPage'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-organizations-org_id-projects
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter projects by containing name.
+        - schema:
+            type: string
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          in: query
+          name: slug
+          description: Filter projects by slug.
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+      description: |-
+        Get a list of organization projects.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - restricted to viewing only their assigned projects.
+    post:
+      summary: Create a new project
+      tags:
+        - Organization Project
+      operationId: post-organizations-org_id-projects
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/project/ProjectInfo.yaml
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Create a new project in the organization. 
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/project/ProjectBase.yaml
+        description: 'You can create an project provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
+  '/organizations/{org_id}/projects/searches':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    post:
+      summary: Create search request for organization projects
+      operationId: post-organizations-org_id-projects-searches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationProjectsPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Create search request for organization projects by provided criteria.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `name` - filter by project name.
+        - `slug` - filter by project slug.
+        - `key` - filter by project key.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+      tags:
+        - Organization Project
+        - Implemented
+  '/organizations/{org_id}/projects/{project_id}':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/projectId'
+    get:
+      summary: Get project information
+      tags:
+        - Organization Project
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/project/ProjectInfo.yaml
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      operationId: get-organizations-org_id-projects-project_id
+      description: |-
+        Get project information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can get only his project.
+
+        ### Member authority
+
+        - `EDITOR`
+        - `VIEWER`
+    put:
+      summary: Update project
+      operationId: put-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/project/ProjectUpdate.yaml
+        description: ''
+      description: |-
+        Update project information.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with the `MEMBER` role can update only his project.
+
+        ### Member authority
+
+        - `EDITOR`
+      tags:
+        - Organization Project
+    patch:
+      summary: Partial project update
+      operationId: patch-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Partial update project information.
+        Model relates with a PUT Project update model.
+
+        | Path       | Operation | Value
+        |-           |-          |-
+        | `/name`    | `replace` | `string`
+        | `/slug`    | `replace` | `string`
+        | `/users/-` | `add`     | `object{id:int,project_role:string}`
+        | `/users`   | `replace` | `array<object{id:int,project_role:string}>`, `array<null>`
+        | `/users`   | `remove`  | `array<object{id:int,project_role:string}>`, `null`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Member authority
+
+        - `EDITOR`
+      tags:
+        - Organization Project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: ../models/PatchOperation.yaml
+    delete:
+      summary: Delete project
+      tags:
+        - Organization Project
+      operationId: delete-organizations-org_id-projects-project_id
+      responses:
+        '204':
+          description: No Content
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Delete project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+components:
+  schemas:
+    OrganizationInfo:
+      title: Organization information
+      description: Various information about an organization.
+      allOf:
+        - $ref: ../models/org/OrganizationBase.yaml
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: Organization ReportPortal identifier.
+              minimum: 0
+            type:
+              $ref: ../enums/orgType.yaml
+            external_id:
+              type: string
+              description: |-
+                External organization identifier.
+                It is created for integration.
+            created_at:
+              type: string
+              format: date-time
+              description: Creation date.
+            updated_at:
+              type: string
+              format: date-time
+              description: Last update date.
+        - $ref: '#/components/schemas/OrganizationStats'
+    OrganizationStats:
+      title: Organization statistics
+      type: object
+      description: General information about the organization.
+      properties:
+        relationships:
+          type: object
+          properties:
+            users:
+              type: object
+              description: General information about the organization users.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      minimum: 0
+                      description: Total count of users in the organization.
+            projects:
+              type: object
+              description: General information about the organization projects.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      minimum: 0
+                      description: Total count of projects in the organization.
+            launches:
+              type: object
+              description: General information about the organization launches.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    last_occurred_at:
+                      type: string
+                      format: date-time
+                      description: Last launch occurrence date.
+                    count:
+                      type: integer
+                      minimum: 0
+                      description: |-
+                        Total count of launches in the organization.
+                        Access: Admin, Manager
+            billing:
+              type: object
+              description: |-
+                General information about the organization billing.
+                Available only if a Billing plugin is enabled.
+              properties:
+                meta:
+                  type: object
+                  properties:
+                    plan_name:
+                      type: string
+                      description: Plan name.
+                    storage_usage:
+                      type: integer
+                      minimum: 0
+                      description: Storage usage in percents.
+                      maximum: 100
+    OrganizationPage:
+      title: OrganizationProfilesPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationInfo'
+    OrganizationUser:
+      title: Organization user account
+      description: A comprehensive set of user information related to a user's organization.
+      allOf:
+        - $ref: ../models/user/UserInfo.yaml
+        - $ref: ../models/user/UserOrgRole.yaml
+        - type: object
+          properties:
+            assigned_at:
+              type: string
+              format: date-time
+              description: |-
+                A time when a user was assigned to
+                the organization.
+            stats:
+              type: object
+              properties:
+                project_stats:
+                  type: object
+                  description: Statistics related to the user's projects.
+                  properties:
+                    total_count:
+                      type: integer
+                      minimum: 0
+                      description: Total number of user's projects in the organization.
+    OrganizationUsersPage:
+      title: List of organization users
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationUser'
+    OrganizationProjectsPage:
+      title: List of organization projects
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/project/ProjectInfo.yaml
+          required:
+            - items
+    OrgUserAssignment:
+      title: User assignment request
+      allOf:
+        - $ref: ../models/user/UserOrgRole.yaml
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              minimum: 0
+              description: User's internal identifier.
+            projects:
+              type: array
+              items:
+                $ref: ../models/user/UserProjectInfo.yaml
+          required:
+            - id
+  parameters:
+    organizationId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Organization identifier.
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Project identifier.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
+tags:
+  - name: Organization
+    description: Organizations collection
+  - name: Organization Project
+    description: Organization projects collection
+  - name: Organization User
+    description: Organization users collection
+  - name: Implemented
+    description: Endpoints that are implemented
+security:
+  - BearerAuth: []

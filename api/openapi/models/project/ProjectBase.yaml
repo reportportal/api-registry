@@ -1,0 +1,9 @@
+title: Project details
+type: object
+properties:
+  name:
+    $ref: ../../types/name.yaml
+  slug:
+    $ref: ../../types/slug.yaml
+required:
+  - name

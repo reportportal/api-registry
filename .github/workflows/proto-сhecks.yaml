@@ -1,4 +1,4 @@
-name: Protocol Buffers сhecks
+name: Protocol Buffers checks
 
 on:
   pull_request:

@@ -1,0 +1,5 @@
+title: Identifier
+type: integer
+format: int64
+minimum: 1
+description: Resource identifier.

@@ -1,0 +1,5 @@
+title: User ID
+type: integer
+format: int64
+minimum: 0
+description: User identifier.

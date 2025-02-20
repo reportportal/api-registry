@@ -1,0 +1,16 @@
+title: Link
+description: JSON Hypertext Application Language (HAL) model for a link.
+type: object
+properties:
+  href:
+    type: string
+    format: uri
+    description: The URI of the resource.
+  type:
+    type: string
+    description: 'The media type of the resource (e.g., ''application/json'' or ''image/png'').'
+  title:
+    type: string
+    description: A human-readable description of the link.
+required:
+  - href
