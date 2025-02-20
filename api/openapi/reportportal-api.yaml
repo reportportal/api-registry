@@ -217,6 +217,11 @@ paths:
           in: query
           name: slug
           description: Filter by slug.
+        - schema:
+            type: string
+          in: query
+          name: uuid
+          description: Filter by uuid.
       tags:
         - Groups
       security:
@@ -1454,14 +1459,17 @@ paths:
     get:
       summary: Get all groups of a project
       operationId: getGroupsOfProject
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties: {}
+                $ref: '#/components/schemas/ProjectGroupsPage'
       description: Get all groups of a project.
       tags:
         - projects_other
@@ -1476,7 +1484,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/ProjectGroup'
       requestBody:
         content:
           application/json:
@@ -3183,23 +3191,23 @@ components:
                 $ref: '#/components/schemas/ProjectGroup'
     ProjectGroup:
       title: Project group
+      description: Information about project group.
+      type: object
       properties:
-        id:
-          $ref: '#/components/schemas/identifier'
         project_role:
           $ref: '#/components/schemas/projectRole'
-        created_at:
+        added_at:
           type: string
           format: date-time
           description: Timestamp of project adding to group.
+          x-stoplight:
+            id: 10gkz1piwd02r
         updated_at:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
         group:
-          $ref: '#/components/schemas/GroupBase'
-      description: Information about project group.
-      type: object
+          $ref: '#/components/schemas/Group'
     Invitation:
       title: Invitation
       type: object
