@@ -176,7 +176,7 @@ paths:
       operationId: addUserToGroupById
       responses:
         '204':
-          $ref: '#/components/responses/Update'
+          description: No Content
       description: Add user into group.
       tags:
         - Groups
@@ -226,7 +226,7 @@ paths:
       description: Add or update project in group.
       responses:
         '204':
-          $ref: '#/components/responses/Update'
+          description: No Content
       requestBody:
         content:
           application/json:
