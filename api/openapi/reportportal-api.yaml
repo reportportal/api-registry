@@ -88,8 +88,6 @@ tags:
     x-displayName: Group's users
   - name: Group's projects
     x-displayName: Group's projects
-  - name: groups_other
-    x-displayName: other
   - name: Projects
     description: Operations with projects
     x-displayName: Projects
@@ -123,22 +121,6 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Filter by name.
-        - schema:
-            type: string
-            pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          in: query
-          name: slug
-          description: Filter by slug.
-        - schema:
-            type: string
-          in: query
-          name: uuid
-          description: Filter by uuid.
       tags:
         - Groups
       security:
@@ -278,7 +260,8 @@ paths:
           $ref: '#/components/responses/Update'
       description: Add user into group.
       tags:
-        - groups_other
+        - Groups
+        - Group's users
       security:
         - BearerAuth: []
   /groups/{group_id}/projects:
@@ -555,6 +538,7 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/identifier'
+          description: Group identifier.
         uuid:
           type: string
           format: uuid
