@@ -4,6 +4,10 @@ type: object
 properties:
   id:
     $ref: ../../types/identifier.yaml
+  uuid:
+    type: string
+    format: uuid
+    description: Global identifier of the group.
   name:
     $ref: ../../types/name.yaml
   slug:
