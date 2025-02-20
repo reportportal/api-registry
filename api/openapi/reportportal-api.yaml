@@ -2488,10 +2488,10 @@ components:
         - $ref: '#/components/schemas/GroupBase'
         - type: object
           properties:
-            org_id:
+            organization_id:
               $ref: '#/components/schemas/identifier'
           required:
-            - org_id
+            - organization_id
       description: Create group request.
     UpdateGroupRequest:
       title: Update group request
@@ -2524,32 +2524,23 @@ components:
       description: Page of group projects.
     GroupUser:
       title: Group user
+      description: Information about user as a member in group.
+      type: object
       properties:
-        id:
-          $ref: '#/components/schemas/identifier'
-        created_at:
+        added_at:
           type: string
           format: date-time
           description: Timestamp of user adding to group.
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp of user updating in group.
         user:
-          allOf:
-            - $ref: '#/components/schemas/UserBase'
-            - $ref: '#/components/schemas/UserLinks'
-          description: User details.
-      description: Information about user in group.
-      type: object
+          $ref: '#/components/schemas/UserInfo'
     GroupProject:
       title: Group project
+      description: Information about project as a member in group.
+      type: object
       properties:
-        id:
-          $ref: '#/components/schemas/identifier'
         project_role:
           $ref: '#/components/schemas/projectRole'
-        created_at:
+        added_at:
           type: string
           format: date-time
           description: Timestamp of project adding to group.
@@ -2558,9 +2549,7 @@ components:
           format: date-time
           description: Timestamp of project updating in group.
         project:
-          $ref: '#/components/schemas/ProjectBase'
-      description: Information about project in group.
-      type: object
+          $ref: '#/components/schemas/ProjectInfo'
     identifier:
       title: Identifier
       type: integer
@@ -2590,6 +2579,7 @@ components:
     Group:
       title: Group information
       description: Group information.
+      type: object
       properties:
         id:
           $ref: '#/components/schemas/identifier'
@@ -2597,7 +2587,7 @@ components:
           $ref: '#/components/schemas/name'
         slug:
           $ref: '#/components/schemas/slug'
-        org_id:
+        organization_id:
           $ref: '#/components/schemas/identifier'
         created_by:
           type: integer
@@ -2611,7 +2601,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when group was last updated.
-      type: object
     Problem:
       title: Problem
       type: object
@@ -2777,6 +2766,35 @@ components:
             href: https://api.example.com/users/123/avatar
             type: image/png
             title: User's profile picture
+    UserInfo:
+      title: User general information
+      description: Contains general information associated with a user account.
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: User internal identifier.
+              minimum: 0
+            uuid:
+              type: string
+              format: uuid
+              description: User ID for external systems.
+            created_at:
+              type: string
+              format: date-time
+              description: When user's account was created.
+            updated_at:
+              type: string
+              format: date-time
+              description: When user's data was modified.
+            last_login_at:
+              type: string
+              format: date-time
+              description: When user last logged in.
+        - $ref: '#/components/schemas/UserBase'
+        - $ref: '#/components/schemas/UserLinks'
     projectRole:
       title: Project role
       type: string
@@ -2795,6 +2813,78 @@ components:
           $ref: '#/components/schemas/slug'
       required:
         - name
+    ProjectStats:
+      title: Project statistics
+      description: >-
+        Aggregated statistics about a project including user, launch, and
+        billing information.
+      type: object
+      properties:
+        user_stats:
+          type: object
+          description: Statistics about users assigned to the project.
+          properties:
+            total_count:
+              type: integer
+              minimum: 0
+              description: Total number of users assigned to the project.
+        launch_stats:
+          type: object
+          description: Statistics about launches associated with the project.
+          properties:
+            last_occurred_at:
+              type: string
+              format: date-time
+              description: The date and time of the last launch occurred in the project.
+            total_count:
+              type: integer
+              minimum: 0
+              description: Total number of launches in the project.
+        billing_stats:
+          type: object
+          description: >-
+            Statistics about the project's billing information. Available only
+            if the billing plugin is enabled.
+          properties:
+            storage_usage:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: The percentage of storage used by the project.
+    ProjectInfo:
+      title: Project information
+      description: General information about a project.
+      allOf:
+        - $ref: '#/components/schemas/ProjectBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Project internal identifier.
+              format: int64
+              minimum: 0
+            key:
+              type: string
+              description: |-
+                Unique identifying part of a project in
+                an instance.
+                Generated from an organization
+                slug and project slug.
+            organization_id:
+              type: integer
+              format: int64
+              description: Organization ID to which the project belongs.
+              minimum: 0
+            created_at:
+              type: string
+              format: date-time
+              description: Timestamp when project was created.
+            updated_at:
+              type: string
+              format: date-time
+              description: Timestamp when project was last updated.
+            stats:
+              $ref: '#/components/schemas/ProjectStats'
     OrganizationInfo:
       title: Organization information
       description: Various information about an organization.
@@ -2993,35 +3083,6 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
-    UserInfo:
-      title: User general information
-      description: Contains general information associated with a user account.
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: User internal identifier.
-              minimum: 0
-            uuid:
-              type: string
-              format: uuid
-              description: User ID for external systems.
-            created_at:
-              type: string
-              format: date-time
-              description: When user's account was created.
-            updated_at:
-              type: string
-              format: date-time
-              description: When user's data was modified.
-            last_login_at:
-              type: string
-              format: date-time
-              description: When user last logged in.
-        - $ref: '#/components/schemas/UserBase'
-        - $ref: '#/components/schemas/UserLinks'
     orgRole:
       title: Organization role
       type: string
@@ -3056,78 +3117,6 @@ components:
               description: Project's internal identifier.
               minimum: 0
         - $ref: '#/components/schemas/UserProjectRole'
-    ProjectStats:
-      title: Project statistics
-      description: >-
-        Aggregated statistics about a project including user, launch, and
-        billing information.
-      type: object
-      properties:
-        user_stats:
-          type: object
-          description: Statistics about users assigned to the project.
-          properties:
-            total_count:
-              type: integer
-              minimum: 0
-              description: Total number of users assigned to the project.
-        launch_stats:
-          type: object
-          description: Statistics about launches associated with the project.
-          properties:
-            last_occurred_at:
-              type: string
-              format: date-time
-              description: The date and time of the last launch occurred in the project.
-            total_count:
-              type: integer
-              minimum: 0
-              description: Total number of launches in the project.
-        billing_stats:
-          type: object
-          description: >-
-            Statistics about the project's billing information. Available only
-            if the billing plugin is enabled.
-          properties:
-            storage_usage:
-              type: integer
-              minimum: 0
-              maximum: 100
-              description: The percentage of storage used by the project.
-    ProjectInfo:
-      title: Project information
-      description: General information about a project.
-      allOf:
-        - $ref: '#/components/schemas/ProjectBase'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: Project internal identifier.
-              format: int64
-              minimum: 0
-            key:
-              type: string
-              description: |-
-                Unique identifying part of a project in
-                an instance.
-                Generated from an organization
-                slug and project slug.
-            organization_id:
-              type: integer
-              format: int64
-              description: Organization ID to which the project belongs.
-              minimum: 0
-            created_at:
-              type: string
-              format: date-time
-              description: Timestamp when project was created.
-            updated_at:
-              type: string
-              format: date-time
-              description: Timestamp when project was last updated.
-            stats:
-              $ref: '#/components/schemas/ProjectStats'
     userId:
       title: User ID
       type: integer
