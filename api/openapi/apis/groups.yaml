@@ -102,7 +102,7 @@ paths:
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
-      summary: Get a group
+      summary: Get group
       operationId: getGroupById
       responses:
         '200':
@@ -115,7 +115,7 @@ paths:
       tags:
         - Groups
     put:
-      summary: Update a group
+      summary: Update group
       operationId: updateGroup
       requestBody:
         required: true
@@ -130,7 +130,7 @@ paths:
       tags:
         - Groups
     delete:
-      summary: Delete a group
+      summary: Delete group
       operationId: deleteGroup
       responses:
         '204':
@@ -142,7 +142,7 @@ paths:
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
-      summary: Get all users of a group
+      summary: Get all group users
       operationId: getUsersOfGroup
       responses:
         '200':
@@ -151,33 +151,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupUsersPage'
-      description: Get all users of a group.
+      description: Get all users of group.
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
         - $ref: ../parameters/Order.yaml
-      tags:
-        - Groups
-        - Group's users
-    post:
-      summary: Add a user to a group
-      operationId: addUserToGroupById
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupUser'
-      description: Add a user to a group.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  $ref: ../types/identifier.yaml
       tags:
         - Groups
         - Group's users
@@ -186,7 +164,7 @@ paths:
       - $ref: ../parameters/GroupId.yaml
       - $ref: ../parameters/UserId.yaml
     get:
-      summary: Get a user of a group
+      summary: Get group user
       operationId: getUserOfGroupById
       responses:
         '200':
@@ -195,12 +173,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupUser'
-      description: Get all users of a group.
+      description: Get all users of group.
       tags:
         - Groups
         - Group's users
     delete:
-      summary: Delete a group user
+      summary: Delete group user
       operationId: deleteUserOfGroupById
       description: Delete a user from a group.
       responses:
@@ -209,11 +187,18 @@ paths:
       tags:
         - Groups
         - Group's users
+    put:
+      summary: Add group user
+      operationId: addUserToGroupById
+      responses:
+        '204':
+          $ref: '#/components/responses/Update'
+      description: Add user into group.
   '/groups/{group_id}/projects':
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
-      summary: Get all projects of a group
+      summary: Get all group projects
       operationId: getProjectsOfGroup
       responses:
         '200':
@@ -222,35 +207,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupProjectsPage'
-      description: Get all projects of a group.
+      description: Get all projects of group.
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
         - $ref: ../parameters/Order.yaml
-      tags:
-        - Groups
-        - Group's projects
-    post:
-      summary: Add a project to a group
-      operationId: addProjectToGroup
-      description: Add a project to a group.
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupProject'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  $ref: ../types/identifier.yaml
-                project_role:
-                  $ref: ../enums/projectRole.yaml
       tags:
         - Groups
         - Group's projects
@@ -259,8 +220,8 @@ paths:
       - $ref: ../parameters/GroupId.yaml
       - $ref: ../parameters/ProjectId.yaml
     get:
-      summary: Get a project of a group
-      description: Get a project of a group.
+      summary: Get group project
+      description: Get project of group.
       responses:
         '200':
           description: OK
@@ -273,11 +234,11 @@ paths:
         - Groups
         - Group's projects
     put:
-      summary: Update a group project
+      summary: Add or update group project
       operationId: updateProjectOfGroupById
-      description: Update a project of a group.
+      description: Add or update project in group.
       responses:
-        '200':
+        '204':
           $ref: '#/components/responses/Update'
       requestBody:
         content:
@@ -285,18 +246,18 @@ paths:
             schema:
               type: object
               properties:
-                project_role:
+                permission:
                   $ref: ../enums/projectRole.yaml
       tags:
         - Group's projects
         - Groups
     delete:
-      summary: Delete a group project
+      summary: Delete group project
       operationId: deleteProjectOfGroupById
       responses:
         '204':
           description: No Content
-      description: Delete a project from a group.
+      description: Delete project from group.
       tags:
         - Group's projects
         - Groups
@@ -318,12 +279,6 @@ components:
       title: Create group request
       allOf:
         - $ref: ../models/group/GroupBase.yaml
-        - type: object
-          properties:
-            organization_id:
-              $ref: ../types/identifier.yaml
-          required:
-            - organization_id
       description: Create group request.
     UpdateGroupRequest:
       title: Update group request
@@ -356,21 +311,40 @@ components:
       description: Page of group projects.
     GroupUser:
       title: Group user
-      description: Information about user as a member in group.
+      description: Information about a user as a group member.
       type: object
       properties:
+        id:
+          $ref: ../types/identifier.yaml
+        uuid:
+          type: string
+          format: uuid
+          description: External user identifier.
+        email:
+          type: string
+          format: email
+        full_name:
+          $ref: ../types/name.yaml
+        external_id:
+          type: string
+        instance_role:
+          $ref: ../enums/instanceRole.yaml
+        account_type:
+          $ref: ../enums/accountType.yaml
         added_at:
           type: string
           format: date-time
           description: Timestamp of user adding to group.
-        user:
-          $ref: ../models/user/UserInfo.yaml
     GroupProject:
       title: Group project
-      description: Information about project as a member in group.
+      description: Information about a project as a group member.
       type: object
       properties:
-        project_role:
+        id:
+          $ref: ../types/identifier.yaml
+        name:
+          $ref: ../types/name.yaml
+        permission:
           $ref: ../enums/projectRole.yaml
         added_at:
           type: string
@@ -380,8 +354,6 @@ components:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
-        project:
-          $ref: ../models/project/ProjectInfo.yaml
   responses:
     Error:
       description: Error problem response

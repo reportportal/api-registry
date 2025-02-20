@@ -1,7 +1,0 @@
-title: Organization role
-type: string
-enum:
-  - MEMBER
-  - MANAGER
-default: MEMBER
-description: Organization user role.

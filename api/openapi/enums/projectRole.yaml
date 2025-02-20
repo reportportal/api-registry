@@ -2,6 +2,8 @@ title: Project role
 type: string
 description: Role in the project.
 enum:
-  - EDITOR
-  - VIEWER
-default: VIEWER
+  - PROJECT_MANAGER
+  - MEMBER
+  - OPERATOR
+  - CUSTOMER
+default: MEMBER
