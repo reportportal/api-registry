@@ -67,6 +67,11 @@ paths:
           in: query
           name: slug
           description: Filter by slug.
+        - schema:
+            type: string
+          in: query
+          name: uuid
+          description: Filter by uuid.
       tags:
         - Groups
     post:
