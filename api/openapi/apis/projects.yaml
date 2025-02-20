@@ -101,14 +101,17 @@ paths:
     get:
       summary: Get all groups of a project
       operationId: getGroupsOfProject
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties: {}
+                $ref: '#/components/schemas/ProjectGroupsPage'
       description: Get all groups of a project.
     post:
       summary: Add a group to a project
@@ -119,7 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/group/Group.yaml
+                $ref: '#/components/schemas/ProjectGroup'
       requestBody:
         content:
           application/json:
@@ -156,23 +159,23 @@ components:
                 $ref: '#/components/schemas/ProjectGroup'
     ProjectGroup:
       title: Project group
+      description: Information about project group.
+      type: object
       properties:
-        id:
-          $ref: ../types/identifier.yaml
         project_role:
           $ref: ../enums/projectRole.yaml
-        created_at:
+        added_at:
           type: string
           format: date-time
           description: Timestamp of project adding to group.
+          x-stoplight:
+            id: 10gkz1piwd02r
         updated_at:
           type: string
           format: date-time
-          description: Timestamp of project updating in group.    
+          description: Timestamp of project updating in group.
         group:
-          $ref: ../models/group/GroupBase.yaml
-      description: Information about project group.
-      type: object
+          $ref: ../models/group/Group.yaml
 tags:
   - name: Projects
     description: Operations with projects
