@@ -319,16 +319,21 @@ components:
         uuid:
           type: string
           format: uuid
-          description: External user identifier.
+          description: User identifier for external systems.
         email:
           type: string
           format: email
+          description: User email.
         full_name:
           $ref: ../types/name.yaml
         external_id:
           type: string
+          description: External user identifier.
         instance_role:
           $ref: ../enums/instanceRole.yaml
+        active:
+          type: boolean
+          description: User activity status.
         account_type:
           $ref: ../enums/accountType.yaml
         added_at:
