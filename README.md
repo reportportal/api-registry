@@ -1,6 +1,6 @@
 # ReportPortal API Definitions
 
-https://reportportal.io/reportportal-common-api
+https://reportportal.io/api-registry
 
 This repository contains gRPC protocol definitions and OpenAPI Specification for ReportPortal APIs
 and provides knowledge about its own services.
