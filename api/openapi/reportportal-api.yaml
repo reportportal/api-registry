@@ -217,7 +217,6 @@ paths:
         - $ref: '#/components/parameters/Order'
       tags:
         - Groups
-        - Group's users
       security:
         - BearerAuth: []
   /groups/{group_id}/users/{user_id}:
@@ -237,7 +236,6 @@ paths:
       description: Get all users of group.
       tags:
         - Groups
-        - Group's users
       security:
         - BearerAuth: []
     delete:
@@ -284,7 +282,6 @@ paths:
         - $ref: '#/components/parameters/Order'
       tags:
         - Groups
-        - Group's projects
       security:
         - BearerAuth: []
   /groups/{group_id}/projects/{project_id}:
@@ -304,7 +301,6 @@ paths:
       operationId: getProjectOfGroupById
       tags:
         - Groups
-        - Group's projects
       security:
         - BearerAuth: []
     put:
