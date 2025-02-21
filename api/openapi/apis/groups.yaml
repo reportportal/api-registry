@@ -142,7 +142,6 @@ paths:
         - $ref: ../parameters/Order.yaml
       tags:
         - Groups
-        - Group's users
   '/groups/{group_id}/users/{user_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -160,7 +159,6 @@ paths:
       description: Get all users of group.
       tags:
         - Groups
-        - Group's users
     delete:
       summary: Delete group user
       operationId: deleteUserOfGroupById
@@ -201,7 +199,6 @@ paths:
         - $ref: ../parameters/Order.yaml
       tags:
         - Groups
-        - Group's projects
   '/groups/{group_id}/projects/{project_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -219,7 +216,6 @@ paths:
       operationId: getProjectOfGroupById
       tags:
         - Groups
-        - Group's projects
     put:
       summary: Add or update group project
       operationId: updateProjectOfGroupById
@@ -370,5 +366,3 @@ components:
       scheme: bearer
 tags:
   - name: Groups
-  - name: Group's users
-  - name: Group's projects
