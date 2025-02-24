@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Group API
+  title: Groups API
   version: 0.0.1
   description: |-
     The Group collection API. You can use it to manage groups, users, and projects.

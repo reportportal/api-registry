@@ -40,7 +40,6 @@ paths:
       operationId: getGroupsOfProject
       tags:
         - Projects
-        - Project's group
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -96,6 +95,3 @@ components:
           description: Timestamp of project updating in group.
 tags:
   - name: Projects
-    description: Operations with projects
-  - name: Project's group
-    description: Operations with groups in project
