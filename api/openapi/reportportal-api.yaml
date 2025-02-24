@@ -295,7 +295,7 @@ paths:
         - BearerAuth: []
     put:
       summary: Add or update group project
-      operationId: updateGroupProjectById
+      operationId: addGroupProjectById
       description: Add or update project in group.
       responses:
         '204':
