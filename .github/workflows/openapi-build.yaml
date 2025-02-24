@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configurate Git Safe Directory
-        run: git config --global --add safe.directory /__w/reportportal-common-api/reportportal-common-api
+        run: git config --global --add safe.directory /__w/api-registry/api-registry
 
       - name: Verify OpenAPI
         run: |
