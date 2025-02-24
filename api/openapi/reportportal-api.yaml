@@ -85,11 +85,7 @@ tags:
   - name: Groups
     x-displayName: Groups
   - name: Projects
-    description: Operations with projects
     x-displayName: Projects
-  - name: Project's group
-    description: Operations with groups in project
-    x-displayName: Project's group
 paths:
   /groups:
     get:
@@ -339,7 +335,6 @@ paths:
       operationId: getGroupsOfProject
       tags:
         - Projects
-        - Project's group
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
