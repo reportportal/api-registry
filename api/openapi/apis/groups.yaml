@@ -127,7 +127,7 @@ paths:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get all group users
-      operationId: getUsersOfGroup
+      operationId: getGroupUsers
       responses:
         '200':
           description: OK
@@ -148,7 +148,7 @@ paths:
       - $ref: ../parameters/UserId.yaml
     get:
       summary: Get group user
-      operationId: getUserOfGroupById
+      operationId: getGroupUserById
       responses:
         '200':
           description: OK
@@ -161,14 +161,13 @@ paths:
         - Groups
     delete:
       summary: Delete group user
-      operationId: deleteUserOfGroupById
+      operationId: deleteUserFromGroupById
       description: Delete a user from a group.
       responses:
         '204':
           description: No Content
       tags:
         - Groups
-        - Group's users
     put:
       summary: Add group user
       operationId: addUserToGroupById
@@ -178,13 +177,12 @@ paths:
       description: Add user into group.
       tags:
         - Groups
-        - Group's users
   '/groups/{group_id}/projects':
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get all group projects
-      operationId: getProjectsOfGroup
+      operationId: getGroupProjects
       responses:
         '200':
           description: OK
@@ -213,12 +211,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupProject'
-      operationId: getProjectOfGroupById
+      operationId: getGroupProjectById
       tags:
         - Groups
     put:
       summary: Add or update group project
-      operationId: updateProjectOfGroupById
+      operationId: updateGroupProjectById
       description: Add or update project in group.
       responses:
         '204':
@@ -232,17 +230,15 @@ paths:
                 permission:
                   $ref: ../enums/projectRole.yaml
       tags:
-        - Group's projects
         - Groups
     delete:
       summary: Delete group project
-      operationId: deleteProjectOfGroupById
+      operationId: deleteProjectFromGroupById
       responses:
         '204':
           description: No Content
       description: Delete project from group.
       tags:
-        - Group's projects
         - Groups
 components:
   schemas:
