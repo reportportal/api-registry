@@ -506,15 +506,24 @@ paths:
 
         Organization user details for update.
 
-        ### Organization authority
+        ### Authority
 
         - `ADMINISTRATOR`
         - `MANAGER`
-        - `MEMBER`
 
         ### Project authority
 
-        - `EDITOR`
+        - `ADMINISTRATOR`
+        - `MANAGER`
+
+        #### For assignment user to the organization's projects:
+
+        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to the organization.
+
+        ### Response event statuses
+
+        You will get different statuses for project assignments according to which user you want
+        to assign to the organization.
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
