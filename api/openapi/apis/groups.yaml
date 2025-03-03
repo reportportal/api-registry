@@ -6,7 +6,7 @@ info:
     The Group collection API. You can use it to manage groups, users, and projects.
     The API is based on REST principles and uses standard HTTP methods.
   contact:
-    name: ReportPortal team
+    name: ReportPortal
     email: support@reportportal.io
   license:
     name: Apache 2.0
