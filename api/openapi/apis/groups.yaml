@@ -434,5 +434,3 @@ components:
       scheme: bearer
 tags:
   - name: Groups
-  - name: Group's users
-  - name: Group's projects
