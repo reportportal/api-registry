@@ -362,21 +362,45 @@ components:
       description: Page of group projects.
     GroupUser:
       title: Group user
-      description: Information about user as a member in group.
+      description: Information about a user as a group member.
       type: object
       properties:
+        id:
+          $ref: ../types/identifier.yaml
+        uuid:
+          type: string
+          format: uuid
+          description: User identifier for external systems.
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          $ref: ../types/name.yaml
+        external_id:
+          type: string
+          description: External user identifier.
+        instance_role:
+          $ref: ../enums/instanceRole.yaml
+        active:
+          type: boolean
+          description: User activity status.
+        account_type:
+          $ref: ../enums/accountType.yaml
         added_at:
           type: string
           format: date-time
           description: Timestamp of user adding to group.
-        user:
-          $ref: ../models/user/UserInfo.yaml
     GroupProject:
       title: Group project
-      description: Information about project as a member in group.
+      description: Information about a project as a group member.
       type: object
       properties:
-        project_role:
+        id:
+          $ref: ../types/identifier.yaml
+        name:
+          $ref: ../types/name.yaml
+        permission:
           $ref: ../enums/projectRole.yaml
         added_at:
           type: string
@@ -386,8 +410,6 @@ components:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
-        project:
-          $ref: ../models/project/ProjectInfo.yaml
   responses:
     Error:
       description: Error problem response
