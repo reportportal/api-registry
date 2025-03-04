@@ -87,10 +87,6 @@ tags:
     x-displayName: Activities
   - name: Groups
     x-displayName: Groups
-  - name: Group's users
-    x-displayName: Group's users
-  - name: Group's projects
-    x-displayName: Group's projects
   - name: Organization
     description: Organizations collection
     x-displayName: Organization
@@ -195,6 +191,10 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
       description: Get instance groups with optional filtering and sorting.
       parameters:
         - $ref: '#/components/parameters/Offset'
@@ -206,22 +206,6 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
-        - schema:
-            type: string
-          in: query
-          name: name
-          description: Filter by name.
-        - schema:
-            type: string
-            pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          in: query
-          name: slug
-          description: Filter by slug.
-        - schema:
-            type: string
-          in: query
-          name: uuid
-          description: Filter by uuid.
       tags:
         - Groups
       security:
@@ -242,6 +226,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Group'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
       description: |-
         Create a group.
 
@@ -256,7 +250,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
-      summary: Get a group
+      summary: Get group
       operationId: getGroupById
       responses:
         '200':
@@ -265,13 +259,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Group'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       description: Get a group by ID.
       tags:
         - Groups
       security:
         - BearerAuth: []
     put:
-      summary: Update a group
+      summary: Update group
       operationId: updateGroup
       requestBody:
         required: true
@@ -282,17 +286,39 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Update'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
       description: Update a group by ID.
       tags:
         - Groups
       security:
         - BearerAuth: []
     delete:
-      summary: Delete a group
+      summary: Delete group
       operationId: deleteGroup
       responses:
         '204':
           description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
       description: Delete a group by ID.
       tags:
         - Groups
@@ -302,8 +328,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
-      summary: Get all users of a group
-      operationId: getUsersOfGroup
+      summary: Get all group users
+      operationId: getGroupUsers
       responses:
         '200':
           description: OK
@@ -311,38 +337,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupUsersPage'
-      description: Get all users of a group.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Get all users of group.
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Order'
       tags:
         - Groups
-        - Group's users
-      security:
-        - BearerAuth: []
-    post:
-      summary: Add a user to a group
-      operationId: addUserToGroupById
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupUser'
-      description: Add a user to a group.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  $ref: '#/components/schemas/identifier'
-      tags:
-        - Groups
-        - Group's users
       security:
         - BearerAuth: []
   /groups/{group_id}/users/{user_id}:
@@ -350,8 +361,8 @@ paths:
       - $ref: '#/components/parameters/GroupId'
       - $ref: '#/components/parameters/UserId'
     get:
-      summary: Get a user of a group
-      operationId: getUserOfGroupById
+      summary: Get group user
+      operationId: getGroupUserById
       responses:
         '200':
           description: OK
@@ -359,30 +370,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupUser'
-      description: Get all users of a group.
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Get all users of group.
       tags:
         - Groups
-        - Group's users
       security:
         - BearerAuth: []
     delete:
-      summary: Delete a group user
-      operationId: deleteUserOfGroupById
+      summary: Delete group user
+      operationId: deleteUserFromGroupById
       description: Delete a user from a group.
       responses:
         '204':
           description: No Content
       tags:
         - Groups
-        - Group's users
+      security:
+        - BearerAuth: []
+    put:
+      summary: Add group user
+      operationId: addUserToGroupById
+      responses:
+        '204':
+          description: No Content
+      description: Add user into group.
+      tags:
+        - Groups
       security:
         - BearerAuth: []
   /groups/{group_id}/projects:
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
-      summary: Get all projects of a group
-      operationId: getProjectsOfGroup
+      summary: Get all group projects
+      operationId: getGroupProjects
       responses:
         '200':
           description: OK
@@ -390,40 +420,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupProjectsPage'
-      description: Get all projects of a group.
+      description: Get all projects of group.
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Order'
       tags:
         - Groups
-        - Group's projects
-      security:
-        - BearerAuth: []
-    post:
-      summary: Add a project to a group
-      operationId: addProjectToGroup
-      description: Add a project to a group.
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupProject'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  $ref: '#/components/schemas/identifier'
-                project_role:
-                  $ref: '#/components/schemas/projectRole'
-      tags:
-        - Groups
-        - Group's projects
       security:
         - BearerAuth: []
   /groups/{group_id}/projects/{project_id}:
@@ -431,8 +434,8 @@ paths:
       - $ref: '#/components/parameters/GroupId'
       - $ref: '#/components/parameters/ProjectId'
     get:
-      summary: Get a project of a group
-      description: Get a project of a group.
+      summary: Get group project
+      description: Get project of group.
       responses:
         '200':
           description: OK
@@ -440,41 +443,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupProject'
-      operationId: getProjectOfGroupById
+      operationId: getGroupProjectById
       tags:
         - Groups
-        - Group's projects
       security:
         - BearerAuth: []
     put:
-      summary: Update a group project
-      operationId: updateProjectOfGroupById
-      description: Update a project of a group.
+      summary: Add or update group project
+      operationId: addGroupProjectById
+      description: Add or update project in group.
       responses:
-        '200':
-          $ref: '#/components/responses/Update'
+        '204':
+          description: No Content
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                project_role:
+                permission:
                   $ref: '#/components/schemas/projectRole'
       tags:
-        - Group's projects
         - Groups
       security:
         - BearerAuth: []
     delete:
-      summary: Delete a group project
-      operationId: deleteProjectOfGroupById
+      summary: Delete group project
+      operationId: deleteProjectFromGroupById
       responses:
         '204':
           description: No Content
-      description: Delete a project from a group.
+      description: Delete project from group.
       tags:
-        - Group's projects
         - Groups
       security:
         - BearerAuth: []
@@ -1029,20 +1029,43 @@ paths:
         description: Provide organization's user information for update.
       tags:
         - Organization User
-      description: |-
+      description: >-
         Update organization user details.
+
 
         Organization user details for update.
 
-        ### Organization authority
+
+        ### Authority
+
 
         - `ADMINISTRATOR`
+
         - `MANAGER`
-        - `MEMBER`
+
 
         ### Project authority
 
-        - `EDITOR`
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        #### For assignment user to the organization's projects:
+
+
+        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to
+        the organization.
+
+
+        ### Response event statuses
+
+
+        You will get different statuses for project assignments according to
+        which user you want
+
+        to assign to the organization.
       security:
         - BearerAuth: []
     delete:
@@ -2374,6 +2397,7 @@ components:
       enum:
         - ASC
         - DESC
+      default: ASC
       description: To indicate sorting direction. Ascending or Descending.
     OffsetRequest:
       title: Offset-based
@@ -2532,21 +2556,45 @@ components:
       description: Page of group projects.
     GroupUser:
       title: Group user
-      description: Information about user as a member in group.
+      description: Information about a user as a group member.
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        uuid:
+          type: string
+          format: uuid
+          description: User identifier for external systems.
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          $ref: '#/components/schemas/name'
+        external_id:
+          type: string
+          description: External user identifier.
+        instance_role:
+          $ref: '#/components/schemas/instanceRole'
+        active:
+          type: boolean
+          description: User activity status.
+        account_type:
+          $ref: '#/components/schemas/accountType'
         added_at:
           type: string
           format: date-time
           description: Timestamp of user adding to group.
-        user:
-          $ref: '#/components/schemas/UserInfo'
     GroupProject:
       title: Group project
-      description: Information about project as a member in group.
+      description: Information about a project as a group member.
       type: object
       properties:
-        project_role:
+        id:
+          $ref: '#/components/schemas/identifier'
+        name:
+          $ref: '#/components/schemas/name'
+        permission:
           $ref: '#/components/schemas/projectRole'
         added_at:
           type: string
@@ -2556,8 +2604,6 @@ components:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
-        project:
-          $ref: '#/components/schemas/ProjectInfo'
     identifier:
       title: Identifier
       type: integer
@@ -2707,106 +2753,6 @@ components:
         - LDAP: created for external integrations.
         - SAML: created for external integrations.
         - SCIM: created for external integrations.
-    UserBase:
-      title: User Base
-      description: |-
-        User's base information.
-
-        User has a unique email address, full name, and account type.
-
-        Instance account role can be either `ADMIN` or `USER`.
-        Only `ADMIN` users have access to change account type.
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          description: User email.
-        full_name:
-          $ref: '#/components/schemas/name'
-        instance_role:
-          $ref: '#/components/schemas/instanceRole'
-        account_type:
-          $ref: '#/components/schemas/accountType'
-        external_id:
-          type: string
-          description: User external identifier. Provided by external systems.
-        active:
-          type: boolean
-          description: Soft delete user attribute.
-          default: true
-      required:
-        - email
-        - full_name
-    Link:
-      title: Link
-      description: JSON Hypertext Application Language (HAL) model for a link.
-      type: object
-      properties:
-        href:
-          type: string
-          format: uri
-          description: The URI of the resource.
-        type:
-          type: string
-          description: >-
-            The media type of the resource (e.g., 'application/json' or
-            'image/png').
-        title:
-          type: string
-          description: A human-readable description of the link.
-      required:
-        - href
-    UserLinks:
-      title: User's links
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '#/components/schemas/Link'
-              description: Link to the user itself.
-            avatar:
-              $ref: '#/components/schemas/Link'
-              description: Link to the user's profile picture.
-      example:
-        _links:
-          self:
-            href: https://api.example.com/users/123
-          avatar:
-            href: https://api.example.com/users/123/avatar
-            type: image/png
-            title: User's profile picture
-    UserInfo:
-      title: User general information
-      description: Contains general information associated with a user account.
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: User internal identifier.
-              minimum: 0
-            uuid:
-              type: string
-              format: uuid
-              description: User ID for external systems.
-            created_at:
-              type: string
-              format: date-time
-              description: When user's account was created.
-            updated_at:
-              type: string
-              format: date-time
-              description: When user's data was modified.
-            last_login_at:
-              type: string
-              format: date-time
-              description: When user last logged in.
-        - $ref: '#/components/schemas/UserBase'
-        - $ref: '#/components/schemas/UserLinks'
     projectRole:
       title: Project role
       type: string
@@ -2815,88 +2761,6 @@ components:
         - EDITOR
         - VIEWER
       default: VIEWER
-    ProjectBase:
-      title: Project details
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/name'
-        slug:
-          $ref: '#/components/schemas/slug'
-      required:
-        - name
-    ProjectStats:
-      title: Project statistics
-      description: >-
-        Aggregated statistics about a project including user, launch, and
-        billing information.
-      type: object
-      properties:
-        user_stats:
-          type: object
-          description: Statistics about users assigned to the project.
-          properties:
-            total_count:
-              type: integer
-              minimum: 0
-              description: Total number of users assigned to the project.
-        launch_stats:
-          type: object
-          description: Statistics about launches associated with the project.
-          properties:
-            last_occurred_at:
-              type: string
-              format: date-time
-              description: The date and time of the last launch occurred in the project.
-            total_count:
-              type: integer
-              minimum: 0
-              description: Total number of launches in the project.
-        billing_stats:
-          type: object
-          description: >-
-            Statistics about the project's billing information. Available only
-            if the billing plugin is enabled.
-          properties:
-            storage_usage:
-              type: integer
-              minimum: 0
-              maximum: 100
-              description: The percentage of storage used by the project.
-    ProjectInfo:
-      title: Project information
-      description: General information about a project.
-      allOf:
-        - $ref: '#/components/schemas/ProjectBase'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: Project internal identifier.
-              format: int64
-              minimum: 0
-            key:
-              type: string
-              description: |-
-                Unique identifying part of a project in
-                an instance.
-                Generated from an organization
-                slug and project slug.
-            organization_id:
-              type: integer
-              format: int64
-              description: Organization ID to which the project belongs.
-              minimum: 0
-            created_at:
-              type: string
-              format: date-time
-              description: Timestamp when project was created.
-            updated_at:
-              type: string
-              format: date-time
-              description: Timestamp when project was last updated.
-            stats:
-              $ref: '#/components/schemas/ProjectStats'
     OrganizationInfo:
       title: Organization information
       description: Various information about an organization.
@@ -3095,6 +2959,106 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
+    UserBase:
+      title: User Base
+      description: |-
+        User's base information.
+
+        User has a unique email address, full name, and account type.
+
+        Instance account role can be either `ADMIN` or `USER`.
+        Only `ADMIN` users have access to change account type.
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          $ref: '#/components/schemas/name'
+        instance_role:
+          $ref: '#/components/schemas/instanceRole'
+        account_type:
+          $ref: '#/components/schemas/accountType'
+        external_id:
+          type: string
+          description: User external identifier. Provided by external systems.
+        active:
+          type: boolean
+          description: Soft delete user attribute.
+          default: true
+      required:
+        - email
+        - full_name
+    Link:
+      title: Link
+      description: JSON Hypertext Application Language (HAL) model for a link.
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+          description: The URI of the resource.
+        type:
+          type: string
+          description: >-
+            The media type of the resource (e.g., 'application/json' or
+            'image/png').
+        title:
+          type: string
+          description: A human-readable description of the link.
+      required:
+        - href
+    UserLinks:
+      title: User's links
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user itself.
+            avatar:
+              $ref: '#/components/schemas/Link'
+              description: Link to the user's profile picture.
+      example:
+        _links:
+          self:
+            href: https://api.example.com/users/123
+          avatar:
+            href: https://api.example.com/users/123/avatar
+            type: image/png
+            title: User's profile picture
+    UserInfo:
+      title: User general information
+      description: Contains general information associated with a user account.
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: User internal identifier.
+              minimum: 0
+            uuid:
+              type: string
+              format: uuid
+              description: User ID for external systems.
+            created_at:
+              type: string
+              format: date-time
+              description: When user's account was created.
+            updated_at:
+              type: string
+              format: date-time
+              description: When user's data was modified.
+            last_login_at:
+              type: string
+              format: date-time
+              description: When user last logged in.
+        - $ref: '#/components/schemas/UserBase'
+        - $ref: '#/components/schemas/UserLinks'
     orgRole:
       title: Organization role
       type: string
@@ -3129,6 +3093,88 @@ components:
               description: Project's internal identifier.
               minimum: 0
         - $ref: '#/components/schemas/UserProjectRole'
+    ProjectBase:
+      title: Project details
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        slug:
+          $ref: '#/components/schemas/slug'
+      required:
+        - name
+    ProjectStats:
+      title: Project statistics
+      description: >-
+        Aggregated statistics about a project including user, launch, and
+        billing information.
+      type: object
+      properties:
+        user_stats:
+          type: object
+          description: Statistics about users assigned to the project.
+          properties:
+            total_count:
+              type: integer
+              minimum: 0
+              description: Total number of users assigned to the project.
+        launch_stats:
+          type: object
+          description: Statistics about launches associated with the project.
+          properties:
+            last_occurred_at:
+              type: string
+              format: date-time
+              description: The date and time of the last launch occurred in the project.
+            total_count:
+              type: integer
+              minimum: 0
+              description: Total number of launches in the project.
+        billing_stats:
+          type: object
+          description: >-
+            Statistics about the project's billing information. Available only
+            if the billing plugin is enabled.
+          properties:
+            storage_usage:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: The percentage of storage used by the project.
+    ProjectInfo:
+      title: Project information
+      description: General information about a project.
+      allOf:
+        - $ref: '#/components/schemas/ProjectBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Project internal identifier.
+              format: int64
+              minimum: 0
+            key:
+              type: string
+              description: |-
+                Unique identifying part of a project in
+                an instance.
+                Generated from an organization
+                slug and project slug.
+            organization_id:
+              type: integer
+              format: int64
+              description: Organization ID to which the project belongs.
+              minimum: 0
+            created_at:
+              type: string
+              format: date-time
+              description: Timestamp when project was created.
+            updated_at:
+              type: string
+              format: date-time
+              description: Timestamp when project was last updated.
+            stats:
+              $ref: '#/components/schemas/ProjectStats'
     userId:
       title: User ID
       type: integer
@@ -3521,7 +3567,6 @@ components:
       in: query
       schema:
         $ref: '#/components/schemas/order'
-        default: ASC
       description: Indicate sorting direction.
     GroupId:
       name: group_id
