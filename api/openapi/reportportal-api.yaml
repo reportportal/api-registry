@@ -1156,6 +1156,7 @@ components:
       enum:
         - ASC
         - DESC
+      default: ASC
       description: To indicate sorting direction. Ascending or Descending.
     Offset:
       type: object
@@ -1787,7 +1788,6 @@ components:
       in: query
       schema:
         $ref: '#/components/schemas/order'
-        default: ASC
       description: Indicate sorting direction.
     ExcludeFields:
       name: exclude_fields
