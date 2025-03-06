@@ -1018,14 +1018,16 @@ paths:
           application/json:
             schema:
               title: Org User Update Request
-              allOf:
-                - $ref: '#/components/schemas/UserOrgRole'
-                - type: object
-                  properties:
-                    projects:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/UserProjectInfo'
+              type: object
+              properties:
+                org_role:
+                  $ref: '#/components/schemas/orgRole'
+                projects:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/UserProjectInfo'
+              required:
+                - org_role
         description: Provide organization's user information for update.
       tags:
         - Organization User
@@ -2870,9 +2872,10 @@ components:
         organization.
       allOf:
         - $ref: '#/components/schemas/UserInfo'
-        - $ref: '#/components/schemas/UserOrgRole'
         - type: object
           properties:
+            org_role:
+              $ref: '#/components/schemas/orgRole'
             assigned_at:
               type: string
               format: date-time
@@ -2914,21 +2917,21 @@ components:
             - items
     OrgUserAssignment:
       title: User assignment request
-      allOf:
-        - $ref: '#/components/schemas/UserOrgRole'
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              minimum: 0
-              description: User's internal identifier.
-            projects:
-              type: array
-              items:
-                $ref: '#/components/schemas/UserProjectInfo'
-          required:
-            - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: User's internal identifier.
+        org_role:
+          $ref: '#/components/schemas/orgRole'
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProjectInfo'
+      required:
+        - id
     OrganizationBase:
       title: Organization definition
       description: >
@@ -3067,32 +3070,18 @@ components:
         - MANAGER
       default: MEMBER
       description: Organization user role.
-    UserOrgRole:
-      title: Organization user details
-      type: object
-      description: Basic information about a user in the organization.
-      properties:
-        org_role:
-          $ref: '#/components/schemas/orgRole'
-    UserProjectRole:
-      title: User's project role
-      description: Information about user's project role.
-      type: object
-      properties:
-        project_role:
-          $ref: '#/components/schemas/projectRole'
     UserProjectInfo:
       title: User's project details
       description: Information about user's project.
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: Project's internal identifier.
-              minimum: 0
-        - $ref: '#/components/schemas/UserProjectRole'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Project's internal identifier.
+          minimum: 0
+        project_role:
+          $ref: '#/components/schemas/projectRole'
     ProjectBase:
       title: Project details
       type: object
@@ -3504,15 +3493,15 @@ components:
     UserOrgInfo:
       title: User's organization details
       description: Information about user's organization.
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              minimum: 0
-              description: Organization internal identifier.
-        - $ref: '#/components/schemas/UserOrgRole'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Organization internal identifier.
+        org_role:
+          $ref: '#/components/schemas/orgRole'
     password:
       title: password
       type: string
