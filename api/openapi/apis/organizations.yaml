@@ -504,9 +504,9 @@ paths:
       tags:
         - Organization User
       description: |-
-        Update organization user details.
+        For managing user roles and project assignment within organization.
 
-        Organization user details for update.
+
 
         ### Authority
 
@@ -520,7 +520,7 @@ paths:
 
         #### For assignment user to the organization's projects:
 
-        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to the organization.
+        Users with the `Administrator` and `Manager` roles can change user roles and project assignment within organization.
 
         ### Response event statuses
 
