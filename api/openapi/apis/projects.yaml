@@ -175,7 +175,7 @@ components:
           format: date-time
           description: Timestamp of project updating in group.
         group:
-          $ref: ../models/group/Group.yaml
+          $ref: ../models/group/GroupInfo.yaml
 tags:
   - name: Projects
     description: Operations with projects

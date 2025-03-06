@@ -77,7 +77,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/group/Group.yaml
+                $ref: ../models/group/GroupInfo.yaml
         '400':
           description: Bad Request
         '401':
@@ -108,7 +108,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/group/Group.yaml
+                $ref: ../models/group/GroupInfo.yaml
         '400':
           description: Bad Request
         '401':
@@ -317,7 +317,7 @@ components:
               type: array
               description: List of groups.
               items:
-                $ref: ../models/group/Group.yaml
+                $ref: ../models/group/GroupInfo.yaml
       description: Page of groups.
       type: object
     CreateGroupRequest:
