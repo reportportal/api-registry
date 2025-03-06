@@ -527,9 +527,10 @@ components:
       description: A comprehensive set of user information related to a user's organization.
       allOf:
         - $ref: ../models/user/UserInfo.yaml
-        - $ref: ../models/user/UserOrgRole.yaml
         - type: object
           properties:
+            org_role:
+              $ref: ../enums/orgRole.yaml
             assigned_at:
               type: string
               format: date-time
@@ -571,21 +572,21 @@ components:
             - items
     OrgUserAssignment:
       title: User assignment request
-      allOf:
-        - $ref: ../models/user/UserOrgRole.yaml
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              minimum: 0
-              description: User's internal identifier.
-            projects:
-              type: array
-              items:
-                $ref: ../models/user/UserProjectInfo.yaml
-          required:
-            - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: User's internal identifier.
+        org_role:
+          $ref: ../enums/orgRole.yaml
+        projects:
+          type: array
+          items:
+            $ref: ../models/user/UserProjectInfo.yaml
+      required:
+        - id
   parameters:
     organizationId:
       name: org_id

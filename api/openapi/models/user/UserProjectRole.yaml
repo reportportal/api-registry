@@ -1,6 +1,0 @@
-title: User's project role
-description: Information about user's project role.
-type: object
-properties:
-  project_role:
-    $ref: ../../enums/projectRole.yaml
