@@ -136,7 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupInfo'
         '400':
           description: Bad Request
         '401':
@@ -169,7 +169,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupInfo'
         '400':
           description: Bad Request
         '401':
@@ -430,7 +430,7 @@ components:
               type: array
               description: List of groups.
               items:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupInfo'
       description: Page of groups.
       type: object
     CreateGroupRequest:
@@ -581,7 +581,7 @@ components:
         It should not start or end with a hyphen.
       minLength: 3
       maxLength: 60
-    Group:
+    GroupInfo:
       title: Group information
       description: Group information.
       type: object
