@@ -1,6 +1,0 @@
-title: Organization user details
-type: object
-description: Basic information about a user in the organization.
-properties:
-  org_role:
-    $ref: ../../enums/orgRole.yaml
