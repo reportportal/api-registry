@@ -354,8 +354,10 @@ components:
               items:
                 $ref: '#/components/schemas/GroupProject'
       description: Page of group projects.
-    GroupUser:
+    GroupUserInfo:
       title: Group user
+      x-stoplight:
+        id: d7cce67e137bb
       description: Information about a user as a group member.
       type: object
       properties:
@@ -385,8 +387,10 @@ components:
           type: string
           format: date-time
           description: Timestamp of user adding to group.
-    GroupProject:
+    GroupProjectInfo:
       title: Group project
+      x-stoplight:
+        id: 18a7cdfd7ecfc
       description: Information about a project as a group member.
       type: object
       properties:
