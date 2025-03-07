@@ -211,7 +211,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupUser'
+                $ref: '#/components/schemas/GroupUserInfo'
         '400':
           description: Bad Request
         '401':
@@ -276,7 +276,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupProject'
+                $ref: '#/components/schemas/GroupProjectInfo'
       operationId: getGroupProjectById
       tags:
         - Groups
@@ -340,7 +340,7 @@ components:
               type: array
               description: List of group users.
               items:
-                $ref: '#/components/schemas/GroupUser'
+                $ref: '#/components/schemas/GroupUserInfo'
       description: Page of group users.
     GroupProjectsPage:
       title: Group projects page
@@ -352,7 +352,7 @@ components:
               type: array
               description: List of group projects.
               items:
-                $ref: '#/components/schemas/GroupProject'
+                $ref: '#/components/schemas/GroupProjectInfo'
       description: Page of group projects.
     GroupUserInfo:
       title: Group user
