@@ -182,15 +182,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/GroupUsersPage'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Get all users of group.
       parameters:
         - $ref: ../parameters/Offset.yaml
@@ -212,15 +212,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/GroupUserInfo'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Get all users of group.
       tags:
         - Groups
@@ -231,14 +231,34 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       tags:
         - Groups
     put:
       summary: Add group user
       operationId: addUserToGroupById
       responses:
-        '204':
-          description: No Content
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       description: Add user into group.
       tags:
         - Groups
@@ -255,6 +275,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupProjectsPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
       description: Get all projects of group.
       parameters:
         - $ref: ../parameters/Offset.yaml
@@ -275,6 +303,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupProjectInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       operationId: getGroupProjectById
       tags:
         - Groups
@@ -283,8 +321,18 @@ paths:
       operationId: addGroupProjectById
       description: Add or update project in group.
       responses:
-        '204':
-          description: No Content
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       requestBody:
         content:
           application/json:
@@ -301,6 +349,16 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       description: Delete project from group.
       tags:
         - Groups
