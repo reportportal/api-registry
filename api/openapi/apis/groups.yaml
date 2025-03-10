@@ -195,7 +195,6 @@ paths:
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
-        - $ref: ../parameters/Order.yaml
       tags:
         - Groups
   '/groups/{group_id}/users/{user_id}':
@@ -260,7 +259,6 @@ paths:
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
-        - $ref: ../parameters/Order.yaml
       tags:
         - Groups
   '/groups/{group_id}/projects/{project_id}':
