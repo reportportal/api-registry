@@ -615,6 +615,7 @@ paths:
       summary: Get invitation
       tags:
         - Invitation
+        - Implemented
       responses:
         '200':
           description: OK
@@ -636,6 +637,39 @@ paths:
         - `USER`
       security:
         - BearerAuth: []
+    put:
+      summary: Activate invitation
+      operationId: put-invitations-id
+      description: |-
+        Activate user invitation.
+
+        ### Authority
+
+        - `PUBLIC`
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationActivation'
+        description: Details for user activation.
+      tags:
+        - Invitation
   /users:
     get:
       summary: Get all users
@@ -858,6 +892,7 @@ paths:
         - User get access to any user avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -909,6 +944,7 @@ paths:
         - User get access only to their avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -957,6 +993,7 @@ paths:
         - User get access only to their avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -1644,6 +1681,26 @@ components:
         - id
         - email
         - status
+    InvitationActivation:
+      title: Invitation activation request
+      type: object
+      description: |-
+        Minimum eight characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character.
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVATED
+          description: Change status to ACTIVATED to create a user.
+        full_name:
+          $ref: '#/components/schemas/name'
+        password:
+          $ref: '#/components/schemas/password'
+      required:
+        - status
+        - full_name
+        - password
     InvitationRequest:
       title: Invitation creation request
       type: object
@@ -1732,6 +1789,18 @@ components:
         - PENDING
         - ACTIVATED
       description: User invitations status.
+    password:
+      title: password
+      type: string
+      pattern: ^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,256}$
+      description: |-
+        Requirements:
+
+        - password must contain 1 number (0-9).
+        - password must contain 1 uppercase letters.
+        - password must contain 1 lowercase letters.
+        - password must contain 1 non-alpha numeric number.
+        - password is 8-256 characters with no space.
   parameters:
     organizationId:
       name: org_id
