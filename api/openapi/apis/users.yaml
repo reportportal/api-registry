@@ -94,6 +94,39 @@ paths:
 
         - `ADMINISTRATOR`
         - `USER`
+    put:
+      summary: Activate invitation
+      operationId: put-invitations-id
+      description: |-
+        Activate user invitation.
+
+        ### Authority
+
+        - `PUBLIC`
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationActivation'
+        description: Details for user activation.
+      tags:
+        - Invitation
   /users:
     get:
       summary: Get all users
