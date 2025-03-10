@@ -75,6 +75,7 @@ paths:
       summary: Get invitation
       tags:
         - Invitation
+        - Implemented
       responses:
         '200':
           description: OK
@@ -324,6 +325,7 @@ paths:
         - User get access to any user avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -373,6 +375,7 @@ paths:
         - User get access only to their avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -419,6 +422,7 @@ paths:
         - User get access only to their avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -476,6 +480,26 @@ components:
         - id
         - email
         - status
+    InvitationActivation:
+      title: Invitation activation request
+      type: object
+      description: |-
+        Minimum eight characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character.
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVATED
+          description: Change status to ACTIVATED to create a user.
+        full_name:
+          $ref: ../types/name.yaml
+        password:
+          $ref: ../types/password.yaml
+      required:
+        - status
+        - full_name
+        - password
     InvitationRequest:
       title: Invitation creation request
       type: object
