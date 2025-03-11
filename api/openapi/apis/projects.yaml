@@ -30,11 +30,7 @@ security:
 paths:
   '/projects/{project_id}/groups':
     parameters:
-      - schema:
-          type: string
-        name: project_id
-        in: path
-        required: true
+      - $ref: ../parameters/ProjectId.yaml
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
