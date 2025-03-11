@@ -447,11 +447,7 @@ paths:
         - BearerAuth: []
   /projects/{project_id}/groups:
     parameters:
-      - schema:
-          type: string
-        name: project_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/ProjectId'
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
