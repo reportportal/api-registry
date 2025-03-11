@@ -460,7 +460,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Order'
       responses:
         '200':
           description: OK
