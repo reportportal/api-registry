@@ -445,9 +445,13 @@ paths:
         - Groups
       security:
         - BearerAuth: []
-  /projects/{project_id}/groups:
+  /projects/{project_name}/groups:
     parameters:
-      - $ref: '#/components/parameters/ProjectId'
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
