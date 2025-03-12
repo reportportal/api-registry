@@ -70,8 +70,8 @@ paths:
         description: Project name.
       - $ref: ../parameters/GroupId.yaml
     get:
-      summary: 'Get group by id'
-      description: 'Get group by id from project.'
+      summary: Get group by id
+      description: Get group by id from project.
       operationId: getProjectGroupById
       tags:
         - Projects
@@ -93,8 +93,8 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
     put:
-      summary: 'Add group to project by id'
-      description: 'Add group to project by id with permission.'
+      summary: Add or update group to project
+      description: Add or update group to project with permission.
       operationId: AddGroupToProjectById
       tags:
         - Projects
@@ -120,8 +120,8 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
     delete:
-      summary: 'Delete group from project by id'
-      description: 'Delete group from project by id.'
+      summary: Delete group from project by id
+      description: Delete group from project by id.
       operationId: DeleteGroupFromProjectById
       tags:
         - Projects
