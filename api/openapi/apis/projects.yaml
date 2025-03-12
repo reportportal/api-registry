@@ -28,9 +28,13 @@ servers:
 security:
   - BearerAuth: []
 paths:
-  '/projects/{project_id}/groups':
+  '/projects/{project_name}/groups':
     parameters:
-      - $ref: ../parameters/ProjectId.yaml
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
