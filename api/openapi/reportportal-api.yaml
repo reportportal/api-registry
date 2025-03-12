@@ -452,6 +452,7 @@ paths:
         name: project_name
         in: path
         required: true
+        description: Project name.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
@@ -467,7 +468,99 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProjectGroupsPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
       description: Get all groups of project.
+      security:
+        - BearerAuth: []
+  /projects/{project_name}/groups/{group_id}:
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name.
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      summary: Get group by id
+      description: Get group by id from project.
+      operationId: getProjectGroupById
+      tags:
+        - Projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectGroup'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Add group to project by id
+      description: Add group to project by id with permission.
+      operationId: AddGroupToProjectById
+      tags:
+        - Projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                permission:
+                  $ref: '#/components/schemas/projectRole'
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete group from project by id
+      description: Delete group from project by id.
+      operationId: DeleteGroupFromProjectById
+      tags:
+        - Projects
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
 components:
