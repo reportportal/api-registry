@@ -154,8 +154,10 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ProjectGroup'
-    ProjectGroup:
+    ProjectGroupInfo:
       title: Project group
+      x-stoplight:
+        id: b10b4883ee615
       description: Information about project group.
       type: object
       properties:
