@@ -318,7 +318,7 @@ paths:
         - Groups
     put:
       summary: Add or update group project
-      operationId: addGroupProjectById
+      operationId: addProjectToGroupById
       description: Add or update project in group.
       responses:
         '200':
