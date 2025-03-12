@@ -500,7 +500,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectGroup'
+                $ref: '#/components/schemas/ProjectGroupInfo'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -874,9 +874,11 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/ProjectGroup'
-    ProjectGroup:
+                $ref: '#/components/schemas/ProjectGroupInfo'
+    ProjectGroupInfo:
       title: Project group
+      x-stoplight:
+        id: b10b4883ee615
       description: Information about project group.
       type: object
       properties:
