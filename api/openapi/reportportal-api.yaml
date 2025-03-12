@@ -514,8 +514,8 @@ paths:
       security:
         - BearerAuth: []
     put:
-      summary: Add group to project by id
-      description: Add group to project by id with permission.
+      summary: Add or update group to project
+      description: Add or update group to project with permission.
       operationId: AddGroupToProjectById
       tags:
         - Projects
