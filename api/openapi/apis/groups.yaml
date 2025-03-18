@@ -53,13 +53,13 @@ paths:
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
-        - $ref: ../parameters/Order.yaml
         - schema:
             type: string
             default: name
           in: query
           name: sort
           description: Indicate sort by field.
+        - $ref: ../parameters/Order.yaml
       tags:
         - Groups
     post:
