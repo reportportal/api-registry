@@ -3,5 +3,4 @@ type: string
 enum:
   - ASC
   - DESC
-default: ASC
 description: To indicate sorting direction. Ascending or Descending.
