@@ -110,13 +110,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Order'
         - schema:
             type: string
             default: name
           in: query
           name: sort
           description: Indicate sort by field.
+        - $ref: '#/components/parameters/Order'
       tags:
         - Groups
       security:
@@ -679,7 +679,6 @@ components:
       enum:
         - ASC
         - DESC
-      default: ASC
       description: To indicate sorting direction. Ascending or Descending.
     Offset:
       type: object
@@ -950,7 +949,11 @@ components:
       name: order
       in: query
       schema:
-        $ref: '#/components/schemas/order'
+        type: string
+        enum:
+          - ASC
+          - DESC
+        default: ASC
       description: Indicate sorting direction.
     GroupId:
       name: group_id
