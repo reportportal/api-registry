@@ -33,8 +33,6 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
-  schemas: {}
 tags:
   - name: Activities
     description: API Collection for working with activities.
