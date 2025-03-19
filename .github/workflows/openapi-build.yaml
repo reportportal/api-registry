@@ -3,11 +3,11 @@ name: OpenAPI Build
 on:
   push:
     paths:
-      - 'api/openapi/apis/**'
+      - 'api/openapi/**'
+      - '!api/openapi/README.md'
 
 jobs:
   build:
-    name: OpenAPI Build Bundle
     runs-on: ubuntu-latest
     container: node:21
     steps:
@@ -18,12 +18,10 @@ jobs:
         run: git config --global --add safe.directory /__w/api-registry/api-registry
 
       - name: Verify OpenAPI
-        run: |
-          make lint-all
+        run: make lint-all
 
       - name: Update main specification
-        run: |
-          make join
+        run: make join
 
       - name: Commit changes
         run: |
@@ -34,11 +32,4 @@ jobs:
           git push
 
       - name: Bundle OpenAPI
-        run: |
-          make bundle
-
-      - name: Upload OpenAPI bundles as artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: openapi-bundles
-          path: build/openapi/
+        run: make bundle

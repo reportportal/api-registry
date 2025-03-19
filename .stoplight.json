@@ -1,16 +1,21 @@
 {
-  "exclude": [],
+  "exclude": [
+    "api/openapi/reportportal-api.yaml"
+  ],
   "formats": {
     "openapi": {
-      "rootDir": "api/openapi",
+      "rootDir": "api/openapi/apis",
       "include": [
         "**"
       ]
     },
     "json_schema": {
-      "rootDir": "api/openapi/models",
+      "rootDir": "api/openapi",
       "include": [
-        "**"
+        "api/openapi/models/**",
+        "api/openapi/parameters/**",
+        "api/openapi/types/**",
+        "api/openapi/enums/**"
       ]
     },
     "markdown": {

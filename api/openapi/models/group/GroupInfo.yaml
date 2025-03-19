@@ -1,0 +1,27 @@
+title: Group information
+description: Group information.
+type: object
+properties:
+  id:
+    $ref: ../../types/identifier.yaml
+    description: Group identifier.
+  uuid:
+    type: string
+    format: uuid
+    description: Global identifier of the group.
+  name:
+    $ref: ../../types/name.yaml
+  slug:
+    $ref: ../../types/slug.yaml
+  created_by:
+    type: integer
+    format: int64
+    description: User ID of the user who created the group.
+  created_at:
+    type: string
+    format: date-time
+    description: Timestamp when group was created.
+  updated_at:
+    type: string
+    format: date-time
+    description: Timestamp when group was last updated.

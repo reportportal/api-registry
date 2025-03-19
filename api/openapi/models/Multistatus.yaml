@@ -1,0 +1,11 @@
+title: Multistatus
+type: object
+properties:
+  multistatus:
+    type: object
+    properties:
+      responses:
+        type: array        
+        items:
+          $ref: ./EventStatus.yaml
+          

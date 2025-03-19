@@ -1,0 +1,7 @@
+name: offset
+in: query
+required: false
+schema:
+  type: integer
+  default: 0
+description: The offset used for this page of results.

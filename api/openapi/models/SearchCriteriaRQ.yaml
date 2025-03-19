@@ -1,0 +1,6 @@
+title: SearchCriteria
+
+allOf:
+  - $ref: ./OffsetRequest.yaml
+  - $ref: ./SearchCriteria.yaml
+    

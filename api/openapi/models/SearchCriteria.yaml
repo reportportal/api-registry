@@ -1,0 +1,16 @@
+title: Search criteria
+type: object
+properties:
+  search_criteria:
+    type: array
+    items:
+      type: object
+      properties:
+        filter_key:
+          type: string
+          description: search by field
+        operation:
+          $ref: '../enums/filterOperation.yaml'
+        value:
+          type: string
+          description: search value

@@ -1,0 +1,247 @@
+---
+stoplight-id: dp15zhxks2i84
+---
+
+@startuml organizational-entities
+
+package OrganizationView {
+  entity OrganizationProfile {
+    relationships OrganizationRelation
+  }
+  
+  entity OrganizationInfo
+  OrganizationInfo -up-o OrganizationProfile
+  
+  entity OrganizationDetails {
+    name String
+    slug Slug
+    external_id String
+  }
+  OrganizationInfo o-- OrganizationDetails
+
+  entity OrganizationMetadata {
+    id Int
+    type OrganizationType
+    created_at DateTime
+    updated_at DateTime
+  }
+  OrganizationInfo o-- OrganizationMetadata
+
+  entity OrganizationRelation {
+    projects OrgProjectsRelation
+    users OrgUsersRelation
+    launches OrgLaunchesRelation
+    billing OrgBillingRelation
+  }
+  OrganizationRelation -up- OrganizationProfile
+
+  entity OrgProjectsRelation {
+    links OrgProjectsRelationLinks
+    meta OrgProjectsRelationMeta
+  }
+  OrgProjectsRelation -up- OrganizationRelation
+
+  entity OrgProjectsRelationMeta {
+    count Int
+  }
+  OrgProjectsRelationMeta -up- OrgProjectsRelation
+
+  entity OrgUsersRelation {
+    links OrgUsersRelationLinks
+    meta OrgUsersRelationMeta
+  }
+  OrgUsersRelation -up- OrganizationRelation
+
+  entity OrgUsersRelationMeta {
+    count Int
+  }
+  OrgUsersRelationMeta -up- OrgUsersRelation
+
+  entity OrgLaunchesRelation {
+    links OrgLaunchesRelationLinks
+    meta OrgLaunchesRelationMeta
+  }
+  OrgLaunchesRelation -up- OrganizationRelation
+
+  entity OrgLaunchesRelationMeta {
+    last_occurred_at DateTime
+  }
+  OrgLaunchesRelationMeta -up- OrgLaunchesRelation
+
+  entity OrgBillingRelation {
+    links OrgBillingRelationLinks
+    meta OrgBillingRelationMeta
+  }
+  OrgBillingRelation -up- OrganizationRelation
+
+  entity OrgBillingRelationMeta {
+    plan String
+    storage_usage String
+  }
+  OrgBillingRelationMeta -up- OrgBillingRelation
+
+  enum OrganizationType {
+    INTERNAL
+    PERSONAL
+    EXTERNAL
+  }
+  OrganizationMetadata -- OrganizationType
+
+  entity OrganizationUserProfile {
+    relationships OrganizationUserRelation
+  }
+
+  entity OrganizationUserInfo
+  OrganizationUserInfo -up-o OrganizationUserProfile
+
+  entity OrganizationUserDetails {
+    role OrgRole
+  }
+  OrganizationUserDetails -up-o OrganizationUserInfo
+
+  enum OrgRole {
+    MANAGER
+    MEMBER
+  }
+  OrgRole -up- OrganizationUserDetails
+
+  entity OrganizationUserMetadata {
+    assigned_at DateTime
+  }
+  OrganizationUserMetadata -up-o OrganizationUserInfo
+
+  entity OrganizationUserRelation {
+    projects OrgUserProjectsRelation
+  }
+  OrganizationUserRelation -up- OrganizationUserProfile
+  
+  entity OrgUserProjectsRelation {
+    links OrgUserProjectsRelationLinks
+    meta OrgUserProjectsRelationMeta
+  }
+  OrgUserProjectsRelation -up- OrganizationUserRelation
+
+  entity OrgUserProjectsRelationMeta {
+    count Int
+  }
+  OrgUserProjectsRelationMeta -up- OrgUserProjectsRelation
+
+  entity OrganizationUserDefinition {
+    projects List<UserProjectDefinition>
+  }
+  OrganizationUserDefinition o-- OrganizationUserDetails 
+
+  entity OrganizationUserAssignment{
+    email String
+  }
+  OrganizationUserAssignment o-- OrganizationUserDefinition
+}
+
+package UserView {
+  entity UserAccountInfo
+  UserAccountInfo -up-o OrganizationUserProfile
+
+  entity UserDetails {
+    email String
+    full_name String
+    type UserType
+  }
+  UserDetails -up-o UserAccountInfo
+
+  entity UserMetadata {
+    id Int
+    created_at DateTime
+    updated_at DateTime
+    last_login_at DateTime
+  }
+  UserMetadata -up-o UserAccountInfo
+
+  enum UserType {
+    USER
+    ADMIN
+  }
+  UserType -up- UserDetails
+
+  entity UserProjectDefinition {
+    id Int
+    slug Slug
+  }
+  UserProjectDefinition -- OrganizationUserDefinition
+}
+
+package ProjectView {
+  entity ProjectProfile {
+    relationships ProjectRelation
+  }
+  
+  entity ProjectInfo
+  ProjectInfo -up- ProjectProfile
+
+  entity ProjectDetails {
+    name String
+    slug Slug
+    key String
+  }
+  ProjectDetails -up-o ProjectInfo
+
+  entity ProjectMetadata {
+    id Int
+    external_id String
+    created_at DateTime
+    updated_at DateTime
+  }
+  ProjectInfo o-- ProjectMetadata
+
+  entity ProjectRelation {
+    users ProjectUsersRelation
+    launches ProjectLaunchesRelation
+    billing ProjectBillingRelation
+  }
+  ProjectRelation -up- ProjectProfile
+
+  entity ProjectUsersRelation {
+    links ProjectUsersRelationLinks
+    meta ProjectUsersRelationMeta
+  }
+  ProjectUsersRelation -up- ProjectRelation
+
+  entity ProjectUsersRelationMeta {
+    count Int
+  }
+  ProjectUsersRelationMeta -up- ProjectUsersRelation
+
+  entity ProjectLaunchesRelation {
+    links ProjectLaunchesRelationLinks
+    meta ProjectLaunchesRelationMeta
+  }
+  ProjectLaunchesRelation -up- ProjectRelation
+
+  entity ProjectLaunchesRelationMeta {
+    last_occurred_at DateTime
+  }
+  ProjectLaunchesRelationMeta -up- ProjectLaunchesRelation
+
+  entity ProjectBillingRelation {
+    links ProjectBillingRelationLinks
+    meta ProjectBillingRelationMeta
+  }
+  ProjectBillingRelation -up- ProjectRelation
+
+  entity ProjectBillingRelationMeta {
+    storage_usage String
+  }
+  ProjectBillingRelationMeta -up- ProjectBillingRelation
+
+  entity ProjectUserDetails {
+    role ProjectRole
+  }
+  ProjectUserDetails --o UserProjectDefinition
+
+  enum ProjectRole {
+    EDITOR
+    VIEWER
+  }
+  ProjectRole -- ProjectUserDetails
+}
+
+@enduml

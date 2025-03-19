@@ -1,0 +1,26 @@
+title: Filter operation
+type: string
+enum:
+  - EQ
+  - NE
+  - CNT
+  - NON_CNT
+  - BTW
+  - IN
+  - GTE
+  - GT
+  - LTE
+  - LT
+description: |
+  Operation to perform for the filter:
+
+  - EQ - Equal
+  - NE - Not equal
+  - CNT - Contains
+  - NON_CNT - Not contains
+  - BTW - Between
+  - IN - In
+  - GTE - Greater than or equal
+  - GT - Greater than
+  - LTE - Less than or equal
+  - LT - Less than
