@@ -27,14 +27,179 @@ servers:
         description: Base path of Report Portal API
 security:
   - BearerAuth: []
-paths: {}
+paths:
+  '/projects/{project_name}/groups':
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name.
+    get:
+      summary: Get all groups of project
+      operationId: getGroupsOfProject
+      tags:
+        - Projects
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectGroupsPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: Get all groups of project.
+  '/projects/{project_name}/groups/{group_id}':
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name.
+      - $ref: ../parameters/GroupId.yaml
+    get:
+      summary: Get group by id
+      description: Get group by id from project.
+      operationId: getProjectGroupById
+      tags:
+        - Projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectGroupInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Add or update group to project
+      description: Add or update group to project with permission.
+      operationId: AddGroupToProjectById
+      tags:
+        - Projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                permission:
+                  $ref: ../enums/projectRole.yaml
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Delete group from project by id
+      description: Delete group from project by id.
+      operationId: DeleteGroupFromProjectById
+      tags:
+        - Projects
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
+  schemas:
+    ProjectGroupsPage:
+      title: ProjectGroupsPage
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectGroupInfo'
+    ProjectGroupInfo:
+      title: Project group
+      x-stoplight:
+        id: b10b4883ee615
+      description: Information about project group.
+      type: object
+      properties:
+        id:
+          $ref: ../types/identifier.yaml
+        uuid:
+          type: string
+          format: uuid
+          description: Group identifier for external usage.
+        name:
+          $ref: ../types/name.yaml
+        slug:
+          $ref: ../types/slug.yaml
+        permission:
+          $ref: ../enums/projectRole.yaml
+        added_at:
+          type: string
+          format: date-time
+          description: Timestamp of project adding to group.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of project updating in group.
+  responses:
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
 tags:
   - name: Projects
-    description: Operations with projects
-  - name: Suggestions
-    description: Operations with suggestions
