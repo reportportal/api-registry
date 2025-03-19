@@ -414,8 +414,6 @@ components:
       description: Page of group projects.
     GroupUserInfo:
       title: Group user
-      x-stoplight:
-        id: d7cce67e137bb
       description: Information about a user as a group member.
       type: object
       properties:
