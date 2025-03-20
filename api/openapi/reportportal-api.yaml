@@ -3090,25 +3090,17 @@ components:
         - id
     OrgUserProject:
       title: Organization user project
-      x-stoplight:
-        id: ek40gtdrt45wp
       allOf:
         - $ref: '#/components/schemas/UserProjectInfo'
         - $ref: '#/components/schemas/ProjectBase'
     OrgUserProjectPage:
       title: Organization user page
-      x-stoplight:
-        id: ymif5qfu02nmb
       allOf:
         - $ref: '#/components/schemas/Offset'
         - type: object
-          x-stoplight:
-            id: qlrxusb3a5cyz
           properties:
             items:
               type: array
-              x-stoplight:
-                id: peszl9a4f2d5m
               items:
                 $ref: '#/components/schemas/OrgUserProject'
     OrganizationBase:
