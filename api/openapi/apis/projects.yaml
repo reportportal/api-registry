@@ -10,20 +10,14 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: '{protocol}://{authority}/{basePath}'
+  - url: '{host}{basePath}'
     description: ReportPortal server
     variables:
-      protocol:
-        enum:
-          - http
-          - https
-        default: https
-        description: Protocol
-      authority:
-        default: demo.reportportal.io
+      host:
+        default: https://demo.reportportal.io
         description: Host name and port (if needed) of Report Portal server
       basePath:
-        default: api
+        default: /api
         description: Base path of Report Portal API
 security:
   - BearerAuth: []
@@ -38,6 +32,7 @@ paths:
     post:
       summary: Assign user to project
       operationId: post-projects-project_id-users
+      description: '#ToDo'
       responses:
         '200':
           description: OK
@@ -46,8 +41,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectUser'
-        description: ''
-      description: ''
   '/projects/{project_id}/users/{user_id}':
     parameters:
       - schema:

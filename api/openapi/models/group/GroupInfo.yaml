@@ -4,6 +4,7 @@ type: object
 properties:
   id:
     $ref: ../../types/identifier.yaml
+    description: Group identifier.
   uuid:
     type: string
     format: uuid
@@ -12,8 +13,6 @@ properties:
     $ref: ../../types/name.yaml
   slug:
     $ref: ../../types/slug.yaml
-  organization_id:
-    $ref: ../../types/identifier.yaml
   created_by:
     type: integer
     format: int64
