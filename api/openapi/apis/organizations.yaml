@@ -587,6 +587,21 @@ components:
             $ref: ../models/user/UserProjectInfo.yaml
       required:
         - id
+    OrgUserProject:
+      title: Organization user project
+      allOf:
+        - $ref: ../models/user/UserProjectInfo.yaml
+        - $ref: ../models/project/ProjectBase.yaml
+    OrgUserProjectPage:
+      title: Organization user page
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrgUserProject'
   parameters:
     organizationId:
       name: org_id
