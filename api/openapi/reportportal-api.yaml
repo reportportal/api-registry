@@ -1970,21 +1970,6 @@ components:
             $ref: '#/components/schemas/UserProjectInfo'
       required:
         - id
-    OrgUserProject:
-      title: Organization user project
-      allOf:
-        - $ref: '#/components/schemas/UserProjectInfo'
-        - $ref: '#/components/schemas/ProjectBase'
-    OrgUserProjectPage:
-      title: Organization user page
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/OrgUserProject'
     OrganizationBase:
       title: Organization definition
       description: >
