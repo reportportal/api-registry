@@ -36,16 +36,15 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: '{host}/{basePath}'
+  - url: '{host}{basePath}'
     description: ReportPortal server
     variables:
       host:
         default: https://demo.reportportal.io
         description: Host name and port (if needed) of Report Portal server
       basePath:
-        default: api
+        default: /api
         description: Base path of Report Portal API
-paths: {}
 components:
   securitySchemes:
     BearerAuth:
@@ -53,3 +52,4 @@ components:
       scheme: bearer
 security:
   - BearerAuth: []
+paths: {}
