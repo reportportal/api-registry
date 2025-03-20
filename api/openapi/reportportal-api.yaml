@@ -96,8 +96,6 @@ tags:
   - name: Projects
     description: Operations with projects
     x-displayName: Projects
-  - name: projects_other
-    x-displayName: other
   - name: Invitation
     description: Invitation API collection
     x-displayName: Invitation
@@ -1461,6 +1459,8 @@ paths:
       summary: Assign user to project
       operationId: post-projects-project_id-users
       description: '#ToDo'
+      tags:
+        - Projects
       responses:
         '200':
           description: OK
@@ -1469,8 +1469,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectUser'
-      tags:
-        - projects_other
       security:
         - BearerAuth: []
   /projects/{project_id}/users/{user_id}:
@@ -1500,7 +1498,7 @@ paths:
                 project_role:
                   $ref: '#/components/schemas/projectRole'
       tags:
-        - projects_other
+        - Projects
       security:
         - BearerAuth: []
     delete:
@@ -1521,23 +1519,25 @@ paths:
         - `EDITOR` - can delete any user.
         - `VIEWER` - can delete themself.
       tags:
-        - projects_other
+        - Projects
       security:
         - BearerAuth: []
-  /projects/{project_id}/groups:
+  /projects/{project_name}/groups:
     parameters:
       - schema:
           type: string
-        name: project_id
+        name: project_name
         in: path
         required: true
+        description: Project name.
     get:
-      summary: Get all groups of a project
+      summary: Get all groups of project
       operationId: getGroupsOfProject
+      tags:
+        - Projects
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Order'
       responses:
         '200':
           description: OK
@@ -1545,33 +1545,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProjectGroupsPage'
-      description: Get all groups of a project.
-      tags:
-        - projects_other
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: Get all groups of project.
       security:
         - BearerAuth: []
-    post:
-      summary: Add a group to a project
-      operationId: addGroupToProject
+  /projects/{project_name}/groups/{group_id}:
+    parameters:
+      - schema:
+          type: string
+        name: project_name
+        in: path
+        required: true
+        description: Project name.
+      - $ref: '#/components/parameters/GroupId'
+    get:
+      summary: Get group by id
+      description: Get group by id from project.
+      operationId: getProjectGroupById
+      tags:
+        - Projects
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectGroup'
+                $ref: '#/components/schemas/ProjectGroupInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Add or update group to project
+      description: Add or update group to project with permission.
+      operationId: AddGroupToProjectById
+      tags:
+        - Projects
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                group_id:
-                  $ref: '#/components/schemas/identifier'
-                project_role:
+                permission:
                   $ref: '#/components/schemas/projectRole'
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete group from project by id
+      description: Delete group from project by id.
+      operationId: DeleteGroupFromProjectById
       tags:
-        - projects_other
+        - Projects
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /invitations:
@@ -3266,26 +3334,32 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/ProjectGroup'
-    ProjectGroup:
+                $ref: '#/components/schemas/ProjectGroupInfo'
+    ProjectGroupInfo:
       title: Project group
       description: Information about project group.
       type: object
       properties:
-        project_role:
+        id:
+          $ref: '#/components/schemas/identifier'
+        uuid:
+          type: string
+          format: uuid
+          description: Group identifier for external usage.
+        name:
+          $ref: '#/components/schemas/name'
+        slug:
+          $ref: '#/components/schemas/slug'
+        permission:
           $ref: '#/components/schemas/projectRole'
         added_at:
           type: string
           format: date-time
           description: Timestamp of project adding to group.
-          x-stoplight:
-            id: 10gkz1piwd02r
         updated_at:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
-        group:
-          $ref: '#/components/schemas/GroupInfo'
     Invitation:
       title: Invitation
       type: object
