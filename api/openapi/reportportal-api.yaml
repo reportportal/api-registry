@@ -831,6 +831,46 @@ paths:
     post:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users
+      description: >-
+        This is a endpoint that provides a flow for assigning a user to the
+        organization.
+
+        It can be used as a bulk endpoint if you provide a list of projects for
+        assignment.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        ### Project authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        #### For assignment user to the organization's projects:
+
+
+        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to
+        the organization.
+
+
+        ### Response event statuses
+
+
+        You will get different statuses for project assignments according to
+        which user you want
+
+        to assign to the organization.
+      tags:
+        - Organization User
       responses:
         '200':
           description: OK
@@ -873,52 +913,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-      description: >-
-        This is a endpoint that provides a flow for assigning a user to the
-        organization.
-
-        It can be used as a bulk endpoint if you provide a list of projects for
-        assignment.
-
-
-        ### Authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-
-
-        ### Project authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-
-
-        #### For assignment user to the organization's projects:
-
-
-        A users with the `ADMINISTRATOR` and `MANAGER` roles can assign users to
-        the organization.
-
-
-        ### Response event statuses
-
-
-        You will get different statuses for project assignments according to
-        which user you want
-
-        to assign to the organization.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrgUserAssignment'
         description: Definition for a user assignment.
-      tags:
-        - Organization User
       security:
         - BearerAuth: []
   /organizations/{org_id}/users/searches:
@@ -1145,6 +1145,52 @@ paths:
         - `MEMBER` - restricted to unassigning only themselves.
       tags:
         - Organization User
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/users/{user_id}/projects:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/UserId'
+    get:
+      summary: Get organization user's projects
+      operationId: getOrgUserProjects
+      description: |-
+        Get organization user's projects.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        A user with `MEMBER` role can get only his projects.
+      tags:
+        - Organization User
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - in: query
+          name: sort
+          description: Indicate sort by field.
+          schema:
+            type: string
+            default: name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgUserProjectPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects:
@@ -2517,7 +2563,6 @@ components:
       enum:
         - ASC
         - DESC
-      default: ASC
       description: To indicate sorting direction. Ascending or Descending.
     OffsetRequest:
       title: Offset-based
@@ -2967,7 +3012,7 @@ components:
                       description: Storage usage in percents.
                       maximum: 100
     OrganizationPage:
-      title: OrganizationProfilesPage
+      title: Organization profiles page
       allOf:
         - $ref: '#/components/schemas/Offset'
         - type: object
@@ -3043,6 +3088,29 @@ components:
             $ref: '#/components/schemas/UserProjectInfo'
       required:
         - id
+    OrgUserProject:
+      title: Organization user project
+      x-stoplight:
+        id: ek40gtdrt45wp
+      allOf:
+        - $ref: '#/components/schemas/UserProjectInfo'
+        - $ref: '#/components/schemas/ProjectBase'
+    OrgUserProjectPage:
+      title: Organization user page
+      x-stoplight:
+        id: ymif5qfu02nmb
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          x-stoplight:
+            id: qlrxusb3a5cyz
+          properties:
+            items:
+              type: array
+              x-stoplight:
+                id: peszl9a4f2d5m
+              items:
+                $ref: '#/components/schemas/OrgUserProject'
     OrganizationBase:
       title: Organization definition
       description: >
