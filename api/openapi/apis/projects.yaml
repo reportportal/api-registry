@@ -14,7 +14,7 @@ servers:
     description: ReportPortal server
     variables:
       host:
-        default: https://demo.reportportal.io
+        default: 'https://demo.reportportal.io'
         description: Host name and port (if needed) of Report Portal server
       basePath:
         default: /api
@@ -33,6 +33,8 @@ paths:
       summary: Assign user to project
       operationId: post-projects-project_id-users
       description: '#ToDo'
+      tags:
+        - Projects
       responses:
         '200':
           description: OK
@@ -67,6 +69,8 @@ paths:
               properties:
                 project_role:
                   $ref: ../enums/projectRole.yaml
+      tags:
+        - Projects
     delete:
       summary: Unassign user from project
       operationId: delete-projects-project_id-users-user_id
@@ -84,6 +88,8 @@ paths:
 
         - `EDITOR` - can delete any user.
         - `VIEWER` - can delete themself.
+      tags:
+        - Projects
   '/projects/{project_name}/groups':
     parameters:
       - schema:
@@ -219,26 +225,50 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/ProjectGroup'
-    ProjectGroup:
+                $ref: '#/components/schemas/ProjectGroupInfo'
+    ProjectGroupInfo:
       title: Project group
       description: Information about project group.
       type: object
       properties:
-        project_role:
+        id:
+          $ref: ../types/identifier.yaml
+        uuid:
+          type: string
+          format: uuid
+          description: Group identifier for external usage.
+        name:
+          $ref: ../types/name.yaml
+        slug:
+          $ref: ../types/slug.yaml
+        permission:
           $ref: ../enums/projectRole.yaml
         added_at:
           type: string
           format: date-time
           description: Timestamp of project adding to group.
-          x-stoplight:
-            id: 10gkz1piwd02r
         updated_at:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
-        group:
-          $ref: ../models/group/GroupInfo.yaml
+  responses:
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                example: The update was completed successfully.
 tags:
   - name: Projects
     description: Operations with projects
