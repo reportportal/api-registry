@@ -1,6 +1,4 @@
 title: Operation Type
-x-stoplight:
-  id: 168ae66eaef0a
 type: string
 enum:
   - add
