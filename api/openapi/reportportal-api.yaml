@@ -97,9 +97,9 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
       description: Get instance groups with optional filtering and sorting.
       parameters:
         - $ref: '#/components/parameters/Offset'
@@ -132,15 +132,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/GroupInfo'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/Error'
       description: |-
         Create a group.
 
@@ -192,17 +192,17 @@ paths:
         '200':
           $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/Error'
       description: Update a group by ID.
       tags:
         - Groups
@@ -213,17 +213,17 @@ paths:
       operationId: deleteGroup
       responses:
         '204':
-          description: No Content
+          $ref: '#/components/responses/Error'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Delete a group by ID.
       tags:
         - Groups
