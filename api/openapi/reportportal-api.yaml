@@ -213,7 +213,7 @@ paths:
       operationId: deleteGroup
       responses:
         '204':
-          $ref: '#/components/responses/Error'
+          description: No Content
         '400':
           $ref: '#/components/responses/Error'
         '401':
