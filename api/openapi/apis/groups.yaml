@@ -40,9 +40,9 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
       description: Get instance groups with optional filtering and sorting.
       parameters:
         - $ref: ../parameters/Offset.yaml
@@ -73,15 +73,15 @@ paths:
               schema:
                 $ref: ../models/group/GroupInfo.yaml
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/Error'
       description: |-
         Create a group.
 
@@ -104,15 +104,15 @@ paths:
               schema:
                 $ref: ../models/group/GroupInfo.yaml
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Get a group by ID.
       tags:
         - Groups
@@ -129,17 +129,17 @@ paths:
         '200':
           $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/Error'
       description: Update a group by ID.
       tags:
         - Groups
@@ -150,15 +150,15 @@ paths:
         '204':
           description: No Content
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Delete a group by ID.
       tags:
         - Groups
