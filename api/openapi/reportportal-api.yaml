@@ -100,7 +100,12 @@ paths:
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
-      description: Get instance groups with optional filtering and sorting.
+      description: |-
+        Get instance groups with optional filtering and sorting.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -174,7 +179,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get a group by ID.
+      description: |-
+        Get a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
       security:
@@ -203,7 +213,12 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
-      description: Update a group by ID.
+      description: |-
+        Update a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
       security:
@@ -224,7 +239,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Delete a group by ID.
+      description: |-
+        Delete a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
       security:
@@ -252,7 +272,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all users of group.
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -284,7 +309,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all users of group.
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
       security:
@@ -292,7 +322,12 @@ paths:
     delete:
       summary: Delete group user
       operationId: deleteUserFromGroupById
-      description: Delete a user from a group.
+      description: |-
+        Delete a user from a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       responses:
         '204':
           description: No Content
@@ -326,7 +361,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Add user into group.
+      description: |-
+        Add user into group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
       security:
@@ -354,7 +394,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all projects of group.
+      description: |-
+        Get all projects of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -368,7 +413,12 @@ paths:
       - $ref: '#/components/parameters/ProjectId'
     get:
       summary: Get group project
-      description: Get project of group.
+      description: |-
+        Get project of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       responses:
         '200':
           description: OK
@@ -394,7 +444,12 @@ paths:
     put:
       summary: Add or update group project
       operationId: addProjectToGroupById
-      description: Add or update project in group.
+      description: |-
+        Add or update project in group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -436,7 +491,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Delete project from group.
+      description: |-
+        Delete project from group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
       security:
@@ -474,7 +534,15 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all groups of project.
+      description: |-
+        Get all groups of project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
+        - `MEMBETR`
+        - `OPERATOR`
       security:
         - BearerAuth: []
   /projects/{project_name}/groups/{group_id}:
@@ -488,7 +556,13 @@ paths:
       - $ref: '#/components/parameters/GroupId'
     get:
       summary: Get group by id
-      description: Get group by id from project.
+      description: |-
+        Get group by id from project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: getProjectGroupById
       tags:
         - Projects
@@ -513,7 +587,13 @@ paths:
         - BearerAuth: []
     put:
       summary: Add or update group to project
-      description: Add or update group to project with permission.
+      description: |-
+        Add or update group to project with permission.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: AddGroupToProjectById
       tags:
         - Projects
@@ -542,7 +622,13 @@ paths:
         - BearerAuth: []
     delete:
       summary: Delete group from project by id
-      description: Delete group from project by id.
+      description: |-
+        Delete group from project by id.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: DeleteGroupFromProjectById
       tags:
         - Projects
