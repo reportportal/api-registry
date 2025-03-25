@@ -16,7 +16,7 @@ servers:
     description: ReportPortal server
     variables:
       host:
-        default: https://demo.reportportal.io
+        default: 'https://demo.reportportal.io'
         description: Host name and port (if needed) of Report Portal server
       basePath:
         default: /api
@@ -148,7 +148,7 @@ paths:
       operationId: deleteGroup
       responses:
         '204':
-          $ref: '#/components/responses/Error'
+          description: No Content
         '400':
           $ref: '#/components/responses/Error'
         '401':
