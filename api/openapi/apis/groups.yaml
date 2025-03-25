@@ -104,15 +104,15 @@ paths:
               schema:
                 $ref: ../models/group/GroupInfo.yaml
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
       description: Get a group by ID.
       tags:
         - Groups
