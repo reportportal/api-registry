@@ -221,4 +221,4 @@ components:
                 example: The update was completed successfully.
 tags:
   - name: Projects
-    description: Projects API collection
+    description: Generated project API collection

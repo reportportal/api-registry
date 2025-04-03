@@ -539,4 +539,4 @@ components:
       scheme: bearer
 tags:
   - name: Groups
-    description: Groups API collection
+    description: Group API collection
