@@ -77,8 +77,10 @@ servers:
         description: Base path of Report Portal API
 tags:
   - name: Groups
+    description: Groups API collection
     x-displayName: Groups
   - name: Projects
+    description: Projects API collection
     x-displayName: Projects
 paths:
   /groups:
@@ -701,8 +703,6 @@ components:
       description: Page of group projects.
     GroupUserInfo:
       title: Group user
-      x-stoplight:
-        id: d7cce67e137bb
       description: Information about a user as a group member.
       type: object
       properties:
@@ -734,8 +734,6 @@ components:
           description: Timestamp of user adding to group.
     GroupProjectInfo:
       title: Group project
-      x-stoplight:
-        id: 18a7cdfd7ecfc
       description: Information about a project as a group member.
       type: object
       properties:
@@ -960,8 +958,6 @@ components:
                 $ref: '#/components/schemas/ProjectGroupInfo'
     ProjectGroupInfo:
       title: Project group
-      x-stoplight:
-        id: b10b4883ee615
       description: Information about project group.
       type: object
       properties:
