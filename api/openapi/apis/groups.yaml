@@ -12,20 +12,14 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: '{protocol}://{authority}/{basePath}'
+  - url: '{host}{basePath}'
     description: ReportPortal server
     variables:
-      protocol:
-        enum:
-          - http
-          - https
-        default: https
-        description: Protocol
-      authority:
-        default: demo.reportportal.io
+      host:
+        default: 'https://demo.reportportal.io'
         description: Host name and port (if needed) of Report Portal server
       basePath:
-        default: api
+        default: /api
         description: Base path of Report Portal API
 security:
   - BearerAuth: []
@@ -46,10 +40,15 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-      description: Get instance groups with optional filtering and sorting.
+          $ref: '#/components/responses/Error'
+      description: |-
+        Get instance groups with optional filtering and sorting.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -79,15 +78,15 @@ paths:
               schema:
                 $ref: ../models/group/GroupInfo.yaml
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/Error'
       description: |-
         Create a group.
 
@@ -110,16 +109,21 @@ paths:
               schema:
                 $ref: ../models/group/GroupInfo.yaml
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-      description: Get a group by ID.
+          $ref: '#/components/responses/Error'
+      description: |-
+        Get a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
     put:
@@ -135,18 +139,23 @@ paths:
         '200':
           $ref: '#/components/responses/Update'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-      description: Update a group by ID.
+          $ref: '#/components/responses/Error'
+      description: |-
+        Update a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
     delete:
@@ -156,16 +165,21 @@ paths:
         '204':
           description: No Content
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-      description: Delete a group by ID.
+          $ref: '#/components/responses/Error'
+      description: |-
+        Delete a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
   '/groups/{group_id}/users':
@@ -191,7 +205,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all users of group.
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -221,13 +240,23 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all users of group.
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
     delete:
       summary: Delete group user
       operationId: deleteUserFromGroupById
-      description: Delete a user from a group.
+      description: |-
+        Delete a user from a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       responses:
         '204':
           description: No Content
@@ -259,7 +288,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Add user into group.
+      description: |-
+        Add user into group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
   '/groups/{group_id}/projects':
@@ -285,7 +319,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all projects of group.
+      description: |-
+        Get all projects of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -297,7 +336,12 @@ paths:
       - $ref: ../parameters/ProjectId.yaml
     get:
       summary: Get group project
-      description: Get project of group.
+      description: |-
+        Get project of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       responses:
         '200':
           description: OK
@@ -321,7 +365,12 @@ paths:
     put:
       summary: Add or update group project
       operationId: addProjectToGroupById
-      description: Add or update project in group.
+      description: |-
+        Add or update project in group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -361,7 +410,12 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Delete project from group.
+      description: |-
+        Delete project from group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
       tags:
         - Groups
 components:
@@ -445,8 +499,6 @@ components:
           description: Timestamp of user adding to group.
     GroupProjectInfo:
       title: Group project
-      x-stoplight:
-        id: 18a7cdfd7ecfc
       description: Information about a project as a group member.
       type: object
       properties:
@@ -488,3 +540,4 @@ components:
       scheme: bearer
 tags:
   - name: Groups
+    description: Groups API collection

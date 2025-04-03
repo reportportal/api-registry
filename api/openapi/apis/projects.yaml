@@ -10,20 +10,14 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: '{protocol}://{authority}/{basePath}'
+  - url: '{host}{basePath}'
     description: ReportPortal server
     variables:
-      protocol:
-        enum:
-          - http
-          - https
-        default: https
-        description: Protocol
-      authority:
-        default: demo.reportportal.io
+      host:
+        default: 'https://demo.reportportal.io'
         description: Host name and port (if needed) of Report Portal server
       basePath:
-        default: api
+        default: /api
         description: Base path of Report Portal API
 security:
   - BearerAuth: []
@@ -61,7 +55,15 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all groups of project.
+      description: |-
+        Get all groups of project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
+        - `MEMBETR`
+        - `OPERATOR`
   '/projects/{project_name}/groups/{group_id}':
     parameters:
       - schema:
@@ -73,7 +75,13 @@ paths:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get group by id
-      description: Get group by id from project.
+      description: |-
+        Get group by id from project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: getProjectGroupById
       tags:
         - Projects
@@ -96,7 +104,13 @@ paths:
           $ref: '#/components/responses/Error'
     put:
       summary: Add or update group to project
-      description: Add or update group to project with permission.
+      description: |-
+        Add or update group to project with permission.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: AddGroupToProjectById
       tags:
         - Projects
@@ -123,7 +137,13 @@ paths:
           $ref: '#/components/responses/Error'
     delete:
       summary: Delete group from project by id
-      description: Delete group from project by id.
+      description: |-
+        Delete group from project by id.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: DeleteGroupFromProjectById
       tags:
         - Projects
@@ -158,8 +178,6 @@ components:
                 $ref: '#/components/schemas/ProjectGroupInfo'
     ProjectGroupInfo:
       title: Project group
-      x-stoplight:
-        id: b10b4883ee615
       description: Information about project group.
       type: object
       properties:
@@ -203,3 +221,4 @@ components:
                 example: The update was completed successfully.
 tags:
   - name: Projects
+    description: Projects API collection
