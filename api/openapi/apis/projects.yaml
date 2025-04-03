@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Projects API
-  version: Organization
+  version: 1.0.0
   description: API Collection for working with projects.
   contact:
     name: ReportPortal Team
@@ -178,8 +178,6 @@ components:
                 $ref: '#/components/schemas/ProjectGroupInfo'
     ProjectGroupInfo:
       title: Project group
-      x-stoplight:
-        id: b10b4883ee615
       description: Information about project group.
       type: object
       properties:
@@ -223,3 +221,4 @@ components:
                 example: The update was completed successfully.
 tags:
   - name: Projects
+    description: Projects API collection
