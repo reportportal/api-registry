@@ -77,10 +77,10 @@ servers:
         description: Base path of Report Portal API
 tags:
   - name: Groups
-    description: Groups API collection
+    description: Group API collection
     x-displayName: Groups
   - name: Projects
-    description: Projects API collection
+    description: Generated project API collection
     x-displayName: Projects
 paths:
   /groups:
