@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Projects API
+  title: Projects API collection
   version: Organization
   description: API Collection for working with projects.
   contact:
@@ -123,7 +123,15 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: Get all groups of project.
+      description: |-
+        Get all groups of project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
+        - `MEMBETR`
+        - `OPERATOR`
   '/projects/{project_name}/groups/{group_id}':
     parameters:
       - schema:
@@ -135,7 +143,13 @@ paths:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get group by id
-      description: Get group by id from project.
+      description: |-
+        Get group by id from project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: getProjectGroupById
       tags:
         - Projects
@@ -158,7 +172,13 @@ paths:
           $ref: '#/components/responses/Error'
     put:
       summary: Add or update group to project
-      description: Add or update group to project with permission.
+      description: |-
+        Add or update group to project with permission.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: AddGroupToProjectById
       tags:
         - Projects
@@ -185,7 +205,13 @@ paths:
           $ref: '#/components/responses/Error'
     delete:
       summary: Delete group from project by id
-      description: Delete group from project by id.
+      description: |-
+        Delete group from project by id.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT MANAGER`
       operationId: DeleteGroupFromProjectById
       tags:
         - Projects
@@ -271,4 +297,4 @@ components:
                 example: The update was completed successfully.
 tags:
   - name: Projects
-    description: Operations with projects
+    description: Projects API collection
