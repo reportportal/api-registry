@@ -2904,6 +2904,18 @@ components:
           type: string
           format: date-time
           description: Timestamp when group was last updated.
+        stats:
+          type: object
+          description: Group statistics.
+          properties:
+            users_count:
+              type: integer
+              format: int32
+              description: Number of users in the group.
+            projects_count:
+              type: integer
+              format: int32
+              description: Number of projects in the group.
     Problem:
       title: Problem
       type: object
