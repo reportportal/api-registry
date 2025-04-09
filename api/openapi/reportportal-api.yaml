@@ -993,6 +993,14 @@ components:
           type: string
           format: date-time
           description: Timestamp of project updating in group.
+        stats:
+          type: object
+          description: Group statistics.
+          properties:
+            users_count:
+              type: integer
+              format: int32
+              description: Number of users in the group.
   responses:
     Error:
       description: Error problem response
