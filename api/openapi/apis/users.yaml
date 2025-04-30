@@ -10,20 +10,14 @@ info:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
 servers:
-  - url: '{protocol}://{authority}/{basePath}'
+  - url: '{host}{basePath}'
     description: ReportPortal server
     variables:
-      protocol:
-        enum:
-          - http
-          - https
-        default: https
-        description: Protocol
-      authority:
-        default: demo.reportportal.io
+      host:
+        default: https://demo.reportportal.io
         description: Host name and port (if needed) of Report Portal server
       basePath:
-        default: api
+        default: /api
         description: Base path of Report Portal API
 paths:
   /invitations:
