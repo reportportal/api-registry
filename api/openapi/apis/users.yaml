@@ -216,6 +216,7 @@ paths:
       operationId: post-users-searches
       tags:
         - User
+        - Implemented
       description: |-
         Search users by criteria.
 
