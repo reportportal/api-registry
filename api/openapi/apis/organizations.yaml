@@ -201,35 +201,15 @@ paths:
                     type: string
                     default: The user was added to the organization.
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
       description: |-
         This is a endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
@@ -261,6 +241,36 @@ paths:
       tags:
         - Organization User
         - Implemented
+  '/organizations/{org_id}/users/{user_id}':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/UserId.yaml
+    delete:
+      summary: Unassigned organization user
+      operationId: delete-organizations-org_id-users-user_id
+      responses:
+        '204':
+          description: No Content
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Unassigned user from an organization and all organization projects.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - restricted to unassigning only themselves.
+      tags:
+        - Organization User
   '/organizations/{org_id}/projects':
     parameters:
       - $ref: '#/components/parameters/organizationId'
