@@ -543,7 +543,7 @@ paths:
 
         - `ADMINISTRATOR`
         - `PROJECT MANAGER`
-        - `MEMBETR`
+        - `MEMBER`
         - `OPERATOR`
       security:
         - BearerAuth: []

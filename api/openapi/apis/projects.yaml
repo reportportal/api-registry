@@ -62,7 +62,7 @@ paths:
 
         - `ADMINISTRATOR`
         - `PROJECT MANAGER`
-        - `MEMBETR`
+        - `MEMBER`
         - `OPERATOR`
   '/projects/{project_name}/groups/{group_id}':
     parameters:
