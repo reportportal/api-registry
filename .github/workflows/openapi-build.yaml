@@ -5,7 +5,9 @@ on:
     paths:
       - 'api/openapi/**'
       - '!api/openapi/README.md'
-
+    branches-ignore:
+      - 'main'
+      - 'reference-api-design'
 jobs:
   build:
     runs-on: ubuntu-latest
