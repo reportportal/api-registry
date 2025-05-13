@@ -80,7 +80,7 @@ tags:
     description: API Collection for working with activities.
     x-displayName: Activities
   - name: Groups
-    description: Groups API collection
+    description: Group API collection
     x-displayName: Groups
   - name: Organization
     description: Organizations collection
