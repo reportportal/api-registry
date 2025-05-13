@@ -5,7 +5,9 @@ on:
     paths:
       - 'api/openapi/**'
       - '!api/openapi/README.md'
-
+    branches-ignore:
+      - 'main'
+      - 'reference-api-design'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configurate Git Safe Directory
+      - name: Configure Git Safe Directory
         run: git config --global --add safe.directory /__w/api-registry/api-registry
 
       - name: Verify OpenAPI
