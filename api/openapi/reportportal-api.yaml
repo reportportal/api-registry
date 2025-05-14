@@ -623,11 +623,12 @@ paths:
 
         ### Authority
 
-        - role: ADMINISTRATOR
-        - role: MANAGER
-          access: restricted (Limited to viewing only their assigned organizations)
-        - role: MEMBER
-          access: restricted (Limited to viewing only their assigned organizations)
+        - `ADMINISTRATOR`
+          access: `full`
+        - `MANAGER`
+          access: `restricted` (limited to viewing only their assigned organizations)
+        - `MEMBER`
+          access: `restricted` (limited to viewing only their assigned organizations)
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -871,10 +872,8 @@ paths:
 
         ### Authority
 
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
+        - `ADMINISTRATOR`
+        - `MANAGER`
       responses:
         '200':
           description: OK
@@ -916,10 +915,9 @@ paths:
         ### Authority
 
 
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -3356,7 +3354,6 @@ components:
 
                     Cannot exceed the value of `launches.period`.
                   default: 14
-      description: ''
     OrganizationBase:
       title: Organization definition
       description: >
