@@ -1,0 +1,1025 @@
+openapi: 3.0.3
+info:
+  title: Test Case Management API
+  description: API for managing test cases within projects
+  version: 1.0.0
+  contact:
+    name: ReportPortal Team
+    url: https://reportportal.io
+    email: support@reportportal.io
+servers:
+  - url: https://api.reportportal.io/v1
+    description: Production server
+  - url: https://dev-api.reportportal.io/v1
+    description: Development server
+tags:
+  - name: Test Case
+    description: Test Case API collection
+  - name: Import/Export
+    description: Operations for importing and exporting test cases
+  - name: Batch Operations
+    description: Operations for managing multiple test cases at once
+
+paths:
+  /project/{projectKey}/tms/test-case:
+    get:
+      tags:
+        - Test Case
+      summary: Get all test cases for a project
+      description: >
+        Retrieves all test cases associated with a specific project.
+        Supports filtering with @FilterFor(TmsTestCase.class) and sorting with @SortFor(TmsTestCase.class).
+      operationId: getTestCasesByProjectId
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - name: search
+          in: query
+          description: Full-text search query string
+          required: false
+          schema:
+            type: string
+            example: "login authentication"
+        - name: filter.eq.name
+          in: query
+          description: Filter by exact test case name match
+          required: false
+          schema:
+            type: string
+        - name: filter.cnt.name
+          in: query
+          description: Filter by test case name containing the value
+          required: false
+          schema:
+            type: string
+        - name: filter.eq.priority
+          in: query
+          description: Filter by exact priority match
+          required: false
+          schema:
+            type: string
+        - name: filter.eq.testFolderId
+          in: query
+          description: Filter by test folder ID
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: filter.has.tags
+          in: query
+          description: Filter by tag presence
+          required: false
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SizeParam'
+        - $ref: '#/components/parameters/SortParam'
+      responses:
+        '200':
+          description: Successful operation
+          headers:
+            X-Total-Count:
+              description: Total number of elements
+              schema:
+                type: integer
+            X-Total-Pages:
+              description: Total number of pages
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageTmsTestCaseRS'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/ProjectNotFound'
+    post:
+      tags:
+        - Test Case
+      summary: Create a new test case
+      description: Creates a new test case within a specific project.
+      operationId: createTestCase
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+      requestBody:
+        description: Test case creation request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsTestCaseRQ'
+      responses:
+        '201':
+          description: Test case created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsTestCaseRS'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/ProjectNotFound'
+
+  /project/{projectKey}/tms/test-case/{testCaseId}:
+    get:
+      tags:
+        - Test Case
+      summary: Get a test case by ID
+      description: Retrieves a specific test case by its ID within a project.
+      operationId: getTestCaseById
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsTestCaseRS'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseNotFound'
+    put:
+      tags:
+        - Test Case
+      summary: Update a test case
+      description: Updates the details of an existing test case in a project.
+      operationId: updateTestCase
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+      requestBody:
+        description: Test case update request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsTestCaseRQ'
+      responses:
+        '200':
+          description: Test case updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsTestCaseRS'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseNotFound'
+    patch:
+      tags:
+        - Test Case
+      summary: Partially update a test case
+      description: Applies a set of modifications to an existing test case in a project.
+      operationId: patchTestCase
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+      requestBody:
+        description: Test case patch request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsTestCaseRQ'
+      responses:
+        '200':
+          description: Test case patched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsTestCaseRS'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseNotFound'
+    delete:
+      tags:
+        - Test Case
+      summary: Delete a test case
+      description: Deletes a specific test case by its ID within a project.
+      operationId: deleteTestCase
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+      responses:
+        '204':
+          description: Test case deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseNotFound'
+
+  /project/{projectKey}/tms/test-case/batch/delete:
+    delete:
+      tags:
+        - Batch Operations
+      summary: Delete multiple test cases
+      description: Deletes multiple test cases by their IDs within a project.
+      operationId: deleteTestCases
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - name: ids
+          in: query
+          description: Comma-separated list of test case IDs to delete
+          required: true
+          schema:
+            type: string
+            example: "1,2,3"
+          style: form
+          explode: false
+      responses:
+        '204':
+          description: Test cases deleted successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/ProjectNotFound'
+
+  /project/{projectKey}/tms/test-case/batch/patch:
+    patch:
+      tags:
+        - Batch Operations
+      summary: Update multiple test cases
+      description: Updates multiple test cases at once, particularly useful for changing test case folder for multiple test cases.
+      operationId: batchPatchTestCases
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - name: ids
+          in: query
+          description: Comma-separated list of test case IDs to update
+          required: true
+          schema:
+            type: string
+            example: "1,2,3"
+          style: form
+          explode: false
+      requestBody:
+        description: Batch update request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                testFolderId:
+                  type: integer
+                  format: int64
+                  description: ID of the folder where the test cases should be moved
+                  example: 42
+              required:
+                - testFolderId
+      responses:
+        '200':
+          description: Test cases updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: integer
+                    description: Number of test cases updated
+                    example: 3
+                  failed:
+                    type: integer
+                    description: Number of test cases that failed to update
+                    example: 0
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        testCaseId:
+                          type: integer
+                          format: int64
+                          description: ID of the test case
+                          example: 1
+                        status:
+                          type: string
+                          enum: [UPDATED, FAILED]
+                          description: Status of the update operation
+                          example: "UPDATED"
+                        message:
+                          type: string
+                          description: Additional information about the update operation
+                          example: "Successfully updated"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/ProjectNotFound'
+
+  /project/{projectKey}/tms/test-case/import:
+    post:
+      tags:
+        - Import/Export
+      summary: Import test cases
+      description: Imports test cases from a file into a project.
+      operationId: importTestCases
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file containing test cases to import
+                importOptions:
+                  type: string
+                  description: JSON string with import options
+                  example: '{"updateExisting": true, "importAttachments": true}'
+              required:
+                - file
+      responses:
+        '200':
+          description: Test cases imported successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResultRS'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/ProjectNotFound'
+
+  /project/{projectKey}/tms/test-case/export:
+    get:
+      tags:
+        - Import/Export
+      summary: Export test cases
+      description: Exports test cases from a project to a file.
+      operationId: exportTestCases
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - name: ids
+          in: query
+          description: Comma-separated list of test case IDs to export. If not provided, all test cases will be exported.
+          required: false
+          schema:
+            type: string
+            example: "1,2,3"
+          style: form
+          explode: false
+        - name: format
+          in: query
+          description: Format of the export file
+          required: false
+          schema:
+            type: string
+            enum: [XML, JSON, XLSX]
+            default: JSON
+            example: "JSON"
+        - name: includeAttachments
+          in: query
+          description: Whether to include attachments in the export
+          required: false
+          schema:
+            type: boolean
+            default: false
+            example: true
+      responses:
+        '200':
+          description: Test cases exported successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/ProjectNotFound'
+
+components:
+  schemas:
+    PageTmsTestCaseRS:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsTestCaseRS'
+          description: List of test cases on the current page
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of elements
+          example: 100
+        totalPages:
+          type: integer
+          description: Total number of pages
+          example: 10
+        last:
+          type: boolean
+          description: Whether this is the last page
+          example: false
+        size:
+          type: integer
+          description: Size of the page
+          example: 10
+        number:
+          type: integer
+          description: Current page number (0-indexed)
+          example: 0
+        sort:
+          $ref: '#/components/schemas/Sort'
+        numberOfElements:
+          type: integer
+          description: Number of elements on the current page
+          example: 10
+        first:
+          type: boolean
+          description: Whether this is the first page
+          example: true
+        empty:
+          type: boolean
+          description: Whether the page is empty
+          example: false
+
+    Pageable:
+      type: object
+      properties:
+        sort:
+          $ref: '#/components/schemas/Sort'
+        offset:
+          type: integer
+          format: int64
+          description: Offset of the current page
+          example: 0
+        pageNumber:
+          type: integer
+          description: Page number (0-indexed)
+          example: 0
+        pageSize:
+          type: integer
+          description: Size of the page
+          example: 10
+        paged:
+          type: boolean
+          description: Whether pagination is enabled
+          example: true
+        unpaged:
+          type: boolean
+          description: Whether pagination is disabled
+          example: false
+
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+          description: Whether sorting is applied
+          example: true
+        unsorted:
+          type: boolean
+          description: Whether sorting is not applied
+          example: false
+        empty:
+          type: boolean
+          description: Whether sort is empty
+          example: false
+
+    TmsTestCaseRQ:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the test case
+          example: "Login Functionality Test"
+        description:
+          type: string
+          description: Description of the test case
+          example: "Verifies that users can log in with valid credentials"
+        priority:
+          type: string
+          description: Priority of the test case
+          example: "High"
+        testFolderId:
+          type: integer
+          format: int64
+          description: ID of the folder where the test case is located
+          example: 42
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsTestCaseAttributeRQ'
+          description: Tags associated with the test case
+        testCaseVersion:
+          $ref: '#/components/schemas/TmsTestCaseVersionRQ'
+
+    TmsTestCaseAttributeRQ:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Value of the attribute
+          example: "Critical"
+        attributeId:
+          type: integer
+          format: int64
+          description: ID of the attribute
+          example: 1
+
+    TmsTestCaseVersionRQ:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the test case version
+          example: "v1.0"
+        isDefault:
+          type: boolean
+          description: Whether this is the default version
+          example: true
+        isDraft:
+          type: boolean
+          description: Whether this version is a draft
+          example: false
+        linkToRequirements:
+          type: string
+          description: Link to requirements related to this test case
+          example: "REQ-001, REQ-002"
+        manualScenario:
+          $ref: '#/components/schemas/TmsManualScenarioRQ'
+
+    TmsManualScenarioRQ:
+      type: object
+      discriminator:
+        propertyName: manualScenarioType
+        mapping:
+          STEPS: '#/components/schemas/TmsStepsManualScenarioRQ'
+          TEXT: '#/components/schemas/TmsTextManualScenarioRQ'
+      properties:
+        executionEstimationTime:
+          type: integer
+          description: Estimated time for execution in minutes
+          example: 15
+        manualScenarioType:
+          $ref: '#/components/schemas/TmsManualScenarioType'
+        preconditions:
+          type: string
+          description: Preconditions for the test case
+          example: "User has an active account"
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsManualScenarioAttributeRQ'
+          description: Attributes of the manual scenario
+
+    TmsStepsManualScenarioRQ:
+      allOf:
+        - $ref: '#/components/schemas/TmsManualScenarioRQ'
+        - type: object
+          properties:
+            steps:
+              type: array
+              items:
+                $ref: '#/components/schemas/TmsManualScenarioStepRQ'
+              description: Steps of the manual scenario
+
+    TmsTextManualScenarioRQ:
+      allOf:
+        - $ref: '#/components/schemas/TmsManualScenarioRQ'
+        - type: object
+          properties:
+            instructions:
+              type: string
+              description: Instructions for the test case
+              example: "1. Open login page\n2. Enter valid credentials\n3. Click login button"
+            expectedResult:
+              type: string
+              description: Expected result of the test case
+              example: "User is successfully logged in and redirected to dashboard"
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/TmsManualScenarioAttachmentRQ'
+              description: Attachments for the step
+
+    TmsManualScenarioStepRQ:
+      type: object
+      properties:
+        instructions:
+          type: string
+          description: Instructions for the step
+          example: "Enter valid username and password"
+        expectedResult:
+          type: string
+          description: Expected result of the step
+          example: "Credentials are accepted"
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsManualScenarioAttachmentRQ'
+          description: Attachments for the step
+
+    TmsManualScenarioAttachmentRQ:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the attachment
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    TmsManualScenarioAttributeRQ:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Value of the attribute
+          example: "High"
+        attributeId:
+          type: integer
+          format: int64
+          description: ID of the attribute
+          example: 2
+
+    TmsManualScenarioType:
+      type: string
+      enum: [STEPS, TEXT]
+      description: Type of manual scenario
+      example: "STEPS"
+
+    TmsTestCaseRS:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the test case
+          example: 1
+        name:
+          type: string
+          description: Name of the test case
+          example: "Login Functionality Test"
+        priority:
+          type: string
+          description: Priority of the test case
+          example: "High"
+        description:
+          type: string
+          description: Description of the test case
+          example: "Verifies that users can log in with valid credentials"
+        testFolder:
+          $ref: '#/components/schemas/TmsTestFolderRS'
+          description: Folder where the test case is located
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsTestCaseVersionRS'
+          description: Versions of the test case
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsTestPlanAttributeRS'
+          description: Tags associated with the test case
+        manualScenario:
+          $ref: '#/components/schemas/TmsManualScenarioRS'
+          description: Manual scenario for the test case
+
+    TmsTestFolderRS:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the test folder
+          example: 42
+        name:
+          type: string
+          description: Name of the test folder
+          example: "Authentication Tests"
+        path:
+          type: string
+          description: Path of the test folder
+          example: "/Regression/Authentication"
+
+    TmsTestCaseVersionRS:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the test case version
+          example: 1
+        name:
+          type: string
+          description: Name of the test case version
+          example: "v1.0"
+        isDefault:
+          type: boolean
+          description: Whether this is the default version
+          example: true
+        isDraft:
+          type: boolean
+          description: Whether this version is a draft
+          example: false
+        manualScenario:
+          $ref: '#/components/schemas/TmsManualScenarioRS'
+
+    TmsManualScenarioRS:
+      type: object
+      discriminator:
+        propertyName: manualScenarioType
+        mapping:
+          STEPS: '#/components/schemas/TmsStepsManualScenarioRS'
+          TEXT: '#/components/schemas/TmsTextManualScenarioRS'
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the manual scenario
+          example: 1
+        executionEstimationTime:
+          type: integer
+          description: Estimated time for execution in minutes
+          example: 15
+        manualScenarioType:
+          $ref: '#/components/schemas/TmsManualScenarioType'
+        preconditions:
+          type: string
+          description: Preconditions for the test case
+          example: "User has an active account"
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsManualScenarioAttributeRS'
+          description: Attributes of the manual scenario
+
+    TmsStepsManualScenarioRS:
+      allOf:
+        - $ref: '#/components/schemas/TmsManualScenarioRS'
+        - type: object
+          properties:
+            steps:
+              type: array
+              items:
+                $ref: '#/components/schemas/TmsManualScenarioStepRS'
+              description: Steps of the manual scenario
+
+    TmsTextManualScenarioRS:
+      allOf:
+        - $ref: '#/components/schemas/TmsManualScenarioRS'
+        - type: object
+          properties:
+            instructions:
+              type: string
+              description: Instructions for the test case
+              example: "1. Open login page\n2. Enter valid credentials\n3. Click login button"
+            expectedResult:
+              type: string
+              description: Expected result of the test case
+              example: "User is successfully logged in and redirected to dashboard"
+
+    TmsManualScenarioStepRS:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the step
+          example: 1
+        instructions:
+          type: string
+          description: Instructions for the step
+          example: "Enter valid username and password"
+        expectedResult:
+          type: string
+          description: Expected result of the step
+          example: "Credentials are accepted"
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/TmsManualScenarioAttachmentRS'
+          description: Attachments for the step
+
+    TmsManualScenarioAttachmentRS:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the attachment
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    TmsManualScenarioAttributeRS:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Value of the attribute
+          example: "High"
+        attribute:
+          $ref: '#/components/schemas/TmsAttributeRS'
+          description: Attribute details
+
+    TmsTestPlanAttributeRS:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Value of the attribute
+          example: "Critical"
+        attribute:
+          $ref: '#/components/schemas/TmsAttributeRS'
+          description: Attribute details
+
+    TmsAttributeRS:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the attribute
+          example: 1
+        key:
+          type: string
+          description: Key of the attribute
+          example: "priority"
+
+    ImportResultRS:
+      type: object
+      properties:
+        imported:
+          type: integer
+          description: Number of test cases imported
+          example: 10
+        updated:
+          type: integer
+          description: Number of test cases updated
+          example: 5
+        failed:
+          type: integer
+          description: Number of test cases that failed to import
+          example: 2
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              testCaseId:
+                type: integer
+                format: int64
+                description: ID of the test case
+                example: 1
+              status:
+                type: string
+                enum: [IMPORTED, UPDATED, FAILED]
+                description: Status of the import operation
+                example: "IMPORTED"
+              message:
+                type: string
+                description: Additional information about the import operation
+                example: "Successfully imported"
+
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time when the error occurred
+          example: "2023-06-15T10:30:45Z"
+        status:
+          type: integer
+          description: HTTP status code
+          example: 400
+        error:
+          type: string
+          description: Error type
+          example: "Bad Request"
+        message:
+          type: string
+          description: Error message
+          example: "Invalid input parameters"
+        path:
+          type: string
+          description: Request path
+          example: "/project/default/tms/test-case"
+
+  parameters:
+    ProjectKeyParam:
+      name: projectKey
+      in: path
+      description: Key of the project
+      required: true
+      schema:
+        type: string
+        example: "default"
+    TestCaseIdParam:
+      name: testCaseId
+      in: path
+      description: ID of the test case
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 1
+    PageParam:
+      name: page
+      in: query
+      description: Page number (0-indexed)
+      required: false
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+        example: 0
+    SizeParam:
+      name: size
+      in: query
+      description: Number of items per page
+      required: false
+      schema:
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 100
+        example: 20
+    SortParam:
+      name: sort
+      in: query
+      description: >
+        Sorting criteria in the format - property(,asc|desc). Default sort order is ascending. 
+        Multiple sort criteria are supported. Used with @SortFor(TmsTestCase.class) annotation.
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          example: "name,asc"
+      style: form
+      explode: true
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ProjectNotFound:
+      description: Project not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TestCaseNotFound:
+      description: Test case not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
