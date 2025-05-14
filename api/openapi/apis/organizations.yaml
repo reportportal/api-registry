@@ -250,6 +250,61 @@ paths:
         - `ADMINISTRATOR`
       tags:
         - Organization
+  '/organizations/{org_id}/settings':
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      summary: Get organization settings
+      operationId: getOrgSettingsByOrgId
+      tags:
+        - Organization
+      description: |-
+        Get organization settings.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSettings'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Update organization settings
+      operationId: updateOrgSettingsByOrgId
+      tags:
+        - Organization
+      description: |-
+        Update organization settings.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationSettings'
+        description: ''
   '/organizations/{org_id}/users':
     parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -368,11 +423,7 @@ paths:
         description: Definition for a user assignment.
   '/organizations/{org_id}/users/searches':
     parameters:
-      - schema:
-          type: string
-        name: org_id
-        in: path
-        required: true
+      - $ref: '#/components/parameters/organizationId'
     post:
       summary: Create search request for organization users
       operationId: post-organizations-org_id-users-searches
@@ -1033,6 +1084,63 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OrgUserProject'
+    OrganizationSettings:
+      title: OrganizationSettings
+      type: object
+      properties:
+        retention_policy:
+          type: object
+          description: |-
+            Organisation retention policy settings.
+
+            **Important**: Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
+            If you set `launches.period` to a value lower than existing `logs.period` or `attachments.period`, those values 
+            will be automatically adjusted to match `launches.period`.
+          properties:
+            launches:
+              type: object
+              description: |-
+                Launches retention policy settings.
+              properties:
+                period:
+                  type: integer
+                  minimum: 0
+                  maximum: 365
+                  description: |-
+                    Number of days to keep launches.
+                    Set `0` to keep attachments forever (retention policy disabled).
+                    This value acts as an upper limit for `logs.period` and `attachments.period`.
+                  default: 90
+            logs:
+              type: object
+              description: |-
+                Logs retention policy settings.
+                The period cannot exceed the value set in `launches.period`.
+              properties:
+                period:
+                  type: integer
+                  minimum: 0
+                  maximum: 365
+                  description: |-
+                    Number of days to keep logs.
+                    Set `0` to keep attachments forever (retention policy disabled).
+                    Cannot exceed the value of `launches.period`.
+                  default: 90
+            attachments:
+              type: object
+              description: |-
+                Attachments retention policy settings.
+                The period cannot exceed the value set in `launches.period`.
+              properties:
+                period:
+                  type: integer
+                  minimum: 0
+                  maximum: 365
+                  description: |-
+                    Number of days to keep attachments. 
+                    Set `0` to keep attachments forever (retention policy disabled).
+                    Cannot exceed the value of `launches.period`.
+                  default: 14
   parameters:
     organizationId:
       name: org_id
