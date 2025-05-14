@@ -1107,7 +1107,7 @@ components:
               items:
                 $ref: '#/components/schemas/OrgUserProject'
     OrganizationSettings:
-      title: OrganizationSettings
+      title: Organization settings
       type: object
       properties:
         retention_policy:
