@@ -59,7 +59,6 @@ paths:
           access: restricted (Limited to viewing only their assigned organizations)
         - role: MEMBER
           access: restricted (Limited to viewing only their assigned organizations)
-
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -304,6 +303,10 @@ paths:
         - role: MANAGER
           access: full
       description: |-
+        > **Important**: Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
+        > If you set `launches.period` to a value lower than existing `logs.period` or `attachments.period`, those values 
+        > will be automatically adjusted to match `launches.period`.
+
         Update organization settings.
 
         ### Authority
@@ -1115,14 +1118,13 @@ components:
           description: |-
             Organisation retention policy settings.
 
-            **Important**: Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
+            Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
             If you set `launches.period` to a value lower than existing `logs.period` or `attachments.period`, those values 
             will be automatically adjusted to match `launches.period`.
           properties:
             launches:
               type: object
-              description: |-
-                Launches retention policy settings.
+              description: Launches retention policy settings.
               properties:
                 period:
                   type: integer
@@ -1135,9 +1137,7 @@ components:
                   default: 90
             logs:
               type: object
-              description: |-
-                Logs retention policy settings.
-                The period cannot exceed the value set in `launches.period`.
+              description: Logs retention policy settings.
               properties:
                 period:
                   type: integer
@@ -1150,9 +1150,7 @@ components:
                   default: 90
             attachments:
               type: object
-              description: |-
-                Attachments retention policy settings.
-                The period cannot exceed the value set in `launches.period`.
+              description: Attachments retention policy settings.
               properties:
                 period:
                   type: integer
