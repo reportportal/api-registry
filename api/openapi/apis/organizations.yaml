@@ -320,6 +320,8 @@ paths:
           $ref: '#/components/responses/Update'
         '400':
           $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -1160,16 +1162,16 @@ components:
                   description: |-
                     Number of days to keep attachments. 
                     Set `0` to keep attachments forever (retention policy disabled).
-                    Cannot exceed the value of `launches.period` and `logs.period`.
+                    Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
                   $ref: '#/components/schemas/RotationUnit'
     RotationUnit:
       title: Rotation unit of time
       type: string
-      description: |-
-        Unit of time for the `period` value.
-      enum: [day]
+      description: Unit of time for the `period` value.
+      enum:
+        - day
       default: day
   parameters:
     organizationId:
