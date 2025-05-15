@@ -3340,7 +3340,7 @@ components:
                   type: integer
                   minimum: 0
                   description: >-
-                    Number of days to keep logs.
+                    Number of time units to keep launches.
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
@@ -3357,12 +3357,13 @@ components:
                   type: integer
                   minimum: 0
                   description: >-
-                    Number of days to keep attachments. 
+                    Number of time units to keep launches.
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
 
-                    Cannot exceed the value of `launches.period`.
+                    Cannot exceed the value of `launches.period` and
+                    `logs.period`.
                   default: 14
                 unit:
                   $ref: '#/components/schemas/RotationUnit'
