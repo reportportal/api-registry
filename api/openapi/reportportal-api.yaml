@@ -3319,9 +3319,8 @@ components:
                 period:
                   type: integer
                   minimum: 0
-                  maximum: 365
                   description: >-
-                    Number of days to keep launches.
+                    Number of time units to keep launches.
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
@@ -3329,6 +3328,8 @@ components:
                     This value acts as an upper limit for `logs.period` and
                     `attachments.period`.
                   default: 90
+                unit:
+                  $ref: '#/components/schemas/RotationUnit'
             logs:
               type: object
               description: Logs retention policy settings.
@@ -3336,7 +3337,6 @@ components:
                 period:
                   type: integer
                   minimum: 0
-                  maximum: 365
                   description: >-
                     Number of days to keep logs.
 
@@ -3345,6 +3345,8 @@ components:
 
                     Cannot exceed the value of `launches.period`.
                   default: 90
+                unit:
+                  $ref: '#/components/schemas/RotationUnit'
             attachments:
               type: object
               description: Attachments retention policy settings.
@@ -3352,15 +3354,24 @@ components:
                 period:
                   type: integer
                   minimum: 0
-                  maximum: 365
                   description: >-
                     Number of days to keep attachments. 
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
 
-                    Cannot exceed the value of `launches.period`.
+                    Cannot exceed the value of `launches.period` and
+                    `logs.period`.
                   default: 14
+                unit:
+                  $ref: '#/components/schemas/RotationUnit'
+    RotationUnit:
+      title: Rotation unit of time
+      type: string
+      description: Unit of time for the `period` value.
+      enum:
+        - day
+      default: day
     OrganizationBase:
       title: Organization definition
       description: >
