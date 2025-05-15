@@ -2,8 +2,7 @@ openapi: 3.0.3
 info:
   title: Groups API
   version: 1.0.0
-  description: |-
-    The Group collection API. You can use it to manage groups and members of groups.
+  description: The Group collection API. You can use it to manage groups and members of groups.
   contact:
     name: ReportPortal
     email: support@reportportal.io
@@ -27,21 +26,11 @@ paths:
     get:
       summary: Get all groups
       operationId: getGroups
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+      tags:
+        - Groups
       description: |-
         Get instance groups with optional filtering and sorting.
 
@@ -58,11 +47,138 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
-      tags:
-        - Groups
+        - schema:
+            type: string
+          in: query
+          name: org_id
+          description: Organization identifier.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
     post:
       summary: Create a group
       operationId: createGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+      tags:
+        - Groups
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateGroupRequest'
+                - type: object
+                  x-stoplight:
+                    id: v4tzsdzwai380
+                  properties:
+                    org_id:
+                      type: integer
+                      x-stoplight:
+                        id: 6oh7j8ckrdu7z
+                      format: int64
+                      description: Organization identifier.
+                  required:
+                    - org_id
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/group/GroupInfo.yaml
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+  '/organizations/{org_id}/groups':
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+    get:
+      summary: Get all groups
+      operationId: getOrgGroups
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Groups
+      description: |-
+        Get instance groups with optional filtering and sorting.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+    post:
+      summary: Create a group
+      operationId: createOrgGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Groups
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       requestBody:
         required: true
         content:
@@ -86,20 +202,27 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
-      description: |-
-        Create a group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
   '/groups/{group_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get group
       operationId: getGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           description: OK
@@ -117,17 +240,24 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+    put:
+      summary: Update group
+      operationId: updateGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
-        Get a group by ID.
+        Update a group by ID.
 
         ### Authority
 
         - `ADMINISTRATOR`
-      tags:
-        - Groups
-    put:
-      summary: Update group
-      operationId: updateGroup
+        - `MANAGER` : Access to groups when assigned to an organization.
       requestBody:
         required: true
         content:
@@ -149,17 +279,24 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
+    delete:
+      summary: Delete group
+      operationId: deleteGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
-        Update a group by ID.
+        Delete a group by ID.
 
         ### Authority
 
         - `ADMINISTRATOR`
-      tags:
-        - Groups
-    delete:
-      summary: Delete group
-      operationId: deleteGroup
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '204':
           description: No Content
@@ -173,20 +310,30 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Delete a group by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
   '/groups/{group_id}/users':
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get all group users
       operationId: getGroupUsers
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml        
       responses:
         '200':
           description: OK
@@ -204,17 +351,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get all users of group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      parameters:
-        - $ref: ../parameters/Offset.yaml
-        - $ref: ../parameters/Limit.yaml
-      tags:
-        - Groups
   '/groups/{group_id}/users/{user_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -222,6 +358,21 @@ paths:
     get:
       summary: Get group user
       operationId: getGroupUserById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.          
       responses:
         '200':
           description: OK
@@ -239,23 +390,24 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get all users of group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
     delete:
       summary: Delete group user
       operationId: deleteUserFromGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
         Delete a user from a group.
 
         ### Authority
 
         - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '204':
           description: No Content
@@ -269,11 +421,24 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      tags:
-        - Groups
     put:
       summary: Add group user
       operationId: addUserToGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Add user into group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.        
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -287,20 +452,30 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Add user into group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
   '/groups/{group_id}/projects':
     parameters:
       - $ref: ../parameters/GroupId.yaml
     get:
       summary: Get all group projects
       operationId: getGroupProjects
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get all projects of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
       responses:
         '200':
           description: OK
@@ -318,29 +493,28 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get all projects of group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      parameters:
-        - $ref: ../parameters/Offset.yaml
-        - $ref: ../parameters/Limit.yaml
-      tags:
-        - Groups
   '/groups/{group_id}/projects/{project_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
       - $ref: ../parameters/ProjectId.yaml
     get:
       summary: Get group project
+      operationId: getGroupProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
         Get project of group.
 
         ### Authority
 
         - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           description: OK
@@ -358,18 +532,24 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      operationId: getGroupProjectById
-      tags:
-        - Groups
     put:
       summary: Add or update group project
       operationId: addProjectToGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups      
       description: |-
         Add or update project in group.
 
         ### Authority
 
         - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -391,11 +571,24 @@ paths:
               properties:
                 permission:
                   $ref: ../enums/projectRole.yaml
-      tags:
-        - Groups
     delete:
       summary: Delete group project
       operationId: deleteProjectFromGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Delete project from group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '204':
           description: No Content
@@ -409,14 +602,7 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Delete project from group.
 
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
 components:
   schemas:
     GroupPage:
