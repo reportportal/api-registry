@@ -115,9 +115,8 @@ paths:
             application/json:
               schema:
                 $ref: ../models/Problem.yaml
-      description: |
-        > **Enterprise edition feature** 
-        >
+      description: |-
+        > **Enterprise edition feature**
 
         Create a new organization. Provide name and slug.
 
@@ -200,7 +199,7 @@ paths:
         - `MANAGER`
         - `MEMBER`
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
     put:
       summary: Update organization
       operationId: put-organizations-org_id
@@ -260,7 +259,7 @@ paths:
         - Organization
   '/organizations/{org_id}/settings':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
     get:
       summary: Get organization settings
       operationId: getOrgSettingsByOrgId
@@ -334,7 +333,7 @@ paths:
         description: ''
   '/organizations/{org_id}/users':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
     get:
       summary: Get organization's users
       tags:
@@ -450,7 +449,7 @@ paths:
         description: Definition for a user assignment.
   '/organizations/{org_id}/users/searches':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
     post:
       summary: Create search request for organization users
       operationId: post-organizations-org_id-users-searches
@@ -510,7 +509,7 @@ paths:
               $ref: ../models/SearchCriteriaRQ.yaml
   '/organizations/{org_id}/users/{user_id}':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
       - $ref: ../parameters/UserId.yaml
     get:
       summary: Get organization user profile
@@ -626,7 +625,7 @@ paths:
         - Organization User
   '/organizations/{org_id}/users/{user_id}/projects':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
       - $ref: ../parameters/UserId.yaml
     get:
       summary: Get organization user's projects
@@ -670,7 +669,7 @@ paths:
           $ref: '#/components/responses/Error'
   '/organizations/{org_id}/projects':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
     get:
       summary: Get organization projects
       tags:
@@ -757,7 +756,7 @@ paths:
         description: 'You can create an project provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
   '/organizations/{org_id}/projects/searches':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: ../parameters/OrgId.yaml
     post:
       summary: Create search request for organization projects
       operationId: post-organizations-org_id-projects-searches
@@ -795,8 +794,8 @@ paths:
         - Implemented
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
-      - $ref: '#/components/parameters/organizationId'
-      - $ref: '#/components/parameters/projectId'
+      - $ref: ../parameters/OrgId.yaml
+      - $ref: ../parameters/ProjectId.yaml
     get:
       summary: Get project information
       tags:
@@ -1146,7 +1145,7 @@ components:
                   type: integer
                   minimum: 0
                   description: |-
-                    Number of time units to keep launches.
+                    Number of days to keep logs.
                     Set `0` to keep attachments forever (retention policy disabled).
                     Cannot exceed the value of `launches.period`.
                   default: 90
@@ -1160,9 +1159,9 @@ components:
                   type: integer
                   minimum: 0
                   description: |-
-                    Number of time units to keep launches.
+                    Number of days to keep attachments. 
                     Set `0` to keep attachments forever (retention policy disabled).
-                    Cannot exceed the value of `launches.period` and `logs.period`.
+                    Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
                   $ref: '#/components/schemas/RotationUnit'
@@ -1173,23 +1172,6 @@ components:
       enum:
         - day
       default: day
-  parameters:
-    organizationId:
-      name: org_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: Organization identifier.
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: Project identifier.
   securitySchemes:
     BearerAuth:
       type: http
