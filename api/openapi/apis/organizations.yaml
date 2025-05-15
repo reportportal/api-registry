@@ -271,6 +271,8 @@ paths:
           access: full
         - role: MANAGER
           access: full
+        - role: MEMBER
+          access: full
       description: |-
         Get organization settings.
 
@@ -278,6 +280,7 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+        - `MEMBER`
       responses:
         '200':
           description: OK

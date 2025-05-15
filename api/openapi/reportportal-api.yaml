@@ -867,6 +867,8 @@ paths:
           access: full
         - role: MANAGER
           access: full
+        - role: MEMBER
+          access: full
       description: |-
         Get organization settings.
 
@@ -874,6 +876,7 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+        - `MEMBER`
       responses:
         '200':
           description: OK
@@ -2977,6 +2980,10 @@ components:
           $ref: '#/components/schemas/name'
         slug:
           $ref: '#/components/schemas/slug'
+        org_id:
+          type: integer
+          format: int64
+          description: Organization ID of the group.
         created_by:
           type: integer
           format: int64
@@ -3288,7 +3295,7 @@ components:
               items:
                 $ref: '#/components/schemas/OrgUserProject'
     OrganizationSettings:
-      title: OrganizationSettings
+      title: Organization settings
       type: object
       properties:
         retention_policy:

@@ -7,7 +7,7 @@ on:
       - '!api/openapi/README.md'
     branches-ignore:
       - 'main'
-      - 'reference-api-design'
+      - 'reference'
 jobs:
   build:
     runs-on: ubuntu-latest
