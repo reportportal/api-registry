@@ -173,21 +173,11 @@ paths:
     get:
       summary: Get all groups
       operationId: getGroups
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+      tags:
+        - Groups
       description: |-
         Get instance groups with optional filtering and sorting.
 
@@ -204,13 +194,144 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
-      tags:
-        - Groups
+        - schema:
+            type: string
+          in: query
+          name: org_id
+          description: Organization identifier.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
     post:
       summary: Create a group
       operationId: createGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+      tags:
+        - Groups
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateGroupRequest'
+                - type: object
+                  x-stoplight:
+                    id: v4tzsdzwai380
+                  properties:
+                    org_id:
+                      type: integer
+                      x-stoplight:
+                        id: 6oh7j8ckrdu7z
+                      format: int64
+                      description: Organization identifier.
+                  required:
+                    - org_id
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/groups:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      summary: Get all groups
+      operationId: getOrgGroups
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Groups
+      description: |-
+        Get instance groups with optional filtering and sorting.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a group
+      operationId: createOrgGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Groups
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       requestBody:
         required: true
         content:
@@ -234,14 +355,6 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
-      description: |-
-        Create a group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
   /groups/{group_id}:
@@ -250,6 +363,21 @@ paths:
     get:
       summary: Get group
       operationId: getGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           description: OK
@@ -267,19 +395,26 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get a group by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
     put:
       summary: Update group
       operationId: updateGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Update a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       requestBody:
         required: true
         content:
@@ -301,19 +436,26 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
-      description: |-
-        Update a group by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
     delete:
       summary: Delete group
       operationId: deleteGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Delete a group by ID.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '204':
           description: No Content
@@ -327,14 +469,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Delete a group by ID.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
   /groups/{group_id}/users:
@@ -343,6 +477,24 @@ paths:
     get:
       summary: Get all group users
       operationId: getGroupUsers
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get all users of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
       responses:
         '200':
           description: OK
@@ -360,17 +512,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get all users of group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      parameters:
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Limit'
-      tags:
-        - Groups
       security:
         - BearerAuth: []
   /groups/{group_id}/users/{user_id}:
@@ -380,6 +521,25 @@ paths:
     get:
       summary: Get group user
       operationId: getGroupUserById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: >-
+        Get all users of group.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER` : Access to groups when assigned to an
+        organization.          
       responses:
         '200':
           description: OK
@@ -397,25 +557,26 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get all users of group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
     delete:
       summary: Delete group user
       operationId: deleteUserFromGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
         Delete a user from a group.
 
         ### Authority
 
         - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '204':
           description: No Content
@@ -429,13 +590,26 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      tags:
-        - Groups
       security:
         - BearerAuth: []
     put:
       summary: Add group user
       operationId: addUserToGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Add user into group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.        
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -449,14 +623,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Add user into group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
   /groups/{group_id}/projects:
@@ -465,6 +631,24 @@ paths:
     get:
       summary: Get all group projects
       operationId: getGroupProjects
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Get all projects of group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
       responses:
         '200':
           description: OK
@@ -482,17 +666,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Get all projects of group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      parameters:
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Limit'
-      tags:
-        - Groups
       security:
         - BearerAuth: []
   /groups/{group_id}/projects/{project_id}:
@@ -501,12 +674,22 @@ paths:
       - $ref: '#/components/parameters/ProjectId'
     get:
       summary: Get group project
+      operationId: getGroupProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
         Get project of group.
 
         ### Authority
 
         - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           description: OK
@@ -524,20 +707,26 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      operationId: getGroupProjectById
-      tags:
-        - Groups
       security:
         - BearerAuth: []
     put:
       summary: Add or update group project
       operationId: addProjectToGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
       description: |-
         Add or update project in group.
 
         ### Authority
 
         - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -559,13 +748,26 @@ paths:
               properties:
                 permission:
                   $ref: '#/components/schemas/projectRole'
-      tags:
-        - Groups
       security:
         - BearerAuth: []
     delete:
       summary: Delete group project
       operationId: deleteProjectFromGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: restricted
+          description: Access to groups when assigned to an organization.
+      tags:
+        - Groups
+      description: |-
+        Delete project from group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '204':
           description: No Content
@@ -579,14 +781,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      description: |-
-        Delete project from group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      tags:
-        - Groups
       security:
         - BearerAuth: []
   /organizations:
@@ -686,9 +880,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-      description: |
-        > **Enterprise edition feature** 
-        >
+      description: |-
+        > **Enterprise edition feature**
 
         Create a new organization. Provide name and slug.
 
@@ -792,7 +985,7 @@ paths:
       security:
         - BearerAuth: []
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
     put:
       summary: Update organization
       operationId: put-organizations-org_id
@@ -856,7 +1049,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/settings:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
     get:
       summary: Get organization settings
       operationId: getOrgSettingsByOrgId
@@ -906,11 +1099,6 @@ paths:
         > **Important**: Values for `logs.period` and `attachments.period`
         cannot exceed the value of `launches.period`.
 
-        > If you set `launches.period` to a value lower than existing
-        `logs.period` or `attachments.period`, those values 
-
-        > will be automatically adjusted to match `launches.period`.
-
 
         Update organization settings.
 
@@ -942,7 +1130,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/users:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
     get:
       summary: Get organization's users
       tags:
@@ -1078,7 +1266,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/users/searches:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
     post:
       summary: Create search request for organization users
       operationId: post-organizations-org_id-users-searches
@@ -1165,7 +1353,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
       - $ref: '#/components/parameters/UserId'
     get:
       summary: Get organization user profile
@@ -1300,7 +1488,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}/projects:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
       - $ref: '#/components/parameters/UserId'
     get:
       summary: Get organization user's projects
@@ -1346,7 +1534,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/projects:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
     get:
       summary: Get organization projects
       tags:
@@ -1439,7 +1627,7 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/projects/searches:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/OrgId'
     post:
       summary: Create search request for organization projects
       operationId: post-organizations-org_id-projects-searches
@@ -1489,8 +1677,8 @@ paths:
         - BearerAuth: []
   /organizations/{org_id}/projects/{project_id}:
     parameters:
-      - $ref: '#/components/parameters/organizationId'
-      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/OrgId'
+      - $ref: '#/components/parameters/ProjectId'
     get:
       summary: Get project information
       tags:
@@ -3340,7 +3528,7 @@ components:
                   type: integer
                   minimum: 0
                   description: >-
-                    Number of time units to keep launches.
+                    Number of days to keep logs.
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
@@ -3357,13 +3545,12 @@ components:
                   type: integer
                   minimum: 0
                   description: >-
-                    Number of time units to keep launches.
+                    Number of days to keep attachments. 
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
 
-                    Cannot exceed the value of `launches.period` and
-                    `logs.period`.
+                    Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
                   $ref: '#/components/schemas/RotationUnit'
@@ -3371,9 +3558,9 @@ components:
       title: Rotation unit of time
       type: string
       description: Unit of time for the `period` value.
+      default: days
       enum:
-        - day
-      default: day
+        - days
     OrganizationBase:
       title: Organization definition
       description: >
@@ -4018,6 +4205,15 @@ components:
           - DESC
         default: ASC
       description: Indicate sorting direction.
+    OrgId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: Organization identifier.
     GroupId:
       name: group_id
       in: path
@@ -4044,22 +4240,6 @@ components:
         type: integer
         format: int64
         minimum: 0
-      description: Project identifier.
-    organizationId:
-      name: org_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-      description: Organization identifier.
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
       description: Project identifier.
     ExcludeFields:
       name: exclude_fields
