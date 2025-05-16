@@ -19,9 +19,11 @@ tags:
     description: Operations for importing and exporting test cases
   - name: Batch Operations
     description: Operations for managing multiple test cases at once
+  - name: Test Case Version
+    description: Operations for managing test case versions
 
 paths:
-  /project/{projectKey}/tms/test-case:
+  /project/{projectKey}/tms/testcase:
     get:
       tags:
         - Test Case
@@ -126,7 +128,7 @@ paths:
         '404':
           $ref: '#/components/responses/ProjectNotFound'
 
-  /project/{projectKey}/tms/test-case/{testCaseId}:
+  /project/{projectKey}/tms/testcase/{testCaseId}:
     get:
       tags:
         - Test Case
@@ -230,7 +232,56 @@ paths:
         '404':
           $ref: '#/components/responses/TestCaseNotFound'
 
-  /project/{projectKey}/tms/test-case/batch/delete:
+  /project/{projectKey}/tms/testcase/{testCaseId}/version/{versionId}:
+    get:
+      tags:
+        - Test Case Version
+      summary: Get a specific version of a test case
+      description: Retrieves a specific version of a test case by its ID within a project.
+      operationId: getTestCaseVersionById
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+        - $ref: '#/components/parameters/VersionIdParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsTestCaseVersionRS'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseVersionNotFound'
+
+  /project/{projectKey}/tms/testcase/{testCaseId}/version/latest:
+    get:
+      tags:
+        - Test Case Version
+      summary: Get the latest version of a test case
+      description: Retrieves the latest version of a test case by its ID within a project.
+      operationId: getLatestTestCaseVersion
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsTestCaseVersionRS'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseNotFound'
+
+  /project/{projectKey}/tms/testcase/batch/delete:
     delete:
       tags:
         - Batch Operations
@@ -260,7 +311,7 @@ paths:
         '404':
           $ref: '#/components/responses/ProjectNotFound'
 
-  /project/{projectKey}/tms/test-case/batch/patch:
+  /project/{projectKey}/tms/testcase/batch/patch:
     patch:
       tags:
         - Batch Operations
@@ -337,7 +388,7 @@ paths:
         '404':
           $ref: '#/components/responses/ProjectNotFound'
 
-  /project/{projectKey}/tms/test-case/import:
+  /project/{projectKey}/tms/testcase/import:
     post:
       tags:
         - Import/Export
@@ -356,10 +407,10 @@ paths:
                   type: string
                   format: binary
                   description: The file containing test cases to import
-                importOptions:
+                importType:
                   type: string
                   description: JSON string with import options
-                  example: '{"updateExisting": true, "importAttachments": true}'
+                  example: 'QASpace'
               required:
                 - file
       responses:
@@ -378,7 +429,7 @@ paths:
         '404':
           $ref: '#/components/responses/ProjectNotFound'
 
-  /project/{projectKey}/tms/test-case/export:
+  /project/{projectKey}/tms/testcase/export:
     get:
       tags:
         - Import/Export
@@ -936,7 +987,7 @@ components:
         path:
           type: string
           description: Request path
-          example: "/project/default/tms/test-case"
+          example: "/project/default/tms/testcase"
 
   parameters:
     ProjectKeyParam:
@@ -951,6 +1002,15 @@ components:
       name: testCaseId
       in: path
       description: ID of the test case
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 1
+    VersionIdParam:
+      name: versionId
+      in: path
+      description: ID of the test case version
       required: true
       schema:
         type: integer
@@ -1019,6 +1079,12 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     TestCaseNotFound:
       description: Test case not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TestCaseVersionNotFound:
+      description: Test case version not found
       content:
         application/json:
           schema:
