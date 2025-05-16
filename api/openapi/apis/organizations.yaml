@@ -924,6 +924,91 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+  '/organizations/{org_id}/groups':
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+    get:
+      summary: Get all groups
+      operationId: getOrgGroups
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Organization Group
+      description: |-
+        Get instance groups with optional filtering and sorting.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgGroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+    post:
+      summary: Create a group
+      operationId: createOrgGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Organization Group
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrgGroupRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/group/GroupInfo.yaml
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
 components:
   schemas:
     OrganizationInfo:
@@ -1138,7 +1223,7 @@ components:
                     This value acts as an upper limit for `logs.period` and `attachments.period`.
                   default: 90
                 unit:
-                  $ref: '../enums/timeUnit.yaml'
+                  $ref: ../enums/timeUnit.yaml
             logs:
               type: object
               description: Logs retention policy settings.
@@ -1154,7 +1239,7 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 90
                 unit:
-                  $ref: '../enums/timeUnit.yaml'
+                  $ref: ../enums/timeUnit.yaml
             attachments:
               type: object
               description: Attachments retention policy settings.
@@ -1170,9 +1255,26 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
-                  $ref: '../enums/timeUnit.yaml'
+                  $ref: ../enums/timeUnit.yaml
       required:
         - retention_policy
+    OrgGroupPage:
+      title: Organization groups page
+      description: Page of organization groups.
+      type: object
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - properties:
+            items:
+              type: array
+              description: List of groups.
+              items:
+                $ref: ../models/group/GroupInfo.yaml
+    CreateOrgGroupRequest:
+      title: Create group request
+      allOf:
+        - $ref: ../models/group/GroupBase.yaml
+      description: Create group request.
   securitySchemes:
     BearerAuth:
       type: http
@@ -1202,6 +1304,8 @@ tags:
     description: Organization projects collection
   - name: Organization User
     description: Organization users collection
+  - name: Organization Group
+    description: Organization groups collection
   - name: Implemented
     description: Endpoints that are implemented
 security:

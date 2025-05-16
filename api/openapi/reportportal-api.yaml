@@ -91,6 +91,9 @@ tags:
   - name: Organization User
     description: Organization users collection
     x-displayName: Organization User
+  - name: Organization Group
+    description: Organization groups collection
+    x-displayName: Organization Group
   - name: Implemented
     description: Endpoints that are implemented
     x-displayName: Implemented
@@ -230,108 +233,6 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/CreateGroupRequest'
-                - type: object
-                  x-stoplight:
-                    id: v4tzsdzwai380
-                  properties:
-                    org_id:
-                      type: integer
-                      x-stoplight:
-                        id: 6oh7j8ckrdu7z
-                      format: int64
-                      description: Organization identifier.
-                  required:
-                    - org_id
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupInfo'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/groups:
-    parameters:
-      - $ref: '#/components/parameters/OrgId'
-    get:
-      summary: Get all groups
-      operationId: getOrgGroups
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-      tags:
-        - Groups
-      description: |-
-        Get instance groups with optional filtering and sorting.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-      parameters:
-        - $ref: '#/components/parameters/Offset'
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Order'
-        - schema:
-            type: string
-            default: name
-          in: query
-          name: sort
-          description: Indicate sort by field.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-      security:
-        - BearerAuth: []
-    post:
-      summary: Create a group
-      operationId: createOrgGroup
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-      tags:
-        - Groups
-      description: |-
-        Create a group.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER` : Access to groups when assigned to an organization.
       requestBody:
         required: true
         content:
@@ -1833,6 +1734,95 @@ paths:
         - `MANAGER`
       security:
         - BearerAuth: []
+  /organizations/{org_id}/groups:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      summary: Get all groups
+      operationId: getOrgGroups
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Organization Group
+      description: |-
+        Get instance groups with optional filtering and sorting.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgGroupPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create a group
+      operationId: createOrgGroup
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      tags:
+        - Organization Group
+      description: |-
+        Create a group.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : Access to groups when assigned to an organization.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrgGroupRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
   /projects/{project_id}/users:
     parameters:
       - schema:
@@ -3034,6 +3024,8 @@ components:
           $ref: '#/components/schemas/order'
     GroupPage:
       title: Group page
+      description: Page of groups.
+      type: object
       allOf:
         - $ref: '#/components/schemas/Offset'
         - properties:
@@ -3042,20 +3034,27 @@ components:
               description: List of groups.
               items:
                 $ref: '#/components/schemas/GroupInfo'
-      description: Page of groups.
-      type: object
     CreateGroupRequest:
       title: Create group request
+      description: Create group request.
       allOf:
         - $ref: '#/components/schemas/GroupBase'
-      description: Create group request.
+        - type: object
+          properties:
+            org_id:
+              type: integer
+              format: int64
+              description: Organization identifier.
+          required:
+            - org_id
     UpdateGroupRequest:
       title: Update group request
+      description: Update group request.
       allOf:
         - $ref: '#/components/schemas/GroupBase'
-      description: Update group request.
     GroupUsersPage:
       title: Group users page
+      description: Page of group users.
       allOf:
         - $ref: '#/components/schemas/Offset'
         - type: object
@@ -3065,7 +3064,6 @@ components:
               description: List of group users.
               items:
                 $ref: '#/components/schemas/GroupUserInfo'
-      description: Page of group users.
     GroupProjectsPage:
       title: Group projects page
       allOf:
@@ -3561,6 +3559,23 @@ components:
                   $ref: '#/components/schemas/timeUnit'
       required:
         - retention_policy
+    OrgGroupPage:
+      title: Organization groups page
+      description: Page of organization groups.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - properties:
+            items:
+              type: array
+              description: List of groups.
+              items:
+                $ref: '#/components/schemas/GroupInfo'
+    CreateOrgGroupRequest:
+      title: Create group request
+      allOf:
+        - $ref: '#/components/schemas/GroupBase'
+      description: Create group request.
     OrganizationBase:
       title: Organization definition
       description: >
@@ -4212,15 +4227,6 @@ components:
           - DESC
         default: ASC
       description: Indicate sorting direction.
-    OrgId:
-      name: org_id
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-        minimum: 0
-      description: Organization identifier.
     GroupId:
       name: group_id
       in: path
@@ -4248,6 +4254,15 @@ components:
         format: int64
         minimum: 0
       description: Project identifier.
+    OrgId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+      description: Organization identifier.
     ExcludeFields:
       name: exclude_fields
       in: query
