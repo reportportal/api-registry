@@ -1138,7 +1138,7 @@ components:
                     This value acts as an upper limit for `logs.period` and `attachments.period`.
                   default: 90
                 unit:
-                  $ref: '../enums/chronoUnit.yaml'
+                  $ref: '../enums/timeUnit.yaml'
             logs:
               type: object
               description: Logs retention policy settings.
@@ -1154,7 +1154,7 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 90
                 unit:
-                  $ref: '../enums/chronoUnit.yaml'
+                  $ref: '../enums/timeUnit.yaml'
             attachments:
               type: object
               description: Attachments retention policy settings.
@@ -1170,7 +1170,7 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
-                  $ref: '../enums/chronoUnit.yaml'
+                  $ref: '../enums/timeUnit.yaml'
       required:
         - retention_policy
   securitySchemes:

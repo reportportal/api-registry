@@ -3520,7 +3520,7 @@ components:
                     `attachments.period`.
                   default: 90
                 unit:
-                  $ref: '#/components/schemas/chronoUnit'
+                  $ref: '#/components/schemas/timeUnit'
             logs:
               type: object
               description: Logs retention policy settings.
@@ -3539,7 +3539,7 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 90
                 unit:
-                  $ref: '#/components/schemas/chronoUnit'
+                  $ref: '#/components/schemas/timeUnit'
             attachments:
               type: object
               description: Attachments retention policy settings.
@@ -3558,7 +3558,7 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
-                  $ref: '#/components/schemas/chronoUnit'
+                  $ref: '#/components/schemas/timeUnit'
       required:
         - retention_policy
     OrganizationBase:
@@ -3591,7 +3591,7 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
-    chronoUnit:
+    timeUnit:
       title: Rotation unit of time
       type: string
       description: Unit of time for the `period` value.
