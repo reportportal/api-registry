@@ -3496,11 +3496,6 @@ components:
 
             Values for `logs.period` and `attachments.period` cannot exceed the
             value of `launches.period`.
-
-            If you set `launches.period` to a value lower than existing
-            `logs.period` or `attachments.period`, those values 
-
-            will be automatically adjusted to match `launches.period`.
           required:
             - launches
             - logs
@@ -3525,7 +3520,7 @@ components:
                     `attachments.period`.
                   default: 90
                 unit:
-                  $ref: '#/components/schemas/RotationUnit'
+                  $ref: '#/components/schemas/chronoUnit'
             logs:
               type: object
               description: Logs retention policy settings.
@@ -3536,7 +3531,7 @@ components:
                   type: integer
                   minimum: 0
                   description: >-
-                    Number of days to keep logs.
+                    Number of time units to keep launches.
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
@@ -3544,7 +3539,7 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 90
                 unit:
-                  $ref: '#/components/schemas/RotationUnit'
+                  $ref: '#/components/schemas/chronoUnit'
             attachments:
               type: object
               description: Attachments retention policy settings.
@@ -3555,7 +3550,7 @@ components:
                   type: integer
                   minimum: 0
                   description: >-
-                    Number of days to keep attachments. 
+                    Number of time units to keep launches.
 
                     Set `0` to keep attachments forever (retention policy
                     disabled).
@@ -3563,16 +3558,9 @@ components:
                     Cannot exceed the value of `launches.period`.
                   default: 14
                 unit:
-                  $ref: '#/components/schemas/RotationUnit'
+                  $ref: '#/components/schemas/chronoUnit'
       required:
         - retention_policy
-    RotationUnit:
-      title: Rotation unit of time
-      type: string
-      description: Unit of time for the `period` value.
-      default: days
-      enum:
-        - days
     OrganizationBase:
       title: Organization definition
       description: >
@@ -3603,6 +3591,13 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
+    chronoUnit:
+      title: Rotation unit of time
+      type: string
+      description: Unit of time for the `period` value.
+      default: DAYS
+      enum:
+        - DAYS
     UserBase:
       title: User Base
       description: |-
