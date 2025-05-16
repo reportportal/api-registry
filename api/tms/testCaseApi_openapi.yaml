@@ -597,8 +597,13 @@ components:
           items:
             $ref: '#/components/schemas/TmsTestCaseAttributeRQ'
           description: Tags associated with the test case
-        testCaseVersion:
-          $ref: '#/components/schemas/TmsTestCaseVersionRQ'
+        defaultTestCaseVersion:
+          $ref: '#/components/schemas/TmsTestCaseDefaultVersionRQ'
+      required:
+        - defaultTestCaseVersion
+        - name
+        - priority
+        - testFolderId
 
     TmsTestCaseAttributeRQ:
       type: object
@@ -613,21 +618,13 @@ components:
           description: ID of the attribute
           example: 1
 
-    TmsTestCaseVersionRQ:
+    TmsTestCaseDefaultVersionRQ:
       type: object
       properties:
         name:
           type: string
           description: Name of the test case version
           example: "v1.0"
-        isDefault:
-          type: boolean
-          description: Whether this is the default version
-          example: true
-        isDraft:
-          type: boolean
-          description: Whether this version is a draft
-          example: false
         linkToRequirements:
           type: string
           description: Link to requirements related to this test case
