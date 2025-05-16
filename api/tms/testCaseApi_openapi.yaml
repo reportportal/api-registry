@@ -21,6 +21,8 @@ tags:
     description: Operations for managing multiple test cases at once
   - name: Test Case Version
     description: Operations for managing test case versions
+  - name: Attachments
+    description: Operations for managing test case version attachments
 
 paths:
   /project/{projectKey}/tms/testcase:
@@ -280,6 +282,177 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/TestCaseNotFound'
+
+  /project/{projectKey}/tms/testcase/{testCaseId}/version/{versionId}/attachment:
+    post:
+      tags:
+        - Attachments
+      summary: Upload attachment file
+      description: Uploads a file to be used as an attachment in a specific test case version
+      operationId: uploadAttachment
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+        - $ref: '#/components/parameters/VersionIdParam'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to upload
+                description:
+                  type: string
+                  description: Optional description for the attachment
+                attachmentType:
+                  type: string
+                  description: Type of the attachment
+                  enum: [SCREENSHOT, DOCUMENT, VIDEO, OTHER]
+                  default: OTHER
+              required:
+                - file
+      responses:
+        '201':
+          description: Attachment uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentRS'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseVersionNotFound'
+        '413':
+          description: File size exceeds the allowed limit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+        - Attachments
+      summary: Get all attachments for a test case version
+      description: Retrieves all attachments associated with a specific test case version
+      operationId: getAttachments
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+        - $ref: '#/components/parameters/VersionIdParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AttachmentRS'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/TestCaseVersionNotFound'
+
+  /project/{projectKey}/tms/testcase/{testCaseId}/version/{versionId}/attachment/{attachmentId}:
+    get:
+      tags:
+        - Attachments
+      summary: Download attachment file
+      description: Downloads a specific attachment file by its ID from a test case version
+      operationId: downloadAttachment
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+        - $ref: '#/components/parameters/VersionIdParam'
+        - $ref: '#/components/parameters/AttachmentIdParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/AttachmentNotFound'
+    delete:
+      tags:
+        - Attachments
+      summary: Delete attachment file
+      description: Deletes a specific attachment file by its ID from a test case version
+      operationId: deleteAttachment
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+        - $ref: '#/components/parameters/VersionIdParam'
+        - $ref: '#/components/parameters/AttachmentIdParam'
+      responses:
+        '204':
+          description: Attachment deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/AttachmentNotFound'
+
+  /project/{projectKey}/tms/testcase/{testCaseId}/version/{versionId}/attachment/{attachmentId}/metadata:
+    get:
+      tags:
+        - Attachments
+      summary: Get attachment metadata
+      description: Retrieves metadata information about a specific attachment in a test case version
+      operationId: getAttachmentInfo
+      parameters:
+        - $ref: '#/components/parameters/ProjectKeyParam'
+        - $ref: '#/components/parameters/TestCaseIdParam'
+        - $ref: '#/components/parameters/VersionIdParam'
+        - $ref: '#/components/parameters/AttachmentIdParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentRS'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/AttachmentNotFound'
 
   /project/{projectKey}/tms/testcase/batch/delete:
     delete:
@@ -708,6 +881,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
           description: ID of the attachment
           example: "550e8400-e29b-41d4-a716-446655440000"
 
@@ -806,6 +980,11 @@ components:
           example: false
         manualScenario:
           $ref: '#/components/schemas/TmsManualScenarioRS'
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentRS'
+          description: Attachments associated with this version
 
     TmsManualScenarioRS:
       type: object
@@ -880,7 +1059,7 @@ components:
         attachments:
           type: array
           items:
-            $ref: '#/components/schemas/TmsManualScenarioAttachmentRS'
+            $ref: '#/components/schemas/AttachmentRS'
           description: Attachments for the step
 
     TmsManualScenarioAttachmentRS:
@@ -888,6 +1067,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
           description: ID of the attachment
           example: "550e8400-e29b-41d4-a716-446655440000"
 
@@ -925,6 +1105,46 @@ components:
           type: string
           description: Key of the attribute
           example: "priority"
+
+    AttachmentRS:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the attachment
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Name of the attachment file
+          example: "screenshot.png"
+        contentType:
+          type: string
+          description: MIME type of the attachment
+          example: "image/png"
+        size:
+          type: integer
+          format: int64
+          description: Size of the attachment in bytes
+          example: 24680
+        description:
+          type: string
+          description: Description of the attachment
+          example: "Login screen screenshot"
+        attachmentType:
+          type: string
+          enum: [SCREENSHOT, DOCUMENT, VIDEO, OTHER]
+          description: Type of the attachment
+          example: "SCREENSHOT"
+        uploadDate:
+          type: string
+          format: date-time
+          description: Date and time when the attachment was uploaded
+          example: "2023-06-15T10:30:45Z"
+        uploadedBy:
+          type: string
+          description: Username of the user who uploaded the attachment
+          example: "john.doe"
 
     ImportResultRS:
       type: object
@@ -1013,6 +1233,15 @@ components:
         type: integer
         format: int64
         example: 1
+    AttachmentIdParam:
+      name: attachmentId
+      in: path
+      description: ID of the attachment
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
     PageParam:
       name: page
       in: query
@@ -1082,6 +1311,12 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     TestCaseVersionNotFound:
       description: Test case version not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    AttachmentNotFound:
+      description: Attachment not found
       content:
         application/json:
           schema:
