@@ -14,7 +14,7 @@ servers:
     description: ReportPortal server
     variables:
       host:
-        default: https://demo.reportportal.io
+        default: 'https://demo.reportportal.io'
         description: Host name and port (if needed) of Report Portal server
       basePath:
         default: /api
@@ -915,12 +915,35 @@ components:
                 $ref: '#/components/schemas/ApiKey'
     NewUserRequest:
       title: User creation request
-      allOf:
-        - $ref: ../models/user/UserBase.yaml
-        - type: object
-          properties:
-            password:
-              $ref: ../types/password.yaml
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          $ref: ../types/name.yaml
+        instance_role:
+          $ref: ../enums/instanceRole.yaml
+        account_type:
+          type: string
+          enum:
+            - INTERNAL
+            - SCIM
+          default: INTERNAL
+          description: Indicates through which service or authentication method the user account was created.
+        external_id:
+          type: string
+          description: User external identifier. Provided by external systems.
+        password:
+          $ref: ../types/password.yaml
+        active:
+          type: boolean
+          description: Soft delete user attribute.
+          default: true
+      required:
+        - email
+        - full_name
       description: New user creation
     InstanceUser:
       title: Instance User

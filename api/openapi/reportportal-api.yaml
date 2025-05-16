@@ -4050,12 +4050,37 @@ components:
                 $ref: '#/components/schemas/ApiKey'
     NewUserRequest:
       title: User creation request
-      allOf:
-        - $ref: '#/components/schemas/UserBase'
-        - type: object
-          properties:
-            password:
-              $ref: '#/components/schemas/password'
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email.
+        full_name:
+          $ref: '#/components/schemas/name'
+        instance_role:
+          $ref: '#/components/schemas/instanceRole'
+        account_type:
+          type: string
+          enum:
+            - INTERNAL
+            - SCIM
+          default: INTERNAL
+          description: >-
+            Indicates through which service or authentication method the user
+            account was created.
+        external_id:
+          type: string
+          description: User external identifier. Provided by external systems.
+        password:
+          $ref: '#/components/schemas/password'
+        active:
+          type: boolean
+          description: Soft delete user attribute.
+          default: true
+      required:
+        - email
+        - full_name
       description: New user creation
     InstanceUser:
       title: Instance User
