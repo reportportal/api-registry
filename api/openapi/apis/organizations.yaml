@@ -1120,10 +1120,16 @@ components:
             Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
             If you set `launches.period` to a value lower than existing `logs.period` or `attachments.period`, those values 
             will be automatically adjusted to match `launches.period`.
+          required:
+            - launches
+            - logs
+            - attachments
           properties:
             launches:
               type: object
               description: Launches retention policy settings.
+              required:
+                - period
               properties:
                 period:
                   type: integer
@@ -1138,6 +1144,8 @@ components:
             logs:
               type: object
               description: Logs retention policy settings.
+              required:
+                - period
               properties:
                 period:
                   type: integer
@@ -1152,6 +1160,8 @@ components:
             attachments:
               type: object
               description: Attachments retention policy settings.
+              required:
+                - period
               properties:
                 period:
                   type: integer
@@ -1163,6 +1173,8 @@ components:
                   default: 14
                 unit:
                   $ref: '#/components/schemas/RotationUnit'
+      required:
+        - retention_policy
     RotationUnit:
       title: Rotation unit of time
       type: string
