@@ -1,0 +1,7 @@
+title: Operation Type
+type: string
+enum:
+  - add
+  - replace
+  - remove
+description: Patch operation type.

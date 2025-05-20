@@ -1,0 +1,9 @@
+title: Patch Operation Object
+type: object
+properties:
+  op:
+    $ref: ../enums/operationType.yaml
+  path:
+    type: string
+  value:
+    description: 'The value to add, replace or remove.'

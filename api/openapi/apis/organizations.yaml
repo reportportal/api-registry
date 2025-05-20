@@ -413,6 +413,50 @@ paths:
     parameters:
       - $ref: ../parameters/OrgId.yaml
       - $ref: ../parameters/ProjectId.yaml
+    patch:
+      summary: Partial project update
+      operationId: patch-organizations-org_id-projects-project_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      description: |-
+        Partial update project information.
+        Model relates with a PUT Project update model.
+
+        | Path       | Operation | Value
+        |-           |-          |-
+        | `/name`    | `replace` | `string`
+        | `/slug`    | `replace` | `string`
+        | `/users/-` | `add`     | `object{id:int,project_role:string}`
+        | `/users`   | `replace` | `array<object{id:int,project_role:string}>`, `array<null>`
+        | `/users`   | `remove`  | `array<object{id:int,project_role:string}>`, `null`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Member authority
+
+        - `EDITOR`
+      tags:
+        - Organization Project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: ../models/PatchOperation.yaml
     delete:
       summary: Delete project
       tags:
