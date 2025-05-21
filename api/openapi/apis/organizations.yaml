@@ -1290,7 +1290,7 @@ components:
             properties:
               message:
                 type: string
-                example: The update was completed successfully.
+                default: The update was completed successfully.
     Error:
       description: Error problem response
       content:

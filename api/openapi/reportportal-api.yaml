@@ -3855,6 +3855,8 @@ components:
           type: string
         value:
           description: The value to add, replace or remove.
+      required:
+        - op
     ProjectUser:
       title: ProjectUser
       type: object
@@ -4219,7 +4221,7 @@ components:
             properties:
               message:
                 type: string
-                example: The update was completed successfully.
+                default: The update was completed successfully.
   parameters:
     Offset:
       name: offset

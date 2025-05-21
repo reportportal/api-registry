@@ -284,7 +284,7 @@ components:
             users_count:
               type: integer
               format: int32
-              description: Number of users in the group.      
+              description: Number of users in the group.
   responses:
     Error:
       description: Error problem response
@@ -302,7 +302,7 @@ components:
             properties:
               message:
                 type: string
-                example: The update was completed successfully.
+                default: The update was completed successfully.
 tags:
   - name: Projects
     description: Projects API collection
