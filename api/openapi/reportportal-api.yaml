@@ -156,6 +156,11 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
+        - schema:
+            type: string
+          in: query
+          name: orgId
+          description: Organization ID.
       responses:
         '200':
           description: OK
