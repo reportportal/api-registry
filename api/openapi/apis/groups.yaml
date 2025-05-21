@@ -622,7 +622,7 @@ components:
             properties:
               message:
                 type: string
-                example: The update was completed successfully.
+                default: The update was completed successfully.
   securitySchemes:
     BearerAuth:
       type: http
