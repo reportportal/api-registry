@@ -7,3 +7,5 @@ properties:
     type: string
   value:
     description: 'The value to add, replace or remove.'
+required:
+  - op
