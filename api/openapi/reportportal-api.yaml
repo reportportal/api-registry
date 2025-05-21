@@ -157,10 +157,12 @@ paths:
           name: sort
           description: Indicate sort by field.
         - schema:
-            type: string
+            type: integer
+            format: int64
+            minimum: 0
           in: query
           name: orgId
-          description: Organization ID.
+          description: Organization identifier.
       responses:
         '200':
           description: OK
