@@ -1266,17 +1266,23 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
-  /projects/{project_name}/groups:
+  /projects/{project_key}/groups:
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
-        description: Project name.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       tags:
         - Projects
       parameters:
@@ -1305,9 +1311,8 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-        - `MEMBETR`
-        - `OPERATOR`
+        - `EDITOR`
+        - `VIEWER`
       security:
         - BearerAuth: []
   /projects/{project_name}/groups/{group_id}:
@@ -1320,6 +1325,14 @@ paths:
         description: Project name.
       - $ref: '#/components/parameters/GroupId'
     get:
+      operationId: getProjectGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       summary: Get group by id
       description: |-
         Get group by id from project.
@@ -1327,8 +1340,8 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: getProjectGroupById
+        - `EDITOR`
+        - `VIEWER`
       tags:
         - Projects
       responses:
@@ -1351,6 +1364,12 @@ paths:
       security:
         - BearerAuth: []
     put:
+      operationId: AddGroupToProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Add or update group to project
       description: |-
         Add or update group to project with permission.
@@ -1358,8 +1377,7 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: AddGroupToProjectById
+        - `EDITOR`
       tags:
         - Projects
       requestBody:
@@ -1386,6 +1404,12 @@ paths:
       security:
         - BearerAuth: []
     delete:
+      operationId: DeleteGroupFromProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Delete group from project by id
       description: |-
         Delete group from project by id.
@@ -1393,8 +1417,7 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: DeleteGroupFromProjectById
+        - `EDITOR`
       tags:
         - Projects
       responses:
