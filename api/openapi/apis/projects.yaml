@@ -22,17 +22,23 @@ servers:
 security:
   - BearerAuth: []
 paths:
-  '/projects/{project_name}/groups':
+  '/projects/{project_key}/groups':
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
-        description: Project name.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       tags:
         - Projects
       parameters:
@@ -61,9 +67,8 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-        - `MEMBETR`
-        - `OPERATOR`
+        - `EDITOR`
+        - `VIEWER`
   '/projects/{project_name}/groups/{group_id}':
     parameters:
       - schema:
@@ -74,6 +79,14 @@ paths:
         description: Project name.
       - $ref: ../parameters/GroupId.yaml
     get:
+      operationId: getProjectGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       summary: Get group by id
       description: |-
         Get group by id from project.
@@ -81,8 +94,8 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: getProjectGroupById
+        - `EDITOR`
+        - `VIEWER`
       tags:
         - Projects
       responses:
@@ -103,6 +116,12 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
     put:
+      operationId: AddGroupToProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Add or update group to project
       description: |-
         Add or update group to project with permission.
@@ -110,8 +129,7 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: AddGroupToProjectById
+        - `EDITOR`
       tags:
         - Projects
       requestBody:
@@ -136,6 +154,12 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
     delete:
+      operationId: DeleteGroupFromProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Delete group from project by id
       description: |-
         Delete group from project by id.
@@ -143,8 +167,7 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: DeleteGroupFromProjectById
+        - `EDITOR`
       tags:
         - Projects
       responses:
@@ -208,7 +231,7 @@ components:
             users_count:
               type: integer
               format: int32
-              description: Number of users in the group.             
+              description: Number of users in the group.
   responses:
     Error:
       description: Error problem response
@@ -226,7 +249,7 @@ components:
             properties:
               message:
                 type: string
-                example: The update was completed successfully.
+                default: The update was completed successfully.
 tags:
   - name: Projects
     description: Projects API collection
