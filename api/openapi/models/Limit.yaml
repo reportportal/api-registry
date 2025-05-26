@@ -1,15 +1,12 @@
 title: Limit
-
 type: object
 properties:
   limit:
     type: integer
-    
     description: The limit used for this page of results. This will be the same as the limit query parameter unless it exceeded the maximum value allowed for this API endpoint.
     minimum: 0
+    default: 300
   count:
     type: integer
-    
     description: The number of results returned in this page of results.
     minimum: 0
-description: ''
