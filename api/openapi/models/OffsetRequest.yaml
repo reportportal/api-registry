@@ -13,6 +13,7 @@ properties:
     minimum: 0
     default: 300
     maximum: 1000
+    example: 300
   sort:
     type: string
     description: Field to define the sort field.
