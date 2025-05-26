@@ -84,6 +84,56 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
+    post:
+      summary: Create a new organization
+      operationId: post-organizations
+      tags:
+        - Organization
+      description: |-
+        > **Enterprise edition feature**
+
+        Create a new organization. Provide name and slug.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/org/OrganizationBase.yaml
+        description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationInfo'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '402':
+          description: Payment Required
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ../models/Problem.yaml
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Problem.yaml
   /organizations/searches:
     post:
       summary: Create search request for organizations
@@ -154,6 +204,63 @@ paths:
         - `MEMBER`
     parameters:
       - $ref: ../parameters/OrgId.yaml
+    put:
+      summary: Update organization
+      operationId: put-organizations-org_id
+      tags:
+        - Organization
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Update organization information with the provided data.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/org/OrganizationBase.yaml
+        description: Provide organization information for update.
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      tags:
+        - Organization
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      responses:
+        '204':
+          description: No Content
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/users':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -199,28 +306,6 @@ paths:
     post:
       summary: Assignment user to organization
       operationId: post-organizations-org_id-users
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                title: User Assignment Response
-                type: object
-                properties:
-                  message:
-                    type: string
-                    default: The user was added to the organization.
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
       description: |-
         This is a endpoint that provides a flow for assigning a user to the organization.
         It can be used as a bulk endpoint if you provide a list of projects for assignment.
@@ -243,15 +328,37 @@ paths:
 
         You will get different statuses for project assignments according to which user you want
         to assign to the organization.
+      tags:
+        - Organization User
+        - Implemented
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/OrgUserAssignment'
         description: Definition for a user assignment.
-      tags:
-        - Organization User
-        - Implemented
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: User Assignment Response
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The user was added to the organization.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/users/{user_id}':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -259,13 +366,8 @@ paths:
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
-      responses:
-        '204':
-          description: No Content
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization User
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -280,8 +382,13 @@ paths:
         - `ADMINISTRATOR` - no restrictions.
         - `MANAGER` - no restrictions.
         - `MEMBER` - restricted to unassigning only themselves.
-      tags:
-        - Organization User
+      responses:
+        '204':
+          description: No Content
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/projects':
     parameters:
       - $ref: ../parameters/OrgId.yaml
