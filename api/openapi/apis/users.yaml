@@ -247,15 +247,16 @@ paths:
 
         You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
 
-        - `name` - filter by organization name.
-        - `slug` - filter by organization slug.
-        - `type` - filter by organization type.
-        - `created_at` - filter by creation date.
-        - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `projects` - filter by the number of projects.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
+        - `uuid` - filter by user UUID.
+        - `external_id` - filter by user external identifier.
+        - `email` - filter by user email.
+        - `full_name` - filter by user full name.
+        - `account_type` - filter by account type.
+        - `instance_role` - filter by user role in the instance.
+        - `active` - filter by user activity.
+        - `created_at` - date when a user was created.
+        - `updated_at` - date when a user was updated.
+        - `org_id` - search by organization id.
 
         ### CSV Export
 
