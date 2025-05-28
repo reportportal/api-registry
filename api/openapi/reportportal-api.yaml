@@ -1830,23 +1830,25 @@ paths:
         `search_criteria[*].filter_key` for filtering:
 
 
-        - `name` - filter by organization name.
+        - `uuid` - filter by user UUID.
 
-        - `slug` - filter by organization slug.
+        - `external_id` - filter by user external identifier.
 
-        - `type` - filter by organization type.
+        - `email` - filter by user email.
 
-        - `created_at` - filter by creation date.
+        - `full_name` - filter by user full name.
 
-        - `updated_at` - filter by last update date.
+        - `account_type` - filter by account type.
 
-        - `users` - filter by the number of users.
+        - `instance_role` - filter by user role in the instance.
 
-        - `projects` - filter by the number of projects.
+        - `active` - filter by user activity.
 
-        - `launches` - filter by the number of launches.
+        - `created_at` - date when a user was created.
 
-        - `last_launch_occurred` - filter by the last launch occurrence.
+        - `updated_at` - date when a user was updated.
+
+        - `org_id` - search by organization id.
 
 
         ### CSV Export
