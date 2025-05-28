@@ -242,33 +242,28 @@ paths:
       tags:
         - User
         - Implemented
-      description: |-
-        Search users by criteria.
+      description: |
+        Create search request for organizations by provided criteria.
 
-        You can use the following attributes as a `search_criteria[*].filter_key`:
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
 
-        - `uuid` - filter by user UUID.
-        - `external_id` - filter by user external identifier.
-        - `email` - filter by user email.
-        - `full_name` - filter by user full name.
-        - `account_type` - filter by account type.
-        - `instance_role` - filter by user role in the instance.
-        - `active` - filter by user activity.
-        - `created_at` - date when a user was created.
-        - `updated_at` - date when a user was updated.
-        - `org_id` - search by organization id.
+        - `name` - filter by organization name.
+        - `slug` - filter by organization slug.
+        - `type` - filter by organization type.
+        - `created_at` - filter by creation date.
+        - `updated_at` - filter by last update date.
+        - `users` - filter by the number of users.
+        - `projects` - filter by the number of projects.
+        - `launches` - filter by the number of launches.
+        - `last_launch_occurred` - filter by the last launch occurrence.
+
+        ### CSV Export
+
+        Use text/csv for the Accept header to export users.
 
         ### Authority
 
         - `ADMINISTRATOR`
-
-        ### Access level
-
-        #### ADMINISTRATOR
-
-        - Filter by all attributes.
-        - Use all operations.
-        - Get a full user profile.
       parameters:
         - schema:
             type: string
@@ -279,6 +274,12 @@ paths:
           in: header
           name: Accept
           description: Indicate response format. Use `text/csv` to export users.
+      requestBody:
+        description: Create search request for user collection.
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
       responses:
         '200':
           description: OK
@@ -286,18 +287,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceUserPage'
+            text/csv:
+              schema:
+                type: string
+                format: binary
+                description: |-
+                  CSV contains:
+                  - Full name
+                  - Type
+                  - Email
+                  - Last login
+                  - Organizations
+              example: |-
+                Full name,Type,Email,Last login,Organizations
+                John Doe,INTERNAL,john-doe@example.com,2023-10-01T12:00:00Z,5
+                Jane Smith,SCIM,jane-smith@example.com,2023-10-02T14:30:00Z,3
         '400':
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/SearchCriteriaRQ.yaml
-        description: Create search request for user collection.
   /users/me:
     get:
       summary: Get current user

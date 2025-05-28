@@ -138,17 +138,9 @@ paths:
     post:
       summary: Create search request for organizations
       operationId: post-organizations-searches
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization
+        - Implemented
       description: |
         Create search request for organizations by provided criteria.
 
@@ -164,18 +156,57 @@ paths:
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
 
+        ### CSV Export
+
+        Use text/csv for the Accept header to export organizations.
+
         ### Authority
 
         - `ADMINISTRATOR`
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - text/csv
+              - application/json
+            default: application/json
+          in: header
+          name: Accept
+          description: Indicate response format. Use `text/csv` to export organizations.
       requestBody:
+        description: Provide search criteria for organizations.
         content:
           application/json:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
-        description: Provide search criteria for organizations.
-      tags:
-        - Organization
-        - Implemented
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+            text/csv:
+              schema:
+                type: string
+                format: binary
+                description: |-
+                  CSV contains:
+                  - Organization name
+                  - Type
+                  - Projects
+                  - Members
+                  - Launches
+                  - Last launch date
+                  - Storage
+                  - Billing plan
+              example: |-
+                Organization name,Type,Projects,Members,Launches,Last launch date,Storage,Billing_plan
+                Example Organization,Internal,10,100,50,2023-10-01T12:00:00Z,75,Pro
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}':
     get:
       summary: Get organization information
