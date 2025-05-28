@@ -55,11 +55,14 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-          access: `full`
         - `MANAGER`
-          access: `restricted` (limited to viewing only their assigned organizations)
         - `MEMBER`
-          access: `restricted` (limited to viewing only their assigned organizations)
+
+        ### Access level
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : limited to viewing only their assigned organizations.
+        - `MEMBER` : limited to viewing only their assigned organizations.
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -84,6 +87,22 @@ paths:
     post:
       summary: Create a new organization
       operationId: post-organizations
+      tags:
+        - Organization
+      description: |-
+        > **Enterprise edition feature**
+
+        Create a new organization. Provide name and slug.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/org/OrganizationBase.yaml
+        description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       responses:
         '201':
           description: Created
@@ -115,37 +134,13 @@ paths:
             application/json:
               schema:
                 $ref: ../models/Problem.yaml
-      description: |-
-        > **Enterprise edition feature**
-
-        Create a new organization. Provide name and slug.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: ../models/org/OrganizationBase.yaml
-        description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
-      tags:
-        - Organization
   /organizations/searches:
     post:
       summary: Create search request for organizations
       operationId: post-organizations-searches
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization
+        - Implemented
       description: |
         Create search request for organizations by provided criteria.
 
@@ -161,23 +156,63 @@ paths:
         - `launches` - filter by the number of launches.
         - `last_launch_occurred` - filter by the last launch occurrence.
 
+        ### CSV Export
+
+        Use text/csv for the Accept header to export organizations.
+
         ### Authority
 
         - `ADMINISTRATOR`
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - text/csv
+              - application/json
+            default: application/json
+          in: header
+          name: Accept
+          description: Indicate response format. Use `text/csv` to export organizations.
       requestBody:
+        description: Provide search criteria for organizations.
         content:
           application/json:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
-        description: Provide search criteria for organizations.
-      tags:
-        - Organization
-        - Implemented
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+            text/csv:
+              schema:
+                type: string
+                format: binary
+                description: |-
+                  CSV contains:
+                  - Organization name
+                  - Type
+                  - Projects
+                  - Members
+                  - Launches
+                  - Last launch date
+                  - Storage
+                  - Billing plan
+              example: |-
+                Organization name,Type,Projects,Members,Launches,Last launch date,Storage,Billing_plan
+                Example Organization,Internal,10,100,50,2023-10-01T12:00:00Z,75,Pro
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}':
     get:
       summary: Get organization information
       tags:
         - Organization
+        - Implemented
       responses:
         '200':
           description: OK
@@ -203,17 +238,8 @@ paths:
     put:
       summary: Update organization
       operationId: put-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization
       description: |-
         > **Enterprise edition feature** 
         >
@@ -231,20 +257,22 @@ paths:
             schema:
               $ref: ../models/org/OrganizationBase.yaml
         description: Provide organization information for update.
-      tags:
-        - Organization
-    delete:
-      summary: Delete organization
-      operationId: delete-organizations-org_id
       responses:
-        '204':
-          description: No Content
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
         '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      tags:
+        - Organization
       description: |-
         > **Enterprise edition feature** 
         >
@@ -255,80 +283,15 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-      tags:
-        - Organization
-  '/organizations/{org_id}/settings':
-    parameters:
-      - $ref: ../parameters/OrgId.yaml
-    get:
-      summary: Get organization settings
-      operationId: getOrgSettingsByOrgId
-      tags:
-        - Organization
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-        - role: MEMBER
-          access: full
-      description: |-
-        Get organization settings.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationSettings'
-        '401':
+        '204':
+          description: No Content
+        '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-    put:
-      summary: Update organization settings
-      operationId: updateOrgSettingsByOrgId
-      tags:
-        - Organization
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-      description: |-
-        > **Important**: Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
-
-        Update organization settings.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationSettings'
-        description: ''
   '/organizations/{org_id}/users':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -336,6 +299,7 @@ paths:
       summary: Get organization's users
       tags:
         - Organization User
+        - Implemented
       responses:
         '200':
           description: OK
@@ -397,6 +361,13 @@ paths:
         to assign to the organization.
       tags:
         - Organization User
+        - Implemented
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgUserAssignment'
+        description: Definition for a user assignment.
       responses:
         '200':
           description: OK
@@ -410,41 +381,15 @@ paths:
                     type: string
                     default: The user was added to the organization.
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: ../models/Problem.yaml
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrgUserAssignment'
-        description: Definition for a user assignment.
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/users/searches':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -598,13 +543,8 @@ paths:
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
-      responses:
-        '204':
-          description: No Content
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization User
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -618,9 +558,14 @@ paths:
 
         - `ADMINISTRATOR` - no restrictions.
         - `MANAGER` - no restrictions.
-        - `MEMBER` - restricted to unassigning only themselves.
-      tags:
-        - Organization User
+        - `MEMBER` - restricted to unassign only themselves.
+      responses:
+        '204':
+          description: No Content
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/users/{user_id}/projects':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -672,6 +617,7 @@ paths:
       summary: Get organization projects
       tags:
         - Organization Project
+        - Implemented
       responses:
         '200':
           description: OK
@@ -723,6 +669,7 @@ paths:
       summary: Create a new project
       tags:
         - Organization Project
+        - Implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -909,6 +856,7 @@ paths:
       summary: Delete project
       tags:
         - Organization Project
+        - Implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':

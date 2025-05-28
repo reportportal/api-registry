@@ -714,11 +714,14 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-          access: `full`
         - `MANAGER`
-          access: `restricted` (limited to viewing only their assigned organizations)
         - `MEMBER`
-          access: `restricted` (limited to viewing only their assigned organizations)
+
+        ### Access level
+
+        - `ADMINISTRATOR`
+        - `MANAGER` : limited to viewing only their assigned organizations.
+        - `MEMBER` : limited to viewing only their assigned organizations.
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -745,6 +748,24 @@ paths:
     post:
       summary: Create a new organization
       operationId: post-organizations
+      tags:
+        - Organization
+      description: |-
+        > **Enterprise edition feature**
+
+        Create a new organization. Provide name and slug.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationBase'
+        description: >-
+          You can create an organization provide name and slug. If the `slug` is
+          not provided, it will be generated from the `name`.
       responses:
         '201':
           description: Created
@@ -776,41 +797,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-      description: |-
-        > **Enterprise edition feature**
-
-        Create a new organization. Provide name and slug.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationBase'
-        description: >-
-          You can create an organization provide name and slug. If the `slug` is
-          not provided, it will be generated from the `name`.
-      tags:
-        - Organization
       security:
         - BearerAuth: []
   /organizations/searches:
     post:
       summary: Create search request for organizations
       operationId: post-organizations-searches
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationPage'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization
+        - Implemented
       description: >
         Create search request for organizations by provided criteria.
 
@@ -838,19 +833,63 @@ paths:
         - `last_launch_occurred` - filter by the last launch occurrence.
 
 
+        ### CSV Export
+
+
+        Use text/csv for the Accept header to export organizations.
+
+
         ### Authority
 
 
         - `ADMINISTRATOR`
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - text/csv
+              - application/json
+            default: application/json
+          in: header
+          name: Accept
+          description: Indicate response format. Use `text/csv` to export organizations.
       requestBody:
+        description: Provide search criteria for organizations.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SearchCriteriaRQ'
-        description: Provide search criteria for organizations.
-      tags:
-        - Organization
-        - Implemented
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPage'
+            text/csv:
+              schema:
+                type: string
+                format: binary
+                description: |-
+                  CSV contains:
+                  - Organization name
+                  - Type
+                  - Projects
+                  - Members
+                  - Launches
+                  - Last launch date
+                  - Storage
+                  - Billing plan
+              example: >-
+                Organization name,Type,Projects,Members,Launches,Last launch
+                date,Storage,Billing_plan
+
+                Example
+                Organization,Internal,10,100,50,2023-10-01T12:00:00Z,75,Pro
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /organizations/{org_id}:
@@ -858,6 +897,7 @@ paths:
       summary: Get organization information
       tags:
         - Organization
+        - Implemented
       responses:
         '200':
           description: OK
@@ -885,17 +925,8 @@ paths:
     put:
       summary: Update organization
       operationId: put-organizations-org_id
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization
       description: |-
         > **Enterprise edition feature** 
         >
@@ -913,22 +944,24 @@ paths:
             schema:
               $ref: '#/components/schemas/OrganizationBase'
         description: Provide organization information for update.
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
-    delete:
-      summary: Delete organization
-      operationId: delete-organizations-org_id
       responses:
-        '204':
-          description: No Content
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
         '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      tags:
+        - Organization
       description: |-
         > **Enterprise edition feature** 
         >
@@ -939,89 +972,15 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-      tags:
-        - Organization
-      security:
-        - BearerAuth: []
-  /organizations/{org_id}/settings:
-    parameters:
-      - $ref: '#/components/parameters/OrgId'
-    get:
-      summary: Get organization settings
-      operationId: getOrgSettingsByOrgId
-      tags:
-        - Organization
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-        - role: MEMBER
-          access: full
-      description: |-
-        Get organization settings.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-        - `MANAGER`
-        - `MEMBER`
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrganizationSettings'
-        '401':
+        '204':
+          description: No Content
+        '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      security:
-        - BearerAuth: []
-    put:
-      summary: Update organization settings
-      operationId: updateOrgSettingsByOrgId
-      tags:
-        - Organization
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-      description: >-
-        > **Important**: Values for `logs.period` and `attachments.period`
-        cannot exceed the value of `launches.period`.
-
-
-        Update organization settings.
-
-
-        ### Authority
-
-
-        - `ADMINISTRATOR`
-
-        - `MANAGER`
-      responses:
-        '200':
-          $ref: '#/components/responses/Update'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrganizationSettings'
-        description: ''
       security:
         - BearerAuth: []
   /organizations/{org_id}/users:
@@ -1031,6 +990,7 @@ paths:
       summary: Get organization's users
       tags:
         - Organization User
+        - Implemented
       responses:
         '200':
           description: OK
@@ -1110,6 +1070,13 @@ paths:
         to assign to the organization.
       tags:
         - Organization User
+        - Implemented
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgUserAssignment'
+        description: Definition for a user assignment.
       responses:
         '200':
           description: OK
@@ -1123,41 +1090,15 @@ paths:
                     type: string
                     default: The user was added to the organization.
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrgUserAssignment'
-        description: Definition for a user assignment.
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /organizations/{org_id}/users/searches:
@@ -1357,13 +1298,8 @@ paths:
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
-      responses:
-        '204':
-          description: No Content
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
+      tags:
+        - Organization User
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -1377,9 +1313,14 @@ paths:
 
         - `ADMINISTRATOR` - no restrictions.
         - `MANAGER` - no restrictions.
-        - `MEMBER` - restricted to unassigning only themselves.
-      tags:
-        - Organization User
+        - `MEMBER` - restricted to unassign only themselves.
+      responses:
+        '204':
+          description: No Content
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}/projects:
@@ -1435,6 +1376,7 @@ paths:
       summary: Get organization projects
       tags:
         - Organization Project
+        - Implemented
       responses:
         '200':
           description: OK
@@ -1488,6 +1430,7 @@ paths:
       summary: Create a new project
       tags:
         - Organization Project
+        - Implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -1712,6 +1655,7 @@ paths:
       summary: Delete project
       tags:
         - Organization Project
+        - Implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -2081,6 +2025,7 @@ paths:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
         - Invitation
+        - Implemented
       security:
         - BearerAuth: []
     get:
@@ -2136,6 +2081,7 @@ paths:
       summary: Get invitation
       tags:
         - Invitation
+        - Implemented
       responses:
         '200':
           description: OK
@@ -2195,6 +2141,7 @@ paths:
       summary: Get all users
       tags:
         - User
+        - Implemented
       responses:
         '200':
           description: OK
@@ -2312,52 +2259,44 @@ paths:
       operationId: post-users-searches
       tags:
         - User
-      description: >-
-        Search users by criteria.
+        - Implemented
+      description: >
+        Create search request for organizations by provided criteria.
 
 
         You can use the following attributes as a
-        `search_criteria[*].filter_key`:
+        `search_criteria[*].filter_key` for filtering:
 
 
-        - `uuid` - filter by user UUID.
+        - `name` - filter by organization name.
 
-        - `external_id` - filter by user external identifier.
+        - `slug` - filter by organization slug.
 
-        - `email` - filter by user email.
+        - `type` - filter by organization type.
 
-        - `full_name` - filter by user full name.
+        - `created_at` - filter by creation date.
 
-        - `account_type` - filter by account type.
+        - `updated_at` - filter by last update date.
 
-        - `instance_role` - filter by user role in the instance.
+        - `users` - filter by the number of users.
 
-        - `active` - filter by user activity.
+        - `projects` - filter by the number of projects.
 
-        - `created_at` - date when a user was created.
+        - `launches` - filter by the number of launches.
 
-        - `updated_at` - date when a user was updated.
+        - `last_launch_occurred` - filter by the last launch occurrence.
 
-        - `org_id` - search by organization id.
+
+        ### CSV Export
+
+
+        Use text/csv for the Accept header to export users.
 
 
         ### Authority
 
 
         - `ADMINISTRATOR`
-
-
-        ### Access level
-
-
-        #### ADMINISTRATOR
-
-
-        - Filter by all attributes.
-
-        - Use all operations.
-
-        - Get a full user profile.
       parameters:
         - schema:
             type: string
@@ -2368,6 +2307,12 @@ paths:
           in: header
           name: Accept
           description: Indicate response format. Use `text/csv` to export users.
+      requestBody:
+        description: Create search request for user collection.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaRQ'
       responses:
         '200':
           description: OK
@@ -2375,18 +2320,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceUserPage'
+            text/csv:
+              schema:
+                type: string
+                format: binary
+                description: |-
+                  CSV contains:
+                  - Full name
+                  - Type
+                  - Email
+                  - Last login
+                  - Organizations
+              example: |-
+                Full name,Type,Email,Last login,Organizations
+                John Doe,INTERNAL,john-doe@example.com,2023-10-01T12:00:00Z,5
+                Jane Smith,SCIM,jane-smith@example.com,2023-10-02T14:30:00Z,3
         '400':
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchCriteriaRQ'
-        description: Create search request for user collection.
       security:
         - BearerAuth: []
   /users/me:
@@ -2419,6 +2373,7 @@ paths:
         - Current user
       tags:
         - User
+        - Implemented
       parameters:
         - $ref: '#/components/parameters/ExcludeFields'
       security:
@@ -2667,6 +2622,7 @@ paths:
         - User get access to any user avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -2718,6 +2674,7 @@ paths:
         - User get access only to their avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -2766,6 +2723,7 @@ paths:
         - User get access only to their avatar
       tags:
         - User
+        - Implemented
       parameters:
         - name: user_id
           in: path
@@ -3602,13 +3560,6 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
-    timeUnit:
-      title: Rotation unit of time
-      type: string
-      description: Unit of time for the `period` value.
-      default: DAYS
-      enum:
-        - DAYS
     UserBase:
       title: User Base
       description: |-
@@ -3853,6 +3804,13 @@ components:
           description: The value to add, replace or remove.
       required:
         - op
+    timeUnit:
+      title: Rotation unit of time
+      type: string
+      description: Unit of time for the `period` value.
+      default: DAYS
+      enum:
+        - DAYS
     ProjectUser:
       title: ProjectUser
       type: object
@@ -3952,6 +3910,26 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Invitation'
+    InvitationActivation:
+      title: Invitation activation request
+      type: object
+      description: |-
+        Minimum eight characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character.
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVATED
+          description: Change status to ACTIVATED to create a user.
+        full_name:
+          $ref: '#/components/schemas/name'
+        password:
+          $ref: '#/components/schemas/password'
+      required:
+        - status
+        - full_name
+        - password
     InvitationRequest:
       title: Invitation creation request
       type: object
@@ -3974,78 +3952,6 @@ components:
                       $ref: '#/components/schemas/UserProjectInfo'
       required:
         - email
-    InvitationActivation:
-      title: Invitation activation request
-      type: object
-      description: |-
-        Minimum eight characters, at least one uppercase letter,
-        one lowercase letter, one number and one special character.
-      properties:
-        status:
-          type: string
-          enum:
-            - ACTIVATED
-          description: Change status to ACTIVATED to create a user.
-        full_name:
-          $ref: '#/components/schemas/name'
-        password:
-          $ref: '#/components/schemas/password'
-      required:
-        - status
-        - full_name
-        - password
-    ApiKey:
-      title: API Key
-      type: object
-      description: Common info of the API Key.
-      properties:
-        id:
-          type: integer
-          description: Internal identifier
-        name:
-          type: string
-          description: API Key unique name
-        user_id:
-          type: integer
-          description: API Key owner
-        created_at:
-          type: string
-          format: date-time
-          description: Date time with milliseconds
-        last_used_at:
-          type: string
-          format: date-time
-          description: Date time with milliseconds
-    ApiKeyCreateRequest:
-      title: API Key creation request
-      type: object
-      properties:
-        name:
-          type: string
-          description: Unique name for the new API key
-      required:
-        - name
-    ApiKeyCreateResponse:
-      allOf:
-        - $ref: '#/components/schemas/ApiKey'
-        - type: object
-          properties:
-            api_key:
-              type: string
-              description: The generated API key
-          required:
-            - api_key
-      title: API Key creation response
-    ApiKeyPage:
-      title: API Key page
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/ApiKey'
     NewUserRequest:
       title: User creation request
       type: object
@@ -4169,6 +4075,58 @@ components:
           description: User email for password recovery.
       required:
         - email
+    ApiKey:
+      title: API Key
+      type: object
+      description: Common info of the API Key.
+      properties:
+        id:
+          type: integer
+          description: Internal identifier
+        name:
+          type: string
+          description: API Key unique name
+        user_id:
+          type: integer
+          description: API Key owner
+        created_at:
+          type: string
+          format: date-time
+          description: Date time with milliseconds
+        last_used_at:
+          type: string
+          format: date-time
+          description: Date time with milliseconds
+    ApiKeyCreateRequest:
+      title: API Key creation request
+      type: object
+      properties:
+        name:
+          type: string
+          description: Unique name for the new API key
+      required:
+        - name
+    ApiKeyCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiKey'
+        - type: object
+          properties:
+            api_key:
+              type: string
+              description: The generated API key
+          required:
+            - api_key
+      title: API Key creation response
+    ApiKeyPage:
+      title: API Key page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ApiKey'
     invitationStatus:
       title: Invitation status
       type: string
@@ -4200,6 +4158,7 @@ components:
         - password must contain 1 lowercase letters.
         - password must contain 1 non-alpha numeric number.
         - password is 8-256 characters with no space.
+        - with no spaces
   responses:
     Error:
       description: Error problem response
