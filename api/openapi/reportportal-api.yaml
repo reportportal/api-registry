@@ -2065,9 +2065,7 @@ components:
         - type: object
           properties:
             org_id:
-              type: integer
-              format: int64
-              description: Organization identifier.
+              $ref: '#/components/schemas/identifier'
           required:
             - org_id
     UpdateGroupRequest:
@@ -2229,8 +2227,7 @@ components:
         slug:
           $ref: '#/components/schemas/slug'
         org_id:
-          type: integer
-          format: int64
+          $ref: '#/components/schemas/identifier'
           description: Organization ID of the group.
         created_by:
           type: integer
