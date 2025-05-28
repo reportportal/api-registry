@@ -528,9 +528,7 @@ components:
         - type: object
           properties:
             org_id:
-              type: integer
-              format: int64
-              description: Organization identifier.
+              $ref: ../types/identifier.yaml
           required:
             - org_id
     UpdateGroupRequest:
