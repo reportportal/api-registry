@@ -1067,6 +1067,76 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrgId'
       - $ref: '#/components/parameters/UserId'
+    put:
+      summary: Update organization user details
+      operationId: put-organizations-org_id-users-user_id
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Org User Update Request
+              type: object
+              properties:
+                org_role:
+                  $ref: '#/components/schemas/orgRole'
+                projects:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/UserProjectInfo'
+              required:
+                - org_role
+        description: Provide organization's user information for update.
+      tags:
+        - Organization User
+      description: >-
+        For managing user roles and project assignment within organization.
+
+
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        ### Project authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        #### For assignment user to the organization's projects:
+
+
+        Users with the `Administrator` and `Manager` roles can change user roles
+        and project assignment within organization.
+
+
+        ### Response event statuses
+
+
+        You will get different statuses for project assignments according to
+        which user you want
+
+        to assign to the organization.
+      security:
+        - BearerAuth: []
     delete:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
