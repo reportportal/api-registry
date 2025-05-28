@@ -412,7 +412,7 @@ paths:
 
         - `ADMINISTRATOR` - no restrictions.
         - `MANAGER` - no restrictions.
-        - `MEMBER` - restricted to unassigning only themselves.
+        - `MEMBER` - restricted to unassign only themselves.
       responses:
         '204':
           description: No Content
@@ -795,7 +795,7 @@ components:
                       description: Storage usage in percents.
                       maximum: 100
     OrganizationPage:
-      title: OrganizationProfilesPage
+      title: Organization profiles page
       allOf:
         - $ref: ../models/Offset.yaml
         - type: object
