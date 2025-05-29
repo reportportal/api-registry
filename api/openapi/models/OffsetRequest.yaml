@@ -15,7 +15,6 @@ properties:
       unless it exceeded the maximum value allowed for this API endpoint.
     minimum: 0
     default: 300
-    maximum: 1000
     example: 300
   sort:
     type: string
