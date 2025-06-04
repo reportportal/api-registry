@@ -10,37 +10,130 @@ info:
     name: Reingold Shekhtel
     email: reingold_shekhtel@epam.com
 servers:
-  - url: '{protocol}://{authority}/{basePath}'
+  - url: '{host}{basePath}'
     description: ReportPortal server
     variables:
-      protocol:
-        enum:
-          - http
-          - https
-        default: https
-        description: Protocol
-      authority:
-        default: demo.reportportal.io
+      host:
+        default: 'https://demo.reportportal.io'
         description: Host name and port (if needed) of Report Portal server
       basePath:
-        default: api
+        default: /api
         description: Base path of Report Portal API
 security:
   - BearerAuth: []
-paths: {}
+paths:
+  /activities/searches:
+    parameters: []
+    post:
+      summary: Search activities by complex criteria
+      operationId: activities-search
+      description: |-
+        Create search request by activities.
+
+        You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
+
+        - `eventName`
+        - `objectType`
+        - `objectName`
+        - `organizationId`
+        - `organizationName`
+        - `projectId`
+        - `projectName`
+        - `subjectType`
+        - `subjectName`
+        - `createdAt`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      tags:
+        - Activities
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/SearchCriteriaRQ.yaml
+        description: |
+          This is a [GET with body payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body) 
+          that doesn't create resources. 
+          It returns all activities matching the query passed as the request input payload.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ../models/Offset.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Activity'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
+  schemas:
+    Activity:
+      title: Activity
+      type: object
+      description: activity details
+      properties:
+        id:
+          $ref: ../types/identifier.yaml
+        created_at:
+          type: string
+          format: date-time
+        event_name:
+          type: string
+        object_id:
+          $ref: ../types/identifier.yaml
+        object_name:
+          type: string
+        object_type:
+          type: string
+        project_id:
+          $ref: ../types/identifier.yaml
+        project_name:
+          type: string
+        subject_name:
+          type: string
+        subject_type:
+          type: string
+        details:
+          type: object
+          properties:
+            history:
+              type: array
+              items:
+                $ref: '#/components/schemas/HistoryField'
+    HistoryField:
+      title: HistoryField
+      type: object
+      properties:
+        field:
+          type: string
+        old_value:
+          type: string
+        new_value:
+          type: string
+  responses:
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
 tags:
   - name: Activities
     description: API Collection for working with activities.
-  - name: Organizations
-    description: API Collection for working with organizations.
-  - name: Projects
-    description: API Collection for working with projects.
-  - name: Suggestions
-    description: API Collection for working with suggestions.
-  - name: User API Keys
-    description: API Collection for working with user API keys.
