@@ -994,6 +994,86 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+  /organizations/{org_id}/settings:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      summary: Get organization settings
+      operationId: getOrgSettingsByOrgId
+      tags:
+        - Organization
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+        - role: MEMBER
+          access: full
+      description: |-
+        Get organization settings.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSettings'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update organization settings
+      operationId: updateOrgSettingsByOrgId
+      tags:
+        - Organization
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      description: >-
+        > **Important**: Values for `logs.period` and `attachments.period`
+        cannot exceed the value of `launches.period`.
+
+
+        Update organization settings.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationSettings'
+      security:
+        - BearerAuth: []
   /organizations/{org_id}/users:
     parameters:
       - $ref: '#/components/parameters/OrgId'
@@ -3564,6 +3644,13 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
+    timeUnit:
+      title: Rotation unit of time
+      type: string
+      description: Unit of time for the `period` value.
+      default: DAYS
+      enum:
+        - DAYS
     UserBase:
       title: User Base
       description: |-
@@ -3808,13 +3895,6 @@ components:
           description: The value to add, replace or remove.
       required:
         - op
-    timeUnit:
-      title: Rotation unit of time
-      type: string
-      description: Unit of time for the `period` value.
-      default: DAYS
-      enum:
-        - DAYS
     ProjectUser:
       title: ProjectUser
       type: object

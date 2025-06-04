@@ -292,6 +292,77 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+  '/organizations/{org_id}/settings':
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+    get:
+      summary: Get organization settings
+      operationId: getOrgSettingsByOrgId
+      tags:
+        - Organization
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+        - role: MEMBER
+          access: full
+      description: |-
+        Get organization settings.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSettings'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Update organization settings
+      operationId: updateOrgSettingsByOrgId
+      tags:
+        - Organization
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      description: |-
+        > **Important**: Values for `logs.period` and `attachments.period` cannot exceed the value of `launches.period`.
+
+        Update organization settings.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationSettings'
   '/organizations/{org_id}/users':
     parameters:
       - $ref: ../parameters/OrgId.yaml
