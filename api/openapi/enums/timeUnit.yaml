@@ -1,0 +1,6 @@
+title: Rotation unit of time
+type: string
+description: Unit of time for the `period` value.
+default: DAYS
+enum:
+  - DAYS

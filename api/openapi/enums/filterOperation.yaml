@@ -13,7 +13,7 @@ enum:
   - LT
 description: |
   Operation to perform for the filter:
-  
+
   - EQ - Equal
   - NE - Not equal
   - CNT - Contains
