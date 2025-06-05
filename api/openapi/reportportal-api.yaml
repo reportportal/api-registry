@@ -1012,6 +1012,86 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+  /organizations/{org_id}/settings:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      summary: Get organization settings
+      operationId: getOrgSettingsByOrgId
+      tags:
+        - Organization
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+        - role: MEMBER
+          access: full
+      description: |-
+        Get organization settings.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSettings'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update organization settings
+      operationId: updateOrgSettingsByOrgId
+      tags:
+        - Organization
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: MANAGER
+          access: full
+      description: >-
+        > **Important**: Values for `logs.period` and `attachments.period`
+        cannot exceed the value of `launches.period`.
+
+
+        Update organization settings.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationSettings'
+      security:
+        - BearerAuth: []
   /organizations/{org_id}/users:
     parameters:
       - $ref: '#/components/parameters/OrgId'
@@ -2647,7 +2727,7 @@ components:
     projectRole:
       title: Project role
       type: string
-      description: User role in the project.
+      description: Role in the project.
       enum:
         - EDITOR
         - VIEWER
@@ -2821,6 +2901,83 @@ components:
             $ref: '#/components/schemas/UserProjectInfo'
       required:
         - id
+    OrganizationSettings:
+      title: Organization settings
+      type: object
+      properties:
+        retention_policy:
+          type: object
+          description: >-
+            Organisation retention policy settings.
+
+
+            Values for `logs.period` and `attachments.period` cannot exceed the
+            value of `launches.period`.
+          required:
+            - launches
+            - logs
+            - attachments
+          properties:
+            launches:
+              type: object
+              description: Launches retention policy settings.
+              required:
+                - period
+              properties:
+                period:
+                  type: integer
+                  minimum: 0
+                  description: >-
+                    Number of time units to keep launches.
+
+                    Set `0` to keep attachments forever (retention policy
+                    disabled).
+
+                    This value acts as an upper limit for `logs.period` and
+                    `attachments.period`.
+                  default: 90
+                unit:
+                  $ref: '#/components/schemas/timeUnit'
+            logs:
+              type: object
+              description: Logs retention policy settings.
+              required:
+                - period
+              properties:
+                period:
+                  type: integer
+                  minimum: 0
+                  description: >-
+                    Number of time units to keep launches.
+
+                    Set `0` to keep attachments forever (retention policy
+                    disabled).
+
+                    Cannot exceed the value of `launches.period`.
+                  default: 90
+                unit:
+                  $ref: '#/components/schemas/timeUnit'
+            attachments:
+              type: object
+              description: Attachments retention policy settings.
+              required:
+                - period
+              properties:
+                period:
+                  type: integer
+                  minimum: 0
+                  description: >-
+                    Number of time units to keep launches.
+
+                    Set `0` to keep attachments forever (retention policy
+                    disabled).
+
+                    Cannot exceed the value of `launches.period`.
+                  default: 14
+                unit:
+                  $ref: '#/components/schemas/timeUnit'
+      required:
+        - retention_policy
     OrgGroupPage:
       title: Organization groups page
       description: Page of organization groups.
@@ -2868,6 +3025,13 @@ components:
         edition feature.
 
         - EXTERNAL: created for external integrations.
+    timeUnit:
+      title: Rotation unit of time
+      type: string
+      description: Unit of time for the `period` value.
+      default: DAYS
+      enum:
+        - DAYS
     UserBase:
       title: User Base
       description: |-
