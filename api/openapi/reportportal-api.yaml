@@ -3001,7 +3001,7 @@ components:
         - EQ - Equal
         - NE - Not equal
         - CNT - Contains
-        - NON_CNT - Not contains
+        - NOT_CNT - Not contains
         - BTW - Between
         - IN - In
         - GTE - Greater than or equal
