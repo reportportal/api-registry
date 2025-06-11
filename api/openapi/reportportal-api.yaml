@@ -785,29 +785,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationInfo'
         '400':
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '402':
-          description: Payment Required
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '403':
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /organizations/searches:
@@ -916,6 +902,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationInfo'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -960,6 +948,8 @@ paths:
           $ref: '#/components/responses/Update'
         '400':
           $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '402':
           $ref: '#/components/responses/Error'
         '403':
@@ -986,6 +976,10 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '402':
           $ref: '#/components/responses/Error'
         '403':
