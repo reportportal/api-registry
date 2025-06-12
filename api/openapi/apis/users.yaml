@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Users API
+  title: ReportPortal Users API
   version: Organization
   description: API Collection for working with users.
   license:
@@ -56,8 +56,8 @@ paths:
             schema:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
-        - Invitation
-        - Implemented
+        - invitations
+        - implemented
   '/invitations/{invitation_id}':
     parameters:
       - schema:
@@ -68,8 +68,8 @@ paths:
     get:
       summary: Get invitation
       tags:
-        - Invitation
-        - Implemented
+        - invitations
+        - implemented
       responses:
         '200':
           description: OK
@@ -121,13 +121,13 @@ paths:
               $ref: '#/components/schemas/InvitationActivation'
         description: Details for user activation.
       tags:
-        - Invitation
+        - invitations
   /users:
     get:
       summary: Get all users
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       responses:
         '200':
           description: OK
@@ -234,14 +234,14 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - User
+        - users
   /users/searches:
     post:
       summary: Create search request for users
       operationId: post-users-searches
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       description: |
         Create search request for organizations by provided criteria.
 
@@ -338,8 +338,8 @@ paths:
 
         - Current user
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - $ref: ../parameters/ExcludeFields.yaml
   '/users/{user_id}/avatar':
@@ -361,8 +361,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access to any user avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -411,8 +411,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access only to their avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -458,8 +458,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access only to their avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -644,11 +644,11 @@ components:
           schema:
             $ref: ../models/Problem.yaml
 tags:
-  - name: Invitation
+  - name: invitations
     description: API for working with user invitations.
-  - name: User
+  - name: users
     description: API for working with users.
-  - name: Implemented
+  - name: implemented
     description: API endpoints that are implemented and available for use.
 security:
   - BearerAuth: []

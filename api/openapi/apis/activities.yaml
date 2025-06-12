@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Activities API
+  title: ReportPortal Activities API
   version: Organization
   description: API Collection for working with activities.
   license:
@@ -47,7 +47,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Activities
+        - activities
       parameters: []
       requestBody:
         content:
@@ -135,5 +135,5 @@ components:
           schema:
             $ref: ../models/Problem.yaml
 tags:
-  - name: Activity
+  - name: activities
     description: API for working with activities.

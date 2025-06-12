@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Projects API
+  title: ReportPortal Projects API
   version: Organization
   description: API Collection for working with projects.
   contact:
@@ -40,7 +40,7 @@ paths:
         - role: VIEWER
           access: full
       tags:
-        - Projects
+        - projects
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -97,7 +97,7 @@ paths:
         - `EDITOR`
         - `VIEWER`
       tags:
-        - Projects
+        - projects
       responses:
         '200':
           description: OK
@@ -131,7 +131,7 @@ paths:
         - `ADMINISTRATOR`
         - `EDITOR`
       tags:
-        - Projects
+        - projects
       requestBody:
         content:
           application/json:
@@ -169,7 +169,7 @@ paths:
         - `ADMINISTRATOR`
         - `EDITOR`
       tags:
-        - Projects
+        - projects
       responses:
         '204':
           description: No Content
@@ -251,5 +251,5 @@ components:
                 type: string
                 default: The update was completed successfully.
 tags:
-  - name: Project
+  - name: projects
     description: API for working with projects.
