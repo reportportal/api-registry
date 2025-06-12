@@ -251,5 +251,5 @@ components:
                 type: string
                 default: The update was completed successfully.
 tags:
-  - name: Projects
-    description: Projects API collection
+  - name: Project
+    description: API for working with projects.

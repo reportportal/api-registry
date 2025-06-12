@@ -1154,14 +1154,14 @@ components:
             $ref: ../models/Problem.yaml
 tags:
   - name: Organization
-    description: Organizations collection
+    description: API for working with organizations.
   - name: Organization Project
-    description: Organization projects collection
+    description: API for working with organization projects.
   - name: Organization User
-    description: Organization users collection
+    description: API for working with organization users.
   - name: Organization Group
-    description: Organization groups collection
+    description: API for working with organization groups.
   - name: Implemented
-    description: Endpoints that are implemented
+    description: API endpoints that are implemented and available for use.
 security:
   - BearerAuth: []

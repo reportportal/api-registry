@@ -135,5 +135,5 @@ components:
           schema:
             $ref: ../models/Problem.yaml
 tags:
-  - name: Activities
-    description: API Collection for working with activities.
+  - name: Activity
+    description: API for working with activities.

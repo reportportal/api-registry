@@ -633,5 +633,5 @@ components:
       type: http
       scheme: bearer
 tags:
-  - name: Groups
-    description: Group API collection
+  - name: Group
+    description: API for managing groups and their members.
