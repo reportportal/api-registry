@@ -29,6 +29,7 @@ paths:
         name: project_key
         in: path
         required: true
+        description: Project key.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
@@ -69,14 +70,14 @@ paths:
         - `ADMINISTRATOR`
         - `EDITOR`
         - `VIEWER`
-  '/projects/{project_name}/groups/{group_id}':
+  '/projects/{project_key}/groups/{group_id}':
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
-        description: Project name.
+        description: Project key.
       - $ref: ../parameters/GroupId.yaml
     get:
       operationId: getProjectGroupById
