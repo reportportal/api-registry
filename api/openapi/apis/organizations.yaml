@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Organizations API
+  title: ReportPortal Organizations API
   version: Organization
   description: API Collection for working with organizations.
   contact:
@@ -24,8 +24,8 @@ paths:
     get:
       summary: Get a list of organizations
       tags:
-        - Organization
-        - Implemented
+        - organizations
+        - implemented
       responses:
         '200':
           description: OK
@@ -88,7 +88,7 @@ paths:
       summary: Create a new organization
       operationId: post-organizations
       tags:
-        - Organization
+        - organizations
       description: |-
         > **Enterprise edition feature**
 
@@ -125,8 +125,8 @@ paths:
       summary: Create search request for organizations
       operationId: post-organizations-searches
       tags:
-        - Organization
-        - Implemented
+        - organizations
+        - implemented
       description: |
         Create search request for organizations by provided criteria.
 
@@ -197,8 +197,8 @@ paths:
     get:
       summary: Get organization information
       tags:
-        - Organization
-        - Implemented
+        - organizations
+        - implemented
       responses:
         '200':
           description: OK
@@ -227,7 +227,7 @@ paths:
       summary: Update organization
       operationId: put-organizations-org_id
       tags:
-        - Organization
+        - organizations
       description: |-
         > **Enterprise edition feature** 
         >
@@ -262,7 +262,7 @@ paths:
       summary: Delete organization
       operationId: delete-organizations-org_id
       tags:
-        - Organization
+        - organizations
       description: |-
         > **Enterprise edition feature** 
         >
@@ -293,7 +293,7 @@ paths:
       summary: Get organization settings
       operationId: getOrgSettingsByOrgId
       tags:
-        - Organization
+        - organizations
       x-permissions:
         - role: ADMINISTRATOR
           access: full
@@ -326,7 +326,7 @@ paths:
       summary: Update organization settings
       operationId: updateOrgSettingsByOrgId
       tags:
-        - Organization
+        - organizations
       x-permissions:
         - role: ADMINISTRATOR
           access: full
@@ -363,8 +363,8 @@ paths:
     get:
       summary: Get organization's users
       tags:
-        - Organization User
-        - Implemented
+        - organization-users
+        - implemented
       responses:
         '200':
           description: OK
@@ -425,8 +425,8 @@ paths:
         You will get different statuses for project assignments according to which user you want
         to assign to the organization.
       tags:
-        - Organization User
-        - Implemented
+        - organization-users
+        - implemented
       requestBody:
         content:
           application/json:
@@ -462,7 +462,7 @@ paths:
       summary: Create search request for organization users
       operationId: post-organizations-org_id-users-searches
       tags:
-        - Organization User
+        - organization-users
       description: |
         Create search request for organization users by provided criteria.
 
@@ -522,7 +522,7 @@ paths:
     get:
       summary: Get organization user profile
       tags:
-        - Organization User
+        - organization-users
       responses:
         '200':
           description: OK
@@ -581,7 +581,7 @@ paths:
                 - org_role
         description: Provide organization's user information for update.
       tags:
-        - Organization User
+        - organization-users
       description: |-
         For managing user roles and project assignment within organization.
 
@@ -609,7 +609,7 @@ paths:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
       tags:
-        - Organization User
+        - organization-users
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -649,7 +649,7 @@ paths:
 
         A user with `MEMBER` role can get only his projects.
       tags:
-        - Organization User
+        - organization-users
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -681,8 +681,8 @@ paths:
     get:
       summary: Get organization projects
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       responses:
         '200':
           description: OK
@@ -733,8 +733,8 @@ paths:
     post:
       summary: Create a new project
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -800,8 +800,8 @@ paths:
             schema:
               $ref: ../models/SearchCriteriaRQ.yaml
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
   '/organizations/{org_id}/projects/{project_id}':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -809,7 +809,7 @@ paths:
     get:
       summary: Get project information
       tags:
-        - Organization Project
+        - organization-projects
       responses:
         '200':
           description: OK
@@ -872,7 +872,7 @@ paths:
 
         - `EDITOR`
       tags:
-        - Organization Project
+        - organization-projects
     patch:
       summary: Partial project update
       operationId: patch-organizations-org_id-projects-project_id
@@ -909,7 +909,7 @@ paths:
 
         - `EDITOR`
       tags:
-        - Organization Project
+        - organization-projects
       requestBody:
         content:
           application/json:
@@ -920,8 +920,8 @@ paths:
     delete:
       summary: Delete project
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -949,7 +949,7 @@ paths:
         - role: MANAGER
           access: full
       tags:
-        - Organization Group
+        - organization-groups
       description: |-
         Get instance groups with optional filtering and sorting.
 
@@ -991,7 +991,7 @@ paths:
         - role: MANAGER
           access: full
       tags:
-        - Organization Group
+        - organization-groups
       description: |-
         Create a group.
 
@@ -1311,15 +1311,15 @@ components:
           schema:
             $ref: ../models/Problem.yaml
 tags:
-  - name: Organization
-    description: Organizations collection
-  - name: Organization Project
-    description: Organization projects collection
-  - name: Organization User
-    description: Organization users collection
-  - name: Organization Group
-    description: Organization groups collection
-  - name: Implemented
-    description: Endpoints that are implemented
+  - name: organizations
+    description: API for working with organizations.
+  - name: organization-users
+    description: API for working with organization users.
+  - name: organization-projects
+    description: API for working with organization projects.
+  - name: organization-groups
+    description: API for working with organization groups.
+  - name: implemented
+    description: API endpoints that are implemented and available for use.
 security:
   - BearerAuth: []

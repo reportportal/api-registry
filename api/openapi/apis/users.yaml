@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Users API
+  title: ReportPortal Users API
   version: Organization
   description: API Collection for working with users.
   license:
@@ -56,8 +56,8 @@ paths:
             schema:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
-        - Invitation
-        - Implemented
+        - invitations
+        - implemented
     get:
       summary: Get invitations
       operationId: get-invitations
@@ -97,7 +97,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Invitation
+        - invitations
   '/invitations/{invitation_id}':
     parameters:
       - schema:
@@ -108,8 +108,8 @@ paths:
     get:
       summary: Get invitation
       tags:
-        - Invitation
-        - Implemented
+        - invitations
+        - implemented
       responses:
         '200':
           description: OK
@@ -161,13 +161,13 @@ paths:
               $ref: '#/components/schemas/InvitationActivation'
         description: Details for user activation.
       tags:
-        - Invitation
+        - invitations
   /users:
     get:
       summary: Get all users
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       responses:
         '200':
           description: OK
@@ -274,19 +274,19 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - User
+        - users
   /users/searches:
     post:
       summary: Create search request for users
       operationId: post-users-searches
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       description: |
         Create search request for organizations by provided criteria.
 
         You can use the following attributes as a `search_criteria[*].filter_key` for filtering:
-        
+
         - `uuid` - filter by user UUID.
         - `external_id` - filter by user external identifier.
         - `email` - filter by user email.
@@ -378,8 +378,8 @@ paths:
 
         - Current user
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - $ref: ../parameters/ExcludeFields.yaml
   '/users/{user_id}':
@@ -416,7 +416,7 @@ paths:
         - Administrator has access to any user profile
         - User has access only to his profile
       tags:
-        - User
+        - users
       parameters:
         - $ref: ../parameters/ExcludeFields.yaml
     put:
@@ -451,7 +451,7 @@ paths:
             schema:
               $ref: ../models/user/UserBase.yaml
       tags:
-        - User
+        - users
     delete:
       summary: Delete user
       operationId: delete-users-user_id
@@ -479,14 +479,14 @@ paths:
         - Administrator has access to any user profile
         - User has access only to his profile
       tags:
-        - User
+        - users
   '/users/{user_id}/api-keys':
     parameters:
       - $ref: ../parameters/UserId.yaml
     get:
       summary: Get user's API keys
       tags:
-        - User
+        - users
       responses:
         '200':
           description: OK
@@ -555,7 +555,7 @@ paths:
         - Administrator has access to any user api keys
         - User has access only to his api keys
       tags:
-        - User
+        - users
   '/users/{user_id}/api-keys/{key_id}':
     parameters:
       - $ref: ../parameters/UserId.yaml
@@ -581,7 +581,7 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       tags:
-        - User
+        - users
       description: |-
         Delete the API key by ID
 
@@ -613,8 +613,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access to any user avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -663,8 +663,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access only to their avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -710,8 +710,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access only to their avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -739,7 +739,7 @@ paths:
         '501':
           $ref: '#/components/responses/Update'
       tags:
-        - User
+        - users
       description: Update user password.
       requestBody:
         content:
@@ -765,7 +765,7 @@ paths:
               $ref: '#/components/schemas/RestoreUserPassword'
       security: []
       tags:
-        - User
+        - users
   /password-recover-requests:
     post:
       summary: Create password recover request
@@ -775,7 +775,7 @@ paths:
         '501':
           description: Not Implemented
       tags:
-        - User
+        - users
       description: |-
         Create password recover request. Send email with recover token and user ID.
 
@@ -953,17 +953,6 @@ components:
               items:
                 $ref: '#/components/schemas/InstanceUser'
       description: Page with full user information. Only for current user or administrator.
-    UserInfoPage:
-      title: User info page
-      allOf:
-        - $ref: ../models/Offset.yaml
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: ../models/user/UserInfo.yaml
-      description: Page with general user information. For all users.
     NewUserPassword:
       title: New User password
       type: object
@@ -1076,11 +1065,11 @@ components:
           schema:
             $ref: ../models/Problem.yaml
 tags:
-  - name: Implemented
-    description: Implemented
-  - name: Invitation
-    description: Invitation API collection
-  - name: User
-    description: User API collection
+  - name: invitations
+    description: API for working with user invitations.
+  - name: users
+    description: API for working with users.
+  - name: implemented
+    description: API endpoints that are implemented and available for use.
 security:
   - BearerAuth: []

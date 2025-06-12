@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Groups API
+  title: ReportPortal Groups API
   version: 1.0.0
   description: The Group collection API. You can use it to manage groups and members of groups.
   contact:
@@ -30,7 +30,7 @@ paths:
         - role: ADMINISTRATOR
           access: full
       tags:
-        - Groups
+        - groups
       description: |-
         Get instance groups with optional filtering and sorting.
 
@@ -47,6 +47,13 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
+        - schema:
+            type: integer
+            format: int64
+            minimum: 0
+          in: query
+          name: orgId
+          description: Organization identifier.
       responses:
         '200':
           description: OK
@@ -69,7 +76,7 @@ paths:
         - role: ADMINISTRATOR
           access: full
       tags:
-        - Groups
+        - groups
       description: |-
         Create a group.
 
@@ -112,7 +119,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get a group by ID.
 
@@ -147,7 +154,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Update a group by ID.
 
@@ -186,7 +193,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Delete a group by ID.
 
@@ -220,7 +227,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get all users of group.
 
@@ -262,14 +269,14 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get all users of group.
 
         ### Authority
 
         - `ADMINISTRATOR`
-        - `MANAGER` : Access to groups when assigned to an organization.          
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           description: OK
@@ -297,7 +304,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Delete a user from a group.
 
@@ -328,14 +335,14 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Add user into group.
 
         ### Authority
 
         - `ADMINISTRATOR`
-        - `MANAGER` : Access to groups when assigned to an organization.        
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -362,7 +369,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get all projects of group.
 
@@ -404,7 +411,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get project of group.
 
@@ -439,7 +446,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Add or update project in group.
 
@@ -478,7 +485,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Delete project from group.
 
@@ -521,9 +528,7 @@ components:
         - type: object
           properties:
             org_id:
-              type: integer
-              format: int64
-              description: Organization identifier.
+              $ref: ../types/identifier.yaml
           required:
             - org_id
     UpdateGroupRequest:
@@ -628,5 +633,5 @@ components:
       type: http
       scheme: bearer
 tags:
-  - name: Groups
-    description: Group API collection
+  - name: groups
+    description: API for managing groups and their members.

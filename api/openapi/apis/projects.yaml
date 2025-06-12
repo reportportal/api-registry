@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Projects API collection
+  title: ReportPortal Projects API
   version: Organization
   description: API Collection for working with projects.
   contact:
@@ -34,7 +34,7 @@ paths:
       operationId: post-projects-project_id-users
       description: '#ToDo'
       tags:
-        - Projects
+        - projects
       responses:
         '200':
           description: OK
@@ -58,6 +58,7 @@ paths:
     put:
       summary: Update project user
       operationId: put-projects-project_id-users-user_id
+      description: '#ToDo'
       responses:
         '204':
           description: No Content
@@ -70,7 +71,7 @@ paths:
                 project_role:
                   $ref: ../enums/projectRole.yaml
       tags:
-        - Projects
+        - projects
     delete:
       summary: Unassign user from project
       operationId: delete-projects-project_id-users-user_id
@@ -89,20 +90,27 @@ paths:
         - `EDITOR` - can delete any user.
         - `VIEWER` - can delete themself.
       tags:
-        - Projects
-  '/projects/{project_name}/groups':
+        - projects
+  '/projects/{project_key}/groups':
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
         description: Project name.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       tags:
-        - Projects
+        - projects
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
@@ -129,19 +137,26 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-        - `MEMBETR`
-        - `OPERATOR`
-  '/projects/{project_name}/groups/{group_id}':
+        - `EDITOR`
+        - `VIEWER`
+  '/projects/{project_key}/groups/{group_id}':
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
         description: Project name.
       - $ref: ../parameters/GroupId.yaml
     get:
+      operationId: getProjectGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       summary: Get group by id
       description: |-
         Get group by id from project.
@@ -149,10 +164,10 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: getProjectGroupById
+        - `EDITOR`
+        - `VIEWER`
       tags:
-        - Projects
+        - projects
       responses:
         '200':
           description: OK
@@ -171,6 +186,12 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
     put:
+      operationId: AddGroupToProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Add or update group to project
       description: |-
         Add or update group to project with permission.
@@ -178,10 +199,9 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: AddGroupToProjectById
+        - `EDITOR`
       tags:
-        - Projects
+        - projects
       requestBody:
         content:
           application/json:
@@ -204,6 +224,12 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
     delete:
+      operationId: DeleteGroupFromProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Delete group from project by id
       description: |-
         Delete group from project by id.
@@ -211,10 +237,9 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: DeleteGroupFromProjectById
+        - `EDITOR`
       tags:
-        - Projects
+        - projects
       responses:
         '204':
           description: No Content
@@ -304,5 +329,5 @@ components:
                 type: string
                 default: The update was completed successfully.
 tags:
-  - name: Projects
-    description: Projects API collection
+  - name: projects
+    description: API for working with projects.

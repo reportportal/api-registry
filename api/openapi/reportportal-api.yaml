@@ -76,36 +76,36 @@ servers:
         default: /api
         description: Base path of Report Portal API
 tags:
-  - name: Activities
-    description: API Collection for working with activities.
-    x-displayName: Activities
-  - name: Groups
-    description: Group API collection
-    x-displayName: Groups
-  - name: Organization
-    description: Organizations collection
-    x-displayName: Organization
-  - name: Organization Project
-    description: Organization projects collection
-    x-displayName: Organization Project
-  - name: Organization User
-    description: Organization users collection
-    x-displayName: Organization User
-  - name: Organization Group
-    description: Organization groups collection
-    x-displayName: Organization Group
-  - name: Implemented
-    description: Endpoints that are implemented
-    x-displayName: Implemented
-  - name: Projects
-    description: Projects API collection
-    x-displayName: Projects
-  - name: Invitation
-    description: Invitation API collection
-    x-displayName: Invitation
-  - name: User
-    description: User API collection
-    x-displayName: User
+  - name: activities
+    description: API for working with activities.
+    x-displayName: activities
+  - name: groups
+    description: API for managing groups and their members.
+    x-displayName: groups
+  - name: organizations
+    description: API for working with organizations.
+    x-displayName: organizations
+  - name: organization-users
+    description: API for working with organization users.
+    x-displayName: organization-users
+  - name: organization-projects
+    description: API for working with organization projects.
+    x-displayName: organization-projects
+  - name: organization-groups
+    description: API for working with organization groups.
+    x-displayName: organization-groups
+  - name: implemented
+    description: API endpoints that are implemented and available for use.
+    x-displayName: implemented
+  - name: projects
+    description: API for working with projects.
+    x-displayName: projects
+  - name: invitations
+    description: API for working with user invitations.
+    x-displayName: invitations
+  - name: users
+    description: API for working with users.
+    x-displayName: users
 paths:
   /activities/searches:
     parameters: []
@@ -146,7 +146,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Activities
+        - activities
       parameters: []
       requestBody:
         content:
@@ -191,7 +191,7 @@ paths:
         - role: ADMINISTRATOR
           access: full
       tags:
-        - Groups
+        - groups
       description: |-
         Get instance groups with optional filtering and sorting.
 
@@ -208,6 +208,13 @@ paths:
           in: query
           name: sort
           description: Indicate sort by field.
+        - schema:
+            type: integer
+            format: int64
+            minimum: 0
+          in: query
+          name: orgId
+          description: Organization identifier.
       responses:
         '200':
           description: OK
@@ -232,7 +239,7 @@ paths:
         - role: ADMINISTRATOR
           access: full
       tags:
-        - Groups
+        - groups
       description: |-
         Create a group.
 
@@ -277,7 +284,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get a group by ID.
 
@@ -314,7 +321,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Update a group by ID.
 
@@ -355,7 +362,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Delete a group by ID.
 
@@ -391,7 +398,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get all users of group.
 
@@ -435,18 +442,14 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
-      description: >-
+        - groups
+      description: |-
         Get all users of group.
-
 
         ### Authority
 
-
         - `ADMINISTRATOR`
-
-        - `MANAGER` : Access to groups when assigned to an
-        organization.          
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           description: OK
@@ -476,7 +479,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Delete a user from a group.
 
@@ -509,14 +512,14 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Add user into group.
 
         ### Authority
 
         - `ADMINISTRATOR`
-        - `MANAGER` : Access to groups when assigned to an organization.        
+        - `MANAGER` : Access to groups when assigned to an organization.
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -545,7 +548,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get all projects of group.
 
@@ -589,7 +592,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Get project of group.
 
@@ -626,7 +629,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Add or update project in group.
 
@@ -667,7 +670,7 @@ paths:
           access: restricted
           description: Access to groups when assigned to an organization.
       tags:
-        - Groups
+        - groups
       description: |-
         Delete project from group.
 
@@ -694,8 +697,8 @@ paths:
     get:
       summary: Get a list of organizations
       tags:
-        - Organization
-        - Implemented
+        - organizations
+        - implemented
       responses:
         '200':
           description: OK
@@ -760,7 +763,7 @@ paths:
       summary: Create a new organization
       operationId: post-organizations
       tags:
-        - Organization
+        - organizations
       description: |-
         > **Enterprise edition feature**
 
@@ -801,8 +804,8 @@ paths:
       summary: Create search request for organizations
       operationId: post-organizations-searches
       tags:
-        - Organization
-        - Implemented
+        - organizations
+        - implemented
       description: >
         Create search request for organizations by provided criteria.
 
@@ -893,8 +896,8 @@ paths:
     get:
       summary: Get organization information
       tags:
-        - Organization
-        - Implemented
+        - organizations
+        - implemented
       responses:
         '200':
           description: OK
@@ -925,7 +928,7 @@ paths:
       summary: Update organization
       operationId: put-organizations-org_id
       tags:
-        - Organization
+        - organizations
       description: |-
         > **Enterprise edition feature** 
         >
@@ -962,7 +965,7 @@ paths:
       summary: Delete organization
       operationId: delete-organizations-org_id
       tags:
-        - Organization
+        - organizations
       description: |-
         > **Enterprise edition feature** 
         >
@@ -995,7 +998,7 @@ paths:
       summary: Get organization settings
       operationId: getOrgSettingsByOrgId
       tags:
-        - Organization
+        - organizations
       x-permissions:
         - role: ADMINISTRATOR
           access: full
@@ -1030,7 +1033,7 @@ paths:
       summary: Update organization settings
       operationId: updateOrgSettingsByOrgId
       tags:
-        - Organization
+        - organizations
       x-permissions:
         - role: ADMINISTRATOR
           access: full
@@ -1074,8 +1077,8 @@ paths:
     get:
       summary: Get organization's users
       tags:
-        - Organization User
-        - Implemented
+        - organization-users
+        - implemented
       responses:
         '200':
           description: OK
@@ -1154,8 +1157,8 @@ paths:
 
         to assign to the organization.
       tags:
-        - Organization User
-        - Implemented
+        - organization-users
+        - implemented
       requestBody:
         content:
           application/json:
@@ -1193,7 +1196,7 @@ paths:
       summary: Create search request for organization users
       operationId: post-organizations-org_id-users-searches
       tags:
-        - Organization User
+        - organization-users
       description: >
         Create search request for organization users by provided criteria.
 
@@ -1280,7 +1283,7 @@ paths:
     get:
       summary: Get organization user profile
       tags:
-        - Organization User
+        - organization-users
       responses:
         '200':
           description: OK
@@ -1341,7 +1344,7 @@ paths:
                 - org_role
         description: Provide organization's user information for update.
       tags:
-        - Organization User
+        - organization-users
       description: >-
         For managing user roles and project assignment within organization.
 
@@ -1384,7 +1387,7 @@ paths:
       summary: Unassigned organization user
       operationId: delete-organizations-org_id-users-user_id
       tags:
-        - Organization User
+        - organization-users
       description: |-
         Unassigned user from an organization and all organization projects.
 
@@ -1426,7 +1429,7 @@ paths:
 
         A user with `MEMBER` role can get only his projects.
       tags:
-        - Organization User
+        - organization-users
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -1460,8 +1463,8 @@ paths:
     get:
       summary: Get organization projects
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       responses:
         '200':
           description: OK
@@ -1514,8 +1517,8 @@ paths:
     post:
       summary: Create a new project
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -1595,8 +1598,8 @@ paths:
             schema:
               $ref: '#/components/schemas/SearchCriteriaRQ'
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects/{project_id}:
@@ -1606,7 +1609,7 @@ paths:
     get:
       summary: Get project information
       tags:
-        - Organization Project
+        - organization-projects
       responses:
         '200':
           description: OK
@@ -1671,7 +1674,7 @@ paths:
 
         - `EDITOR`
       tags:
-        - Organization Project
+        - organization-projects
       security:
         - BearerAuth: []
     patch:
@@ -1726,7 +1729,7 @@ paths:
 
         - `EDITOR`
       tags:
-        - Organization Project
+        - organization-projects
       requestBody:
         content:
           application/json:
@@ -1739,8 +1742,8 @@ paths:
     delete:
       summary: Delete project
       tags:
-        - Organization Project
-        - Implemented
+        - organization-projects
+        - implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -1770,7 +1773,7 @@ paths:
         - role: MANAGER
           access: full
       tags:
-        - Organization Group
+        - organization-groups
       description: |-
         Get instance groups with optional filtering and sorting.
 
@@ -1814,7 +1817,7 @@ paths:
         - role: MANAGER
           access: full
       tags:
-        - Organization Group
+        - organization-groups
       description: |-
         Create a group.
 
@@ -1859,7 +1862,7 @@ paths:
       operationId: post-projects-project_id-users
       description: '#ToDo'
       tags:
-        - Projects
+        - projects
       responses:
         '200':
           description: OK
@@ -1885,6 +1888,7 @@ paths:
     put:
       summary: Update project user
       operationId: put-projects-project_id-users-user_id
+      description: '#ToDo'
       responses:
         '204':
           description: No Content
@@ -1897,7 +1901,7 @@ paths:
                 project_role:
                   $ref: '#/components/schemas/projectRole'
       tags:
-        - Projects
+        - projects
       security:
         - BearerAuth: []
     delete:
@@ -1918,22 +1922,29 @@ paths:
         - `EDITOR` - can delete any user.
         - `VIEWER` - can delete themself.
       tags:
-        - Projects
+        - projects
       security:
         - BearerAuth: []
-  /projects/{project_name}/groups:
+  /projects/{project_key}/groups:
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
         description: Project name.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       tags:
-        - Projects
+        - projects
       parameters:
         - $ref: '#/components/parameters/Offset'
         - $ref: '#/components/parameters/Limit'
@@ -1960,21 +1971,28 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-        - `MEMBETR`
-        - `OPERATOR`
+        - `EDITOR`
+        - `VIEWER`
       security:
         - BearerAuth: []
-  /projects/{project_name}/groups/{group_id}:
+  /projects/{project_key}/groups/{group_id}:
     parameters:
       - schema:
           type: string
-        name: project_name
+        name: project_key
         in: path
         required: true
         description: Project name.
       - $ref: '#/components/parameters/GroupId'
     get:
+      operationId: getProjectGroupById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
       summary: Get group by id
       description: |-
         Get group by id from project.
@@ -1982,10 +2000,10 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: getProjectGroupById
+        - `EDITOR`
+        - `VIEWER`
       tags:
-        - Projects
+        - projects
       responses:
         '200':
           description: OK
@@ -2006,6 +2024,12 @@ paths:
       security:
         - BearerAuth: []
     put:
+      operationId: AddGroupToProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Add or update group to project
       description: |-
         Add or update group to project with permission.
@@ -2013,10 +2037,9 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: AddGroupToProjectById
+        - `EDITOR`
       tags:
-        - Projects
+        - projects
       requestBody:
         content:
           application/json:
@@ -2041,6 +2064,12 @@ paths:
       security:
         - BearerAuth: []
     delete:
+      operationId: DeleteGroupFromProjectById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
       summary: Delete group from project by id
       description: |-
         Delete group from project by id.
@@ -2048,10 +2077,9 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `PROJECT MANAGER`
-      operationId: DeleteGroupFromProjectById
+        - `EDITOR`
       tags:
-        - Projects
+        - projects
       responses:
         '204':
           description: No Content
@@ -2109,8 +2137,8 @@ paths:
             schema:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
-        - Invitation
-        - Implemented
+        - invitations
+        - implemented
       security:
         - BearerAuth: []
     get:
@@ -2152,7 +2180,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Invitation
+        - invitations
       security:
         - BearerAuth: []
   /invitations/{invitation_id}:
@@ -2165,8 +2193,8 @@ paths:
     get:
       summary: Get invitation
       tags:
-        - Invitation
-        - Implemented
+        - invitations
+        - implemented
       responses:
         '200':
           description: OK
@@ -2220,13 +2248,13 @@ paths:
               $ref: '#/components/schemas/InvitationActivation'
         description: Details for user activation.
       tags:
-        - Invitation
+        - invitations
   /users:
     get:
       summary: Get all users
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       responses:
         '200':
           description: OK
@@ -2335,7 +2363,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - User
+        - users
       security:
         - BearerAuth: []
   /users/searches:
@@ -2343,8 +2371,8 @@ paths:
       summary: Create search request for users
       operationId: post-users-searches
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       description: >
         Create search request for organizations by provided criteria.
 
@@ -2459,8 +2487,8 @@ paths:
 
         - Current user
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - $ref: '#/components/parameters/ExcludeFields'
       security:
@@ -2499,7 +2527,7 @@ paths:
         - Administrator has access to any user profile
         - User has access only to his profile
       tags:
-        - User
+        - users
       parameters:
         - $ref: '#/components/parameters/ExcludeFields'
       security:
@@ -2536,7 +2564,7 @@ paths:
             schema:
               $ref: '#/components/schemas/UserBase'
       tags:
-        - User
+        - users
       security:
         - BearerAuth: []
     delete:
@@ -2566,7 +2594,7 @@ paths:
         - Administrator has access to any user profile
         - User has access only to his profile
       tags:
-        - User
+        - users
       security:
         - BearerAuth: []
   /users/{user_id}/api-keys:
@@ -2575,7 +2603,7 @@ paths:
     get:
       summary: Get user's API keys
       tags:
-        - User
+        - users
       responses:
         '200':
           description: OK
@@ -2646,7 +2674,7 @@ paths:
         - Administrator has access to any user api keys
         - User has access only to his api keys
       tags:
-        - User
+        - users
       security:
         - BearerAuth: []
   /users/{user_id}/api-keys/{key_id}:
@@ -2674,7 +2702,7 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       tags:
-        - User
+        - users
       description: |-
         Delete the API key by ID
 
@@ -2708,8 +2736,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access to any user avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -2760,8 +2788,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access only to their avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -2809,8 +2837,8 @@ paths:
         - Administrator get access to any user avatar
         - User get access only to their avatar
       tags:
-        - User
-        - Implemented
+        - users
+        - implemented
       parameters:
         - name: user_id
           in: path
@@ -2840,7 +2868,7 @@ paths:
         '501':
           $ref: '#/components/responses/Update'
       tags:
-        - User
+        - users
       description: Update user password.
       requestBody:
         content:
@@ -2868,7 +2896,7 @@ paths:
               $ref: '#/components/schemas/RestoreUserPassword'
       security: []
       tags:
-        - User
+        - users
   /password-recover-requests:
     post:
       summary: Create password recover request
@@ -2878,7 +2906,7 @@ paths:
         '501':
           description: Not Implemented
       tags:
-        - User
+        - users
       description: >-
         Create password recover request. Send email with recover token and user
         ID.
@@ -3134,9 +3162,7 @@ components:
         - type: object
           properties:
             org_id:
-              type: integer
-              format: int64
-              description: Organization identifier.
+              $ref: '#/components/schemas/identifier'
           required:
             - org_id
     UpdateGroupRequest:
@@ -4105,17 +4131,6 @@ components:
               items:
                 $ref: '#/components/schemas/InstanceUser'
       description: Page with full user information. Only for current user or administrator.
-    UserInfoPage:
-      title: User info page
-      allOf:
-        - $ref: '#/components/schemas/Offset'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/UserInfo'
-      description: Page with general user information. For all users.
     NewUserPassword:
       title: New User password
       type: object
