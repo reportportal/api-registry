@@ -2427,7 +2427,7 @@ components:
         - EQ
         - NE
         - CNT
-        - NON_CNT
+        - NOT_CNT
         - BTW
         - IN
         - GTE
