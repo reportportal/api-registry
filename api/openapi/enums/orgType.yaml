@@ -2,9 +2,9 @@ title: Organization type
 type: string
 enum:
   - INTERNAL
-  - PERSONAL
   - EXTERNAL
+  - PERSONAL
 description: |-
   - INTERNAL: created by the system for internal use.
-  - PERSONAL: created for a user after the user creating. Only Enterprise edition feature.
   - EXTERNAL: created for external integrations.
+  - PERSONAL: created for a user after the user creating.

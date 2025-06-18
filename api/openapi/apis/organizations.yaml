@@ -101,7 +101,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/org/OrganizationBase.yaml
+              $ref: '#/components/schemas/CreateOrganizationRequest'
         description: 'You can create an organization provide name and slug. If the `slug` is not provided, it will be generated from the `name`.'
       responses:
         '201':
@@ -243,7 +243,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ../models/org/OrganizationBase.yaml
+              $ref: '#/components/schemas/UpdateOrganizationRequest'
         description: Provide organization information for update.
       responses:
         '200':
@@ -1285,9 +1285,34 @@ components:
                 $ref: ../models/group/GroupInfo.yaml
     CreateOrgGroupRequest:
       title: Create group request
+      description: Create group request.
       allOf:
         - $ref: ../models/group/GroupBase.yaml
-      description: Create group request.
+    CreateOrganizationRequest:
+      title: Create organization request
+      description: Request body for creating an organization.
+      type: object
+      allOf:
+        - $ref: ../models/org/OrganizationBase.yaml
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of the organization.
+              enum:
+                - INTERNAL
+                - EXTERNAL
+              default: INTERNAL
+          required:
+            - name
+    UpdateOrganizationRequest:
+      title: Update organization request
+      description: Request body for updating an organization.
+      type: object
+      allOf:
+        - $ref: ../models/org/OrganizationBase.yaml
+          required:
+            - name
   securitySchemes:
     BearerAuth:
       type: http
