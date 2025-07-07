@@ -1235,8 +1235,6 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/UserProjectInfo'
-              required:
-                - org_role
         description: Provide organization's user information for update.
       tags:
         - organization-users
