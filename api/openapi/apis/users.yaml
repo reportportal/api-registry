@@ -301,6 +301,7 @@ paths:
         ### CSV Export
 
         Use text/csv for the Accept header to export users.
+        For the Swagger UI, you have to select a `Media Type` as `text/csv` in the response section.
 
         ### Authority
 
