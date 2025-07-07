@@ -577,8 +577,6 @@ paths:
                   type: array
                   items:
                     $ref: ../models/user/UserProjectInfo.yaml
-              required:
-                - org_role
         description: Provide organization's user information for update.
       tags:
         - organization-users
