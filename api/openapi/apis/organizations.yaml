@@ -895,7 +895,7 @@ paths:
         | `/slug`        | `replace` | `string`
         | `/users/-`     | `add`     | `object{id:int,project_role:string}`
         | `/users`       | `replace` | `array<object{id:int,project_role:string}>`, `array<null>`
-        | `/users`       | `remove`  | `array<int>`, `array<null>`
+        | `/users`       | `remove`  | `array<object{id:int}>`, `array<null>`
 
         ### Authority
 
