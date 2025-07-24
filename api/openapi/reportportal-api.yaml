@@ -1695,21 +1695,20 @@ paths:
         Model relates with a PUT Project update model.
 
 
-        | Path       | Operation | Value
+        | Path           | Operation | Value
 
-        |-           |-          |-
+        |-               |-          |-
 
-        | `/name`    | `replace` | `string`
+        | `/name`        | `replace` | `string`
 
-        | `/slug`    | `replace` | `string`
+        | `/slug`        | `replace` | `string`
 
-        | `/users/-` | `add`     | `object{id:int,project_role:string}`
+        | `/users/-`     | `add`     | `object{id:int,project_role:string}`
 
-        | `/users`   | `replace` | `array<object{id:int,project_role:string}>`,
-        `array<null>`
+        | `/users`       | `replace` |
+        `array<object{id:int,project_role:string}>`, `array<null>`
 
-        | `/users`   | `remove`  | `array<object{id:int,project_role:string}>`,
-        `null`
+        | `/users`       | `remove`  | `array<int>`, `array<null>`
 
 
         ### Authority
@@ -2404,6 +2403,9 @@ paths:
 
 
         Use text/csv for the Accept header to export users.
+
+        For the Swagger UI, you have to select a `Media Type` as `text/csv` in
+        the response section.
 
 
         ### Authority
