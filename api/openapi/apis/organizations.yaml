@@ -1030,10 +1030,7 @@ components:
         - type: object
           properties:
             id:
-              type: integer
-              format: int64
-              description: Organization ReportPortal identifier.
-              minimum: 0
+              $ref: ../types/identifier.yaml
             type:
               $ref: ../enums/orgType.yaml
             external_id:
