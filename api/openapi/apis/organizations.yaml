@@ -872,10 +872,7 @@ components:
         - type: object
           properties:
             id:
-              type: integer
-              format: int64
-              description: Organization ReportPortal identifier.
-              minimum: 0
+              $ref: ../types/identifier.yaml
             type:
               $ref: ../enums/orgType.yaml
             external_id:
@@ -883,6 +880,11 @@ components:
               description: |-
                 External organization identifier.
                 It is created for integration.
+            owner_id:
+              $ref: ../types/identifier.yaml
+              description: |-
+                Identifier of the personal organization owner.
+                It's applicable only for personal organizations.
             created_at:
               type: string
               format: date-time
