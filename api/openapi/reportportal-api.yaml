@@ -3375,6 +3375,11 @@ components:
               description: |-
                 External organization identifier.
                 It is created for integration.
+            owner_id:
+              $ref: '#/components/schemas/identifier'
+              description: |-
+                Identifier of the personal organization owner.
+                It's applicable only for personal organizations.
             created_at:
               type: string
               format: date-time

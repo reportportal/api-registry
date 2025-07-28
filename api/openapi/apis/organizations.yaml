@@ -1041,6 +1041,11 @@ components:
               description: |-
                 External organization identifier.
                 It is created for integration.
+            owner_id:
+              $ref: ../types/identifier.yaml
+              description: |-
+                Identifier of the personal organization owner.
+                It's applicable only for personal organizations.
             created_at:
               type: string
               format: date-time
