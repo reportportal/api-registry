@@ -94,10 +94,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PluginCommandRS'
-            application/vnd.reportportal.v1+json:
-              schema:
-                $ref: '#/components/schemas/LegacyPluginCommandRS'
+                anyOf:
+                  - $ref: '#/components/schemas/LegacyPluginCommandRS'
+                  - $ref: '#/components/schemas/PluginCommandRS'
         '400':
           $ref: '#/components/responses/Error'
         '401':
