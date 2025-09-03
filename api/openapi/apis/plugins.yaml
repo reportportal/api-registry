@@ -94,9 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/LegacyPluginCommandRS'
-                  - $ref: '#/components/schemas/PluginCommandRS'
+                  $ref: '#/components/schemas/PluginCommandRS'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -146,29 +144,8 @@ components:
     PluginCommandRS:
       title: Plugin command response
       type: object
-      properties:
-        status:
-          type: string
-          enum:
-            - SUCCESS
-            - FAILED
-          description: Execution status provided by the plugin.
-        message:
-          type: string
-          description: Optional human-readable description from the plugin.
-        result:
-          type: object
-          additionalProperties: true
-          description: Plugin-defined response payload.
       description: Response payload returned after executing a plugin command.
-    LegacyPluginCommandRS:
-      title: Legacy plugin command response
-      type: object
-      description: >
-        Deprecated legacy response shape; returns an arbitrary object
-        provided by the plugin. Prefer PluginCommandRS.
       additionalProperties: true
-      deprecated: true
   responses:
     Error:
       description: Error problem response
