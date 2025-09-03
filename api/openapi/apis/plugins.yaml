@@ -94,7 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
+                oneOf:
                   - $ref: '#/components/schemas/LegacyPluginCommandRS'
                   - $ref: '#/components/schemas/PluginCommandRS'
         '400':
