@@ -97,6 +97,9 @@ tags:
   - name: implemented
     description: API endpoints that are implemented and available for use.
     x-displayName: implemented
+  - name: plugins
+    description: API for executing commands related to plugins.
+    x-displayName: plugins
   - name: projects
     description: API for working with projects.
     x-displayName: projects
@@ -1844,6 +1847,99 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
         '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /plugins/{plugin_name}/commands/{command_name}:
+    post:
+      summary: Execute a plugin command
+      operationId: executePluginCommand
+      description: >-
+        Execute a command in a plugin within a given context.
+
+
+        This universal endpoint supports global, organization, and project
+        contexts.
+
+        Use the `context.scope` field to specify where to execute the command
+        and
+
+        provide the corresponding identifiers when required.
+
+
+        - `GLOBAL`: No identifiers required.
+
+        - `ORGANIZATION`: Provide `org_id`.
+
+        - `PROJECT`: Provide `org_id` (if applicable for your setup) and
+        `project_id`.
+
+
+        When `context` is omitted, the command runs in the `GLOBAL` scope.
+      tags:
+        - plugins
+      parameters:
+        - in: path
+          name: plugin_name
+          required: true
+          schema:
+            type: string
+          description: Plugin name identifier.
+        - in: path
+          name: command_name
+          required: true
+          schema:
+            type: string
+          description: Command name identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginCommandRQ'
+            examples:
+              global:
+                summary: Global scope (derived)
+                description: No context provided; defaults to GLOBAL.
+                value:
+                  arguments:
+                    example_param: example_value
+              organization:
+                summary: Organization scope (derived)
+                description: >-
+                  Provide org_id; scope may be omitted and will be treated as
+                  ORGANIZATION.
+                value:
+                  context:
+                    org_id: org-123
+                  arguments:
+                    action: sync
+              project:
+                summary: Project scope (derived)
+                description: >-
+                  Provide project_id; org_id is optional if applicable for your
+                  setup.
+                value:
+                  context:
+                    project_id: proj-456
+                  arguments:
+                    action: sync
+      responses:
+        '200':
+          description: Command executed successfully
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/PluginCommandRS'
+                  - $ref: '#/components/schemas/LegacyPluginCommandRS'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
@@ -3935,6 +4031,78 @@ components:
           description: The value to add, replace or remove.
       required:
         - op
+    PluginCommandContext:
+      title: Plugin command context
+      type: object
+      properties:
+        scope:
+          $ref: '#/components/schemas/contextScope'
+        org_id:
+          $ref: '#/components/schemas/identifier'
+          description: >-
+            Organization identifier; required for ORGANIZATION; optional for
+            PROJECT (if applicable).
+        project_id:
+          $ref: '#/components/schemas/identifier'
+          description: Project identifier; required for PROJECT scope.
+      description: |-
+        Context parameters defining where the command should be executed.
+
+        Scope can be omitted and is derived from provided identifiers:
+
+        - If `project_id` is present → scope is `PROJECT`.
+        - Else if `org_id` is present → scope is `ORGANIZATION`.
+        - Else → scope is `GLOBAL`.
+
+        When `scope` is explicitly provided, it is authoritative: the request
+        MUST include only the identifiers required for that scope and MUST NOT
+        include extra identifiers (e.g., `project_id` is not allowed for
+        `ORGANIZATION`). For `PROJECT`, `org_id` is optional but, if provided,
+        should match the organization of the project.
+    PluginCommandRQ:
+      title: Plugin command request
+      type: object
+      description: Request payload to execute a plugin command in a given context.
+      properties:
+        context:
+          $ref: '#/components/schemas/PluginCommandContext'
+        arguments:
+          type: object
+          description: Arbitrary parameters for the command.
+    PluginCommandRS:
+      title: Plugin command response
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - SUCCESS
+            - FAILED
+          description: Execution status provided by the plugin.
+        message:
+          type: string
+          description: Optional human-readable description from the plugin.
+        result:
+          type: object
+          additionalProperties: true
+          description: Plugin-defined response payload.
+      description: Response payload returned after executing a plugin command.
+    LegacyPluginCommandRS:
+      title: Legacy plugin command response
+      type: object
+      description: >
+        Deprecated legacy response shape; returns an arbitrary object provided
+        by the plugin. Prefer PluginCommandRS.
+      additionalProperties: true
+      deprecated: true
+    contextScope:
+      title: Plugin context scope
+      type: string
+      enum:
+        - GLOBAL
+        - ORGANIZATION
+        - PROJECT
+      description: Scope in which a plugin command executes.
     ProjectUser:
       title: ProjectUser
       type: object
