@@ -30,14 +30,20 @@ paths:
         Execute a command in a plugin within a given context.
 
         This universal endpoint supports global, organization, and project contexts.
-        Use the `context.scope` field to specify where to execute the command and
-        provide the corresponding identifiers when required.
 
-        - `GLOBAL`: No identifiers required.
-        - `ORGANIZATION`: Provide `org_id`.
-        - `PROJECT`: Provide `org_id` (if applicable for your setup) and `project_id`.
+        Context parameters defining where the command should be executed.
 
-        When `context` is omitted, the command runs in the `GLOBAL` scope.
+        Scope can be omitted and is derived from provided identifiers:
+
+        - If `project_id` is present → scope is `PROJECT`.
+        - Else if `org_id` is present → scope is `ORGANIZATION`.
+        - Else → scope is `GLOBAL`.
+
+        When `scope` is explicitly provided, it is authoritative: the request
+        MUST include only the identifiers required for that scope and MUST NOT
+        include extra identifiers (e.g., `project_id` is not allowed for
+        `ORGANIZATION`). For `PROJECT`, `org_id` is optional but, if provided,
+        should match the organization of the project.
       tags:
         - plugins
       parameters:
