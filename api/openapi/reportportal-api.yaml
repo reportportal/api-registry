@@ -3721,11 +3721,11 @@ components:
         arguments:
           type: object
           description: Arbitrary parameters for the command.
+          additionalProperties: true
     PluginCommandRS:
       title: Plugin command response
       type: object
       description: Response payload returned after executing a plugin command.
-      additionalProperties: true
     contextScope:
       title: Plugin context scope
       type: string
