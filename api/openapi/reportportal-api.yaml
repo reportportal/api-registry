@@ -907,14 +907,6 @@ paths:
 
         - `updated_at` - filter by last update date.
 
-        - `users` - filter by the number of users.
-
-        - `projects` - filter by the number of projects.
-
-        - `launches` - filter by the number of launches.
-
-        - `last_launch_occurred` - filter by the last launch occurrence.
-
 
         ### CSV Export
 
