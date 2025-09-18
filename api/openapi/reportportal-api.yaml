@@ -2318,6 +2318,7 @@ paths:
         - `ADMINISTRATOR`
         - `EDITOR`                                                       
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -2413,6 +2414,7 @@ paths:
         - `ADMINISTRATOR`
         - `EDITOR`
       requestBody:
+        required: true
         content:
           application/json:
             schema:
