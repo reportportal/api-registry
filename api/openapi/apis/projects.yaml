@@ -316,7 +316,7 @@ paths:
       tags:
         - projects
       description: |-
-        Update log levels of project.
+        Create new log type in project.
 
         ### Authority
 
@@ -554,17 +554,19 @@ components:
       properties:
         label_color:
           type: string
+          format: hex-color
           default: '#4DB6AC'
           description: Color associated with the log type. Hex format.
           pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
-          format: hex-color
         background_color:
           type: string
+          format: hex-color
           default: '#FFFFFF'
           description: Background color associated with the log type. Hex format.
           pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
         text_color:
           type: string
+          format: hex-color
           default: '#464547'
           description: Text color associated with the log type. Hex format.
           pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'

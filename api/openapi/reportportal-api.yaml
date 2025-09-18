@@ -2084,7 +2084,7 @@ paths:
         name: project_key
         in: path
         required: true
-        description: Project name.
+        description: Project key.
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
@@ -2134,7 +2134,7 @@ paths:
         name: project_key
         in: path
         required: true
-        description: Project name.
+        description: Project key.
       - $ref: '#/components/parameters/GroupId'
     get:
       operationId: getProjectGroupById
@@ -2232,6 +2232,227 @@ paths:
         - `EDITOR`
       tags:
         - projects
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /projects/{project_key}/log-types:
+    parameters:
+      - schema:
+          type: string
+        name: project_key
+        in: path
+        required: true
+        description: Project key.
+    get:
+      summary: Get log types of project
+      operationId: getLogTypes
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
+      tags:
+        - projects
+      description: |-
+        Get log types of project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `EDITOR`
+        - `VIEWER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    description: List of available log types for the project.
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LogType'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create new log type
+      operationId: createLogType
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+      tags:
+        - projects
+      description: |-
+        Create new log type in project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `EDITOR`                                                       
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogType'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /projects/{project_key}/log-types/{log_type_id}:
+    parameters:
+      - schema:
+          type: string
+        name: project_key
+        in: path
+        required: true
+        description: Project key.
+      - schema:
+          type: integer
+          format: int64
+          minimum: 1
+        name: log_type_id
+        in: path
+        required: true
+        description: Log type identifier.
+    get:
+      summary: Get log type by id
+      operationId: getLogTypeById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+        - role: VIEWER
+          access: full
+      tags:
+        - projects
+      description: |-
+        Get log type in project by id.
+
+        ### Authority
+        - `ADMINISTRATOR`
+        - `EDITOR`
+        - `VIEWER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogType'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update log type
+      operationId: updateLogTypeById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+      tags:
+        - projects
+      description: |-
+        Update log type in project by id.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `EDITOR`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogType'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete log type
+      operationId: deleteLogTypeById
+      x-permissions:
+        - role: ADMINISTRATOR
+          access: full
+        - role: EDITOR
+          access: full
+      tags:
+        - projects
+      description: |-
+        Delete log type from project by id.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `EDITOR`
       responses:
         '204':
           description: No Content
@@ -3243,6 +3464,7 @@ components:
       format: int64
       minimum: 1
       description: Resource identifier.
+      readOnly: true
     Problem:
       title: Problem
       type: object
@@ -3317,7 +3539,10 @@ components:
         - type: object
           properties:
             org_id:
-              $ref: '#/components/schemas/identifier'
+              type: integer
+              format: int64
+              minimum: 0
+              description: Organization identifier.
           required:
             - org_id
     UpdateGroupRequest:
@@ -3356,6 +3581,7 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/identifier'
+          description: Internal user identifier.
         uuid:
           type: string
           format: uuid
@@ -4097,12 +4323,16 @@ components:
         scope:
           $ref: '#/components/schemas/contextScope'
         org_id:
-          $ref: '#/components/schemas/identifier'
+          type: integer
+          format: int64
+          minimum: 0
           description: >-
             Organization identifier; required for ORGANIZATION; optional for
             PROJECT (if applicable).
         project_id:
-          $ref: '#/components/schemas/identifier'
+          type: integer
+          format: int64
+          minimum: 0
           description: Project identifier; required for PROJECT scope.
       description: |-
         Context parameters defining where the command should be executed.
@@ -4192,6 +4422,60 @@ components:
               type: integer
               format: int32
               description: Number of users in the group.
+    LogType:
+      title: Project Log Type
+      description: Information about log type in project.s
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        name:
+          type: string
+          minLength: 3
+          maxLength: 16
+          pattern: ^[A-Za-z0-9 ]+$
+          description: Name of log type. Unique within project.
+        level:
+          type: integer
+          minimum: 1
+          maximum: 59999
+          description: Numeric value of log type. Unique within project.
+        style:
+          $ref: '#/components/schemas/LogTypeStyle'
+        isFilterable:
+          type: boolean
+          default: false
+          description: Indicates if the log level is filterable.
+    LogTypeStyle:
+      title: Log Type Style
+      description: Style information for a log type.
+      type: object
+      properties:
+        label_color:
+          type: string
+          format: hex-color
+          default: '#4DB6AC'
+          description: Color associated with the log type. Hex format.
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        background_color:
+          type: string
+          format: hex-color
+          default: '#FFFFFF'
+          description: Background color associated with the log type. Hex format.
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        text_color:
+          type: string
+          format: hex-color
+          default: '#464547'
+          description: Text color associated with the log type. Hex format.
+          pattern: ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$
+        text_style:
+          type: string
+          description: Text style associated with the log type.
+          enum:
+            - bold
+            - normal
+          default: normal
     Invitation:
       title: Invitation
       type: object
