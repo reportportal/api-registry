@@ -65,6 +65,16 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: '{host}{basePath}'
+    description: ReportPortal server
+    variables:
+      host:
+        default: https://demo.reportportal.io
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: /api
+        description: Base path of Report Portal API
 tags:
   - name: activities
     description: API for working with activities.
@@ -72,6 +82,9 @@ tags:
   - name: groups
     description: API for managing groups and their members.
     x-displayName: groups
+  - name: launches
+    description: API Collection for working with launches.
+    x-displayName: launches
   - name: organizations
     description: API for working with organizations.
     x-displayName: organizations
@@ -101,16 +114,6 @@ tags:
     x-displayName: users
 paths:
   /activities/searches:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters: []
     post:
       summary: Search activities by complex criteria
@@ -187,16 +190,6 @@ paths:
       security:
         - BearerAuth: []
   /groups:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     get:
       summary: Get all groups
       operationId: getGroups
@@ -285,16 +278,6 @@ paths:
       security:
         - BearerAuth: []
   /groups/{group_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
@@ -409,16 +392,6 @@ paths:
       security:
         - BearerAuth: []
   /groups/{group_id}/users:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
@@ -462,16 +435,6 @@ paths:
       security:
         - BearerAuth: []
   /groups/{group_id}/users/{user_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/GroupId'
       - $ref: '#/components/parameters/UserId'
@@ -579,16 +542,6 @@ paths:
       security:
         - BearerAuth: []
   /groups/{group_id}/projects:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/GroupId'
     get:
@@ -632,16 +585,6 @@ paths:
       security:
         - BearerAuth: []
   /groups/{group_id}/projects/{project_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/GroupId'
       - $ref: '#/components/parameters/ProjectId'
@@ -756,17 +699,57 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+  /launches/{launch_id}:
+    parameters:
+      - schema:
+          type: string
+        name: launch_id
+        in: path
+        required: true
+    patch:
+      summary: Update launch
+      operationId: partialLaunchUpdateById
+      description: |-
+        Partial update launch information.
+
+
+        | Path    | Operation | Value
+        |-        |-          |-
+        | `/mode` | `replace` | `string`
+
+        ### Mode
+
+        - `DEFAULT`
+        - `DEBUG`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      tags:
+        - launches
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
+      security:
+        - BearerAuth: []
   /organizations:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     get:
       summary: Get a list of organizations
       tags:
@@ -873,16 +856,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/searches:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     post:
       summary: Create search request for organizations
       operationId: post-organizations-searches
@@ -968,16 +941,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     get:
       summary: Get organization information
       tags:
@@ -1077,16 +1040,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/settings:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
     get:
@@ -1167,16 +1120,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/users:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
     get:
@@ -1295,16 +1238,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
       - $ref: '#/components/parameters/UserId'
@@ -1405,16 +1338,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/users/{user_id}/projects:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
       - $ref: '#/components/parameters/UserId'
@@ -1461,16 +1384,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
     get:
@@ -1566,16 +1479,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects/searches:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
     post:
@@ -1626,16 +1529,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects/{project_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
       - $ref: '#/components/parameters/ProjectId'
@@ -1723,16 +1616,6 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}/groups:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/OrgId'
     get:
@@ -1822,16 +1705,6 @@ paths:
       security:
         - BearerAuth: []
   /plugins/{plugin_name}/commands/{command_name}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     post:
       summary: Execute a plugin command
       operationId: executePluginCommand
@@ -1900,7 +1773,7 @@ paths:
                   ORGANIZATION.
                 value:
                   context:
-                    org_id: org-123
+                    org_id: 123
                   arguments:
                     action: sync
               project:
@@ -1910,7 +1783,7 @@ paths:
                   setup.
                 value:
                   context:
-                    project_id: proj-456
+                    project_id: 456
                   arguments:
                     action: sync
       responses:
@@ -1931,16 +1804,6 @@ paths:
       security:
         - BearerAuth: []
   /projects/{project_key}/groups:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - schema:
           type: string
@@ -1991,16 +1854,6 @@ paths:
       security:
         - BearerAuth: []
   /projects/{project_key}/groups/{group_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - schema:
           type: string
@@ -2121,16 +1974,6 @@ paths:
       security:
         - BearerAuth: []
   /invitations:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     post:
       summary: Create user invitation
       operationId: post-invitations
@@ -2177,16 +2020,6 @@ paths:
       security:
         - BearerAuth: []
   /invitations/{invitation_id}:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - schema:
           type: string
@@ -2253,16 +2086,6 @@ paths:
       tags:
         - invitations
   /users:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     get:
       summary: Get all users
       tags:
@@ -2380,16 +2203,6 @@ paths:
       security:
         - BearerAuth: []
   /users/searches:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     post:
       summary: Create search request for users
       operationId: post-users-searches
@@ -2485,16 +2298,6 @@ paths:
       security:
         - BearerAuth: []
   /users/me:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     get:
       summary: Get current user
       responses:
@@ -2530,16 +2333,6 @@ paths:
       security:
         - BearerAuth: []
   /users/{user_id}/avatar:
-    servers:
-      - url: '{host}{basePath}'
-        description: ReportPortal server
-        variables:
-          host:
-            default: https://demo.reportportal.io
-            description: Host name and port (if needed) of Report Portal server
-          basePath:
-            default: /api
-            description: Base path of Report Portal API
     parameters:
       - $ref: '#/components/parameters/UserId'
     get:
@@ -3112,6 +2905,26 @@ components:
         - EDITOR
         - VIEWER
       default: VIEWER
+    operationType:
+      title: Operation Type
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
+    PatchOperation:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/operationType'
+        path:
+          type: string
+        value:
+          description: The value to add, replace or remove.
+      required:
+        - op
     OrganizationInfo:
       title: Organization information
       description: Various information about an organization.
@@ -3655,26 +3468,6 @@ components:
             stats:
               $ref: '#/components/schemas/ProjectStats'
         - $ref: '#/components/schemas/ProjectBase'
-    operationType:
-      title: Operation Type
-      type: string
-      enum:
-        - add
-        - replace
-        - remove
-      description: Patch operation type.
-    PatchOperation:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          description: The value to add, replace or remove.
-      required:
-        - op
     PluginCommandContext:
       title: Plugin command context
       type: object
