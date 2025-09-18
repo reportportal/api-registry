@@ -82,6 +82,9 @@ tags:
   - name: groups
     description: API for managing groups and their members.
     x-displayName: groups
+  - name: launches
+    description: API Collection for working with launches.
+    x-displayName: launches
   - name: organizations
     description: API for working with organizations.
     x-displayName: organizations
@@ -694,6 +697,48 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /launches/{launch_id}:
+    parameters:
+      - schema:
+          type: string
+        name: launch_id
+        in: path
+        required: true
+    patch:
+      summary: Update launch
+      operationId: partialLaunchUpdateById
+      description: |-
+        Partial update launch information.
+
+
+        | Path    | Operation | Value
+        |-        |-          |-
+        | `/mode` | `replace` | `string`
+
+        ### Mode
+
+        - `DEFAULT`
+        - `DEBUG`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      tags:
+        - launches
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
       security:
         - BearerAuth: []
   /organizations:
@@ -1919,7 +1964,7 @@ paths:
                   ORGANIZATION.
                 value:
                   context:
-                    org_id: org-123
+                    org_id: 123
                   arguments:
                     action: sync
               project:
@@ -1929,7 +1974,7 @@ paths:
                   setup.
                 value:
                   context:
-                    project_id: proj-456
+                    project_id: 456
                   arguments:
                     action: sync
       responses:
@@ -3458,6 +3503,26 @@ components:
         - EDITOR
         - VIEWER
       default: VIEWER
+    operationType:
+      title: Operation Type
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
+    PatchOperation:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/operationType'
+        path:
+          type: string
+        value:
+          description: The value to add, replace or remove.
+      required:
+        - op
     OrganizationInfo:
       title: Organization information
       description: Various information about an organization.
@@ -4017,26 +4082,6 @@ components:
                   project_role:
                     $ref: '#/components/schemas/projectRole'
       description: ''
-    operationType:
-      title: Operation Type
-      type: string
-      enum:
-        - add
-        - replace
-        - remove
-      description: Patch operation type.
-    PatchOperation:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          description: The value to add, replace or remove.
-      required:
-        - op
     PluginCommandContext:
       title: Plugin command context
       type: object

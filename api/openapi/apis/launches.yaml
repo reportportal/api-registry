@@ -1,0 +1,68 @@
+openapi: 3.0.4
+info:
+  title: ReportPortal Launches API
+  version: Organization
+  description: API Collection for working with launches.
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  contact:
+    name: Reingold Shekhtel
+    email: reingold_shekhtel@epam.com
+servers:
+  - url: '{host}{basePath}'
+    description: ReportPortal server
+    variables:
+      host:
+        default: 'https://demo.reportportal.io'
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: /api
+        description: Base path of Report Portal API
+security:
+  - BearerAuth: []
+tags:
+  - name: launches
+    description: API Collection for working with launches.
+paths:
+  '/launches/{launch_id}':
+    parameters:
+      - schema:
+          type: string
+        name: launch_id
+        in: path
+        required: true
+    patch:
+      summary: Update launch
+      operationId: partialLaunchUpdateById
+      description: |-
+        Partial update launch information.
+      
+
+        | Path    | Operation | Value
+        |-        |-          |-
+        | `/mode` | `replace` | `string`
+
+        ### Mode
+
+        - `DEFAULT`
+        - `DEBUG`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      tags:
+        - launches
+      responses:
+        '200':
+          description: OK
+      requestBody:
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: ../models/PatchOperation.yaml
+  
