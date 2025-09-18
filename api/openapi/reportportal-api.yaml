@@ -536,8 +536,9 @@ paths:
         ### Authority
 
         - `ADMINISTRATOR`
-        - `MANAGER`
+        - `PROJECT_MANAGER`
         - `MEMBER`
+        - `OPERATOR`
       tags:
         - launches
       responses:
