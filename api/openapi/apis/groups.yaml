@@ -532,11 +532,11 @@ components:
             properties:
               message:
                 type: string
-                example: The update was completed successfully.
+                default: The update was completed successfully.
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
 tags:
-  - name: Groups
-    description: Group API collection
+  - name: groups
+    description: API for managing groups and their members.
