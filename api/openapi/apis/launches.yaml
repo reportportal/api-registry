@@ -57,7 +57,15 @@ paths:
         - launches
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       requestBody:
             content:
               application/json:
@@ -65,4 +73,26 @@ paths:
                   type: array
                   items:
                     $ref: ../models/PatchOperation.yaml
-  
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    Update:
+      description: Successful update response
+      content:
+        application/json:
+          schema:
+            title: Successful update
+            type: object
+            properties:
+              message:
+                type: string
+                default: The update was completed successfully.
+    Error:
+      description: Error problem response
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../models/Problem.yaml
