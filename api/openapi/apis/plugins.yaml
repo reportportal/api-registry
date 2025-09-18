@@ -112,10 +112,14 @@ components:
         scope:
           $ref: ../enums/contextScope.yaml
         org_id:
-          $ref: ../types/identifier.yaml
+          type: integer
+          format: int64
+          minimum: 0
           description: Organization identifier; required for ORGANIZATION; optional for PROJECT (if applicable).
         project_id:
-          $ref: ../types/identifier.yaml
+          type: integer
+          format: int64
+          minimum: 0
           description: Project identifier; required for PROJECT scope.
       description: |-
         Context parameters defining where the command should be executed.

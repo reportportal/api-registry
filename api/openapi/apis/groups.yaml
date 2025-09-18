@@ -528,7 +528,10 @@ components:
         - type: object
           properties:
             org_id:
-              $ref: ../types/identifier.yaml
+              type: integer
+              format: int64
+              minimum: 0
+              description: Organization identifier.
           required:
             - org_id
     UpdateGroupRequest:
@@ -567,6 +570,7 @@ components:
       properties:
         id:
           $ref: ../types/identifier.yaml
+          description: Internal user identifier.
         uuid:
           type: string
           format: uuid
