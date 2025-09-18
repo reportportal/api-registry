@@ -729,6 +729,13 @@ paths:
         - `MEMBER`
       tags:
         - launches
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
       responses:
         '200':
           $ref: '#/components/responses/Update'
@@ -740,13 +747,6 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/PatchOperation'
       security:
         - BearerAuth: []
   /organizations:
