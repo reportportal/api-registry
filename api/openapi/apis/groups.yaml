@@ -616,11 +616,11 @@ components:
           description: Timestamp of project updating in group.
   responses:
     Error:
-      description: Error problem response
+      description: Error response
       content:
-        application/problem+json:
+        application/json:
           schema:
-            $ref: ../models/Problem.yaml
+            $ref: ../models/Error.yaml
     Update:
       description: Successful update response
       content:

@@ -1060,11 +1060,11 @@ components:
                 type: string
                 default: The update was completed successfully.
     Error:
-      description: Error problem response
+      description: Error response
       content:
-        application/problem+json:
+        application/json:
           schema:
-            $ref: ../models/Problem.yaml
+            $ref: ../models/Error.yaml
 tags:
   - name: invitations
     description: API for working with user invitations.
