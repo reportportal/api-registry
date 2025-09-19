@@ -1,0 +1,16 @@
+title: Error
+x-stoplight:
+  id: nqpvj1j8iejqm
+type: object
+description: ReportPortal Error
+properties:
+  errorCode:
+    type: integer
+    x-stoplight:
+      id: q1zgdpg7y5da5
+    format: int64
+    minimum: 4000
+  message:
+    type: string
+    x-stoplight:
+      id: muq0ixf8kpi64

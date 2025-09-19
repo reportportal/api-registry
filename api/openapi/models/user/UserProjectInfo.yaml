@@ -1,5 +1,6 @@
 title: User's project details
 description: Information about user's project.
+type: object
 properties:
   id:
     type: integer
@@ -8,4 +9,3 @@ properties:
     minimum: 0
   project_role:
     $ref: ../../enums/projectRole.yaml
-type: object

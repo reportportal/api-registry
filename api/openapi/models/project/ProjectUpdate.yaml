@@ -1,4 +1,4 @@
-title: ProjectUpdate
+title: Project update
 allOf:
   - $ref: ./ProjectBase.yaml
   - type: object
@@ -12,3 +12,4 @@ allOf:
               $ref: ../../types/userId.yaml
             project_role:
               $ref: ../../enums/projectRole.yaml
+description: ''

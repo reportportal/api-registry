@@ -14,8 +14,9 @@ properties:
   slug:
     $ref: ../../types/slug.yaml
   org_id:
-    $ref: ../../types/identifier.yaml
-    description: Organization ID of the group.
+    type: integer
+    format: int64
+    description: Organization ID of the group. 
   created_by:
     type: integer
     format: int64
