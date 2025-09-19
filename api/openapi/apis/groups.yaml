@@ -570,7 +570,6 @@ components:
       properties:
         id:
           $ref: ../types/identifier.yaml
-          description: Internal user identifier.
         uuid:
           type: string
           format: uuid

@@ -137,10 +137,6 @@ paths:
         - `type` - filter by organization type.
         - `created_at` - filter by creation date.
         - `updated_at` - filter by last update date.
-        - `users` - filter by the number of users.
-        - `projects` - filter by the number of projects.
-        - `launches` - filter by the number of launches.
-        - `last_launch_occurred` - filter by the last launch occurrence.
 
         ### CSV Export
 
@@ -1071,6 +1067,7 @@ components:
                       type: integer
                       minimum: 0
                       description: Total count of users in the organization.
+                      default: 0
             projects:
               type: object
               description: General information about the organization projects.
@@ -1082,6 +1079,7 @@ components:
                       type: integer
                       minimum: 0
                       description: Total count of projects in the organization.
+                      default: 0
             launches:
               type: object
               description: General information about the organization launches.
@@ -1099,6 +1097,7 @@ components:
                       description: |-
                         Total count of launches in the organization.
                         Access: Admin, Manager
+                      default: 0
             billing:
               type: object
               description: |-
