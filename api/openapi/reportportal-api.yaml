@@ -4228,14 +4228,14 @@ components:
         org_id:
           type: integer
           format: int64
-          minimum: 0
+          minimum: 1
           description: >-
             Organization identifier; required for ORGANIZATION; optional for
             PROJECT (if applicable).
         project_id:
           type: integer
           format: int64
-          minimum: 0
+          minimum: 1
           description: Project identifier; required for PROJECT scope.
       description: >-
         Context parameters defining where the command should be executed.
