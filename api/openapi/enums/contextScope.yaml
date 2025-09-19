@@ -1,8 +1,0 @@
-title: Plugin context scope
-type: string
-enum:
-  - GLOBAL
-  - ORGANIZATION
-  - PROJECT
-description: Scope in which a plugin command executes.
-

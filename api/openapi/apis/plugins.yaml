@@ -109,8 +109,6 @@ components:
       title: Plugin command context
       type: object
       properties:
-        scope:
-          $ref: ../enums/contextScope.yaml
         org_id:
           type: integer
           format: int64
@@ -124,17 +122,14 @@ components:
       description: |-
         Context parameters defining where the command should be executed.
 
-        Scope can be omitted and is derived from provided identifiers:
+        Scope is derived from provided identifiers:
 
         - If `project_id` is present → scope is `PROJECT`.
         - Else if `org_id` is present → scope is `ORGANIZATION`.
         - Else → scope is `GLOBAL`.
 
-        When `scope` is explicitly provided, it is authoritative: the request
-        MUST include only the identifiers required for that scope and MUST NOT
-        include extra identifiers (e.g., `project_id` is not allowed for
-        `ORGANIZATION`). For `PROJECT`, `org_id` is optional but, if provided,
-        should match the organization of the project.
+        The request MUST include only the identifiers required for the derived scope 
+        and MUST NOT include extra identifiers.
     PluginCommandRQ:
       title: Plugin command request
       type: object

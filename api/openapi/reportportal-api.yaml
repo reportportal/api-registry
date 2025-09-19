@@ -4285,8 +4285,6 @@ components:
       title: Plugin command context
       type: object
       properties:
-        scope:
-          $ref: '#/components/schemas/contextScope'
         org_id:
           type: integer
           format: int64
@@ -4299,20 +4297,24 @@ components:
           format: int64
           minimum: 0
           description: Project identifier; required for PROJECT scope.
-      description: |-
+      description: >-
         Context parameters defining where the command should be executed.
 
-        Scope can be omitted and is derived from provided identifiers:
+
+        Scope is derived from provided identifiers:
+
 
         - If `project_id` is present → scope is `PROJECT`.
+
         - Else if `org_id` is present → scope is `ORGANIZATION`.
+
         - Else → scope is `GLOBAL`.
 
-        When `scope` is explicitly provided, it is authoritative: the request
-        MUST include only the identifiers required for that scope and MUST NOT
-        include extra identifiers (e.g., `project_id` is not allowed for
-        `ORGANIZATION`). For `PROJECT`, `org_id` is optional but, if provided,
-        should match the organization of the project.
+
+        The request MUST include only the identifiers required for the derived
+        scope 
+
+        and MUST NOT include extra identifiers.
     PluginCommandRQ:
       title: Plugin command request
       type: object
@@ -4328,14 +4330,6 @@ components:
       title: Plugin command response
       type: object
       description: Response payload returned after executing a plugin command.
-    contextScope:
-      title: Plugin context scope
-      type: string
-      enum:
-        - GLOBAL
-        - ORGANIZATION
-        - PROJECT
-      description: Scope in which a plugin command executes.
     ProjectUser:
       title: ProjectUser
       type: object
