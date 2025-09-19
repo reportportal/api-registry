@@ -59,7 +59,7 @@ paths:
           name: sort
           description: Indicate sort by field.
       tags:
-        - Groups
+        - groups
     post:
       summary: Create a group
       operationId: createGroup
@@ -93,7 +93,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
   '/groups/{group_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -124,7 +124,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
     put:
       summary: Update group
       operationId: updateGroup
@@ -156,7 +156,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
     delete:
       summary: Delete group
       operationId: deleteGroup
@@ -180,7 +180,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
   '/groups/{group_id}/users':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -214,7 +214,7 @@ paths:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
       tags:
-        - Groups
+        - groups
   '/groups/{group_id}/users/{user_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -246,7 +246,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
     delete:
       summary: Delete group user
       operationId: deleteUserFromGroupById
@@ -270,7 +270,7 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
       tags:
-        - Groups
+        - groups
     put:
       summary: Add group user
       operationId: addUserToGroupById
@@ -294,7 +294,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
   '/groups/{group_id}/projects':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -328,7 +328,7 @@ paths:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
       tags:
-        - Groups
+        - groups
   '/groups/{group_id}/projects/{project_id}':
     parameters:
       - $ref: ../parameters/GroupId.yaml
@@ -360,7 +360,7 @@ paths:
           $ref: '#/components/responses/Error'
       operationId: getGroupProjectById
       tags:
-        - Groups
+        - groups
     put:
       summary: Add or update group project
       operationId: addProjectToGroupById
@@ -392,7 +392,7 @@ paths:
                 permission:
                   $ref: ../enums/projectRole.yaml
       tags:
-        - Groups
+        - groups
     delete:
       summary: Delete group project
       operationId: deleteProjectFromGroupById
@@ -416,7 +416,7 @@ paths:
 
         - `ADMINISTRATOR`
       tags:
-        - Groups
+        - groups
 components:
   schemas:
     GroupPage:
@@ -517,11 +517,11 @@ components:
           description: Timestamp of project updating in group.
   responses:
     Error:
-      description: Error problem response
+      description: Error response
       content:
-        application/problem+json:
+        application/json:
           schema:
-            $ref: ../models/Problem.yaml
+            $ref: ../models/Error.yaml
     Update:
       description: Successful update response
       content:
