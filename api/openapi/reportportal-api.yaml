@@ -2360,11 +2360,7 @@ paths:
               $ref: '#/components/schemas/LogType'
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LogType'
+          $ref: '#/components/responses/Update'
         '400':
           $ref: '#/components/responses/Error'
         '401':
