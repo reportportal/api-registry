@@ -654,14 +654,14 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
-  /projects/{project_key}/log-types:
+  /projects/{project_name}/log-types:
     parameters:
       - schema:
           type: string
-        name: project_key
+        name: project_name
         in: path
+        description: Project name.
         required: true
-        description: Project key.
     get:
       summary: Get log types of project
       operationId: getLogTypes
@@ -674,6 +674,8 @@ paths:
           access: full
         - role: OPERATOR
           access: full
+        - role: CUSTOMER
+          access: read
       tags:
         - projects
       description: |-
@@ -685,6 +687,7 @@ paths:
         - `PROJECT MANAGER`
         - `MEMBER`
         - `OPERATOR`
+        - `CUSTOMER`
       responses:
         '200':
           description: OK
@@ -752,14 +755,14 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
-  /projects/{project_key}/log-types/{log_type_id}:
+  /projects/{project_name}/log-types/{log_type_id}:
     parameters:
       - schema:
           type: string
-        name: project_key
+        name: project_name
         in: path
         required: true
-        description: Project key.
+        description: Project name.
       - schema:
           type: integer
           format: int64
@@ -780,6 +783,8 @@ paths:
           access: full
         - role: OPERATOR
           access: full
+        - role: CUSTOMER
+          access: full
       tags:
         - projects
       description: |-
@@ -790,6 +795,7 @@ paths:
         - `PROJECT MANAGER`
         - `MEMBER`
         - `OPERATOR`
+        - `CUSTOMER`
       responses:
         '200':
           description: OK
