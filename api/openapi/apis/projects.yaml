@@ -544,7 +544,9 @@ components:
         is_system:
           type: boolean
           default: false
-          description: Indicates if the log type is a system log type. You cannot modify or delete system log types.
+          description: |-
+            Indicates if the log type is a system log type.
+            You cannot modify its name and log level or delete system log types.
           readOnly: true
         is_filterable:
           type: boolean
