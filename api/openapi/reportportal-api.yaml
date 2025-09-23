@@ -3711,7 +3711,14 @@ components:
           description: Numeric value of log type. Unique within project.
         style:
           $ref: '#/components/schemas/LogTypeStyle'
-        isFilterable:
+        is_system:
+          type: boolean
+          default: false
+          description: >-
+            Indicates if the log type is a system log type. You cannot modify or
+            delete system log types.
+          readOnly: true
+        is_filterable:
           type: boolean
           default: false
           description: Indicates if the log level is filterable.
