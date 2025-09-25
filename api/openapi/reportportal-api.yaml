@@ -79,6 +79,9 @@ tags:
   - name: groups
     description: API for managing groups and their members.
     x-displayName: groups
+  - name: launches
+    description: API Collection for working with launches.
+    x-displayName: launches
   - name: projects
     description: API for working with projects.
     x-displayName: projects
@@ -501,6 +504,57 @@ paths:
         - `ADMINISTRATOR`
       tags:
         - groups
+      security:
+        - BearerAuth: []
+  /launches/{launch_id}:
+    parameters:
+      - schema:
+          type: string
+        name: launch_id
+        in: path
+        required: true
+    patch:
+      summary: Update launch
+      operationId: partialLaunchUpdateById
+      description: |-
+        Partial update launch information.
+
+
+        | Path    | Operation | Value
+        |-        |-          |-
+        | `/mode` | `replace` | `string`
+
+        ### Mode
+
+        - `DEFAULT`
+        - `DEBUG`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `PROJECT_MANAGER`
+        - `MEMBER`
+        - `OPERATOR`
+      tags:
+        - launches
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
       security:
         - BearerAuth: []
   /projects/{project_name}/groups:
@@ -1093,21 +1147,15 @@ components:
               description: Number of projects in the group.
     Error:
       title: Error
-      x-stoplight:
-        id: nqpvj1j8iejqm
       type: object
       description: ReportPortal Error
       properties:
         errorCode:
           type: integer
-          x-stoplight:
-            id: q1zgdpg7y5da5
           format: int64
           minimum: 4000
         message:
           type: string
-          x-stoplight:
-            id: muq0ixf8kpi64
     GroupBase:
       title: Group details
       type: object
@@ -1158,6 +1206,24 @@ components:
         - OPERATOR
         - CUSTOMER
       default: MEMBER
+    operationType:
+      title: Operation Type
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
+    PatchOperation:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/operationType'
+        path:
+          type: string
+        value:
+          description: The value to add, replace or remove.
     ProjectGroupsPage:
       title: ProjectGroupsPage
       allOf:
