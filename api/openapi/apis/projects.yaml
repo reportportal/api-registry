@@ -539,7 +539,6 @@ components:
           minimum: 1
           maximum: 59999
           description: Numeric value of log type. Unique within project.
-          required: true
         style:
           $ref: '#/components/schemas/LogTypeStyle'
         is_system:
