@@ -3722,6 +3722,9 @@ components:
           type: boolean
           default: false
           description: Indicates if the log level is filterable.
+      required:
+        - name
+        - level
     LogTypeStyle:
       title: Log Type Style
       description: Style information for a log type.
