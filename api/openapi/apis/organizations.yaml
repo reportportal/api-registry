@@ -1228,12 +1228,13 @@ components:
               properties:
                 period:
                   type: integer
+                  format: int64
                   minimum: 0
                   description: |-
                     Number of time units to keep launches.
                     Set `0` to keep attachments forever (retention policy disabled).
                     This value acts as an upper limit for `logs.period` and `attachments.period`.
-                  default: 90
+                  default: 7776000
                 unit:
                   $ref: ../enums/timeUnit.yaml
             logs:
@@ -1249,7 +1250,7 @@ components:
                     Number of time units to keep launches.
                     Set `0` to keep attachments forever (retention policy disabled).
                     Cannot exceed the value of `launches.period`.
-                  default: 90
+                  default: 7776000
                 unit:
                   $ref: ../enums/timeUnit.yaml
             attachments:
@@ -1265,7 +1266,7 @@ components:
                     Number of time units to keep launches.
                     Set `0` to keep attachments forever (retention policy disabled).
                     Cannot exceed the value of `launches.period`.
-                  default: 14
+                  default: 1209600
                 unit:
                   $ref: ../enums/timeUnit.yaml
       required:
