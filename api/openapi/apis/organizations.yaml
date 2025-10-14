@@ -1245,6 +1245,7 @@ components:
               properties:
                 period:
                   type: integer
+                  format: int64
                   minimum: 0
                   description: |-
                     Number of time units to keep launches.
@@ -1261,6 +1262,7 @@ components:
               properties:
                 period:
                   type: integer
+                  format: int64
                   minimum: 0
                   description: |-
                     Number of time units to keep launches.
