@@ -471,6 +471,8 @@ components:
       required:
         - name
         - level
+        - is_system
+        - is_filterable
     LogTypeStyle:
       title: Log Type Style
       description: Style information for a log type.
