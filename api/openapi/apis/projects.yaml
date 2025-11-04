@@ -293,42 +293,6 @@ paths:
         in: path
         required: true
         description: Log type identifier.
-    get:
-      summary: Get log type by id
-      operationId: getLogTypeById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
-      tags:
-        - projects
-      description: |-
-        Get log type in project by id.
-
-        ### Authority
-        - `ADMINISTRATOR`
-        - `EDITOR`
-        - `VIEWER`
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LogTypeResponse'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
     put:
       summary: Update log type
       operationId: updateLogTypeById
