@@ -471,7 +471,6 @@ paths:
         | `/instance_role`  | replace       | New instance role value
         | `/account_type`   | replace       | New account type value
         | `/active`         | replace       | New active boolean value
-        ```
 
         ### Authority
 
