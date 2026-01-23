@@ -2880,6 +2880,55 @@ paths:
         - users
       security:
         - BearerAuth: []
+    patch:
+      summary: Partially update user
+      operationId: patch-users-user_id
+      tags:
+        - users
+      description: |-
+        Partially update user base information.
+
+        | Path              | Operation     | Value
+        |-                  |-              |-
+        | `/email`          | replace       | New email string
+        | `/external_id`    | add, replace  | New external ID string
+        | `/external_id`    | remove        | Remove external ID
+        | `/full_name`      | add, replace  | New full name string
+        | `/full_name`      | remove        | Remove full name
+        | `/instance_role`  | replace       | New instance role value
+        | `/account_type`   | replace       | New account type value
+        | `/active`         | replace       | New active boolean value
+        ```
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `USER`
+
+        ### Access level
+
+        - Administrator has access to any user profile
+        - User has access only to his profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
     delete:
       summary: Delete user
       operationId: delete-users-user_id
