@@ -1,0 +1,7 @@
+title: Search operator
+type: string
+description: Operator to combine multiple search criteria.
+enum:
+  - AND
+  - OR
+default: AND
