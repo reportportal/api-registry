@@ -9,6 +9,8 @@ properties:
         filter_key:
           type: string
           description: search by field
+        operator:
+          $ref: '../enums/searchOperator.yaml'
         operation:
           $ref: '../enums/filterOperation.yaml'
         value:
