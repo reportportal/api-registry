@@ -2729,6 +2729,14 @@ components:
           description: Field to define the sort field.
         order:
           $ref: '#/components/schemas/order'
+    searchOperator:
+      title: Search operator
+      type: string
+      description: Operator to combine multiple search criteria.
+      enum:
+        - AND
+        - OR
+      default: AND
     filterOperation:
       title: Filter operation
       type: string
@@ -2768,6 +2776,8 @@ components:
               filter_key:
                 type: string
                 description: search by field
+              operator:
+                $ref: '#/components/schemas/searchOperator'
               operation:
                 $ref: '#/components/schemas/filterOperation'
               value:
