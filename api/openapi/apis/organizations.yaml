@@ -254,39 +254,11 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
-    delete:
-      summary: Delete organization
-      operationId: delete-organizations-org_id
-      tags:
-        - organizations
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Delete organization by identifier.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
     patch:
       summary: Patch organization
       operationId: patch-organization-org_id
       tags:
-        - organization
+        - organizations
       description: |-
         Partial update organization information.
         Model relates with a PUT Organization update model.
@@ -316,6 +288,34 @@ paths:
         '400':
           $ref: '#/components/responses/Error'
         '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      tags:
+        - organizations
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
