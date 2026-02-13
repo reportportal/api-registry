@@ -97,8 +97,6 @@ tags:
   - name: implemented
     description: API endpoints that are implemented and available for use.
     x-displayName: implemented
-  - name: organization
-    x-displayName: organization
   - name: plugins
     description: API for executing commands related to plugins.
     x-displayName: plugins
@@ -958,41 +956,11 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
-    delete:
-      summary: Delete organization
-      operationId: delete-organizations-org_id
-      tags:
-        - organizations
-      description: |-
-        > **Enterprise edition feature** 
-        >
-        > Available only if an Organization plugin is enabled.
-
-        Delete organization by identifier.
-
-        ### Authority
-
-        - `ADMINISTRATOR`
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
-        '402':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
-        '404':
-          $ref: '#/components/responses/Error'
-      security:
-        - BearerAuth: []
     patch:
       summary: Patch organization
       operationId: patch-organization-org_id
       tags:
-        - organization
+        - organizations
       description: >-
         Partial update organization information.
 
@@ -1034,6 +1002,36 @@ paths:
         '400':
           $ref: '#/components/responses/Error'
         '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete organization
+      operationId: delete-organizations-org_id
+      tags:
+        - organizations
+      description: |-
+        > **Enterprise edition feature** 
+        >
+        > Available only if an Organization plugin is enabled.
+
+        Delete organization by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
