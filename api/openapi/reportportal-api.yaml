@@ -992,7 +992,7 @@ paths:
       summary: Patch organization
       operationId: patch-organization-org_id
       tags:
-        - organizations
+        - organization
       description: >-
         Partial update organization information.
 
