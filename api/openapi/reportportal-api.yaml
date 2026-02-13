@@ -97,6 +97,8 @@ tags:
   - name: implemented
     description: API endpoints that are implemented and available for use.
     x-displayName: implemented
+  - name: organization
+    x-displayName: organization
   - name: plugins
     description: API for executing commands related to plugins.
     x-displayName: plugins
@@ -888,6 +890,8 @@ paths:
       security:
         - BearerAuth: []
   /organizations/{org_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
     get:
       summary: Get organization information
       tags:
@@ -917,8 +921,6 @@ paths:
         - `MEMBER`
       security:
         - BearerAuth: []
-    parameters:
-      - $ref: '#/components/parameters/OrgId'
     put:
       summary: Update organization
       operationId: put-organizations-org_id
@@ -979,6 +981,59 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
         '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    patch:
+      summary: Patch organization
+      operationId: patch-organization-org_id
+      tags:
+        - organization
+      description: >-
+        Partial update organization information.
+
+        Model relates with a PUT Organization update model.
+
+
+        | Path      | Operation | Value
+
+        |-          |-          |-
+
+        | `/name`   | `replace` | `string`
+
+        | `/slug`   | `replace` | `string`
+
+        | `/users/-`| `add`     | `object{id:int,org_role:string}`
+
+        | `/users`  | `replace` | `array<object{id:int,org_role:string}>`,
+        `array<null>`
+
+        | `/users`  | `remove`  | `array<object{id:int}>`, `null`
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatchOperation'
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
@@ -3396,6 +3451,26 @@ components:
         - INTERNAL: created by the system for internal use.
         - EXTERNAL: created for external integrations.
         - PERSONAL: created for a user after the user creating.
+    operationType:
+      title: Operation Type
+      type: string
+      enum:
+        - add
+        - replace
+        - remove
+      description: Patch operation type.
+    PatchOperation:
+      title: Patch Operation Object
+      type: object
+      properties:
+        op:
+          $ref: '#/components/schemas/operationType'
+        path:
+          type: string
+        value:
+          description: The value to add, replace or remove.
+      required:
+        - op
     timeUnit:
       title: Rotation unit of time
       type: string
@@ -3605,26 +3680,6 @@ components:
               description: Timestamp when project was last updated.
             stats:
               $ref: '#/components/schemas/ProjectStats'
-    operationType:
-      title: Operation Type
-      type: string
-      enum:
-        - add
-        - replace
-        - remove
-      description: Patch operation type.
-    PatchOperation:
-      title: Patch Operation Object
-      type: object
-      properties:
-        op:
-          $ref: '#/components/schemas/operationType'
-        path:
-          type: string
-        value:
-          description: The value to add, replace or remove.
-      required:
-        - op
     PluginCommandContext:
       title: Plugin command context
       type: object
