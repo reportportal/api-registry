@@ -190,6 +190,8 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
   '/organizations/{org_id}':
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
     get:
       summary: Get organization information
       tags:
@@ -217,8 +219,6 @@ paths:
         - `ADMINISTRATOR`
         - `MANAGER`
         - `MEMBER`
-    parameters:
-      - $ref: ../parameters/OrgId.yaml
     put:
       summary: Update organization
       operationId: put-organizations-org_id
@@ -277,6 +277,45 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
         '402':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    patch:
+      summary: Patch organization
+      operationId: patch-organization-org_id
+      tags:
+        - organization
+      description: |-
+        Partial update organization information.
+        Model relates with a PUT Organization update model.
+
+        | Path      | Operation | Value
+        |-          |-          |-
+        | `/name`   | `replace` | `string`
+        | `/slug`   | `replace` | `string`
+        | `/users/-`| `add`     | `object{id:int,org_role:string}`
+        | `/users`  | `replace` | `array<object{id:int,org_role:string}>`, `array<null>`
+        | `/users`  | `remove`  | `array<object{id:int}>`, `null`
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: ../models/PatchOperation.yaml
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
