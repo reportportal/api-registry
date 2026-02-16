@@ -964,16 +964,12 @@ paths:
       description: >-
         Partial update organization information.
 
-        Model relates with a PUT Organization update model.
+        Model supports only organization users update.
 
 
         | Path      | Operation | Value
 
         |-          |-          |-
-
-        | `/name`   | `replace` | `string`
-
-        | `/slug`   | `replace` | `string`
 
         | `/users/-`| `add`     | `object{id:int,org_role:string}`
 
