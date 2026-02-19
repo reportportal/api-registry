@@ -428,11 +428,11 @@ components:
           $ref: '#/components/schemas/LogTypeStyle'
         is_filterable:
           type: boolean
+          default: false
           description: Indicates if the log level is filterable.
       required:
         - name
         - level
-        - is_filterable
     LogTypeResponse:
       title: Project Log Type Response
       description: Information about log type in project.
