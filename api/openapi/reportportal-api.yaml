@@ -1152,11 +1152,19 @@ paths:
           schema:
             type: string
             default: full_name
-        - schema:
-            type: string
-          in: query
+        - in: query
           name: full_name
           description: Filter users by full name containing (case insensitive).
+          schema:
+            type: string
+        - in: query
+          name: role
+          description: Filter users by organization role.
+          schema:
+            type: string
+            enum:
+              - MANAGER
+              - MEMBER
       security:
         - BearerAuth: []
     post:
