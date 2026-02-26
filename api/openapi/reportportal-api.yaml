@@ -3087,7 +3087,6 @@ components:
       enum:
         - ADMINISTRATOR
         - USER
-      default: USER
       description: Instance account role.
     accountType:
       title: Account type
@@ -3099,7 +3098,6 @@ components:
         - LDAP
         - SAML
         - SCIM
-      default: INTERNAL
       description: |-
         Indicates through which service or
         authentication method the user account
