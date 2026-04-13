@@ -903,6 +903,123 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
+  /organizations/{org_id}/integrations:
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+    get:
+      operationId: getOrgIntegrations
+      summary: Get organization integrations
+      description: 'Get a list of organization integrations.'
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+              application/json:
+                schema: {
+                  #TODO: add schema for organization integrations list response
+                }
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    post:
+      operationId: createOrgIntegration
+      summary: Create organization integration
+      description: 'Create a new organization integration.'
+      tags:
+        - organization-integrations
+      requestBody:
+        content:
+          application/json:
+            schema: {
+              # TODO: add schema for organization integration creation request
+            }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: {
+                #TODO: add schema for organization integration response
+              }
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+  /organizations/{org_id}/integrations/{integration_id}:
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+      - name: integration_id
+        description: Integration identifier.
+        in: path
+        schema:
+          type: string
+          minLength: 1
+        required: true
+    get:
+      operationId: getOrgIntegrationById
+      summary: Get organization integration by identifier
+      description: 'Get organization integration by identifier.'
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {
+                #TODO: add schema for organization integration response
+              }
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    put:
+      operationId: updateOrgIntegrationById
+      summary: Update organization integration by identifier
+      description: 'Update organization integration by identifier.'
+      tags:
+        - organization-integrations
+      requestBody:
+        content:
+          application/json:
+            schema: {
+              #TODO: add schema for organization integration update request
+            }
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+    delete:
+      operationId: deleteOrgIntegrationById
+      summary: Delete organization integration by identifier
+      description: 'Delete organization integration by identifier.'
+      tags:
+        - organization-integrations
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
 components:
   schemas:
     OrganizationInfo:
@@ -1229,6 +1346,8 @@ tags:
     description: API for working with organization projects.
   - name: organization-groups
     description: API for working with organization groups.
+  - name: organization-integrations
+    description: API for working with organization integrations.
   - name: implemented
     description: API endpoints that are implemented and available for use.
 security:
