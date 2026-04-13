@@ -218,9 +218,6 @@ MUST use the common money object
 **MUST** use code 429 with headers for rate limits
 [153](https://opensource.zalando.com/restful-api-guidelines/#153).
 
-**MUST** support problem JSON
-[176](https://opensource.zalando.com/restful-api-guidelines/#176).
-
 **MUST** not expose stack traces
 [177](https://opensource.zalando.com/restful-api-guidelines/#177).
 

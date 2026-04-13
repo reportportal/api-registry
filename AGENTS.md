@@ -50,8 +50,9 @@ When designing or modifying OpenAPI specs, follow the project's own guidelines:
 
 - [`docs/api-guidelines.md`](docs/api-guidelines.md) — concrete OpenAPI conventions for this repo. These are based on the Zalando [RESTful API and Event Scheme Guidelines](https://opensource.zalando.com/restful-api-guidelines).
 - [`docs/api-principles.md`](docs/api-principles.md) — higher-level API design principles.
+- [`docs/api-errors.md`](docs/api-errors.md) — standard REST error status codes and when to document each one on an endpoint.
 
-Consult both before adding new endpoints, models, or parameters.
+Consult all three before adding new endpoints, models, or parameters.
 
 ## Conventions
 
