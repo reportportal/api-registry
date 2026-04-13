@@ -94,6 +94,9 @@ tags:
   - name: organization-groups
     description: API for working with organization groups.
     x-displayName: organization-groups
+  - name: organization-integrations
+    description: API for working with organization integrations.
+    x-displayName: organization-integrations
   - name: implemented
     description: API endpoints that are implemented and available for use.
     x-displayName: implemented
@@ -714,17 +717,6 @@ paths:
         '401':
           $ref: '#/components/responses/Error'
       operationId: get-organizations
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: |
-            Limited to viewing only their assigned organizations.
-        - role: MEMBER
-          access: restricted
-          description: |
-            Limited to viewing only their assigned organizations.
       description: |-
         Get a list of existing organizations.
 
@@ -1043,13 +1035,6 @@ paths:
       operationId: getOrgSettingsByOrgId
       tags:
         - organizations
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
-        - role: MEMBER
-          access: full
       description: |-
         Get organization settings.
 
@@ -1078,11 +1063,6 @@ paths:
       operationId: updateOrgSettingsByOrgId
       tags:
         - organizations
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
       description: >-
         > **Important**: Values for `logs.period` and `attachments.period`
         cannot exceed the value of `launches.period`.
@@ -1625,11 +1605,6 @@ paths:
     get:
       summary: Get all groups
       operationId: getOrgGroups
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
       tags:
         - organization-groups
       description: |-
@@ -1669,11 +1644,6 @@ paths:
     post:
       summary: Create a group
       operationId: createOrgGroup
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: full
       tags:
         - organization-groups
       description: |-
@@ -1705,6 +1675,167 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
         '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/integrations:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      operationId: getOrgIntegrations
+      summary: Get organization integrations
+      description: |
+        Get a list of organization integrations.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationIntegrationPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      operationId: createOrgIntegration
+      summary: Create organization integration
+      description: |
+        Create a new organization integration.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      tags:
+        - organization-integrations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrgIntegrationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationIntegration'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/integrations/{integration_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+      - name: integration_id
+        description: Integration identifier.
+        in: path
+        schema:
+          $ref: '#/components/schemas/identifier'
+        required: true
+    get:
+      operationId: getOrgIntegrationById
+      summary: Get organization integration by identifier
+      description: |
+        Get organization integration by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationIntegration'
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      operationId: updateOrgIntegrationById
+      summary: Update organization integration by identifier
+      description: |
+        Update organization integration by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      tags:
+        - organization-integrations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrgIntegrationRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      operationId: deleteOrgIntegrationById
+      summary: Delete organization integration by identifier
+      description: |
+        Delete organization integration by identifier.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      tags:
+        - organization-integrations
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
@@ -2884,7 +3015,6 @@ components:
       format: int64
       minimum: 1
       description: Resource identifier.
-      readOnly: true
     Error:
       title: Error
       type: object
@@ -3418,6 +3548,110 @@ components:
       type: object
       allOf:
         - $ref: '#/components/schemas/OrganizationBase'
+    OrganizationIntegrationPage:
+      title: Integrations page
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationIntegration'
+    OrganizationIntegration:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Integration identifier.
+        name:
+          type: string
+          description: Integration name.
+        enabled:
+          type: boolean
+          description: Whether the integration is enabled.
+        creator:
+          type: string
+          description: User name of the integration creator.
+        integration_type:
+          type: object
+          description: Integration type information.
+          properties:
+            name:
+              type: string
+              description: Integration type name.
+            type:
+              type: string
+              description: Integration type.
+            enabled:
+              type: boolean
+              description: Whether the integration type is enabled.
+            auth_flow:
+              type: string
+              description: Authentication flow type for the integration type.
+              enum:
+                - OAUTH
+                - BASIC
+                - TOKEN
+                - FORM
+                - LDAP
+            plugin_type:
+              type: string
+              description: Plugin type for the integration type.
+            group_type:
+              type: string
+              description: Group type for the integration type.
+            details:
+              type: object
+              description: Additional details for the integration type.
+              additionalProperties: true
+            created_at:
+              type: string
+              format: date-time
+              description: Timestamp when integration type was created.
+        parameters:
+          type: object
+          description: Integration parameters.
+          additionalProperties: true
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when integration was created.
+    CreateOrgIntegrationRequest:
+      title: Create organization integration request
+      description: Request body for creating an organization integration.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Integration name.
+        plugin_id:
+          type: string
+          description: Plugin identifier for the integration.
+        enabled:
+          type: boolean
+          description: Whether the integration is enabled.
+        parameters:
+          type: object
+          description: Integration parameters.
+          additionalProperties: true
+    UpdateOrgIntegrationRequest:
+      title: Update organization integration request
+      description: Request body for updating an organization integration.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Integration name.
+        enabled:
+          type: boolean
+          description: Whether the integration is enabled.
+        parameters:
+          type: object
+          description: Integration parameters.
+          additionalProperties: true
     OrganizationBase:
       title: Organization definition
       description: >
