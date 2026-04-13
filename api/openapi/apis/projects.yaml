@@ -33,13 +33,6 @@ paths:
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
       tags:
         - projects
       parameters:
@@ -81,13 +74,6 @@ paths:
       - $ref: ../parameters/GroupId.yaml
     get:
       operationId: getProjectGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
       summary: Get group by id
       description: |-
         Get group by id from project.
@@ -118,11 +104,6 @@ paths:
           $ref: '#/components/responses/Error'
     put:
       operationId: AddGroupToProjectById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       summary: Add or update group to project
       description: |-
         Add or update group to project with permission.
@@ -156,11 +137,6 @@ paths:
           $ref: '#/components/responses/Error'
     delete:
       operationId: DeleteGroupFromProjectById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       summary: Delete group from project by id
       description: |-
         Delete group from project by id.
@@ -196,13 +172,6 @@ paths:
     get:
       summary: Get log types of project
       operationId: getLogTypes
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
       tags:
         - projects
       description: |-
@@ -239,11 +208,6 @@ paths:
     post:
       summary: Create new log type
       operationId: createLogType
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       tags:
         - projects
       description: |-
@@ -296,11 +260,6 @@ paths:
     put:
       summary: Update log type
       operationId: updateLogTypeById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       tags:
         - projects
       description: |-
@@ -332,11 +291,6 @@ paths:
     delete:
       summary: Delete log type
       operationId: deleteLogTypeById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       tags:
         - projects
       description: |-

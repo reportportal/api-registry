@@ -193,9 +193,6 @@ paths:
     get:
       summary: Get all groups
       operationId: getGroups
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
       tags:
         - groups
       description: |-
@@ -241,9 +238,6 @@ paths:
     post:
       summary: Create a group
       operationId: createGroup
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
       tags:
         - groups
       description: |-
@@ -283,12 +277,6 @@ paths:
     get:
       summary: Get group
       operationId: getGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -320,12 +308,6 @@ paths:
     put:
       summary: Update group
       operationId: updateGroup
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -361,12 +343,6 @@ paths:
     delete:
       summary: Delete group
       operationId: deleteGroup
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -397,12 +373,6 @@ paths:
     get:
       summary: Get all group users
       operationId: getGroupUsers
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -441,12 +411,6 @@ paths:
     get:
       summary: Get group user
       operationId: getGroupUserById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -478,12 +442,6 @@ paths:
     delete:
       summary: Delete group user
       operationId: deleteUserFromGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -511,12 +469,6 @@ paths:
     put:
       summary: Add group user
       operationId: addUserToGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -547,12 +499,6 @@ paths:
     get:
       summary: Get all group projects
       operationId: getGroupProjects
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -591,12 +537,6 @@ paths:
     get:
       summary: Get group project
       operationId: getGroupProjectById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -628,12 +568,6 @@ paths:
     put:
       summary: Add or update group project
       operationId: addProjectToGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -669,12 +603,6 @@ paths:
     delete:
       summary: Delete group project
       operationId: deleteProjectFromGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: MANAGER
-          access: restricted
-          description: Access to groups when assigned to an organization.
       tags:
         - groups
       description: |-
@@ -1949,13 +1877,6 @@ paths:
     get:
       summary: Get all groups of project
       operationId: getGroupsOfProject
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
       tags:
         - projects
       parameters:
@@ -1999,13 +1920,6 @@ paths:
       - $ref: '#/components/parameters/GroupId'
     get:
       operationId: getProjectGroupById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
       summary: Get group by id
       description: |-
         Get group by id from project.
@@ -2038,11 +1952,6 @@ paths:
         - BearerAuth: []
     put:
       operationId: AddGroupToProjectById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       summary: Add or update group to project
       description: |-
         Add or update group to project with permission.
@@ -2078,11 +1987,6 @@ paths:
         - BearerAuth: []
     delete:
       operationId: DeleteGroupFromProjectById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       summary: Delete group from project by id
       description: |-
         Delete group from project by id.
@@ -2119,13 +2023,6 @@ paths:
     get:
       summary: Get log types of project
       operationId: getLogTypes
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
-        - role: VIEWER
-          access: full
       tags:
         - projects
       description: |-
@@ -2164,11 +2061,6 @@ paths:
     post:
       summary: Create new log type
       operationId: createLogType
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       tags:
         - projects
       description: |-
@@ -2222,11 +2114,6 @@ paths:
     put:
       summary: Update log type
       operationId: updateLogTypeById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       tags:
         - projects
       description: |-
@@ -2260,11 +2147,6 @@ paths:
     delete:
       summary: Delete log type
       operationId: deleteLogTypeById
-      x-permissions:
-        - role: ADMINISTRATOR
-          access: full
-        - role: EDITOR
-          access: full
       tags:
         - projects
       description: |-
