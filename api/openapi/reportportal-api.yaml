@@ -94,6 +94,9 @@ tags:
   - name: organization-groups
     description: API for working with organization groups.
     x-displayName: organization-groups
+  - name: organization-integrations
+    description: API for working with organization integrations.
+    x-displayName: organization-integrations
   - name: implemented
     description: API endpoints that are implemented and available for use.
     x-displayName: implemented
@@ -1705,6 +1708,123 @@ paths:
         '403':
           $ref: '#/components/responses/Error'
         '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/integrations:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      operationId: getOrgIntegrations
+      summary: Get organization integrations
+      description: Get a list of organization integrations.
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      operationId: createOrgIntegration
+      summary: Create organization integration
+      description: Create a new organization integration.
+      tags:
+        - organization-integrations
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: {}
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/integrations/{integration_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+      - name: integration_id
+        description: Integration identifier.
+        in: path
+        schema:
+          type: string
+          minLength: 1
+        required: true
+    get:
+      operationId: getOrgIntegrationById
+      summary: Get organization integration by identifier
+      description: Get organization integration by identifier.
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: {}
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      operationId: updateOrgIntegrationById
+      summary: Update organization integration by identifier
+      description: Update organization integration by identifier.
+      tags:
+        - organization-integrations
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/Update'
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    delete:
+      operationId: deleteOrgIntegrationById
+      summary: Delete organization integration by identifier
+      description: Delete organization integration by identifier.
+      tags:
+        - organization-integrations
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
