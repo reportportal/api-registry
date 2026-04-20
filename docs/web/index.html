@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>ReportPortal API Specification</title>
+  <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
+  <style>
+    html, body { margin: 0; height: 100%; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .app-header {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      border-bottom: 1px solid #d0d7de;
+      background: #fff;
+    }
+    .app-header img { height: 28px; width: 28px; border-radius: 4px; }
+    .app-header .title { font-weight: 600; font-size: 14px; }
+    .app-header label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .app-header select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding: 5px 28px 5px 10px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      background-color: #fff;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 12px;
+      font-size: 13px;
+      color: #1f2937;
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .app-header select:hover { border-color: #9ca3af; }
+    .app-header select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    .app-header option { padding: 6px 10px; }
+    #api-root { flex: 1 1 auto; min-height: 0; }
+    #api-root elements-api { height: 100%; display: block; }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <img src="https://avatars.githubusercontent.com/u/17636279?s=200&v=4" alt="ReportPortal">
+    <span class="title">ReportPortal API</span>
+    <label>Version:
+      <select id="version"></select>
+    </label>
+  </header>
+  <div id="api-root"></div>
+  <script src="./branches.js"></script>
+  <script>
+    const select = document.getElementById('version');
+    const root = document.getElementById('api-root');
+
+    for (const branch of BRANCHES) {
+      const option = document.createElement('option');
+      option.value = branch;
+      option.textContent = branch;
+      select.appendChild(option);
+    }
+
+    const params = new URLSearchParams(location.search);
+    const initialBranch = BRANCHES.includes(params.get('v')) ? params.get('v') : BRANCHES[0];
+
+    function render(branch) {
+      root.innerHTML = '';
+      const el = document.createElement('elements-api');
+      el.setAttribute(
+        'apiDescriptionUrl',
+        `https://raw.githubusercontent.com/reportportal/api-registry/${branch}/api/openapi/reportportal-api.yaml`
+      );
+      el.setAttribute('router', 'hash');
+      el.setAttribute('layout', 'sidebar');
+      root.appendChild(el);
+    }
+
+    select.value = initialBranch;
+    render(initialBranch);
+
+    select.addEventListener('change', () => {
+      const branch = select.value;
+      const url = new URL(location.href);
+      url.searchParams.set('v', branch);
+      history.replaceState(null, '', url);
+      render(branch);
+    });
+  </script>
+</body>
+</html>
