@@ -383,7 +383,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationUsersPage'
         '401':
-          $ref: '#/components/responses/Error'       
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
