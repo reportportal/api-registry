@@ -382,6 +382,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationUsersPage'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -552,6 +554,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -615,6 +619,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationProjectsPage'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -669,6 +675,8 @@ paths:
               schema:
                 $ref: ../models/project/ProjectInfo.yaml
         '400':
+          $ref: '#/components/responses/Error'
+        '401':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
@@ -784,6 +792,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -939,6 +949,37 @@ paths:
           $ref: '#/components/responses/Error'
         '409':
           $ref: '#/components/responses/Error'
+    delete:
+      operationId: deleteOrgIntegrations
+      summary: Delete organization integrations
+      description: |
+        Delete organization integrations.
+        If the `type` query parameter is provided, only integrations of the specified type are deleted.
+        Otherwise, all organization integrations are deleted.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      tags:
+        - organization-integrations
+      parameters:
+        - in: query
+          name: type
+          description: Filter for integration type.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
   /organizations/{org_id}/integrations/{integration_id}:
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -970,6 +1011,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationIntegration'
         '400':
           $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -996,6 +1039,8 @@ paths:
           $ref: '#/components/responses/Update'
         '400':
           $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -1016,6 +1061,8 @@ paths:
         '204':
           description: No Content
         '400':
+          $ref: '#/components/responses/Error'
+        '401':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
