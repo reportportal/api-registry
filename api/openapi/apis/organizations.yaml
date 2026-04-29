@@ -1068,6 +1068,49 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+  /organizations/{org_id}/integrations/{integration_id}/connection:
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+      - name: integration_id
+        description: Integration identifier.
+        in: path
+        schema:
+          $ref: ../types/identifier.yaml
+        required: true
+    post:
+      operationId: checkOrgIntegrationConnection
+      summary: Check organization integration connection
+      description: |
+        Verify that the integration can reach the external system using its current configuration.
+
+        Returns the live connection status. The result is also persisted on the integration as `connection_status`,
+        so list views can show broken integrations without re-checking each one.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      tags:
+        - organization-integrations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationConnectionStatus'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '502':
+          $ref: '#/components/responses/Error'
+        '504':
+          $ref: '#/components/responses/Error'
 components:
   schemas:
     OrganizationInfo:
@@ -1430,10 +1473,35 @@ components:
           type: object
           description: Integration parameters.
           additionalProperties: true
+        connection_status:
+          $ref: '#/components/schemas/IntegrationConnectionStatus'
         created_at:
           type: string
           format: date-time
           description: Timestamp when integration was created.
+    IntegrationConnectionStatus:
+      title: Integration connection status
+      description: |-
+        Result of the most recent connection check between the integration and the external system.
+        Updated by the explicit connection check endpoint and by background health checks.
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: Connection check result.
+          enum:
+            - CONNECTED
+            - DISCONNECTED
+            - UNKNOWN
+        message:
+          type: string
+          description: Diagnostic message returned by the integration plugin. Typically populated when `status` is `DISCONNECTED`.
+        checked_at:
+          type: string
+          format: date-time
+          description: Timestamp when the connection was last checked.
     CreateOrgIntegrationRequest:
       title: Create organization integration request
       description: Request body for creating an organization integration.
