@@ -3943,6 +3943,11 @@ components:
           format: int64
           minimum: 1
           description: Project identifier; required for PROJECT scope.
+        integration_id:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Integration identifier.
       description: >-
         Context parameters defining where the command should be executed.
 
