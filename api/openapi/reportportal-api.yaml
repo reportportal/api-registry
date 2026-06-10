@@ -3646,9 +3646,9 @@ components:
         name:
           type: string
           description: Integration name.
-        plugin_id:
+        integration_type:
           type: string
-          description: Plugin identifier for the integration.
+          description: Integration type information.
         enabled:
           type: boolean
           description: Whether the integration is enabled.
