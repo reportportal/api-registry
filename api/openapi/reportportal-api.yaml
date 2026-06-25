@@ -1068,6 +1068,12 @@ paths:
           schema:
             type: string
         - in: query
+          name: email
+          description: Filter users by email (exact match, case insensitive).
+          schema:
+            type: string
+            format: email
+        - in: query
           name: role
           description: Filter users by organization role.
           schema:
