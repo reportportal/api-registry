@@ -412,6 +412,12 @@ paths:
           schema:
             type: string
         - in: query
+          name: email
+          description: Filter users by email (exact match, case insensitive).
+          schema:
+            type: string
+            format: email
+        - in: query
           name: role
           description: Filter users by organization role.
           schema:
@@ -904,9 +910,9 @@ paths:
         '200':
           description: OK
           content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/OrganizationIntegrationPage'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationIntegrationPage'
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -1032,7 +1038,7 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: 
+            schema:
               $ref: '#/components/schemas/UpdateOrgIntegrationRequest'
       responses:
         '200':
@@ -1571,4 +1577,4 @@ tags:
   - name: implemented
     description: API endpoints that are implemented and available for use.
 security:
-  - BearerAuth: []
+  - BearerAuth: [ ]
