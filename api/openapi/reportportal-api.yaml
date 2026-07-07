@@ -2624,8 +2624,7 @@ paths:
         | `/email`          | replace       | New email string
         | `/external_id`    | add, replace  | New external ID string
         | `/external_id`    | remove        | Remove external ID
-        | `/full_name`      | add, replace  | New full name string
-        | `/full_name`      | remove        | Remove full name
+        | `/full_name`      | replace       | New full name string
         | `/instance_role`  | replace       | New instance role value
         | `/account_type`   | replace       | New account type value
         | `/active`         | replace       | New active boolean value
