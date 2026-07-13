@@ -1,0 +1,24 @@
+title: Server setting key
+type: string
+enum:
+  - server.analytics.all
+  - server.details.instance
+  - server.users.sso
+  - server.session.expiration
+  - server.sidebar.links
+  - server.features.important.enabled
+  - server.features.personal-organization.enabled
+  - server.password.min.length
+  - secret.key
+description: |-
+  Key of the server-wide setting to update.
+
+  - `server.analytics.all`: Enables or disables analytics across the server.
+  - `server.details.instance`: Provides details about the server instance.
+  - `server.users.sso`: Enables Single Sign-On (SSO) only access for users.
+  - `server.session.expiration`: Sets the expiration time for user sessions.
+  - `server.sidebar.links`: Configures links in the UI footer.
+  - `server.features.important.enabled`: Enables or disables creation of personal organizations for new users.
+  - `server.features.personal-organization.enabled`: Enables or disables personal organization features.
+  - `server.password.min.length`: Sets the minimum password length (8-256).
+  - `secret.key`: Manages the secret key used for various security purposes.
