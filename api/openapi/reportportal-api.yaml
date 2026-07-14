@@ -162,6 +162,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SearchCriteriaRQ'
+            example:
+              search_criteria:
+                - filter_key: projectName
+                  operation: EQ
+                  value: superadmin_personal
+              offset: 0
+              limit: 300
+              sort: createdAt
+              order: DESC
         description: >
           This is a [GET with body
           payload](https://opensource.zalando.com/restful-api-guidelines/#get-with-body) 
@@ -184,6 +193,222 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Activity'
+              example:
+                items:
+                  - id: 1
+                    created_at: '2024-03-29T12:29:54.772Z'
+                    event_name: updateItem
+                    object_id: 1153
+                    object_name: Step-1(A)
+                    object_type: itemIssue
+                    project_id: 1
+                    project_name: superadmin_personal
+                    subject_name: superadmin
+                    subject_type: user
+                    details:
+                      history:
+                        - field: status
+                          old_value: SKIPPED
+                          new_value: FAILED
+                offset: 0
+                limit: 300
+                total_count: 1
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /projects/{project_key}/activities/{activity_id}:
+    parameters:
+      - schema:
+          type: string
+        name: project_key
+        in: path
+        required: true
+        description: Project key.
+      - schema:
+          $ref: '#/components/schemas/identifier'
+        name: activity_id
+        in: path
+        required: true
+        description: Activity identifier.
+    get:
+      summary: Get project activity by ID
+      operationId: getProjectActivity
+      description: |-
+        Fetches the activity details by its ID for a specific project.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `EDITOR`
+        - `VIEWER`
+      tags:
+        - activities
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectActivity'
+              example:
+                id: 1
+                user: superadmin
+                user_id: 1
+                logged_object_id: 22
+                last_modified: '2024-03-29T15:03:54.156904Z'
+                action_type: finishLaunch
+                object_type: LAUNCH
+                project_id: 1
+                project_name: superadmin_personal
+                project_key: superadmin_personal
+                object_name: 1 step (failed) - filled description
+                details:
+                  history: []
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /projects/{project_key}/test-items/{item_id}/activities:
+    parameters:
+      - schema:
+          type: string
+        name: project_key
+        in: path
+        required: true
+        description: Project key.
+      - schema:
+          $ref: '#/components/schemas/identifier'
+        name: item_id
+        in: path
+        required: true
+        description: Test item identifier.
+    get:
+      summary: Get a list of activities for a specific test item
+      operationId: getTestItemActivities
+      description: >-
+        Fetches a list of activities for a specific test item in a project,
+        including
+
+        activities that matched patterns for it.
+      tags:
+        - activities
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: created_at
+          description: Field to sort the activities by.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivitiesPage'
+              example:
+                items:
+                  - id: 1
+                    created_at: '2024-03-29T12:29:54.772Z'
+                    event_name: updateItem
+                    object_id: 1153
+                    object_name: Step-1(A)
+                    object_type: itemIssue
+                    project_id: 1
+                    project_name: superadmin_personal
+                    subject_name: superadmin
+                    subject_type: user
+                    details:
+                      history:
+                        - field: status
+                          old_value: SKIPPED
+                          new_value: FAILED
+                offset: 0
+                limit: 300
+                total_count: 1
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /projects/{project_key}/test-cases/{test_case_id}/activities:
+    parameters:
+      - schema:
+          type: string
+        name: project_key
+        in: path
+        required: true
+        description: Project key.
+      - schema:
+          $ref: '#/components/schemas/identifier'
+        name: test_case_id
+        in: path
+        required: true
+        description: Test case identifier.
+    get:
+      summary: Get a list of activities for a specific test case
+      operationId: getTestCaseActivities
+      description: Fetches a list of activities for a specific test case in a project.
+      tags:
+        - activities
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: created_at
+          description: Field to sort the activities by.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivitiesPage'
+              example:
+                items:
+                  - id: 2
+                    created_at: '2024-04-02T09:14:21.331Z'
+                    event_name: updateTestCase
+                    object_id: 57
+                    object_name: 'Login: valid credentials'
+                    object_type: testCase
+                    project_id: 1
+                    project_name: superadmin_personal
+                    subject_name: superadmin
+                    subject_type: user
+                    details:
+                      history:
+                        - field: name
+                          old_value: 'Login: valid creds'
+                          new_value: 'Login: valid credentials'
+                offset: 0
+                limit: 300
+                total_count: 1
         '400':
           $ref: '#/components/responses/Error'
         '401':
@@ -3020,6 +3245,54 @@ components:
         subject_name:
           type: string
         subject_type:
+          type: string
+        details:
+          type: object
+          properties:
+            history:
+              type: array
+              items:
+                $ref: '#/components/schemas/HistoryField'
+    ActivitiesPage:
+      title: ActivitiesPage
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Activity'
+    ProjectActivity:
+      title: ProjectActivity
+      type: object
+      description: Details of a single activity performed within a project.
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        user:
+          type: string
+          description: The user who performed the activity.
+        user_id:
+          $ref: '#/components/schemas/identifier'
+        logged_object_id:
+          $ref: '#/components/schemas/identifier'
+        last_modified:
+          type: string
+          format: date-time
+        action_type:
+          type: string
+          description: The type of action performed.
+        object_type:
+          type: string
+          description: The type of object on which the activity was performed.
+        project_id:
+          $ref: '#/components/schemas/identifier'
+        project_name:
+          type: string
+        project_key:
+          type: string
+        object_name:
           type: string
         details:
           type: object
