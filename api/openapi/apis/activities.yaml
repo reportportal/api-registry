@@ -93,6 +93,7 @@ paths:
                     project_name: superadmin_personal
                     subject_name: superadmin
                     subject_type: user
+                    subject_id: '1'
                     details:
                       history:
                         - field: status
@@ -215,6 +216,7 @@ paths:
                     project_name: superadmin_personal
                     subject_name: superadmin
                     subject_type: user
+                    subject_id: '1'
                     details:
                       history:
                         - field: status
@@ -282,6 +284,7 @@ paths:
                     project_name: superadmin_personal
                     subject_name: superadmin
                     subject_type: user
+                    subject_id: '1'
                     details:
                       history:
                         - field: name
@@ -328,6 +331,9 @@ components:
           type: string
         subject_type:
           type: string
+        subject_id:
+          type: string
+          description: Identifier of the subject that performed the activity.
         details:
           type: object
           properties:
