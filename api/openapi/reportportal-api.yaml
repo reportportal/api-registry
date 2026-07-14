@@ -106,6 +106,9 @@ tags:
   - name: projects
     description: API for working with projects.
     x-displayName: projects
+  - name: settings
+    description: API for managing server-wide instance settings.
+    x-displayName: settings
   - name: invitations
     description: API for working with user invitations.
     x-displayName: invitations
@@ -2284,6 +2287,158 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+  /settings:
+    get:
+      summary: Get server settings
+      operationId: getServerSettings
+      tags:
+        - settings
+      description: |-
+        Get server-wide instance settings as key-value pairs.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSettings'
+              example:
+                server.password.min.length: '8'
+                server.details.instance: a7bb8d48-c90a-44bb-82b7-2cda75dde5bc
+                server.session.expiration: '86400000'
+                server.analytics.all: 'true'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update server settings
+      operationId: updateServerSettings
+      tags:
+        - settings
+      description: |-
+        Update a single server-wide instance setting by key.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateServerSettingsRequest'
+            example:
+              key: server.password.min.length
+              value: '10'
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulUpdate'
+              example:
+                message: Server Settings were successfully updated.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+  /settings/analytics:
+    put:
+      summary: Update analytics settings
+      operationId: saveAnalyticsSettings
+      tags:
+        - settings
+      description: |-
+        Enable or disable a server-wide analytics integration.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSettingsRequest'
+            example:
+              type: all
+              enabled: true
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulUpdate'
+              example:
+                message: Server Settings were successfully updated.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Update analytics settings (POST alias)
+      operationId: saveAnalyticsSettingsViaPost
+      tags:
+        - settings
+      deprecated: true
+      description: >-
+        Enable or disable a server-wide analytics integration.
+
+
+        Equivalent to `PUT /settings/analytics`. Kept only for backward
+        compatibility with
+
+        legacy clients that use the `POST` verb; prefer `PUT
+        /settings/analytics`.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSettingsRequest'
+            example:
+              type: all
+              enabled: true
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulUpdate'
+              example:
+                message: Server Settings were successfully updated.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
   /invitations:
     post:
       summary: Create user invitation
@@ -4101,6 +4256,91 @@ components:
             - bold
             - normal
           default: normal
+    ServerSettings:
+      title: Server settings
+      type: object
+      description: Server-wide instance settings represented as key-value pairs.
+      additionalProperties:
+        type: string
+    UpdateServerSettingsRequest:
+      title: Update server settings request
+      type: object
+      description: Request to update a single server-wide instance setting.
+      required:
+        - key
+        - value
+      properties:
+        key:
+          $ref: '#/components/schemas/serverSettingKey'
+        value:
+          type: string
+          description: New value of the setting.
+    AnalyticsSettingsRequest:
+      title: Analytics settings request
+      type: object
+      description: Request to enable or disable a server-wide analytics integration.
+      required:
+        - type
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the analytics integration is enabled.
+          default: false
+        type:
+          type: string
+          minLength: 1
+          description: >-
+            Identifier of the analytics integration to configure, e.g. `all`,
+            `ga`.
+    SuccessfulUpdate:
+      title: Successful update
+      type: object
+      description: Confirmation message returned after a successful settings update.
+      properties:
+        message:
+          type: string
+          default: The update was completed successfully.
+    serverSettingKey:
+      title: Server setting key
+      type: string
+      enum:
+        - server.analytics.all
+        - server.details.instance
+        - server.users.sso
+        - server.session.expiration
+        - server.sidebar.links
+        - server.features.important.enabled
+        - server.features.personal-organization.enabled
+        - server.password.min.length
+        - secret.key
+      description: >-
+        Key of the server-wide setting to update.
+
+
+        - `server.analytics.all`: Enables or disables analytics across the
+        server.
+
+        - `server.details.instance`: Provides details about the server instance.
+
+        - `server.users.sso`: Enables Single Sign-On (SSO) only access for
+        users.
+
+        - `server.session.expiration`: Sets the expiration time for user
+        sessions.
+
+        - `server.sidebar.links`: Configures links in the UI footer.
+
+        - `server.features.important.enabled`: Enables or disables creation of
+        personal organizations for new users.
+
+        - `server.features.personal-organization.enabled`: Enables or disables
+        personal organization features.
+
+        - `server.password.min.length`: Sets the minimum password length
+        (8-256).
+
+        - `secret.key`: Manages the secret key used for various security
+        purposes.
     Invitation:
       title: Invitation
       type: object
