@@ -3253,12 +3253,7 @@ components:
           type: string
           description: Identifier of the subject that performed the activity.
         details:
-          type: object
-          properties:
-            history:
-              type: array
-              items:
-                $ref: '#/components/schemas/HistoryField'
+          $ref: '#/components/schemas/ActivityDetails'
     ActivitiesPage:
       title: ActivitiesPage
       allOf:
@@ -3301,12 +3296,15 @@ components:
         object_name:
           type: string
         details:
-          type: object
-          properties:
-            history:
-              type: array
-              items:
-                $ref: '#/components/schemas/HistoryField'
+          $ref: '#/components/schemas/ActivityDetails'
+    ActivityDetails:
+      title: ActivityDetails
+      type: object
+      properties:
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryField'
     HistoryField:
       title: HistoryField
       type: object
@@ -3705,67 +3703,91 @@ components:
       description: General information about the organization.
       properties:
         relationships:
-          type: object
-          properties:
-            users:
-              type: object
-              description: General information about the organization users.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    count:
-                      type: integer
-                      minimum: 0
-                      description: Total count of users in the organization.
-                      default: 0
-            projects:
-              type: object
-              description: General information about the organization projects.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    count:
-                      type: integer
-                      minimum: 0
-                      description: Total count of projects in the organization.
-                      default: 0
-            launches:
-              type: object
-              description: General information about the organization launches.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    last_occurred_at:
-                      type: string
-                      format: date-time
-                      description: Last launch occurrence date.
-                    count:
-                      type: integer
-                      minimum: 0
-                      description: |-
-                        Total count of launches in the organization.
-                        Access: Admin, Manager
-                      default: 0
-            billing:
-              type: object
-              description: |-
-                General information about the organization billing.
-                Available only if a Billing plugin is enabled.
-              properties:
-                meta:
-                  type: object
-                  properties:
-                    plan_name:
-                      type: string
-                      description: Plan name.
-                    storage_usage:
-                      type: integer
-                      minimum: 0
-                      description: Storage usage in percents.
-                      maximum: 100
+          $ref: '#/components/schemas/OrganizationStatsRelationships'
+    OrganizationStatsRelationships:
+      title: Organization statistics relationships
+      type: object
+      description: General information about the organization related entities.
+      properties:
+        users:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsUsers'
+        projects:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsProjects'
+        launches:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsLaunches'
+        billing:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsBilling'
+    OrganizationStatsRelationshipsUsers:
+      title: Organization users statistics
+      type: object
+      description: General information about the organization users.
+      properties:
+        meta:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsUsersMeta'
+    OrganizationStatsRelationshipsUsersMeta:
+      type: object
+      properties:
+        count:
+          type: integer
+          minimum: 0
+          description: Total count of users in the organization.
+          default: 0
+    OrganizationStatsRelationshipsProjects:
+      title: Organization projects statistics
+      type: object
+      description: General information about the organization projects.
+      properties:
+        meta:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsProjectsMeta'
+    OrganizationStatsRelationshipsProjectsMeta:
+      type: object
+      properties:
+        count:
+          type: integer
+          minimum: 0
+          description: Total count of projects in the organization.
+          default: 0
+    OrganizationStatsRelationshipsLaunches:
+      title: Organization launches statistics
+      type: object
+      description: General information about the organization launches.
+      properties:
+        meta:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsLaunchesMeta'
+    OrganizationStatsRelationshipsLaunchesMeta:
+      type: object
+      properties:
+        last_occurred_at:
+          type: string
+          format: date-time
+          description: Last launch occurrence date.
+        count:
+          type: integer
+          minimum: 0
+          description: |-
+            Total count of launches in the organization.
+            Access: Admin, Manager
+          default: 0
+    OrganizationStatsRelationshipsBilling:
+      title: Organization billing statistics
+      type: object
+      description: |-
+        General information about the organization billing.
+        Available only if a Billing plugin is enabled.
+      properties:
+        meta:
+          $ref: '#/components/schemas/OrganizationStatsRelationshipsBillingMeta'
+    OrganizationStatsRelationshipsBillingMeta:
+      type: object
+      properties:
+        plan_name:
+          type: string
+          description: Plan name.
+        storage_usage:
+          type: integer
+          minimum: 0
+          description: Storage usage in percents.
+          maximum: 100
     OrganizationPage:
       title: Organization profiles page
       allOf:
@@ -3863,81 +3885,86 @@ components:
       type: object
       properties:
         retention_policy:
-          type: object
-          description: >-
-            Organisation retention policy settings.
-
-
-            Values for `logs.period` and `attachments.period` cannot exceed the
-            value of `launches.period`.
-          required:
-            - launches
-            - logs
-            - attachments
-          properties:
-            launches:
-              type: object
-              description: Launches retention policy settings.
-              required:
-                - period
-              properties:
-                period:
-                  type: integer
-                  format: int64
-                  minimum: 0
-                  description: >-
-                    Number of time units to keep launches.
-
-                    Set `0` to keep attachments forever (retention policy
-                    disabled).
-
-                    This value acts as an upper limit for `logs.period` and
-                    `attachments.period`.
-                  default: 7776000
-                unit:
-                  $ref: '#/components/schemas/timeUnit'
-            logs:
-              type: object
-              description: Logs retention policy settings.
-              required:
-                - period
-              properties:
-                period:
-                  type: integer
-                  format: int64
-                  minimum: 0
-                  description: >-
-                    Number of time units to keep launches.
-
-                    Set `0` to keep attachments forever (retention policy
-                    disabled).
-
-                    Cannot exceed the value of `launches.period`.
-                  default: 7776000
-                unit:
-                  $ref: '#/components/schemas/timeUnit'
-            attachments:
-              type: object
-              description: Attachments retention policy settings.
-              required:
-                - period
-              properties:
-                period:
-                  type: integer
-                  format: int64
-                  minimum: 0
-                  description: >-
-                    Number of time units to keep launches.
-
-                    Set `0` to keep attachments forever (retention policy
-                    disabled).
-
-                    Cannot exceed the value of `launches.period`.
-                  default: 1209600
-                unit:
-                  $ref: '#/components/schemas/timeUnit'
+          $ref: '#/components/schemas/OrganizationSettingsRetentionPolicy'
       required:
         - retention_policy
+    OrganizationSettingsRetentionPolicy:
+      title: Organization retention policy
+      type: object
+      description: >-
+        Organisation retention policy settings.
+
+
+        Values for `logs.period` and `attachments.period` cannot exceed the
+        value of `launches.period`.
+      required:
+        - launches
+        - logs
+        - attachments
+      properties:
+        launches:
+          $ref: '#/components/schemas/OrganizationSettingsRetentionPolicyLaunches'
+        logs:
+          $ref: '#/components/schemas/OrganizationSettingsRetentionPolicyLogs'
+        attachments:
+          $ref: '#/components/schemas/OrganizationSettingsRetentionPolicyAttachments'
+    OrganizationSettingsRetentionPolicyLaunches:
+      title: Launches retention policy
+      type: object
+      description: Launches retention policy settings.
+      required:
+        - period
+      properties:
+        period:
+          type: integer
+          format: int64
+          minimum: 0
+          description: >-
+            Number of time units to keep launches.
+
+            Set `0` to keep attachments forever (retention policy disabled).
+
+            This value acts as an upper limit for `logs.period` and
+            `attachments.period`.
+          default: 7776000
+        unit:
+          $ref: '#/components/schemas/timeUnit'
+    OrganizationSettingsRetentionPolicyLogs:
+      title: Logs retention policy
+      type: object
+      description: Logs retention policy settings.
+      required:
+        - period
+      properties:
+        period:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |-
+            Number of time units to keep launches.
+            Set `0` to keep attachments forever (retention policy disabled).
+            Cannot exceed the value of `launches.period`.
+          default: 7776000
+        unit:
+          $ref: '#/components/schemas/timeUnit'
+    OrganizationSettingsRetentionPolicyAttachments:
+      title: Attachments retention policy
+      type: object
+      description: Attachments retention policy settings.
+      required:
+        - period
+      properties:
+        period:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |-
+            Number of time units to keep launches.
+            Set `0` to keep attachments forever (retention policy disabled).
+            Cannot exceed the value of `launches.period`.
+          default: 1209600
+        unit:
+          $ref: '#/components/schemas/timeUnit'
     OrgGroupPage:
       title: Organization groups page
       description: Page of organization groups.
