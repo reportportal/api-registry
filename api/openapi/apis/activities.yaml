@@ -335,12 +335,7 @@ components:
           type: string
           description: Identifier of the subject that performed the activity.
         details:
-          type: object
-          properties:
-            history:
-              type: array
-              items:
-                $ref: '#/components/schemas/HistoryField'
+          $ref: '#/components/schemas/ActivityDetails'
     ActivitiesPage:
       title: ActivitiesPage
       allOf:
@@ -383,12 +378,15 @@ components:
         object_name:
           type: string
         details:
-          type: object
-          properties:
-            history:
-              type: array
-              items:
-                $ref: '#/components/schemas/HistoryField'
+          $ref: '#/components/schemas/ActivityDetails'
+    ActivityDetails:
+      title: ActivityDetails
+      type: object
+      properties:
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryField'
     HistoryField:
       title: HistoryField
       type: object
