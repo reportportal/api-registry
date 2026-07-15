@@ -1,0 +1,220 @@
+openapi: 3.0.3
+info:
+  title: ReportPortal Settings API
+  version: 1.0.0
+  description: The Settings API. You can use it to manage server-wide instance settings.
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  contact:
+    name: ReportPortal
+    email: support@reportportal.io
+servers:
+  - url: '{host}{basePath}'
+    description: ReportPortal server
+    variables:
+      host:
+        default: 'https://demo.reportportal.io'
+        description: Host name and port (if needed) of Report Portal server
+      basePath:
+        default: /api
+        description: Base path of Report Portal API
+security:
+  - BearerAuth: [ ]
+paths:
+  /settings:
+    get:
+      summary: Get server settings
+      operationId: getServerSettings
+      tags:
+        - settings
+      description: |-
+        Get server-wide instance settings as key-value pairs.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSettings'
+              example:
+                server.password.min.length: "8"
+                server.details.instance: "a7bb8d48-c90a-44bb-82b7-2cda75dde5bc"
+                server.session.expiration: "86400000"
+                server.analytics.all: "true"
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Update server settings
+      operationId: updateServerSettings
+      tags:
+        - settings
+      description: |-
+        Update a single server-wide instance setting by key.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateServerSettingsRequest'
+            example:
+              key: server.password.min.length
+              value: "10"
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulUpdate'
+              example:
+                message: Server Settings were successfully updated.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+  /settings/analytics:
+    put:
+      summary: Update analytics settings
+      operationId: saveAnalyticsSettings
+      tags:
+        - settings
+      description: |-
+        Enable or disable a server-wide analytics integration.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSettingsRequest'
+            example:
+              type: all
+              enabled: true
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulUpdate'
+              example:
+                message: Server Settings were successfully updated.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+    post:
+      summary: Update analytics settings (POST alias)
+      operationId: saveAnalyticsSettingsViaPost
+      tags:
+        - settings
+      deprecated: true
+      description: |-
+        Enable or disable a server-wide analytics integration.
+
+        Equivalent to `PUT /settings/analytics`. Kept only for backward compatibility with
+        legacy clients that use the `POST` verb; prefer `PUT /settings/analytics`.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSettingsRequest'
+            example:
+              type: all
+              enabled: true
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessfulUpdate'
+              example:
+                message: Server Settings were successfully updated.
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+components:
+  schemas:
+    ServerSettings:
+      title: Server settings
+      type: object
+      description: Server-wide instance settings represented as key-value pairs.
+      additionalProperties:
+        type: string
+    UpdateServerSettingsRequest:
+      title: Update server settings request
+      type: object
+      description: Request to update a single server-wide instance setting.
+      required:
+        - key
+        - value
+      properties:
+        key:
+          $ref: ../enums/serverSettingKey.yaml
+        value:
+          type: string
+          description: New value of the setting.
+    AnalyticsSettingsRequest:
+      title: Analytics settings request
+      type: object
+      description: Request to enable or disable a server-wide analytics integration.
+      required:
+        - type
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the analytics integration is enabled.
+          default: false
+        type:
+          type: string
+          minLength: 1
+          description: Identifier of the analytics integration to configure, e.g. `all`, `ga`.
+    SuccessfulUpdate:
+      title: Successful update
+      type: object
+      description: Confirmation message returned after a successful settings update.
+      properties:
+        message:
+          type: string
+          default: The update was completed successfully.
+  responses:
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: ../models/Error.yaml
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: settings
+    description: API for managing server-wide instance settings.
