@@ -919,6 +919,36 @@ paths:
           format: int64
           minimum: 0
         description: Portfolio dashboard identifier.
+    get:
+      summary: Get organization Portfolio dashboard by identifier
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: get-organizations-org_id-dashboards-dashboard_id
+      description: |-
+        Get a Portfolio dashboard by identifier, including its widgets.
+
+        An empty `widgets` array means the dashboard has no widgets yet
+        (UI empty state on the dashboard details page).
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dashboard/PortfolioDashboardDetails.yaml
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
     delete:
       summary: Delete organization Portfolio dashboard
       tags:

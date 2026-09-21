@@ -1,0 +1,21 @@
+title: Portfolio dashboard details
+description: >
+  Organization-level Portfolio dashboard including widgets for the details page.
+  An empty `widgets` array means the dashboard has no widgets yet (UI empty state).
+  Full widget schema is defined in later stories; this iteration only requires an empty list.
+type: object
+allOf:
+  - $ref: ./PortfolioDashboardInfo.yaml
+  - type: object
+    properties:
+      widgets:
+        type: array
+        description: >
+          Widgets on this dashboard. Empty array → UI empty state
+          (no widgets configured yet).
+        items:
+          type: object
+          description: Widget placeholder; detailed schema in a later story.
+          additionalProperties: true
+    required:
+      - widgets
