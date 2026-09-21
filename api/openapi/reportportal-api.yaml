@@ -1891,6 +1891,44 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+  /organizations/{org_id}/dashboards/{dashboard_id}:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+      - name: dashboard_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+        description: Portfolio dashboard identifier.
+    delete:
+      summary: Delete organization Portfolio dashboard
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: delete-organizations-org_id-dashboards-dashboard_id
+      description: |-
+        Delete a Portfolio dashboard by identifier.
+
+        Deleting a dashboard also deletes **all widgets** belonging to that
+        dashboard (if any).
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
   /organizations/{org_id}/groups:
     parameters:
       - $ref: '#/components/parameters/OrgId'
