@@ -1,0 +1,10 @@
+title: Portfolio dashboard visibility
+type: string
+description: >
+  Visibility of an organization Portfolio dashboard.
+  `SHARED` — visible to all organization members with access to Portfolio dashboards.
+  `PRIVATE` — visible only to the owner (reserved for a later iteration; create always uses `SHARED` in the first iteration).
+enum:
+  - SHARED
+  - PRIVATE
+default: SHARED

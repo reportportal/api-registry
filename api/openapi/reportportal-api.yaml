@@ -91,6 +91,9 @@ tags:
   - name: organization-projects
     description: API for working with organization projects.
     x-displayName: organization-projects
+  - name: organization-dashboards
+    description: API for working with organization Portfolio dashboards.
+    x-displayName: organization-dashboards
   - name: organization-groups
     description: API for working with organization groups.
     x-displayName: organization-groups
@@ -100,6 +103,9 @@ tags:
   - name: implemented
     description: API endpoints that are implemented and available for use.
     x-displayName: implemented
+  - name: ready for implementation
+    description: Endpoints that are ready for development.
+    x-displayName: ready for implementation
   - name: plugins
     description: API for executing commands related to plugins.
     x-displayName: plugins
@@ -1772,6 +1778,62 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+      security:
+        - BearerAuth: []
+  /organizations/{org_id}/dashboards:
+    parameters:
+      - $ref: '#/components/parameters/OrgId'
+    get:
+      summary: Get organization Portfolio dashboards
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: get-organizations-org_id-dashboards
+      description: |-
+        Get a list of Portfolio dashboards for the organization.
+
+        An empty `items` array means the organization has no dashboards yet
+        (UI empty state).
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - no restrictions (read-only list for the organization).
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Order'
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter dashboards by containing name.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationDashboardsPage'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
   /organizations/{org_id}/groups:
@@ -3848,6 +3910,18 @@ components:
                 $ref: '#/components/schemas/ProjectInfo'
           required:
             - items
+    OrganizationDashboardsPage:
+      title: List of organization Portfolio dashboards
+      allOf:
+        - $ref: '#/components/schemas/Offset'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/PortfolioDashboardInfo'
+          required:
+            - items
     OrgUserAssignment:
       title: User assignment request
       type: object
@@ -4393,6 +4467,59 @@ components:
               description: Timestamp when project was last updated.
             stats:
               $ref: '#/components/schemas/ProjectStats'
+    dashboardVisibility:
+      title: Portfolio dashboard visibility
+      type: string
+      description: >
+        Visibility of an organization Portfolio dashboard. `SHARED` — visible to
+        all organization members with access to Portfolio dashboards. `PRIVATE`
+        — visible only to the owner (reserved for a later iteration; create
+        always uses `SHARED` in the first iteration).
+      enum:
+        - SHARED
+        - PRIVATE
+      default: SHARED
+    PortfolioDashboardInfo:
+      title: Portfolio dashboard information
+      description: >
+        Organization-level Portfolio dashboard summary for list responses.
+        Widgets and full layout details are out of scope for the list endpoint.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/identifier'
+        organization_id:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Organization identifier the dashboard belongs to.
+        name:
+          type: string
+          description: Dashboard display name.
+          minLength: 3
+          maxLength: 128
+        description:
+          type: string
+          description: Optional dashboard description.
+          maxLength: 256
+        owner:
+          type: string
+          description: Login of the user who owns the dashboard.
+        visibility:
+          $ref: '#/components/schemas/dashboardVisibility'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the dashboard was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the dashboard was last updated.
+      required:
+        - id
+        - organization_id
+        - name
+        - visibility
     PluginCommandContext:
       title: Plugin command context
       type: object

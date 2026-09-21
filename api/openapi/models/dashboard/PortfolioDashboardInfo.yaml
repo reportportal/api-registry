@@ -1,0 +1,40 @@
+title: Portfolio dashboard information
+description: >
+  Organization-level Portfolio dashboard summary for list responses.
+  Widgets and full layout details are out of scope for the list endpoint.
+type: object
+properties:
+  id:
+    $ref: ../../types/identifier.yaml
+  organization_id:
+    type: integer
+    format: int64
+    minimum: 0
+    description: Organization identifier the dashboard belongs to.
+  name:
+    type: string
+    description: Dashboard display name.
+    minLength: 3
+    maxLength: 128
+  description:
+    type: string
+    description: Optional dashboard description.
+    maxLength: 256
+  owner:
+    type: string
+    description: Login of the user who owns the dashboard.
+  visibility:
+    $ref: ../../enums/dashboardVisibility.yaml
+  created_at:
+    type: string
+    format: date-time
+    description: Timestamp when the dashboard was created.
+  updated_at:
+    type: string
+    format: date-time
+    description: Timestamp when the dashboard was last updated.
+required:
+  - id
+  - organization_id
+  - name
+  - visibility

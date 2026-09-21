@@ -811,6 +811,60 @@ paths:
 
         - `ADMINISTRATOR`
         - `MANAGER`
+  '/organizations/{org_id}/dashboards':
+    parameters:
+      - $ref: ../parameters/OrgId.yaml
+    get:
+      summary: Get organization Portfolio dashboards
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: get-organizations-org_id-dashboards
+      description: |-
+        Get a list of Portfolio dashboards for the organization.
+
+        An empty `items` array means the organization has no dashboards yet
+        (UI empty state).
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+        - `MEMBER`
+
+        ### Access level
+
+        - `ADMINISTRATOR` - no restrictions.
+        - `MANAGER` - no restrictions.
+        - `MEMBER` - no restrictions (read-only list for the organization).
+      parameters:
+        - $ref: ../parameters/Offset.yaml
+        - $ref: ../parameters/Limit.yaml
+        - $ref: ../parameters/Order.yaml
+        - schema:
+            type: string
+            default: name
+          in: query
+          name: sort
+          description: Indicate sort by field.
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: Filter dashboards by containing name.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationDashboardsPage'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/groups':
     parameters:
       - $ref: ../parameters/OrgId.yaml
@@ -1298,6 +1352,18 @@ components:
                 $ref: ../models/project/ProjectInfo.yaml
           required:
             - items
+    OrganizationDashboardsPage:
+      title: List of organization Portfolio dashboards
+      allOf:
+        - $ref: ../models/Offset.yaml
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: ../models/dashboard/PortfolioDashboardInfo.yaml
+          required:
+            - items
     OrgUserAssignment:
       title: User assignment request
       type: object
@@ -1606,11 +1672,15 @@ tags:
     description: API for working with organization users.
   - name: organization-projects
     description: API for working with organization projects.
+  - name: organization-dashboards
+    description: API for working with organization Portfolio dashboards.
   - name: organization-groups
     description: API for working with organization groups.
   - name: organization-integrations
     description: API for working with organization integrations.
   - name: implemented
     description: API endpoints that are implemented and available for use.
+  - name: ready for implementation
+    description: Endpoints that are ready for development.
 security:
   - BearerAuth: [ ]
