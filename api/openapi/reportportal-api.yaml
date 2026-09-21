@@ -1836,6 +1836,61 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+    post:
+      summary: Create organization Portfolio dashboard
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: post-organizations-org_id-dashboards
+      description: >-
+        Create a Portfolio dashboard in the organization.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        ### Rules
+
+
+        - `name` is required: length **3**–**128** (same as project dashboard;
+        no character pattern).
+
+        - `description` is optional: max length **256**.
+
+        - `visibility` defaults to **`SHARED`**. First iteration creates only
+        `SHARED` dashboards.
+
+        - Owner is set to the authenticated user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePortfolioDashboard'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioDashboardInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
   /organizations/{org_id}/groups:
     parameters:
       - $ref: '#/components/parameters/OrgId'
@@ -4520,6 +4575,31 @@ components:
         - organization_id
         - name
         - visibility
+    CreatePortfolioDashboard:
+      title: Create Portfolio dashboard
+      description: >
+        Request body to create an organization Portfolio dashboard. Name length
+        3–128 (same as project dashboard; no character pattern). Description
+        optional, max 256 characters.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Dashboard display name.
+          minLength: 3
+          maxLength: 128
+        description:
+          type: string
+          description: Optional dashboard description.
+          maxLength: 256
+        visibility:
+          allOf:
+            - $ref: '#/components/schemas/dashboardVisibility'
+          description: >
+            Defaults to `SHARED` when omitted. First iteration always creates
+            `SHARED` dashboards; `PRIVATE` is reserved for a later iteration.
+      required:
+        - name
     PluginCommandContext:
       title: Plugin command context
       type: object

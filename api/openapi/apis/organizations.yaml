@@ -865,6 +865,49 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+    post:
+      summary: Create organization Portfolio dashboard
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: post-organizations-org_id-dashboards
+      description: |-
+        Create a Portfolio dashboard in the organization.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+
+        ### Rules
+
+        - `name` is required: length **3**–**128** (same as project dashboard; no character pattern).
+        - `description` is optional: max length **256**.
+        - `visibility` defaults to **`SHARED`**. First iteration creates only `SHARED` dashboards.
+        - Owner is set to the authenticated user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../models/dashboard/CreatePortfolioDashboard.yaml
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dashboard/PortfolioDashboardInfo.yaml
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
   '/organizations/{org_id}/groups':
     parameters:
       - $ref: ../parameters/OrgId.yaml
