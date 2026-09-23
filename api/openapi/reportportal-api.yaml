@@ -1820,14 +1820,14 @@ paths:
               - DESC
             default: DESC
           description: >
-            Sorting direction. Default **DESC** so newest dashboards appear first
-            when sorted by `created_at`.
+            Sorting direction. Default **DESC** so newest dashboards appear
+            first when sorted by `created_at`.
         - schema:
             type: string
             default: created_at
           in: query
           name: sort
-          description: >
+          description: |
             Sort field. Default **created_at** (newest first with `order=DESC`).
         - schema:
             type: string
