@@ -826,6 +826,8 @@ paths:
         An empty `items` array means the organization has no dashboards yet
         (UI empty state).
 
+        Default sort is `created_at` descending (newest first).
+
         ### Authority
 
         - `ADMINISTRATOR`
@@ -840,13 +842,24 @@ paths:
       parameters:
         - $ref: ../parameters/Offset.yaml
         - $ref: ../parameters/Limit.yaml
-        - $ref: ../parameters/Order.yaml
+        - name: order
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+          description: >
+            Sorting direction. Default **DESC** so newest dashboards appear first
+            when sorted by `created_at`.
         - schema:
             type: string
-            default: name
+            default: created_at
           in: query
           name: sort
-          description: Indicate sort by field.
+          description: >
+            Sort field. Default **created_at** (newest first with `order=DESC`).
         - schema:
             type: string
           in: query
