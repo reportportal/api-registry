@@ -949,6 +949,48 @@ paths:
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
+    put:
+      summary: Update organization Portfolio dashboard
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: put-organizations-org_id-dashboards-dashboard_id
+      description: |-
+        Update a Portfolio dashboard **name** and **description**.
+
+        ### Authority
+
+        - `ADMINISTRATOR`
+        - `MANAGER`
+
+        ### Rules
+
+        - `name` is required: length **3**–**128** (same as create / project dashboard; no character pattern).
+        - `description` is optional: max length **256**.
+        - **Visibility** and **owner** are not changed by this endpoint.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../models/dashboard/UpdatePortfolioDashboard.yaml
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dashboard/PortfolioDashboardInfo.yaml
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
     delete:
       summary: Delete organization Portfolio dashboard
       tags:

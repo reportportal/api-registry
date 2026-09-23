@@ -1934,6 +1934,58 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - BearerAuth: []
+    put:
+      summary: Update organization Portfolio dashboard
+      tags:
+        - organization-dashboards
+        - ready for implementation
+      operationId: put-organizations-org_id-dashboards-dashboard_id
+      description: >-
+        Update a Portfolio dashboard **name** and **description**.
+
+
+        ### Authority
+
+
+        - `ADMINISTRATOR`
+
+        - `MANAGER`
+
+
+        ### Rules
+
+
+        - `name` is required: length **3**–**128** (same as create / project
+        dashboard; no character pattern).
+
+        - `description` is optional: max length **256**.
+
+        - **Visibility** and **owner** are not changed by this endpoint.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePortfolioDashboard'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioDashboardInfo'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+      security:
+        - BearerAuth: []
     delete:
       summary: Delete organization Portfolio dashboard
       tags:
@@ -4693,6 +4745,26 @@ components:
                 additionalProperties: true
           required:
             - widgets
+    UpdatePortfolioDashboard:
+      title: Update Portfolio dashboard
+      description: >
+        Request body to update an organization Portfolio dashboard name and
+        description. Name length 3–128 (same as project dashboard; no character
+        pattern). Description optional, max 256 characters. Visibility and owner
+        are not updated via this request.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Dashboard display name.
+          minLength: 3
+          maxLength: 128
+        description:
+          type: string
+          description: Optional dashboard description.
+          maxLength: 256
+      required:
+        - name
     PluginCommandContext:
       title: Plugin command context
       type: object
