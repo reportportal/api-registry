@@ -1882,6 +1882,8 @@ paths:
 
         - Maximum **3000** dashboards per organization; exceeding the limit
         returns **409**.
+
+        - Created dashboards are organization-visible (`PUBLIC`).
       requestBody:
         required: true
         content:

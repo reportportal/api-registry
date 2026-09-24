@@ -899,6 +899,7 @@ paths:
         - `visibility` defaults to **`PUBLIC`**. First iteration creates only `PUBLIC` dashboards.
         - Owner is set to the authenticated user.
         - Maximum **3000** dashboards per organization; exceeding the limit returns **409**.
+        - Created dashboards are organization-visible (`PUBLIC`).
       requestBody:
         required: true
         content:
