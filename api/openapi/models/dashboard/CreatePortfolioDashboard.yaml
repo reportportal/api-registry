@@ -1,8 +1,9 @@
-title: Create Portfolio dashboard
+title: Create Organization dashboard
 description: >
-  Request body to create an organization Portfolio dashboard.
+  Request body to create an organization dashboard.
   Name length 3–128 (same as project dashboard; no character pattern).
   Description optional, max 256 characters.
+  Organization may have at most 3000 dashboards.
 type: object
 properties:
   name:
@@ -18,7 +19,7 @@ properties:
     allOf:
       - $ref: ../../enums/dashboardVisibility.yaml
     description: >
-      Defaults to `SHARED` when omitted. First iteration always creates `SHARED` dashboards;
+      Defaults to `PUBLIC` when omitted. First iteration always creates `PUBLIC` dashboards;
       `PRIVATE` is reserved for a later iteration.
 required:
   - name

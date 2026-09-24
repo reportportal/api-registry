@@ -885,7 +885,7 @@ paths:
         - ready for implementation
       operationId: post-organizations-org_id-dashboards
       description: |-
-        Create a Portfolio dashboard in the organization.
+        Create an Organization dashboard in the organization.
 
         ### Authority
 
@@ -896,8 +896,9 @@ paths:
 
         - `name` is required: length **3**–**128** (same as project dashboard; no character pattern).
         - `description` is optional: max length **256**.
-        - `visibility` defaults to **`SHARED`**. First iteration creates only `SHARED` dashboards.
+        - `visibility` defaults to **`PUBLIC`**. First iteration creates only `PUBLIC` dashboards.
         - Owner is set to the authenticated user.
+        - Maximum **3000** dashboards per organization; exceeding the limit returns **409**.
       requestBody:
         required: true
         content:

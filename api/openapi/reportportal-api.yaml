@@ -1856,7 +1856,7 @@ paths:
         - ready for implementation
       operationId: post-organizations-org_id-dashboards
       description: >-
-        Create a Portfolio dashboard in the organization.
+        Create an Organization dashboard in the organization.
 
 
         ### Authority
@@ -1875,10 +1875,13 @@ paths:
 
         - `description` is optional: max length **256**.
 
-        - `visibility` defaults to **`SHARED`**. First iteration creates only
-        `SHARED` dashboards.
+        - `visibility` defaults to **`PUBLIC`**. First iteration creates only
+        `PUBLIC` dashboards.
 
         - Owner is set to the authenticated user.
+
+        - Maximum **3000** dashboards per organization; exceeding the limit
+        returns **409**.
       requestBody:
         required: true
         content:
@@ -4658,17 +4661,17 @@ components:
             stats:
               $ref: '#/components/schemas/ProjectStats'
     dashboardVisibility:
-      title: Portfolio dashboard visibility
+      title: Organization dashboard visibility
       type: string
       description: >
-        Visibility of an organization Portfolio dashboard. `SHARED` — visible to
-        all organization members with access to Portfolio dashboards. `PRIVATE`
-        — visible only to the owner (reserved for a later iteration; create
-        always uses `SHARED` in the first iteration).
+        Visibility of an organization dashboard. `PUBLIC` — visible to all
+        organization members with access to Organization dashboards. `PRIVATE` —
+        visible only to the owner (reserved for a later iteration; create always
+        uses `PUBLIC`).
       enum:
-        - SHARED
+        - PUBLIC
         - PRIVATE
-      default: SHARED
+      default: PUBLIC
     PortfolioDashboardInfo:
       title: Portfolio dashboard information
       description: >
@@ -4711,11 +4714,11 @@ components:
         - name
         - visibility
     CreatePortfolioDashboard:
-      title: Create Portfolio dashboard
+      title: Create Organization dashboard
       description: >
-        Request body to create an organization Portfolio dashboard. Name length
-        3–128 (same as project dashboard; no character pattern). Description
-        optional, max 256 characters.
+        Request body to create an organization dashboard. Name length 3–128
+        (same as project dashboard; no character pattern). Description optional,
+        max 256 characters. Organization may have at most 3000 dashboards.
       type: object
       properties:
         name:
@@ -4731,8 +4734,8 @@ components:
           allOf:
             - $ref: '#/components/schemas/dashboardVisibility'
           description: >
-            Defaults to `SHARED` when omitted. First iteration always creates
-            `SHARED` dashboards; `PRIVATE` is reserved for a later iteration.
+            Defaults to `PUBLIC` when omitted. First iteration always creates
+            `PUBLIC` dashboards; `PRIVATE` is reserved for a later iteration.
       required:
         - name
     PortfolioDashboardDetails:
