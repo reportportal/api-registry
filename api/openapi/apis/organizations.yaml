@@ -900,6 +900,7 @@ paths:
         - Owner is set to the authenticated user.
         - Maximum **3000** dashboards per organization; exceeding the limit returns **409**.
         - Created dashboards are organization-visible (`PUBLIC`).
+        - `name` must be unique within the organization; a duplicate name returns **409**.
       requestBody:
         required: true
         content:
@@ -982,6 +983,7 @@ paths:
 
         - `name` is required: length **3**–**128** (same as create / project dashboard; no character pattern).
         - `description` is optional: max length **256**.
+        - `name` must be unique within the organization (among other dashboards); a duplicate name returns **409**.
         - **Visibility** and **owner** are not changed by this endpoint.
       requestBody:
         required: true

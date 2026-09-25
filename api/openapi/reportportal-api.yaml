@@ -1884,6 +1884,9 @@ paths:
         returns **409**.
 
         - Created dashboards are organization-visible (`PUBLIC`).
+
+        - `name` must be unique within the organization; a duplicate name
+        returns **409**.
       requestBody:
         required: true
         content:
@@ -1977,6 +1980,9 @@ paths:
         dashboard; no character pattern).
 
         - `description` is optional: max length **256**.
+
+        - `name` must be unique within the organization (among other
+        dashboards); a duplicate name returns **409**.
 
         - **Visibility** and **owner** are not changed by this endpoint.
       requestBody:
