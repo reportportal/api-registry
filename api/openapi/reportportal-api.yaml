@@ -1833,7 +1833,9 @@ paths:
             type: string
           in: query
           name: name
-          description: Filter dashboards by containing name.
+          description: >
+            Optional filter: dashboards whose **name** **contains** this value
+            (**case-insensitive**). Omit or leave empty for no name filter.
       responses:
         '200':
           description: OK
