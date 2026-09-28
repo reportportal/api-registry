@@ -857,12 +857,13 @@ paths:
             type: string
             enum:
               - created_at
+              - name
             default: created_at
           in: query
           name: sort
           description: >
-            Sort field. Default and currently supported value: **created_at**
-            (pair with `order`; default **DESC** = newest first).
+            Sort field. Supported: **created_at**, **name**.
+            Default **created_at** (with default `order=DESC` = newest first).
         - schema:
             type: string
           in: query
