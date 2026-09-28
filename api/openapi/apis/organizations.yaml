@@ -855,11 +855,14 @@ paths:
             when sorted by `created_at`.
         - schema:
             type: string
+            enum:
+              - created_at
             default: created_at
           in: query
           name: sort
           description: >
-            Sort field. Default **created_at** (newest first with `order=DESC`).
+            Sort field. Default and currently supported value: **created_at**
+            (pair with `order`; default **DESC** = newest first).
         - schema:
             type: string
           in: query
