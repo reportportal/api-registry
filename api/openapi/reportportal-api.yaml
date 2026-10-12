@@ -1864,6 +1864,12 @@ paths:
       description: >-
         Create an Organization dashboard in the organization.
 
+        Requires the **Organization Dashboards** premium plugin to be **installed and enabled**.
+        If the plugin is missing or disabled, the API returns **402**
+        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as Organizations plugin
+        mutations, e.g. `POST /organizations`).
+
+
 
         ### Authority
 
@@ -1909,6 +1915,8 @@ paths:
         '400':
           $ref: '#/components/responses/Error'
         '401':
+          $ref: '#/components/responses/Error'
+        '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
@@ -1970,6 +1978,12 @@ paths:
       description: >-
         Update a Portfolio dashboard **name** and **description**.
 
+        Requires the **Organization Dashboards** premium plugin to be **installed and enabled**.
+        If the plugin is missing or disabled, the API returns **402**
+        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as Organizations plugin
+        mutations, e.g. `PUT /organizations/{org_id}`).
+
+
 
         ### Authority
 
@@ -2008,6 +2022,8 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/Error'
+        '402':
+          $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
         '404':
@@ -2028,6 +2044,12 @@ paths:
         Deleting a dashboard also deletes **all widgets** belonging to that
         dashboard (if any).
 
+        Requires the **Organization Dashboards** premium plugin to be **installed and enabled**.
+        If the plugin is missing or disabled, the API returns **402**
+        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as Organizations plugin
+        mutations, e.g. `DELETE /organizations/{org_id}`).
+
+
         ### Authority
 
         - `ADMINISTRATOR`
@@ -2036,6 +2058,8 @@ paths:
         '204':
           description: No Content
         '401':
+          $ref: '#/components/responses/Error'
+        '402':
           $ref: '#/components/responses/Error'
         '403':
           $ref: '#/components/responses/Error'
