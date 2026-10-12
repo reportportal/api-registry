@@ -57,7 +57,6 @@ paths:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
         - invitations
-        - implemented
   '/invitations/{invitation_id}':
     parameters:
       - schema:
@@ -69,7 +68,6 @@ paths:
       summary: Get invitation
       tags:
         - invitations
-        - implemented
       responses:
         '200':
           description: OK
@@ -127,7 +125,6 @@ paths:
       summary: Get all users
       tags:
         - users
-        - implemented
       responses:
         '200':
           description: OK
@@ -241,7 +238,6 @@ paths:
       operationId: post-users-searches
       tags:
         - users
-        - implemented
       description: |
         Create search request for organizations by provided criteria.
 
@@ -388,7 +384,6 @@ paths:
         - Current user
       tags:
         - users
-        - implemented
       parameters:
         - $ref: ../parameters/ExcludeFields.yaml
   '/users/{user_id}/avatar':
@@ -411,7 +406,6 @@ paths:
         - User get access to any user avatar
       tags:
         - users
-        - implemented
       parameters:
         - name: user_id
           in: path
@@ -461,7 +455,6 @@ paths:
         - User get access only to their avatar
       tags:
         - users
-        - implemented
       parameters:
         - name: user_id
           in: path
@@ -508,7 +501,6 @@ paths:
         - User get access only to their avatar
       tags:
         - users
-        - implemented
       parameters:
         - name: user_id
           in: path
@@ -708,7 +700,5 @@ tags:
     description: API for working with user invitations.
   - name: users
     description: API for working with users.
-  - name: implemented
-    description: API endpoints that are implemented and available for use.
 security:
   - BearerAuth: []
