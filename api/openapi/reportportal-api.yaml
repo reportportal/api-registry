@@ -100,12 +100,6 @@ tags:
   - name: organization-integrations
     description: API for working with organization integrations.
     x-displayName: organization-integrations
-  - name: implemented
-    description: API endpoints that are implemented and available for use.
-    x-displayName: implemented
-  - name: ready for implementation
-    description: Endpoints that are ready for development.
-    x-displayName: ready for implementation
   - name: plugins
     description: API for executing commands related to plugins.
     x-displayName: plugins
@@ -869,7 +863,6 @@ paths:
       summary: Get a list of organizations
       tags:
         - organizations
-        - implemented
       responses:
         '200':
           description: OK
@@ -965,7 +958,6 @@ paths:
       operationId: post-organizations-searches
       tags:
         - organizations
-        - implemented
       description: >
         Create search request for organizations by provided criteria.
 
@@ -1051,7 +1043,6 @@ paths:
       summary: Get organization information
       tags:
         - organizations
-        - implemented
       responses:
         '200':
           description: OK
@@ -1267,7 +1258,6 @@ paths:
       summary: Get organization's users
       tags:
         - organization-users
-        - implemented
       responses:
         '200':
           description: OK
@@ -1363,7 +1353,6 @@ paths:
         to assign to the organization.
       tags:
         - organization-users
-        - implemented
       requestBody:
         content:
           application/json:
@@ -1549,7 +1538,6 @@ paths:
       summary: Get organization projects
       tags:
         - organization-projects
-        - implemented
       responses:
         '200':
           description: OK
@@ -1605,7 +1593,6 @@ paths:
       summary: Create a new project
       tags:
         - organization-projects
-        - implemented
       operationId: post-organizations-org_id-projects
       responses:
         '201':
@@ -1688,7 +1675,6 @@ paths:
               $ref: '#/components/schemas/SearchCriteriaRQ'
       tags:
         - organization-projects
-        - implemented
       security:
         - BearerAuth: []
   /organizations/{org_id}/projects/{project_id}:
@@ -1760,7 +1746,6 @@ paths:
       summary: Delete project
       tags:
         - organization-projects
-        - implemented
       operationId: delete-organizations-org_id-projects-project_id
       responses:
         '204':
@@ -1787,7 +1772,6 @@ paths:
       summary: Get organization Portfolio dashboards
       tags:
         - organization-dashboards
-        - ready for implementation
       operationId: get-organizations-org_id-dashboards
       description: |-
         Get a list of Portfolio dashboards for the organization.
@@ -1859,7 +1843,6 @@ paths:
       summary: Create organization Portfolio dashboard
       tags:
         - organization-dashboards
-        - ready for implementation
       operationId: post-organizations-org_id-dashboards
       description: >-
         Create an Organization dashboard in the organization.
@@ -1946,7 +1929,6 @@ paths:
       summary: Get organization Portfolio dashboard by identifier
       tags:
         - organization-dashboards
-        - ready for implementation
       operationId: get-organizations-org_id-dashboards-dashboard_id
       description: |-
         Get a Portfolio dashboard by identifier, including its widgets.
@@ -1978,7 +1960,6 @@ paths:
       summary: Update organization Portfolio dashboard
       tags:
         - organization-dashboards
-        - ready for implementation
       operationId: put-organizations-org_id-dashboards-dashboard_id
       description: >-
         Update a Portfolio dashboard **name** and **description**.
@@ -2046,7 +2027,6 @@ paths:
       summary: Delete organization Portfolio dashboard
       tags:
         - organization-dashboards
-        - ready for implementation
       operationId: delete-organizations-org_id-dashboards-dashboard_id
       description: >-
         Delete a Portfolio dashboard by identifier.
@@ -3023,7 +3003,6 @@ paths:
               $ref: '#/components/schemas/InvitationRequest'
       tags:
         - invitations
-        - implemented
       security:
         - BearerAuth: []
   /invitations/{invitation_id}:
@@ -3037,7 +3016,6 @@ paths:
       summary: Get invitation
       tags:
         - invitations
-        - implemented
       responses:
         '200':
           description: OK
@@ -3097,7 +3075,6 @@ paths:
       summary: Get all users
       tags:
         - users
-        - implemented
       responses:
         '200':
           description: OK
@@ -3215,7 +3192,6 @@ paths:
       operationId: post-users-searches
       tags:
         - users
-        - implemented
       description: >
         Create search request for organizations by provided criteria.
 
@@ -3384,7 +3360,6 @@ paths:
         - Current user
       tags:
         - users
-        - implemented
       parameters:
         - $ref: '#/components/parameters/ExcludeFields'
       security:
@@ -3409,7 +3384,6 @@ paths:
         - User get access to any user avatar
       tags:
         - users
-        - implemented
       parameters:
         - name: user_id
           in: path
@@ -3461,7 +3435,6 @@ paths:
         - User get access only to their avatar
       tags:
         - users
-        - implemented
       parameters:
         - name: user_id
           in: path
@@ -3510,7 +3483,6 @@ paths:
         - User get access only to their avatar
       tags:
         - users
-        - implemented
       parameters:
         - name: user_id
           in: path
