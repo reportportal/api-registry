@@ -1864,11 +1864,16 @@ paths:
       description: >-
         Create an Organization dashboard in the organization.
 
-        Requires the **Organization Dashboards** premium plugin to be **installed and enabled**.
-        If the plugin is missing or disabled, the API returns **402**
-        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as Organizations plugin
-        mutations, e.g. `POST /organizations`).
 
+        Requires the **Organization Dashboards** premium plugin to be
+        **installed and enabled**.
+
+        If the plugin is missing or disabled, the API returns **402**
+
+        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as
+        Organizations plugin
+
+        mutations, e.g. `POST /organizations`).
 
 
         ### Authority
@@ -1978,11 +1983,16 @@ paths:
       description: >-
         Update a Portfolio dashboard **name** and **description**.
 
-        Requires the **Organization Dashboards** premium plugin to be **installed and enabled**.
-        If the plugin is missing or disabled, the API returns **402**
-        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as Organizations plugin
-        mutations, e.g. `PUT /organizations/{org_id}`).
 
+        Requires the **Organization Dashboards** premium plugin to be
+        **installed and enabled**.
+
+        If the plugin is missing or disabled, the API returns **402**
+
+        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as
+        Organizations plugin
+
+        mutations, e.g. `PUT /organizations/{org_id}`).
 
 
         ### Authority
@@ -2038,21 +2048,31 @@ paths:
         - organization-dashboards
         - ready for implementation
       operationId: delete-organizations-org_id-dashboards-dashboard_id
-      description: |-
+      description: >-
         Delete a Portfolio dashboard by identifier.
 
+
         Deleting a dashboard also deletes **all widgets** belonging to that
+
         dashboard (if any).
 
-        Requires the **Organization Dashboards** premium plugin to be **installed and enabled**.
+
+        Requires the **Organization Dashboards** premium plugin to be
+        **installed and enabled**.
+
         If the plugin is missing or disabled, the API returns **402**
-        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as Organizations plugin
+
+        (`errorCode` **4021** / `PAID_PLUGIN_REQUIRED` — same pattern as
+        Organizations plugin
+
         mutations, e.g. `DELETE /organizations/{org_id}`).
 
 
         ### Authority
 
+
         - `ADMINISTRATOR`
+
         - `MANAGER`
       responses:
         '204':
