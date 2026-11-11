@@ -11,16 +11,33 @@ enum:
   - GT
   - LTE
   - LT
+  - HAS
+  - ANY
 description: |
-  Operation to perform for the filter:
+  Comparison to apply between the field (`filter_key`) and `value`.
+  Operations that take several values expect them comma-separated in `value`.
 
-  - EQ - Equal
-  - NE - Not equal
-  - CNT - Contains
-  - NOT_CNT - Not contains
-  - BTW - Between
-  - IN - In
-  - GTE - Greater than or equal
-  - GT - Greater than
-  - LTE - Less than or equal
-  - LT - Less than
+  Single-value fields:
+
+  - `EQ` - Field equals the value. Example: `status` `EQ` `ACTIVE`.
+  - `NE` - Field does not equal the value. Example: `status` `NE` `ACTIVE`.
+  - `CNT` - Text field contains the value as a substring (case-insensitive).
+    Example: `name` `CNT` `port` matches `ReportPortal`.
+  - `NOT_CNT` - Text field does not contain the value as a substring (case-insensitive).
+    Example: `name` `NOT_CNT` `test`.
+  - `GT` - Field is greater than the value (numbers, dates). Example: `users` `GT` `10`.
+  - `GTE` - Field is greater than or equal to the value (numbers, dates). Example: `users` `GTE` `10`.
+  - `LT` - Field is less than the value (numbers, dates). Example: `users` `LT` `10`.
+  - `LTE` - Field is less than or equal to the value (numbers, dates). Example: `users` `LTE` `10`.
+  - `BTW` - Field is between two values, bounds included. `value` is `from,to`.
+    Example: `created_at` `BTW` `2024-01-01T00:00:00Z,2024-12-31T23:59:59Z`.
+  - `IN` - Field equals one of the values. Example: `type` `IN` `INTERNAL,PERSONAL`.
+
+  Collection fields (the field holds a list of values):
+
+  - `HAS` - Field contains all of the values.
+    Example: `organizations` `HAS` `epam,acme` matches `[epam, acme, globex]` but not `[epam]`.
+  - `ANY` - Field contains at least one of the values.
+    Example: `organizations` `ANY` `epam,acme` matches `[epam]` and `[acme, globex]`.
+
+  Not every field supports every operation. Each endpoint lists its filterable fields.
